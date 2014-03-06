@@ -1,0 +1,34 @@
+﻿@model TumblrThreadTracker.Models.ViewModels.UserBlog
+<div style="background: #ddd; box-shadow: 5px 5px 10px #666; padding: 5px 20px 15px; margin-bottom: 30px;">
+    <fieldset style="width: 200px; float: right;">
+        <legend>Add a New Post to Track</legend>
+        <form action="@Url.Action("TrackThread", "Home")" method="post">
+            <br />
+            <input type="hidden" name="userBlogId" value="@Model.UserBlogId" />
+            <label for="userTitle">Thread Title: </label>
+            <input type="text" name="userTitle" value="" placeholder="Use any title you want!" />
+            <label for="postId">Post ID: </label>
+            <input name="postId" value="" />
+            <p><em>This can be the ID of any post in the thread. Found in the URL, as follows: <br />http://cmdr-blackjack-shepard.tumblr.com/post/<strong>78284026994</strong>/ilos</em></p>
+            <input type="submit" value="Submit" />
+        </form>
+    </fieldset>
+
+    <h2>@Model.BlogShortname (<a href="@Url.Action("RemoveBlog", "Home", new { userBlogId = Model.UserBlogId })">Remove</a>)</h2>
+
+    @if (Model.Threads == null || !Model.Threads.Any())
+    {
+        <p>You have not yet tracked any threads for this blog.</p>
+    } 
+    else 
+    {
+        foreach (TumblrThreadTracker.Models.ViewModels.Thread thread in Model.Threads)
+        {
+            <div style="width: 500px; background: #fff; margin: 20px;padding: 10px; ">
+                <h3>@thread.UserTitle</h3>
+                <p>Last Poster: <a href="@thread.LastPostUrl">@thread.LastPosterShortname</a></p>
+            </div>
+        }
+    }
+    <div style="clear: both;"></div>
+</div>

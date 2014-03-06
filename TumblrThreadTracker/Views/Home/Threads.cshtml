@@ -1,0 +1,19 @@
+﻿@model TumblrThreadTracker.Models.ViewModels.ThreadManager
+
+@{
+    ViewBag.Title = "Threads";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div id="connectBlog">
+    <h3>Connect a Blog to your Account</h3>
+    <form action="@Url.Action("ConnectBlog", "Home")" method="post">
+        <input type="text" name="BlogShortname" value="" />
+        <input type="submit" value="Submit" />
+    </form>
+</div>
+
+@foreach (TumblrThreadTracker.Models.ViewModels.UserBlog blog in Model.UserBlogs)
+{
+    @Html.Partial("_BlogPartial", blog);
+}
