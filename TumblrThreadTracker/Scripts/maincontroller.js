@@ -7,6 +7,7 @@
     $scope.init = function () {
         $http.get("/Home/GetThreads").success(function (data) {
             $scope.threads = data.Threads;
+            console.log(data.Threads);
             $scope.blogs = data.UserBlogs;
         }).error(function (error) {
 
@@ -15,7 +16,6 @@
     $scope.setCurrentBlog = function(blogShortname) {
         blogShortname = blogShortname || null;
         $scope.currentBlog = blogShortname;
-        console.log($scope.currentBlog);
     };
     $scope.setCurrentTurn = function(currentTurn) {
         currentTurn = currentTurn || null;
@@ -31,7 +31,6 @@
                 'blogs': function () { return $scope.blogs; }
             }
         });
-        console.log('modal opened');
         modalInstance.result.then(function (response) {
 
         }, function () {

@@ -24,9 +24,11 @@ namespace TumblrThreadTracker.Controllers
 
         public ActionResult Index()
         {
-            ViewBag.Message = "Modify this template to jump-start your ASP.NET MVC application.";
-
-            return View();
+            if (!Request.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            return RedirectToAction("Threads");
         }
 
         public ActionResult Threads()
@@ -52,8 +54,11 @@ namespace TumblrThreadTracker.Controllers
                 var dataThreads = _threadRepository.GetUserThreads(blog.UserBlogId);
                 foreach (var dataThread in dataThreads)
                 {
-                    viewThreads.Add(ThreadService.GetThread(dataThread.PostId, blog.BlogShortname, dataThread.UserTitle));
                     ViewModels.Thread viewThread = ThreadService.GetThread(dataThread.PostId, blog.BlogShortname, dataThread.UserTitle);
+                    if (viewThread != null)
+                    {
+                        viewThreads.Add(viewThread);
+                    }
                 }
             }
             manager.Threads = viewThreads;

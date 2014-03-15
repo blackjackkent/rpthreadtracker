@@ -38,11 +38,13 @@
                     <a href="#" class="controlButton" ng-class="{'selected': currentTurn == null}" id="allThreads" ng-click="setCurrentTurn()">All Threads</a>
                     <a href="#" class="controlButton" ng-class="{'selected': currentTurn == 'true'}" id="myTurn" ng-click="setCurrentTurn('true')">My Turn</a>
                     <a href="#" class="controlButton" ng-class="{'selected': currentTurn == 'false'}" id="theirTurn" ng-click="setCurrentTurn('false')">Their Turn</a>
-                    <a href="#" id="newThread" ng-click="openNewThread()">Add a New Thread</a>
+                    <a href="#" id="newThread" ng-click="openNewThread()" ng-show="blogs.length > 0">Add a New Thread</a>
                 </div>
                 <div class='clearfix'></div>
             </header>
             <div id="threads">
+                <span ng-show="blogs.length == 0">You have not yet added any blogs.</span>
+                <span ng-show="blogs.length != 0 && threads.length == 0">No threads to display.</span>
                 <div class="thread" ng-repeat="thread in threads | isCorrectBlog:currentBlog | isCorrectTurn:currentTurn">
                     <div class="links">
                         <a href="/Home/UntrackThread?postId={{thread.PostId}}">Untrack Thread</a>

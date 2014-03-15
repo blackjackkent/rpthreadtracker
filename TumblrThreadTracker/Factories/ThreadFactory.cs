@@ -15,11 +15,10 @@ namespace TumblrThreadTracker.Factories
         {
             if (serviceResponse == null)
             {
-                return new Thread();
+                return null;
             }
 
             Post post = serviceResponse.posts.FirstOrDefault();
-            List<Thread> threads = new List<Thread>();
 
             if (post == null)
             {
