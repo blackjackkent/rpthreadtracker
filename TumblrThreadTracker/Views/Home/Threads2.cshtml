@@ -1,0 +1,108 @@
+﻿@using System.Threading
+@using TumblrThreadTracker.Models.ViewModels
+@using Thread = TumblrThreadTracker.Models.ViewModels.Thread
+@model TumblrThreadTracker.Models.ViewModels.ThreadManager
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Threads</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div id="wrapper">
+        <div id="sidebar">
+            <div id="logo">
+                Tumblr Thread Tracker
+            </div>
+            <ul>
+                <li><a href="#" data-blogId="all">All Blogs</a></li>
+                @foreach (UserBlog blog in Model.UserBlogs)
+                {
+                    <li><a href="#" data-blogId="@blog.BlogShortname">@blog.BlogShortname</a></li>
+                }
+            </ul>
+            <a href="#" id="addBlog">Add a blog</a>
+        </div>
+        <div id="content">
+            <header>
+                <div id="account">
+                    @Html.Partial("_LoginPartial")
+                </div>
+                <div id="controls">
+                    <a href="#" class="controlButton selected" id="allThreads">All Threads</a>
+                    <a href="#" class="controlButton" id="myTurn">My Turn</a>
+                    <a href="#" class="controlButton" id="theirTurn">Their Turn</a>
+                </div>
+                <div class='clearfix'></div>
+            </header>
+            <div id="threads">
+                @foreach (Thread thread in Model.Threads)
+                {
+                    @Html.Partial("_ThreadPartial", thread)
+                }
+            </div>
+        </div>
+    </div>
+    
+    @Scripts.Render("~/bundles/jquery")
+    <script type="text/javascript">
+        var ThreadModule = function($) {
+            var controlButtons, allThreads, myTurn, theirTurn, myTurnThreads, theirTurnThreads;
+
+            function initializeElements() {
+                controlButtons = $('.controlButton');
+                allThreads = $('#allThreads');
+                myTurn = $('#myTurn');
+                theirTurn = $('#theirTurn');
+                myTurnThreads = $(".thread").filter(function () {
+                    return $(this).data("ismyturn").toLowerCase() == 'true';
+                });
+                theirTurnThreads = $(".thread").filter(function () {
+                    return $(this).data("ismyturn").toLowerCase() !== 'true';
+                });
+            }
+
+            function initializeEvents() {
+                controlButtons.on('click', function () {
+                    $('.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                    var id = $(this).attr('id');
+                    var turnThreads = getTurnThreads(id);
+                    if (id == 'myTurn') {
+                        myTurnThreads.show();
+                        theirTurnThreads.hide();
+                    } else if (id == 'theirTurn') {
+                        theirTurnThreads.show();
+                        myTurnThreads.hide();
+                    } else {
+                        $('.thread').show();
+                    }
+                });
+            }
+
+            function getRelevantThreads() {
+                
+            }
+
+            function initialize() {
+                initializeElements();
+                initializeEvents();
+            }
+
+            return { initialize: initialize };
+        }(jQuery);
+
+        $(document).ready(function() {
+            ThreadModule.initialize();
+        });
+    </script>
+</body>
+</html>

@@ -13,6 +13,7 @@ namespace TumblrThreadTracker.Interfaces
         UserThread GetUserThreadById(int userThreadId);
         void InsertUserThread(UserThread userThread);
         void DeleteUserThread(int userThreadId);
+        void DeleteUserThreadByPostId(string postId);
         void UpdateUserThread(UserThread userThread);
         void Save();
     }

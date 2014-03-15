@@ -7,6 +7,7 @@ namespace TumblrThreadTracker.Models.ViewModels
 {
     public class Thread
     {
+        public int UserThreadId { get; set; }
         public long PostId { get; set; }
         public string UserTitle { get; set; }
         public string Type { get; set; }
@@ -14,5 +15,6 @@ namespace TumblrThreadTracker.Models.ViewModels
         public string BlogShortname { get; set; }
         public string LastPosterShortname { get; set; }
         public string LastPostUrl { get; set; }
+        public bool IsMyTurn { get; set; }
     }
 }

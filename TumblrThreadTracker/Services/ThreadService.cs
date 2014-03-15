@@ -14,8 +14,8 @@ namespace TumblrThreadTracker.Services
 {
     public class ThreadService
     {
-        private static readonly string api_key = "***REMOVED***";
-        private static RestClient _client = new RestClient("http://api.tumblr.com/v2");
+        private const string api_key = "***REMOVED***";
+        private static readonly RestClient _client = new RestClient("http://api.tumblr.com/v2");
 
         public ThreadService()
         {
@@ -32,8 +32,10 @@ namespace TumblrThreadTracker.Services
             request.AddHeader("Content-Type", "application/json; charset=utf-8");
             IRestResponse<ServiceObject> response = _client.Execute<ServiceObject>(request);
             ServiceObject serviceObject = response.Data;
-            thread = ThreadFactory.BuildFromService(serviceObject.response, userTitle);
-
+            if (serviceObject != null)
+            {
+                thread = ThreadFactory.BuildFromService(serviceObject.response, userTitle, blogShortname);
+            }
             return thread;
         }
 

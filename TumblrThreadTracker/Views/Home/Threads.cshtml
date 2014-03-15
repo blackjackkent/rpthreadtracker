@@ -1,19 +1,65 @@
-﻿@model TumblrThreadTracker.Models.ViewModels.ThreadManager
-
-@{
-    ViewBag.Title = "Threads";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+﻿@{
+    Layout = null;
 }
 
-<div id="connectBlog">
-    <h3>Connect a Blog to your Account</h3>
-    <form action="@Url.Action("ConnectBlog", "Home")" method="post">
-        <input type="text" name="BlogShortname" value="" />
-        <input type="submit" value="Submit" />
-    </form>
-</div>
+<!DOCTYPE html>
 
-@foreach (TumblrThreadTracker.Models.ViewModels.UserBlog blog in Model.UserBlogs)
-{
-    @Html.Partial("_BlogPartial", blog);
-}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Threads</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div id="wrapper" class="row" ng-app="TumblrThreadTrackerApp" ng-controller="mainController" ng-init="init()">
+        <div id="sidebar" class="col-md-3">
+            <div id="logo">
+                Tumblr Thread Tracker
+            </div>
+            <ul>
+                <li ng-click="setCurrentBlog()" ng-class="{'selected': currentBlog == null}"><a href="#">All Blogs</a></li>
+                <li ng-repeat="blog in blogs" ng-click="setCurrentBlog(blog.BlogShortname)" ng-class="{'selected': currentBlog == blog.BlogShortname}"><a href="#">{{blog.BlogShortname}}</a></li>
+            </ul>
+            <form action="/Home/ConnectBlog" method="POST" ng-show="showNewBlogForm">
+                <p>Enter the shortname of your blog below to connect it to your account.<br />
+                    <em>The shortname is the part of the URL before "tumblr.com", i.e. http://<strong>shortname</strong>.tumblr.com.</em>
+                </p>
+                <input type="text" name="BlogShortname" value="" placeholder="Blog URL"/> <input type="submit" class="btn btn-primary" value="Submit" />
+            </form>
+            <a href="#" id="addBlog" ng-click="showNewBlogForm = !showNewBlogForm">Add a blog</a>
+        </div>
+        <div id="content" class="col-md-9">
+            <header class="row">
+                <div id="account">
+                    @Html.Partial("_LoginPartial")
+                </div>
+                <div id="controls">
+                    <a href="#" class="controlButton" ng-class="{'selected': currentTurn == null}" id="allThreads" ng-click="setCurrentTurn()">All Threads</a>
+                    <a href="#" class="controlButton" ng-class="{'selected': currentTurn == 'true'}" id="myTurn" ng-click="setCurrentTurn('true')">My Turn</a>
+                    <a href="#" class="controlButton" ng-class="{'selected': currentTurn == 'false'}" id="theirTurn" ng-click="setCurrentTurn('false')">Their Turn</a>
+                    <a href="#" id="newThread" ng-click="openNewThread()">Add a New Thread</a>
+                </div>
+                <div class='clearfix'></div>
+            </header>
+            <div id="threads">
+                <div class="thread" ng-repeat="thread in threads | isCorrectBlog:currentBlog | isCorrectTurn:currentTurn">
+                    <div class="links">
+                        <a href="/Home/UntrackThread?postId={{thread.PostId}}">Untrack Thread</a>
+                        <a target="_blank" href="{{thread.LastPostUrl}}">View last post</a>
+                    </div>
+                    <h3>{{thread.UserTitle}} <span ng-show="thread.IsMyTurn">!!!</span></h3>
+                    <p>Last Poster: <a href="{{thread.LastPostUrl}}">{{thread.LastPosterShortname}}</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/ui-bootstrap-custom-0.10.0.js" type="text/javascript"></script>
+    <script src="~/Scripts/ui-bootstrap-tpls-0.10.0.js" type="text/javascript"></script>
+	<script src="~/Scripts/app.js" type="text/javascript"></script>
+    <script src="~/Scripts/maincontroller.js" type="text/javascript"></script>
+</body>
+</html>

@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using TumblrThreadTracker.Interfaces;
+using TumblrThreadTracker.Models;
 using TumblrThreadTracker.Models.DataModels;
 
 namespace TumblrThreadTracker.Repositories
@@ -43,6 +44,16 @@ namespace TumblrThreadTracker.Repositories
         {
             UserThread userThread = context.UserThreads.Find(userThreadId);
             context.UserThreads.Remove(userThread);
+            Save();
+        }
+
+        public void DeleteUserThreadByPostId(string postId)
+        {
+            UserThread userThread = context.UserThreads.FirstOrDefault(t => t.PostId == postId);
+            if (userThread != null)
+            {
+                context.UserThreads.Remove(userThread);
+            }
             Save();
         }
 

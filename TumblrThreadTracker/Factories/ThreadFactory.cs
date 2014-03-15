@@ -11,7 +11,7 @@ namespace TumblrThreadTracker.Factories
 {
     public class ThreadFactory
     {
-        public static Thread BuildFromService(ServiceResponse serviceResponse, string userTitle)
+        public static Thread BuildFromService(ServiceResponse serviceResponse, string userTitle, string userBlogShortname)
         {
             if (serviceResponse == null)
             {
@@ -21,17 +21,23 @@ namespace TumblrThreadTracker.Factories
             Post post = serviceResponse.posts.FirstOrDefault();
             List<Thread> threads = new List<Thread>();
 
+            if (post == null)
+            {
+                return new Thread();
+            }
             long postId = post.id;
             string type = post.type;
             string blogShortname = serviceResponse.blog.name;
-            Note mostRecentNote = null;
             string lastPosterShortname = null;
             string lastPostUrl = null;
-            if (post.notes != null && post.notes.Where(n => n.type == "reblog").Any())
+            if (post.notes != null && post.notes.Any(n => n.type == "reblog"))
             {
-                mostRecentNote = post.notes.OrderByDescending(n => n.timestamp).Where(n => n.type == "reblog").FirstOrDefault();
-                lastPosterShortname = mostRecentNote.blog_name;
-                lastPostUrl = mostRecentNote.blog_url + "post/" + mostRecentNote.post_id;
+                Note mostRecentNote = post.notes.OrderByDescending(n => n.timestamp).FirstOrDefault(n => n.type == "reblog");
+                if (mostRecentNote != null)
+                {
+                    lastPosterShortname = mostRecentNote.blog_name;
+                    lastPostUrl = mostRecentNote.blog_url + "post/" + mostRecentNote.post_id;
+                }
             }
             else
             {
@@ -45,7 +51,8 @@ namespace TumblrThreadTracker.Factories
                 Type = type,
                 BlogShortname = blogShortname,
                 LastPosterShortname = lastPosterShortname,
-                LastPostUrl = lastPostUrl
+                LastPostUrl = lastPostUrl,
+                IsMyTurn = lastPosterShortname != userBlogShortname
             };
         }
 

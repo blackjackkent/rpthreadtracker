@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
 using TumblrThreadTracker.Models;
 using DataModels = TumblrThreadTracker.Models.DataModels;
@@ -21,8 +18,8 @@ namespace TumblrThreadTracker.Controllers
 
         public HomeController()
         {
-            _blogRepository = new UserBlogRepository(new DataModels.ThreadTrackerContext());
-            _threadRepository = new UserThreadRepository(new DataModels.ThreadTrackerContext());
+            _blogRepository = new UserBlogRepository(new ThreadTrackerContext());
+            _threadRepository = new UserThreadRepository(new ThreadTrackerContext());
         }
 
         public ActionResult Index()
@@ -38,22 +35,31 @@ namespace TumblrThreadTracker.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
+            return View();
+        }
+
+        public ActionResult GetThreads()
+        {
             IEnumerable<ViewModels.UserBlog> blogs = BlogFactory.BuildFromDataModel(_blogRepository.GetUserBlogs(WebSecurity.GetUserId(User.Identity.Name)));
-            foreach (ViewModels.UserBlog blog in blogs)
-            {
-                IEnumerable<DataModels.UserThread> dataThreads = _threadRepository.GetUserThreads(blog.UserBlogId);
-                foreach (DataModels.UserThread dataThread in dataThreads)
-                {
-                    ViewModels.Thread viewThread = ThreadService.GetThread(dataThread.PostId, blog.BlogShortname, dataThread.UserTitle);
-                    blog.Threads.Add(viewThread);
-                }
-            }
-            ViewModels.ThreadManager manager = new ViewModels.ThreadManager
+            var manager = new ViewModels.ThreadManager
             {
                 UserId = WebSecurity.GetUserId(User.Identity.Name),
                 UserBlogs = blogs
             };
-            return View(manager);
+            var viewThreads = new List<ViewModels.Thread>();
+            foreach (var blog in blogs)
+            {
+                var dataThreads = _threadRepository.GetUserThreads(blog.UserBlogId);
+                foreach (var dataThread in dataThreads)
+                {
+                    viewThreads.Add(ThreadService.GetThread(dataThread.PostId, blog.BlogShortname, dataThread.UserTitle));
+                    ViewModels.Thread viewThread = ThreadService.GetThread(dataThread.PostId, blog.BlogShortname, dataThread.UserTitle);
+                }
+            }
+            manager.Threads = viewThreads;
+            var jsonSerializer = new System.Web.Script.Serialization.JavaScriptSerializer();
+            string json = jsonSerializer.Serialize(manager);
+            return Content(json, "application/json");
         }
 
         [HttpPost]
@@ -75,10 +81,26 @@ namespace TumblrThreadTracker.Controllers
             return RedirectToAction("Threads", "Home");
         }
 
+        [HttpPost]
         public ActionResult TrackThread(string postId, int userBlogId, string userTitle)
         {
+            if (!Request.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             DataModels.UserThread thread = ThreadFactory.BuildDataModel(postId, userBlogId, userTitle);
             _threadRepository.InsertUserThread(thread);
+            return RedirectToAction("Threads", "Home");
+        }
+
+        public ActionResult UntrackThread(string postId)
+        {
+            if (!Request.IsAuthenticated)
+            {
+                return RedirectToAction("Login", "Account");
+            }
+            _threadRepository.DeleteUserThreadByPostId(postId);
             return RedirectToAction("Threads", "Home");
         }
 

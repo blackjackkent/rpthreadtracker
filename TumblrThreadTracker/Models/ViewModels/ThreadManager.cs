@@ -9,5 +9,6 @@ namespace TumblrThreadTracker.Models.ViewModels
     {
         public int UserId { get; set; }
         public IEnumerable<UserBlog> UserBlogs { get; set; }
+        public IEnumerable<Thread> Threads { get; set; }
     }
 }

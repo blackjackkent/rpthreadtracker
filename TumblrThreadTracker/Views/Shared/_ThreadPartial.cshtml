@@ -1,0 +1,10 @@
+﻿@model TumblrThreadTracker.Models.ViewModels.Thread
+    
+<div class="thread" data-blogid="@Model.BlogShortname" data-ismyturn="@Model.IsMyTurn">
+    <div class="links">
+        @Html.ActionLink("Untrack", "UntrackThread", "Home")
+        <a target="_blank" href="@Model.LastPostUrl">View last post</a>
+    </div>
+    <h3>@Model.UserTitle</h3>
+    <p>Last Poster: <a href="@Model.LastPostUrl">@Model.LastPosterShortname</a></p>
+</div>
