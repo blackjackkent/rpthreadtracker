@@ -1,27 +1,12 @@
 ﻿@model TumblrThreadTracker.Models.LoginModel
-
 @{
     Layout = null;
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Threads</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-</head>
-<body>
-    <div id="wrapper" class="row" ng-app="TumblrThreadTrackerApp" ng-controller="mainController" ng-init="init()">
-        <div id="sidebar" class="col-md-3">
-            <div id="logo">
-                Tumblr Thread Tracker
-            </div>
+@Html.Partial("_Head");
         </div>
-        <div id="content" class="col-md-9">
-            <section id="loginForm">
+        <div id="content" class="col-md-9 col-md-offset-3">
+            <section class="AccountForm" id="loginForm">
                 <h2>Use a local account to log in.</h2>
                 @using (Html.BeginForm(new { ReturnUrl = ViewBag.ReturnUrl })) {
                     @Html.AntiForgeryToken()
@@ -46,13 +31,14 @@
                             </li>
                         </ol>
                         <input type="submit" value="Log in" />
+                        @Html.ActionLink("Register", "Register") if you don't have an account.
                     </fieldset>
                     <p>
-                        @Html.ActionLink("Register", "Register") if you don't have an account.
                     </p>
                 }
             </section>
         </div>
+        @Html.Partial("_FooterPartial")
     </div>
     
     

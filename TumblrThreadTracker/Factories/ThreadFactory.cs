@@ -29,6 +29,7 @@ namespace TumblrThreadTracker.Factories
             string blogShortname = serviceResponse.blog.name;
             string lastPosterShortname = null;
             string lastPostUrl = null;
+            long? lastPostDate = null;
             if (post.notes != null && post.notes.Any(n => n.type == "reblog"))
             {
                 Note mostRecentNote = post.notes.OrderByDescending(n => n.timestamp).FirstOrDefault(n => n.type == "reblog");
@@ -36,12 +37,14 @@ namespace TumblrThreadTracker.Factories
                 {
                     lastPosterShortname = mostRecentNote.blog_name;
                     lastPostUrl = mostRecentNote.blog_url + "post/" + mostRecentNote.post_id;
+                    lastPostDate = mostRecentNote.timestamp;
                 }
             }
             else
             {
                 lastPosterShortname = post.blog_name;
                 lastPostUrl = post.post_url;
+                lastPostDate = post.timestamp;
             }
             return new Thread
             {
@@ -51,6 +54,7 @@ namespace TumblrThreadTracker.Factories
                 BlogShortname = blogShortname,
                 LastPosterShortname = lastPosterShortname,
                 LastPostUrl = lastPostUrl,
+                LastPostDate = lastPostDate,
                 IsMyTurn = lastPosterShortname != userBlogShortname
             };
         }

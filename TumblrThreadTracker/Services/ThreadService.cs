@@ -36,6 +36,10 @@ namespace TumblrThreadTracker.Services
             {
                 thread = ThreadFactory.BuildFromService(serviceObject.response, userTitle, blogShortname);
             }
+            else
+            {
+                thread = ThreadFactory.BuildFromService(null, userTitle, blogShortname);
+            }
             return thread;
         }
 

@@ -55,3 +55,5 @@ C:\Users\rosalindwills\documents\visual studio 2012\Projects\TumblrThreadTracker
 C:\Users\rosalindwills\documents\visual studio 2012\Projects\TumblrThreadTracker\TumblrThreadTracker\obj\Debug\TumblrThreadTracker.dll
 C:\Users\rosalindwills\documents\visual studio 2012\Projects\TumblrThreadTracker\TumblrThreadTracker\obj\Debug\TumblrThreadTracker.pdb
 C:\Users\rosalindwills\documents\visual studio 2012\Projects\TumblrThreadTracker\TumblrThreadTracker\obj\Debug\TumblrThreadTracker.csprojResolveAssemblyReference.cache
+C:\Users\rosalindwills\Documents\Visual Studio 2012\Projects\TumblrThreadTracker\TumblrThreadTracker\obj\Debug\TumblrThreadTracker.Migrations.Initial.resources
+C:\Users\rosalindwills\Documents\Visual Studio 2012\Projects\TumblrThreadTracker\TumblrThreadTracker\obj\Debug\TumblrThreadTracker.csproj.GenerateResource.Cache

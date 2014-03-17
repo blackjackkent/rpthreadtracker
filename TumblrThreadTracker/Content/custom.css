@@ -91,43 +91,63 @@ textarea {
    Author's custom styles
    ========================================================================== */
 
-html,body {height:100%; background: #E1E6FA}
-#wrapper{min-height:100%; position:relative}
-#sidebar{position:absolute; top:0; left:0; width:100%; height:100%;}
+/****COLOR SCHEME *****/
+/*91b7db*/
+/*7E98B3*/
+/*6A8FB3*/
+/*2F4B66*/
+/*2E3D4D*/
+/*0F2942*/
 
-#logo { width: 250px;height: 250px;margin: auto;text-indent: -999999px; background: url("../Images/ttt_logo.png")}
 
-#sidebar {
-    width: 300px;background: #183152;
-}
+html { height: 100%;}
+body { background: #2f4b66;height: 100%;}
+#wrapper { width: 960px;margin: auto;position: relative; min-height: 100%;background: #fff;box-shadow: 0px 0px 20px #102a43;}
+#sidebar { position: absolute;top: 0;bottom: 0;background: #7e98b3;padding: 0; }
 
-#sidebar ul { margin: 0;padding: 0;border-top: 1px solid #375d81;width: 100%; }
-#sidebar li { list-style: none;height: 50px;margin: 0;padding: 0;}
-#sidebar ul a { color: #C4D7ED;font-weight: bold;text-decoration: none;display: block;line-height: 50px;padding-left: 30px; border-bottom: 1px solid #375D81}
-#sidebar ul a:hover { background: #375d81}
-#sidebar ul li.selected a { background: #abc8e2;color: #375d81;}
-#sidebar form { color: #183152;font-size: 12px;text-align: center;padding: 10px;margin: 10px; background: #fff;}
-#sidebar #addBlog { color: #ABC8E2;display: block;margin: 30px;text-align: center;}
+.AccountForm label.checkbox { display: inline;}
+.AccountForm ol, .AccountForm ul { list-style: none;}
+.AccountForm label { width: 150px;}
+.field-validation-error, .validation-summary-errors { color: #f00;font-size: 12px;}
 
-#content { margin-left: 330px;}
+
+#logo { width: 200px;height: 200px;margin: auto;text-indent: -999999px; background: url("../Images/ttt_logo.png")}
+
+#sidebar ul { margin: 0;padding: 0;list-style: none;width: 100%;border-top: 1px solid #2f4b66;}
+#sidebar li { height: 50px;margin: 0;padding: 0;}
+#sidebar ul a { color: #fff;font-weight: bold;text-decoration: none;display: block;line-height: 50px;padding-left: 30px;border-bottom: 1px solid #2F4B66; text-shadow: 1px 1px 2px #2f4b66;}
+#sidebar ul li.selected a { background: #2F4B66;}
+#sidebar ul li a:hover { background: #2E3D4D}
+
+#sidebar form { color: #0F2942;font-size: 12px;text-align: center;padding: 10px;margin: 10px; background: #fff;}
+#sidebar form input[type="text"] { width: 100px;}
+#sidebar #addBlog { color: #0F2942;display: block;margin: 30px;text-align: center;}
+
+
+header { background: #eee;margin-left: -30px;padding: 30px;}
 #account { float: right;}
-
-header { background: #ABC8E2;margin-left: -30px;padding: 30px;}
 header a { color: #375d81;}
-#logoutForm { display: inline;}
-#logoutForm a, .controlButton { display: inline-block;text-decoration: none;background: #C4D7ED;padding: 5px;border-radius: 5px;}
-.controlButton:hover { text-decoration: none; background: #fff}
-.controlButton.selected { border: 2px solid #375d81;background: #fff; }
+#logoutForm, #account li { display: inline;}
+#logoutForm a, #registerLink, #loginLink, .controlButton {border: 1px solid #7e98b3; display: inline-block;text-decoration: none;background: #7e98b3;padding: 5px;border-radius: 5px;color: #fff;padding: 5px 10px; text-shadow: 1px 1px 2px #2f4b66;}
+.controlButton.selected { background: #91b7db;border: 1px solid #7e98b3; }
+.controlButton:hover, #registerLink:hover, #loginLink:hover, #logoutForm a:hover {color: #fff;text-decoration: none;background: #91b7db;border: 1px solid #7e98b3;}
 
+nav { background: #7e98b3;height: 50px;padding: 10px;}
+nav select { border-radius: 5px;padding: 5px;}
+nav label { color: #fff;}
+#search { float: right;}
+#search input { border-radius: 5px;}
+
+#content { position: relative;}
+#content #loading { text-align: center;}
 #content #threads { padding: 50px;}
-#content .thread { background: #fff;height: 75px;margin-bottom: 30px; padding: 20px;border-radius: 20px;}
+#content .thread { background: #eee;height: 100;margin-bottom: 30px; padding: 20px;border-radius: 20px; text-shadow: 2px 2px 2px #fff;}
 #content .thread h3, #content .thread p { margin: 5px;}
 #content .thread h3 span { font-size: 15px;color: #f00;}
 #content .thread .links { float: right;}
 #content .thread .links a { display: block;}
 
-
-
+#footer {text-align: center; height: 30px;position: fixed;background: #eee;left: 0;right: 0; bottom: 0;border-top: 3px solid #2E3D4D;width: 960px;margin: auto;line-height: 30px; }
 
 
 

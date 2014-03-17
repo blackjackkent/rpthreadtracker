@@ -183,6 +183,10 @@
     <Compile Include="Interfaces\IUserThreadRepository.cs" />
     <Compile Include="Interfaces\IUserProfileRepository.cs" />
     <Compile Include="Interfaces\IUserBlogRepository.cs" />
+    <Compile Include="Migrations\201403151939344_Initial.cs" />
+    <Compile Include="Migrations\201403151939344_Initial.Designer.cs">
+      <DependentUpon>201403151939344_Initial.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DataModels\AccountModels.cs" />
     <Compile Include="Models\Service Models\Blog.cs" />
@@ -263,7 +267,9 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <None Include="Properties\PublishProfiles\tumblrthreadtracker.pubxml" />
     <None Include="Scripts\jquery-1.7.1.intellisense.js" />
+    <Content Include="Images\ajax-loader.gif" />
     <Content Include="Images\ttt_logo.png" />
     <Content Include="Scripts\app.js" />
     <Content Include="Scripts\jquery-1.7.1.js" />
@@ -326,6 +332,8 @@
     <Content Include="Views\Home\Threads2.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Threads.cshtml" />
+    <Content Include="Views\Shared\_FooterPartial.cshtml" />
+    <Content Include="Views\Shared\_Head.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -333,6 +341,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201403151939344_Initial.resx">
+      <DependentUpon>201403151939344_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

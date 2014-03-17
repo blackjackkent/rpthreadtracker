@@ -32,17 +32,20 @@ namespace TumblrThreadTracker.Repositories
         public void InsertUserProfile(UserProfile userProfile)
         {
              _context.UserProfiles.Add(userProfile);
+            Save();
         }
 
         public void DeleteUserProfile(int userProfileId)
         {
             UserProfile userProfile = _context.UserProfiles.Find(userProfileId);
             _context.UserProfiles.Remove(userProfile);
+            Save();
         }
 
         public void UpdateUserProfile(UserProfile userProfile)
         {
             _context.Entry(userProfile).State = EntityState.Modified;
+            Save();
         }
 
         public void Save()

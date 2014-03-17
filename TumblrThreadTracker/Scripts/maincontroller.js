@@ -2,13 +2,18 @@
     $scope.threads = [];
     $scope.blogs = [];
     $scope.currentBlog = null;
-    $scope.currentTurn = null;
+    $scope.currentTurn = 'true';
     $scope.showNewBlogForm = false;
+    $scope.loading = true;
+    $scope.orderBy = "";
+    $scope.orderReverse = false;
+    $scope.filterSearch = null;
     $scope.init = function () {
         $http.get("/Home/GetThreads").success(function (data) {
             $scope.threads = data.Threads;
             console.log(data.Threads);
             $scope.blogs = data.UserBlogs;
+            $scope.loading = false;
         }).error(function (error) {
 
         });
@@ -20,6 +25,23 @@
     $scope.setCurrentTurn = function(currentTurn) {
         currentTurn = currentTurn || null;
         $scope.currentTurn = currentTurn;
+    };
+
+    $scope.setOrderBy = function (thread) {
+        switch ($scope.orderBy) {
+            case "userTitle":
+                return thread.UserTitle;
+                break;
+            case "lastPostDate":
+                return thread.LastPostDate;
+                break;
+            case "lastPosterShortname":
+                return thread.LastPosterShortname;
+                break;
+            default:
+                return thread.UserThreadId;
+                break;
+        }
     };
 
     $scope.openNewThread = function () {
@@ -42,7 +64,6 @@
 app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, blogs) {
 
     $scope.blogs = blogs;
-    console.log($scope.blogs);
     $scope.cancel = function () {
         $modalInstance.close();
     };
@@ -50,8 +71,6 @@ app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, blogs) {
 
 app.filter('isCorrectBlog', function() {
     return function (input, blogToCompare) {
-        console.log(input);
-        console.log(blogToCompare);
         if (blogToCompare === null || blogToCompare === '') {
             return input;
         }

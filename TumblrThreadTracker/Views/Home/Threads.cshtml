@@ -2,58 +2,61 @@
     Layout = null;
 }
 
-<!DOCTYPE html>
-
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Threads</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
-</head>
-<body>
-    <div id="wrapper" class="row" ng-app="TumblrThreadTrackerApp" ng-controller="mainController" ng-init="init()">
-        <div id="sidebar" class="col-md-3">
-            <div id="logo">
-                Tumblr Thread Tracker
-            </div>
+@Html.Partial("_Head");
             <ul>
                 <li ng-click="setCurrentBlog()" ng-class="{'selected': currentBlog == null}"><a href="#">All Blogs</a></li>
-                <li ng-repeat="blog in blogs" ng-click="setCurrentBlog(blog.BlogShortname)" ng-class="{'selected': currentBlog == blog.BlogShortname}"><a href="#">{{blog.BlogShortname}}</a></li>
+                <li ng-cloak ng-repeat="blog in blogs" ng-click="setCurrentBlog(blog.BlogShortname)" ng-class="{'selected': currentBlog == blog.BlogShortname}"><a href="#">{{blog.BlogShortname}}</a></li>
             </ul>
-            <form action="/Home/ConnectBlog" method="POST" ng-show="showNewBlogForm">
+            <form ng-cloak action="/Home/ConnectBlog" method="POST" ng-show="showNewBlogForm">
                 <p>Enter the shortname of your blog below to connect it to your account.<br />
                     <em>The shortname is the part of the URL before "tumblr.com", i.e. http://<strong>shortname</strong>.tumblr.com.</em>
                 </p>
-                <input type="text" name="BlogShortname" value="" placeholder="Blog URL"/> <input type="submit" class="btn btn-primary" value="Submit" />
+                <input type="text" name="BlogShortname" value="" placeholder="Blog Shortname"/> <input type="submit" class="btn btn-primary" value="Submit" />
             </form>
             <a href="#" id="addBlog" ng-click="showNewBlogForm = !showNewBlogForm">Add a blog</a>
         </div>
-        <div id="content" class="col-md-9">
+        <div id="content" class="col-md-9 col-md-offset-3">
             <header class="row">
                 <div id="account">
                     @Html.Partial("_LoginPartial")
                 </div>
-                <div id="controls">
-                    <a href="#" class="controlButton" ng-class="{'selected': currentTurn == null}" id="allThreads" ng-click="setCurrentTurn()">All Threads</a>
-                    <a href="#" class="controlButton" ng-class="{'selected': currentTurn == 'true'}" id="myTurn" ng-click="setCurrentTurn('true')">My Turn</a>
-                    <a href="#" class="controlButton" ng-class="{'selected': currentTurn == 'false'}" id="theirTurn" ng-click="setCurrentTurn('false')">Their Turn</a>
-                    <a href="#" id="newThread" ng-click="openNewThread()" ng-show="blogs.length > 0">Add a New Thread</a>
+                <div id="controls" class="btn-group">
+                    <a href="#" class="btn controlButton" ng-class="{'selected': currentTurn == null}" id="allThreads" ng-click="setCurrentTurn()">All Threads</a>
+                    <a href="#" class="btn controlButton" ng-class="{'selected': currentTurn == 'true'}" id="myTurn" ng-click="setCurrentTurn('true')">My Turn</a>
+                    <a href="#" class="btn controlButton" ng-class="{'selected': currentTurn == 'false'}" id="theirTurn" ng-click="setCurrentTurn('false')">Their Turn</a>
                 </div>
+                <a href="#" id="newThread" ng-click="openNewThread()" ng-show="blogs.length > 0">Add a New Thread</a>
                 <div class='clearfix'></div>
             </header>
+            <nav class="row">
+                <select ng-model="orderBy" name="orderBy">
+                    <option value="">Sort by...</option>
+                    <option value="userTitle">Thread Title</option>
+                    <option value="lastPostDate">Last Post Date</option>
+                    <option value="lastPosterShortname">Last Poster</option>
+                </select>
+                <select ng-model="orderReverse" ng-show="orderBy != ''">
+                    <option value="true">Descending</option>
+                    <option value="false">Ascending</option>
+                </select>
+                <div id="search">
+                    <label for="filterSearch">Search: </label> <input type="text" name="filterSearch" ng-model="filterSearch" />
+                </div>
+            </nav>
             <div id="threads">
-                <span ng-show="blogs.length == 0">You have not yet added any blogs.</span>
+                <span id="loading" ng-show="loading">Loading... <img src="~/Images/ajax-loader.gif" alt="" /></span>
+                <span ng-show="blogs.length == 0 && !loading">You have not yet added any blogs.</span>
                 <span ng-show="blogs.length != 0 && threads.length == 0">No threads to display.</span>
-                <div class="thread" ng-repeat="thread in threads | isCorrectBlog:currentBlog | isCorrectTurn:currentTurn">
+                <div class="thread" ng-cloak ng-repeat="thread in threads | filter:filterSearch | isCorrectBlog:currentBlog | isCorrectTurn:currentTurn | orderBy:setOrderBy:orderReverse">
                     <div class="links">
                         <a href="/Home/UntrackThread?postId={{thread.PostId}}">Untrack Thread</a>
                         <a target="_blank" href="{{thread.LastPostUrl}}">View last post</a>
                     </div>
                     <h3>{{thread.UserTitle}} <span ng-show="thread.IsMyTurn">!!!</span></h3>
-                    <p>Last Poster: <a href="{{thread.LastPostUrl}}">{{thread.LastPosterShortname}}</a></p>
+                    <p>Last Poster: <a href="{{thread.LastPostUrl}}">{{thread.LastPosterShortname}}</a> ({{thread.LastPostDate * 1000 | date:'medium'}})</p>
                 </div>
             </div>
+            @Html.Partial("_FooterPartial");
         </div>
     </div>
     

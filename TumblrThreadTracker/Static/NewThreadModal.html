@@ -8,8 +8,10 @@
             <option ng-repeat="blog in blogs" value="{{blog.UserBlogId}}">{{blog.BlogShortname}}</option>
         </select></p>
         <p><label for="userTitle">Thread Title: </label> <br /><input type="text" name="userTitle" value="" /> <em>(This can be whatever you like!)</em></p>
-        <p><label for="postId">Post Id:</label> <input type="text" name="postId" value="" /></p>
+        <p><label for="postId">Post Id:</label> <input type="text" name="postId" value="" /> <em>This can be the ID of any post in the thread.</em><br />
+            Found in the URL as follows: http://blogshortname.tumblr.com/post/<strong>123456</strong>/posttitle
+        </p>
         <input type="submit" class="btn btn-primary" value="Track" />
-        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        <a class="btn btn-warning" ng-click="cancel()">Cancel</a>
     </form>
 </div>

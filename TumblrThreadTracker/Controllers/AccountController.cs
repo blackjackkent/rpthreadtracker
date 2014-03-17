@@ -6,7 +6,10 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
 using DotNetOpenAuth.AspNet;
+using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
 using Microsoft.Web.WebPages.OAuth;
+using TumblrThreadTracker.Interfaces;
+using TumblrThreadTracker.Repositories;
 using WebMatrix.WebData;
 using TumblrThreadTracker.Models;
 using TumblrThreadTracker.Models.DataModels;
@@ -16,6 +19,13 @@ namespace TumblrThreadTracker.Controllers
     [Authorize]
     public class AccountController : Controller
     {
+        private IUserProfileRepository _userProfileRepository;
+
+        public AccountController()
+        {
+            _userProfileRepository = new UserProfileRepository(new ThreadTrackerContext());
+        }
+
         //
         // GET: /Account/Login
 
@@ -80,6 +90,13 @@ namespace TumblrThreadTracker.Controllers
                 {
                     WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
                     WebSecurity.Login(model.UserName, model.Password);
+                    UserProfile profile = new UserProfile
+                    {
+                        UserId = WebSecurity.GetUserId(model.UserName),
+                        UserName = model.UserName,
+                        Email = model.Email
+                    };
+                    _userProfileRepository.UpdateUserProfile(profile);
                     return RedirectToAction("Index", "Home");
                 }
                 catch (MembershipCreateUserException e)

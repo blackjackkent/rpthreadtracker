@@ -15,6 +15,7 @@ namespace TumblrThreadTracker.Models.ViewModels
         public string BlogShortname { get; set; }
         public string LastPosterShortname { get; set; }
         public string LastPostUrl { get; set; }
+        public long? LastPostDate { get; set; }
         public bool IsMyTurn { get; set; }
     }
 }
