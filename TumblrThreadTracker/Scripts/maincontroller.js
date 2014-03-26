@@ -2,6 +2,7 @@
     $scope.threads = [];
     $scope.blogs = [];
     $scope.currentBlog = null;
+    $scope.currentBlogId = 0;
     $scope.currentTurn = 'true';
     $scope.showNewBlogForm = false;
     $scope.loading = true;
@@ -9,18 +10,22 @@
     $scope.orderReverse = false;
     $scope.filterSearch = null;
     $scope.init = function () {
+        $scope.loading = true;
+        $scope.threads = [];
+        $scope.blogs = [];
         $http.get("/Home/GetThreads").success(function (data) {
             $scope.threads = data.Threads;
-            console.log(data.Threads);
             $scope.blogs = data.UserBlogs;
             $scope.loading = false;
         }).error(function (error) {
 
         });
     };
-    $scope.setCurrentBlog = function(blogShortname) {
+    $scope.setCurrentBlog = function(blogShortname, blogId) {
         blogShortname = blogShortname || null;
+        blogId = blogId || null;
         $scope.currentBlog = blogShortname;
+        $scope.currentBlogId = blogId;
     };
     $scope.setCurrentTurn = function(currentTurn) {
         currentTurn = currentTurn || null;
@@ -47,7 +52,7 @@
     $scope.openNewThread = function () {
 
         var modalInstance = $modal.open({
-            templateUrl: '/Static/NewThreadModal.html',
+            templateUrl: '/Static/NewThreadModal.html?v=' + new Date().getTime(),
             controller: 'ModalInstanceCtrl',
             resolve: {
                 'blogs': function () { return $scope.blogs; }

@@ -2,10 +2,10 @@
     Layout = null;
 }
 
-@Html.Partial("_Head");
+@Html.Partial("_Head")
             <ul>
                 <li ng-click="setCurrentBlog()" ng-class="{'selected': currentBlog == null}"><a href="#">All Blogs</a></li>
-                <li ng-cloak ng-repeat="blog in blogs" ng-click="setCurrentBlog(blog.BlogShortname)" ng-class="{'selected': currentBlog == blog.BlogShortname}"><a href="#">{{blog.BlogShortname}}</a></li>
+                <li ng-cloak ng-repeat="blog in blogs" ng-click="setCurrentBlog(blog.BlogShortname, blog.UserBlogId)" ng-class="{'selected': currentBlog == blog.BlogShortname}"><a href="#">{{blog.BlogShortname}}</a></li>
             </ul>
             <form ng-cloak action="/Home/ConnectBlog" method="POST" ng-show="showNewBlogForm">
                 <p>Enter the shortname of your blog below to connect it to your account.<br />
@@ -13,7 +13,8 @@
                 </p>
                 <input type="text" name="BlogShortname" value="" placeholder="Blog Shortname"/> <input type="submit" class="btn btn-primary" value="Submit" />
             </form>
-            <a href="#" id="addBlog" ng-click="showNewBlogForm = !showNewBlogForm">Add a blog</a>
+<a class="blogControl" href="#" id="addBlog" ng-click="showNewBlogForm = !showNewBlogForm">Add a blog</a>
+<a class="blogControl" href="/Home/RemoveBlog?userBlogId={{currentBlogId}}" id="deleteBlog" ng-hide="currentBlog == null">Delete {{currentBlog}}</a>
         </div>
         <div id="content" class="col-md-9 col-md-offset-3">
             <header class="row">
@@ -25,7 +26,7 @@
                     <a href="#" class="btn controlButton" ng-class="{'selected': currentTurn == 'true'}" id="myTurn" ng-click="setCurrentTurn('true')">My Turn</a>
                     <a href="#" class="btn controlButton" ng-class="{'selected': currentTurn == 'false'}" id="theirTurn" ng-click="setCurrentTurn('false')">Their Turn</a>
                 </div>
-                <a href="#" id="newThread" ng-click="openNewThread()" ng-show="blogs.length > 0">Add a New Thread</a>
+                <a class="btn btn-primary" href="#" id="newThread" ng-click="openNewThread()" ng-show="blogs.length > 0">Add a New Thread</a>
                 <div class='clearfix'></div>
             </header>
             <nav class="row">
@@ -39,6 +40,7 @@
                     <option value="true">Descending</option>
                     <option value="false">Ascending</option>
                 </select>
+                <a href="#" id="refreshLink" ng-click="init()">Refresh</a>
                 <div id="search">
                     <label for="filterSearch">Search: </label> <input type="text" name="filterSearch" ng-model="filterSearch" />
                 </div>
@@ -50,13 +52,14 @@
                 <div class="thread" ng-cloak ng-repeat="thread in threads | filter:filterSearch | isCorrectBlog:currentBlog | isCorrectTurn:currentTurn | orderBy:setOrderBy:orderReverse">
                     <div class="links">
                         <a href="/Home/UntrackThread?postId={{thread.PostId}}">Untrack Thread</a>
-                        <a target="_blank" href="{{thread.LastPostUrl}}">View last post</a>
+                        <a ng-hide="thread.LastPostUrl == null" target="_blank" href="{{thread.LastPostUrl}}">View last post</a>
                     </div>
-                    <h3>{{thread.UserTitle}} <span ng-show="thread.IsMyTurn">!!!</span></h3>
-                    <p>Last Poster: <a href="{{thread.LastPostUrl}}">{{thread.LastPosterShortname}}</a> ({{thread.LastPostDate * 1000 | date:'medium'}})</p>
+                    <h3>{{thread.UserTitle}}</h3>
+                    <p ng-show="thread.LastPosterShortname == null">Last Poster: <span class="error">Not Found</span> (<a id="notFoundExplanation" title="Tumblr's web service occasionally claims a thread is not found when it actually exists. It will reappear eventually; until then, this thread is being displayed as your turn regardless of its actual state.">Why am I seeing this?</a>)</p>
+                    <p ng-show="thread.LastPosterShortname != null">Last Poster: <a href="{{thread.LastPostUrl}}">{{thread.LastPosterShortname}}</a> ({{thread.LastPostDate * 1000 | date:'medium'}})</p>
                 </div>
             </div>
-            @Html.Partial("_FooterPartial");
+            @Html.Partial("_FooterPartial")
         </div>
     </div>
     

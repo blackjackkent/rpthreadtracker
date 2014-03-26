@@ -34,11 +34,11 @@ namespace TumblrThreadTracker.Services
             ServiceObject serviceObject = response.Data;
             if (serviceObject != null)
             {
-                thread = ThreadFactory.BuildFromService(serviceObject.response, userTitle, blogShortname);
+                thread = ThreadFactory.BuildFromService(serviceObject.response, userTitle, blogShortname, postId);
             }
             else
             {
-                thread = ThreadFactory.BuildFromService(null, userTitle, blogShortname);
+                thread = ThreadFactory.BuildFromService(null, userTitle, blogShortname, postId);
             }
             return thread;
         }

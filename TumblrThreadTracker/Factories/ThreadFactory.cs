@@ -11,20 +11,42 @@ namespace TumblrThreadTracker.Factories
 {
     public class ThreadFactory
     {
-        public static Thread BuildFromService(ServiceResponse serviceResponse, string userTitle, string userBlogShortname)
+        public static Thread BuildFromService(ServiceResponse serviceResponse, string userTitle, string userBlogShortname, string postId)
         {
             if (serviceResponse == null)
             {
-                return null;
+                return new Thread
+                {
+                    BlogShortname = userBlogShortname,
+                    IsMyTurn = true,
+                    LastPostDate = null,
+                    LastPostUrl = null,
+                    LastPosterShortname = null,
+                    PostId = Convert.ToInt64(postId),
+                    Type = null,
+                    UserThreadId = 0,
+                    UserTitle = userTitle
+                };
             }
 
             Post post = serviceResponse.posts.FirstOrDefault();
 
             if (post == null)
             {
-                return new Thread();
+                return new Thread
+                {
+                    BlogShortname = userBlogShortname,
+                    IsMyTurn = true,
+                    LastPostDate = null,
+                    LastPostUrl = null,
+                    LastPosterShortname = null,
+                    PostId = Convert.ToInt64(postId),
+                    Type = null,
+                    UserThreadId = 0,
+                    UserTitle = userTitle
+                };
             }
-            long postId = post.id;
+            long longPostId = post.id;
             string type = post.type;
             string blogShortname = serviceResponse.blog.name;
             string lastPosterShortname = null;
@@ -48,7 +70,7 @@ namespace TumblrThreadTracker.Factories
             }
             return new Thread
             {
-                PostId = postId,
+                PostId = longPostId,
                 UserTitle = userTitle,
                 Type = type,
                 BlogShortname = blogShortname,
