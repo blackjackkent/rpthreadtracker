@@ -46,7 +46,7 @@
                 </div>
             </nav>
             <div id="threads">
-                <span id="loading" ng-show="loading">Loading... <img src="~/Images/ajax-loader.gif" alt="" /></span>
+                <span id="loading" ng-show="loading">Loading... <img src="~/Images/ajax-loader.gif" alt="" /><br /><br /><em>(Threads taking a long time to load? Untrack any you're not interested in anymore to reduce load time.)</em></span>
                 <span ng-show="blogs.length == 0 && !loading">You have not yet added any blogs.</span>
                 <span ng-show="blogs.length != 0 && threads.length == 0">No threads to display.</span>
                 <div class="thread" ng-cloak ng-repeat="thread in threads | filter:filterSearch | isCorrectBlog:currentBlog | isCorrectTurn:currentTurn | orderBy:setOrderBy:orderReverse">

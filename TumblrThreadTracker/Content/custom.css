@@ -142,7 +142,7 @@ nav a { color: #375d81; }
 #search input { border-radius: 5px;}
 
 #content { position: relative;}
-#content #loading { text-align: center;}
+#content #loading {display: block; text-align: center;}
 #content #threads { padding: 50px;}
 #content .thread { background: #eee;height: 100px;margin-bottom: 30px; padding: 20px;border-radius: 20px; text-shadow: 2px 2px 2px #fff;}
 #content .thread h3, #content .thread p { margin: 5px;}
