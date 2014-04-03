@@ -9,6 +9,7 @@
     $scope.orderBy = "";
     $scope.orderReverse = false;
     $scope.filterSearch = null;
+    $scope.showAlert = true;
     $scope.init = function () {
         $scope.loading = true;
         $scope.threads = [];
