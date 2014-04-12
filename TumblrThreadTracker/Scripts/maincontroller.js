@@ -1,5 +1,6 @@
-﻿app.controller("mainController", function ($scope, $http, $modal) {
+﻿app.controller("mainController", function($scope, $http, $modal, $q) {
     $scope.threads = [];
+    $scope.threadIds = [];
     $scope.blogs = [];
     $scope.currentBlog = null;
     $scope.currentBlogId = 0;
@@ -10,17 +11,62 @@
     $scope.orderReverse = false;
     $scope.filterSearch = null;
     $scope.showAlert = true;
-    $scope.init = function () {
+    $scope.init = function() {
         $scope.loading = true;
         $scope.threads = [];
         $scope.blogs = [];
-        $http.get("/Home/GetThreads").success(function (data) {
-            $scope.threads = data.Threads;
-            $scope.blogs = data.UserBlogs;
+        GetBlogs()
+        .then(GetThreadIds)
+        .then(GetThreads)
+        .then(function () {
             $scope.loading = false;
+        });
+    };
+
+    var GetBlogs = function() {
+        console.log('in get blogs');
+        var deferred = $q.defer();
+        $http.get("/Home/GetBlogs").success(function(data) {
+            $scope.blogs = data;
+            deferred.resolve();
+            console.log('getblogs resolved');
+        }).error(function(error) {
+
+        });
+        return deferred.promise;
+    };
+    var GetThreadIds = function() {
+        console.log('in get ThreadIds');
+        var deferred = $q.defer();
+        $http.get("/Home/GetThreadIds").success(function (data) {
+            $scope.threadIds = data;
+            deferred.resolve();
+            console.log('getThreadIds resolved');
         }).error(function (error) {
 
         });
+        return deferred.promise;;
+    };
+    var GetThreads = function() {
+        console.log('in get threads');
+        var deferred = $q.defer();
+        var promises = [];
+        console.log($scope.threadIds);
+        angular.forEach($scope.threadIds, function(value, key) {
+            promises.push(GetThread(value));
+        });
+        $q.all(promises).then(function() {
+            deferred.resolve();
+        });
+        return deferred.promise;
+    };
+    var GetThread = function(id) {
+        var deferred = $q.defer();
+        $http.get("/Home/GetThread?threadId=" + id).success(function(data2) {
+            $scope.threads.push(data2);
+            deferred.resolve();
+        });
+        return deferred.promise;
     };
     $scope.setCurrentBlog = function(blogShortname, blogId) {
         blogShortname = blogShortname || null;
@@ -33,50 +79,50 @@
         $scope.currentTurn = currentTurn;
     };
 
-    $scope.setOrderBy = function (thread) {
+    $scope.setOrderBy = function(thread) {
         switch ($scope.orderBy) {
-            case "userTitle":
-                return thread.UserTitle;
-                break;
-            case "lastPostDate":
-                return thread.LastPostDate;
-                break;
-            case "lastPosterShortname":
-                return thread.LastPosterShortname;
-                break;
-            default:
-                return thread.UserThreadId;
-                break;
+        case "userTitle":
+            return thread.UserTitle;
+            break;
+        case "lastPostDate":
+            return thread.LastPostDate;
+            break;
+        case "lastPosterShortname":
+            return thread.LastPosterShortname;
+            break;
+        default:
+            return thread.UserThreadId;
+            break;
         }
     };
 
-    $scope.openNewThread = function () {
+    $scope.openNewThread = function() {
 
         var modalInstance = $modal.open({
             templateUrl: '/Static/NewThreadModal.html?v=' + new Date().getTime(),
             controller: 'ModalInstanceCtrl',
             resolve: {
-                'blogs': function () { return $scope.blogs; }
+                'blogs': function() { return $scope.blogs; }
             }
         });
-        modalInstance.result.then(function (response) {
+        modalInstance.result.then(function(response) {
 
-        }, function () {
+        }, function() {
 
         });
     };
 });
 
-app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, blogs) {
+app.controller('ModalInstanceCtrl', function($scope, $modalInstance, blogs) {
 
     $scope.blogs = blogs;
-    $scope.cancel = function () {
+    $scope.cancel = function() {
         $modalInstance.close();
     };
 });
 
 app.filter('isCorrectBlog', function() {
-    return function (input, blogToCompare) {
+    return function(input, blogToCompare) {
         if (blogToCompare === null || blogToCompare === '') {
             return input;
         }
@@ -90,7 +136,7 @@ app.filter('isCorrectBlog', function() {
     };
 });
 app.filter('isCorrectTurn', function() {
-    return function (input, turnToCompare) {
+    return function(input, turnToCompare) {
         if (turnToCompare == 'false') {
             turnToCompare = false;
         } else if (turnToCompare == 'true') {

@@ -50,9 +50,7 @@
         </div>
     </nav>
     <div id="threads">
-        <span id="loading" ng-show="loading">Loading... <img src="~/Images/ajax-loader.gif" alt="" /><br /><br /><em>(Threads taking a long time to load? Untrack any you're not interested in anymore to reduce load time.)</em></span>
         <span ng-show="blogs.length == 0 && !loading">You have not yet added any blogs.</span>
-        <span ng-show="blogs.length != 0 && threads.length == 0">No threads to display.</span>
         <div class="thread" ng-cloak ng-repeat="thread in threads | filter:filterSearch | isCorrectBlog:currentBlog | isCorrectTurn:currentTurn | orderBy:setOrderBy:orderReverse">
             <div class="links">
                 <a href="/Home/UntrackThread?postId={{thread.PostId}}">Untrack Thread</a>
@@ -62,6 +60,7 @@
             <p ng-show="thread.LastPosterShortname == null">Last Poster: <span class="error">Not Found</span> (<a id="notFoundExplanation" title="Tumblr's web service occasionally claims a thread is not found when it actually exists. It will reappear eventually; until then, this thread is being displayed as your turn regardless of its actual state.">Why am I seeing this?</a>)</p>
             <p ng-show="thread.LastPosterShortname != null">Last Poster: <a href="{{thread.LastPostUrl}}">{{thread.LastPosterShortname}}</a> ({{thread.LastPostDate * 1000 | date:'medium'}})</p>
         </div>
+        <span id="loading" ng-show="loading">Loading... <img src="~/Images/ajax-loader.gif?v=41214540" alt="" /></span>
     </div>
     @Html.Partial("_FooterPartial")
 </div>

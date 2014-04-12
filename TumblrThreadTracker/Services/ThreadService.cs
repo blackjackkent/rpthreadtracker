@@ -24,7 +24,6 @@ namespace TumblrThreadTracker.Services
         public static Thread GetThread(string postId, string blogShortname, string userTitle) {
             ServiceResponse serviceResponse = new ServiceResponse();
             Thread thread = new Thread();
-
             var request = new RestRequest("blog/" + blogShortname + ".tumblr.com/posts", Method.GET);
             request.AddParameter("api_key", api_key);
             request.AddParameter("id", postId);
