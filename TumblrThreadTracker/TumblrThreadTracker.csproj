@@ -189,6 +189,7 @@
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DataModels\AccountModels.cs" />
+    <Compile Include="Models\DataModels\webpages_Membership.cs" />
     <Compile Include="Models\Service Models\Blog.cs" />
     <Compile Include="Models\Service Models\Note.cs" />
     <Compile Include="Models\Service Models\Post.cs" />
@@ -334,6 +335,8 @@
     <Content Include="Views\Home\Threads.cshtml" />
     <Content Include="Views\Shared\_FooterPartial.cshtml" />
     <Content Include="Views\Shared\_Head.cshtml" />
+    <Content Include="Views\Account\ForgotPassword.cshtml" />
+    <Content Include="Views\Account\ResetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

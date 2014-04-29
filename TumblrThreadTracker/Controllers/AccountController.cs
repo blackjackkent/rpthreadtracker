@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Transactions;
 using System.Web;
 using System.Web.Mvc;
@@ -107,6 +108,145 @@ namespace TumblrThreadTracker.Controllers
 
             // If we got this far, something failed, redisplay form
             return View(model);
+        }
+
+        [AllowAnonymous]
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public ActionResult ForgotPassword(string userName)
+        {
+            //check user existance
+            var user = Membership.GetUser(userName);
+            if (user == null)
+            {
+                TempData["Message"] = "User Not exist.";
+            }
+            else
+            {
+                //generate password token
+                var token = WebSecurity.GeneratePasswordResetToken(userName);
+                //create url with above token
+                var resetLink = "<a href='" + Url.Action("ResetPassword", "Account", new { un = userName, rt = token }, "http") + "'>Reset Password</a>";
+                //get user emailid
+                ThreadTrackerContext db = new ThreadTrackerContext();
+                var emailid = (from i in db.UserProfiles
+                               where i.UserName == userName
+                               select i.Email).FirstOrDefault();
+                //send mail
+                string subject = "Password Reset Token";
+                string body = "<b>Please find the Password Reset Token</b><br/>" + resetLink; //edit it
+                try
+                {
+                    SendEmail(emailid, subject, body);
+                    TempData["Message"] = "Mail Sent.";
+                }
+                catch (Exception ex)
+                {
+                    TempData["Message"] = "Error occured while sending email." + ex.Message;
+                }
+                //only for testing
+                TempData["Message"] = resetLink;
+            }
+
+            return View();
+        }
+
+        [AllowAnonymous]
+        public ActionResult ResetPassword(string un, string rt)
+        {
+            ThreadTrackerContext db = new ThreadTrackerContext();
+            //TODO: Check the un and rt matching and then perform following
+            //get userid of received username
+            var userid = (from i in db.UserProfiles
+                          where i.UserName == un
+                          select i.UserId).FirstOrDefault();
+            //check userid and token matches
+            bool any = (from j in db.webpages_Membership
+                        where (j.UserId == userid)
+                        && (j.PasswordVerificationToken == rt)
+                        //&& (j.PasswordVerificationTokenExpirationDate < DateTime.Now)
+                        select j).Any();
+
+            if (any == true)
+            {
+                //generate random password
+                string newpassword = GenerateRandomPassword(6);
+                //reset password
+                bool response = WebSecurity.ResetPassword(rt, newpassword);
+                if (response == true)
+                {
+                    //get user emailid to send password
+                    var emailid = (from i in db.UserProfiles
+                                   where i.UserName == un
+                                   select i.Email).FirstOrDefault();
+                    //send email
+                    string subject = "New Password";
+                    string body = "<b>Please find the New Password</b><br/>" + newpassword; //edit it
+                    try
+                    {
+                        SendEmail(emailid, subject, body);
+                        TempData["Message"] = "Mail Sent.";
+                    }
+                    catch (Exception ex)
+                    {
+                        TempData["Message"] = "Error occured while sending email." + ex.Message;
+                    }
+
+                    //display message
+                    TempData["Message"] = "Success! Check email we sent. Your New Password Is " + newpassword;
+                }
+                else
+                {
+                    TempData["Message"] = "Hey, avoid random request on this page.";
+                }
+            }
+            else
+            {
+                TempData["Message"] = "Username and token not maching.";
+            }
+
+            return View();
+        }
+
+        private static string GenerateRandomPassword(int length)
+        {
+            string allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789!@$?_-*&#+";
+            char[] chars = new char[length];
+            Random rd = new Random();
+            for (int i = 0; i < length; i++)
+            {
+                chars[i] = allowedChars[rd.Next(0, allowedChars.Length)];
+            }
+            return new string(chars);
+        }
+
+        private static void SendEmail(string emailid, string subject, string body)
+        {
+            SmtpClient client = new SmtpClient();
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.EnableSsl = true;
+            client.Host = "smtp.gmail.com";
+            client.Port = 587;
+
+            System.Net.NetworkCredential credentials = new System.Net.NetworkCredential("tumblrthreadtracker@gmail.com", "***REMOVED***");
+            client.UseDefaultCredentials = false;
+            client.Credentials = credentials;
+
+            MailMessage msg = new MailMessage();
+            msg.From = new MailAddress("tumblrthreadtracker@gmail.com");
+            msg.To.Add(new MailAddress(emailid));
+
+            msg.Subject = subject;
+            msg.IsBodyHtml = true;
+            msg.Body = body;
+
+            client.Send(msg);
         }
 
         //

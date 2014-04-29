@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity;
 using System.Globalization;
 using System.Web.Security;
+using System.Web.WebPages.Deployment;
 using TumblrThreadTracker.Models.DataModels;
 
 namespace TumblrThreadTracker.Models
@@ -14,11 +15,13 @@ namespace TumblrThreadTracker.Models
         public ThreadTrackerContext()
             : base("name=DefaultConnection")
         {
+            Database.SetInitializer<ThreadTrackerContext>(null);
         }
 
         public DbSet<UserProfile> UserProfiles { get; set; }
         public DbSet<UserBlog> UserBlogs { get; set; }
         public DbSet<UserThread> UserThreads { get; set; }
+        public DbSet<webpages_Membership> webpages_Membership { get; set; }
     }
 
     public class RegisterExternalLoginModel
