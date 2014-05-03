@@ -1,0 +1,49 @@
+﻿@{
+    Layout = null;
+}
+
+@Html.Partial("_Head");
+        </div>
+        <div id="content" class="col-md-9 col-md-offset-3">
+            <header class="row">
+                <div id="account">
+                    @Html.Partial("_LoginPartial")
+                </div>
+                <div class='clearfix'></div>
+            </header>
+            <div id="contact">
+                <h2>Help/FAQ</h2>
+                <p><a href="#howtovid">How To Use the Tracker</a> &bull; <a href="#plannedupdates">Planned Updates and Known Bugs</a> &bull; <a href="#faq">Frequently Asked Questions</a></p>
+                <h3 id="howtovid">How to use the thread tracker:</h3>
+                <iframe width="560" height="315" src="//www.youtube.com/embed/7tytkoJcWLM" frameborder="0" allowfullscreen></iframe>
+                
+                <h3 id="plannedupdates">Planned Updates and Known Bugs</h3>
+                <ul>
+                    <li>Reset password functionality</li>
+                    <li>Allow login with email as well as username</li>
+                    <li>Public thread status view for sharing or displaying on tumblr blogs</li>
+                    <li>Mobile accessibility</li>
+                    <li>General UI cleanup (UX design help appreciated; <a href="/Home/Contact">contact Tracker-mun</a> if you have relevant experience)</li>
+                </ul>
+                <h3 id="faq">Frequently Asked Questions</h3>
+                <ul>
+                    <li class="faqQuestion"><strong>Why do I get a "Last Poster Not Found" error message on some of my threads?</strong>
+                        <p>Please see <a href="http://tblrthreadtracker.tumblr.com/post/81543993047/i-keep-getting-a-last-poster-not-found-error-in">this article on the tracker news blog</a> for more information.</p>
+                    </li>
+                    <li class="faqQuestion"><strong>Why am I getting an error when logging in with my email and password?</strong>
+                        <p>Currently you must log in using the username you signed up with, not your email. A fix is forthcoming to allow login with email as well.</p>
+                    </li>
+                </ul>
+            </div>
+            @Html.Partial("_FooterPartial");
+        </div>
+    </div>
+    
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js" type="text/javascript"></script>
+    <script src="~/Scripts/ui-bootstrap-custom-0.10.0.js" type="text/javascript"></script>
+    <script src="~/Scripts/ui-bootstrap-tpls-0.10.0.js" type="text/javascript"></script>
+	<script src="~/Scripts/app.js" type="text/javascript"></script>
+    <script src="~/Scripts/maincontroller.js?v=532014" type="text/javascript"></script>
+</body>
+</html>
