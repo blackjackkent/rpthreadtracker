@@ -99,10 +99,12 @@ textarea {
 /*2E3D4D*/
 /*0F2942*/
 
-
+[ng\:cloak], [ng-cloak], .ng-cloak {
+  display: none !important;
+}
 html { height: 100%;}
 body { background: #2f4b66;height: 100%;}
-#wrapper { width: 960px;margin: auto;position: relative; min-height: 100%;background: #fff;box-shadow: 0px 0px 20px #102a43;}
+#wrapper { width: 960px;margin: auto;position: relative; min-height: 100%;background: #fff;}
 #sidebar { position: absolute;top: 0;bottom: 0;background: #7e98b3;padding: 0; }
 
 span.error { color: #f00;}
@@ -112,6 +114,7 @@ span.error { color: #f00;}
 .AccountForm label { width: 150px;}
 .field-validation-error, .validation-summary-errors { color: #f00;font-size: 12px;}
 
+.faqQuestion p { margin-left: 30px;margin-top: 10px;}
 
 #logo { width: 200px;height: 200px;margin: auto;text-indent: -999999px; background: url("../Images/ttt_logo.png?v=04142014")}
 
@@ -121,11 +124,11 @@ span.error { color: #f00;}
 #sidebar ul li.selected a { background: #2F4B66;}
 #sidebar ul li a:hover { background: #2E3D4D}
 
-#sidebar form { color: #0F2942;font-size: 12px;text-align: center;padding: 10px;margin: 10px; background: #fff;}
+#sidebar form, #sidebar p { color: #0F2942;font-size: 12px;text-align: center;padding: 10px;margin: 10px; background: #fff;}
 #sidebar form input[type="text"] { width: 100px;}
 #sidebar .blogControl { color: #0F2942;display: block;margin: 30px;text-align: center;}
 
-
+#news-alert { width: 960px;margin: auto;z-index: 9000;}
 header { background: #eee;margin-left: -30px;padding: 30px;}
 #account { float: right;}
 header a { color: #375d81;}
@@ -133,7 +136,7 @@ header a { color: #375d81;}
 #logoutForm a, #registerLink, #loginLink, .controlButton {border: 1px solid #7e98b3; display: inline-block;text-decoration: none;background: #7e98b3;padding: 5px;border-radius: 5px;color: #fff;padding: 5px 10px; text-shadow: 1px 1px 2px #2f4b66;}
 .controlButton.selected { background: #91b7db;border: 1px solid #7e98b3; }
 .controlButton:hover, #registerLink:hover, #loginLink:hover, #logoutForm a:hover {color: #fff;text-decoration: none;background: #91b7db;border: 1px solid #7e98b3;}
-#news-alert { margin-bottom: 0;}
+#notfound-alert { margin-bottom: 0;}
 
 nav { background: #7e98b3;height: 50px;padding: 10px;}
 nav select { border-radius: 5px;padding: 5px;}

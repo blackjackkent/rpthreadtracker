@@ -164,5 +164,18 @@ namespace TumblrThreadTracker.Controllers
 
             return View();
         }
+
+        public ActionResult Help()
+        {
+            return View();
+        }
+
+        public ActionResult GetLatestNews()
+        {
+            Thread thread = ThreadService.GetNewsThread();
+            var jsonSerializer = new JavaScriptSerializer();
+            string json = jsonSerializer.Serialize(thread);
+            return Content(json, "application/json");
+        }
     }
 }

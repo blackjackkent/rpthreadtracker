@@ -11,16 +11,18 @@
     $scope.orderReverse = false;
     $scope.filterSearch = null;
     $scope.showAlert = true;
+    $scope.latestNews = null;
     $scope.init = function() {
         $scope.loading = true;
         $scope.threads = [];
         $scope.blogs = [];
         GetBlogs()
-        .then(GetThreadIds)
-        .then(GetThreads)
-        .then(function () {
-            $scope.loading = false;
-        });
+            .then(GetThreadIds)
+            .then(GetThreads)
+            .then(function() {
+                $scope.loading = false;
+            });
+        GetLatestNews();
     };
 
     var GetBlogs = function() {
@@ -61,6 +63,16 @@
             deferred.resolve();
         });
         return deferred.promise;
+    };
+    var GetLatestNews = function () {
+        var deferred = $q.defer();
+        $http.get("/Home/GetLatestNews").success(function (data) {
+            $scope.latestNews = data;
+            deferred.resolve();
+        }).error(function (error) {
+
+        });
+        return deferred.promise;;
     };
     $scope.setCurrentBlog = function(blogShortname, blogId) {
         blogShortname = blogShortname || null;

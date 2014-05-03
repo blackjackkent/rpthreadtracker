@@ -20,6 +20,7 @@ namespace TumblrThreadTracker.Models.Service_Models
         public bool mobile { get; set; }
         public string source_url { get; set; }
         public string source_title { get; set; }
+        public string title { get; set; }
         public bool liked { get; set; }
         public string state { get; set; }
         public long total_posts { get; set; }

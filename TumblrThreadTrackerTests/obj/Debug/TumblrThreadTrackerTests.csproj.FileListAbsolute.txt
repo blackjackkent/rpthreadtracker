@@ -1,9 +1,0 @@
-C:\Users\rosalindwills\documents\visual studio 2012\Projects\TumblrThreadTracker\TumblrThreadTrackerTests\bin\Debug\TumblrThreadTrackerTests.dll
-C:\Users\rosalindwills\documents\visual studio 2012\Projects\TumblrThreadTracker\TumblrThreadTrackerTests\bin\Debug\TumblrThreadTrackerTests.pdb
-C:\Users\rosalindwills\documents\visual studio 2012\Projects\TumblrThreadTracker\TumblrThreadTrackerTests\bin\Debug\Moq.dll
-C:\Users\rosalindwills\documents\visual studio 2012\Projects\TumblrThreadTracker\TumblrThreadTrackerTests\bin\Debug\nunit.framework.dll
-C:\Users\rosalindwills\documents\visual studio 2012\Projects\TumblrThreadTracker\TumblrThreadTrackerTests\bin\Debug\Moq.xml
-C:\Users\rosalindwills\documents\visual studio 2012\Projects\TumblrThreadTracker\TumblrThreadTrackerTests\bin\Debug\nunit.framework.xml
-C:\Users\rosalindwills\documents\visual studio 2012\Projects\TumblrThreadTracker\TumblrThreadTrackerTests\obj\Debug\TumblrThreadTrackerTests.csprojResolveAssemblyReference.cache
-C:\Users\rosalindwills\documents\visual studio 2012\Projects\TumblrThreadTracker\TumblrThreadTrackerTests\obj\Debug\TumblrThreadTrackerTests.dll
-C:\Users\rosalindwills\documents\visual studio 2012\Projects\TumblrThreadTracker\TumblrThreadTrackerTests\obj\Debug\TumblrThreadTrackerTests.pdb

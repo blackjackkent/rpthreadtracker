@@ -1,4 +1,5 @@
-﻿using RestSharp;
+﻿using System.Web.Services.Description;
+using RestSharp;
 using RestSharp.Deserializers;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,7 @@ namespace TumblrThreadTracker.Services
     {
         private const string api_key = "***REMOVED***";
         private static readonly RestClient _client = new RestClient("http://api.tumblr.com/v2");
+        private static string _newsBlogShortname = "tblrthreadtracker";
 
         public ThreadService()
         {
@@ -23,7 +25,7 @@ namespace TumblrThreadTracker.Services
 
         public static Thread GetThread(string postId, string blogShortname, string userTitle) {
             ServiceResponse serviceResponse = new ServiceResponse();
-            Thread thread = new Thread();
+            Thread thread;
             var request = new RestRequest("blog/" + blogShortname + ".tumblr.com/posts", Method.GET);
             request.AddParameter("api_key", api_key);
             request.AddParameter("id", postId);
@@ -38,6 +40,28 @@ namespace TumblrThreadTracker.Services
             else
             {
                 thread = ThreadFactory.BuildFromService(null, userTitle, blogShortname, postId);
+            }
+            return thread;
+        }
+
+        public static Thread GetNewsThread()
+        {
+            ServiceResponse serviceResponse = new ServiceResponse();
+            Thread thread = new Thread();
+            var request = new RestRequest("blog/" + _newsBlogShortname + ".tumblr.com/posts", Method.GET);
+            request.AddParameter("api_key", api_key);
+            request.AddParameter("tag", "news");
+            request.AddParameter("limit", 1);
+            request.AddHeader("Content-Type", "application/json; charset=utf-8");
+            IRestResponse<ServiceObject> response = _client.Execute<ServiceObject>(request);
+            ServiceObject serviceObject = response.Data;
+            if (serviceObject != null)
+            {
+                thread = ThreadFactory.BuildFromService(serviceObject.response, serviceObject.response.posts[0].title, _newsBlogShortname, serviceObject.response.posts[0].id.ToString());
+            }
+            else
+            {
+                thread = ThreadFactory.BuildFromService(null, null, _newsBlogShortname, null);
             }
             return thread;
         }
