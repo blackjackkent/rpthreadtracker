@@ -24,34 +24,28 @@
     };
 
     var GetBlogs = function() {
-        console.log('in get blogs');
         var deferred = $q.defer();
         $http.get("/Home/GetBlogs").success(function(data) {
             $scope.blogs = data;
             deferred.resolve();
-            console.log('getblogs resolved');
         }).error(function(error) {
 
         });
         return deferred.promise;
     };
     var GetThreadIds = function() {
-        console.log('in get ThreadIds');
         var deferred = $q.defer();
         $http.get("/Home/GetThreadIds").success(function (data) {
             $scope.threadIds = data;
             deferred.resolve();
-            console.log('getThreadIds resolved');
         }).error(function (error) {
 
         });
         return deferred.promise;;
     };
     var GetThreads = function() {
-        console.log('in get threads');
         var deferred = $q.defer();
         var promises = [];
-        console.log($scope.threadIds);
         angular.forEach($scope.threadIds, function(value, key) {
             promises.push(GetThread(value));
         });
