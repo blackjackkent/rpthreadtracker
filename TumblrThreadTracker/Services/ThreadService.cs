@@ -1,4 +1,7 @@
-﻿using System.Web.Services.Description;
+﻿using System.IO;
+using System.Linq.Expressions;
+using System.Net;
+using System.Web.Services.Description;
 using RestSharp;
 using RestSharp.Deserializers;
 using System;
@@ -26,6 +29,23 @@ namespace TumblrThreadTracker.Services
         public static Thread GetThread(string postId, string blogShortname, string userTitle) {
             ServiceResponse serviceResponse = new ServiceResponse();
             Thread thread;
+            ServiceObject serviceObject = RetrieveApiData(postId, blogShortname);
+            if (serviceObject != null)
+            {
+                thread = ThreadFactory.BuildFromService(serviceObject.response, userTitle, blogShortname, postId);
+                return thread;
+            }
+            SendGetRequestToPost(postId, blogShortname);
+            ServiceObject updatedObject = RetrieveApiData(postId, blogShortname);
+            if (updatedObject != null)
+            {
+                return ThreadFactory.BuildFromService(serviceObject.response, userTitle, blogShortname, postId);
+            }
+            return ThreadFactory.BuildFromService(null, userTitle, blogShortname, postId);
+        }
+
+        public static ServiceObject RetrieveApiData(string postId, string blogShortname)
+        {
             var request = new RestRequest("blog/" + blogShortname + ".tumblr.com/posts", Method.GET);
             request.AddParameter("api_key", api_key);
             request.AddParameter("id", postId);
@@ -33,15 +53,24 @@ namespace TumblrThreadTracker.Services
             request.AddHeader("Content-Type", "application/json; charset=utf-8");
             IRestResponse<ServiceObject> response = _client.Execute<ServiceObject>(request);
             ServiceObject serviceObject = response.Data;
-            if (serviceObject != null)
+            return serviceObject;
+        }
+
+        private static void SendGetRequestToPost(string postId, string blogShortname)
+        {
+            string sURL;
+            sURL = "http://" + blogShortname + ".tumblr.com/post/" + postId;
+            WebRequest wrGETURL;
+            wrGETURL = WebRequest.Create(sURL);
+            Stream objStream;
+            try
             {
-                thread = ThreadFactory.BuildFromService(serviceObject.response, userTitle, blogShortname, postId);
+                objStream = wrGETURL.GetResponse().GetResponseStream();
             }
-            else
+            catch (Exception e)
             {
-                thread = ThreadFactory.BuildFromService(null, userTitle, blogShortname, postId);
+                //honestly I don't care if it 404ed
             }
-            return thread;
         }
 
         public static Thread GetNewsThread()
