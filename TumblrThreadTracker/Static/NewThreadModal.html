@@ -11,7 +11,7 @@
                     <option ng-repeat="blog in blogs" value="{{blog.UserBlogId}}">{{blog.BlogShortname}}</option>
                 </select></p>
             <p><label for="userTitle">Thread Title: </label> <input type="text" name="userTitle" value="" required ng-model="userTitle" /> <em>(This can be whatever you like!)</em></p>
-            <p><label for="postId">Post Id:</label> <input type="text" name="postId" value="" ng-pattern="/^\-?\d+$/" required ng-model="postId" /> <em>This can be the ID of any post in the thread.</em><br />
+            <p><label for="postId">Post Id:</label> <input type="text" name="postId" value="" ng-pattern="/^\-?\d+$/" required ng-model="postId" /> <em class="postIdAddendum">This can be the ID of any post in the thread FROM YOUR BLOG.</em>
                 <span class="postIdAddendum">Found in the URL as follows: http://blogshortname.tumblr.com/post/<strong>123456</strong>/posttitle</span>
             </p>
             <p class="error" ng-show="newThreadForm.postId.$error.pattern">Enter only the post ID, not the full URL.</p>
