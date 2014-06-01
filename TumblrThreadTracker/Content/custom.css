@@ -118,9 +118,9 @@ span.error { color: #f00;}
 
 #logo { width: 200px;height: 200px;margin: auto;text-indent: -999999px; background: url("../Images/ttt_logo.png?v=04142014")}
 
-#sidebar ul { margin: 0;padding: 0;list-style: none;width: 100%;border-top: 1px solid #2f4b66;}
-#sidebar li { height: 50px;margin: 0;padding: 0;}
-#sidebar ul a { color: #fff;font-weight: bold;text-decoration: none;display: block;line-height: 50px;padding-left: 30px;border-bottom: 1px solid #2F4B66; text-shadow: 1px 1px 2px #2f4b66;}
+#sidebar ul { margin: 0;padding: 0;list-style: none;width: 100%;border-top: 1px solid #2f4b66;height: 300px;overflow: auto;}
+#sidebar li { height: 40px;margin: 0;padding: 0;overflow: hidden;border-bottom: 1px solid #2f4b66;}
+#sidebar ul a { color: #fff;font-weight: bold;text-decoration: none;display: block;line-height: 40px;padding-left: 30px;border-bottom: 1px solid #2F4B66; text-shadow: 1px 1px 2px #2f4b66;}
 #sidebar ul li.selected a { background: #2F4B66;}
 #sidebar ul li a:hover { background: #2E3D4D}
 
