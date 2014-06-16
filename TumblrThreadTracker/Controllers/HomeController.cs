@@ -30,7 +30,7 @@ namespace TumblrThreadTracker.Controllers
             {
                 return RedirectToAction("Login", "Account");
             }
-            return RedirectToAction("Threads");
+            return View();
         }
 
         public ActionResult Threads()
