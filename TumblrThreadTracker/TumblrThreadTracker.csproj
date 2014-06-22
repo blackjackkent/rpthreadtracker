@@ -237,6 +237,10 @@
     <Content Include="application\images\loading.gif" />
     <Content Include="application\images\png.png" />
     <Content Include="application\images\pricing-bg.png" />
+    <Content Include="application\scripts\app.js" />
+    <Content Include="application\scripts\controllers.js" />
+    <Content Include="application\scripts\directives.js" />
+    <Content Include="application\scripts\filters.js" />
     <Content Include="application\scripts\jquery\adminflare-demo-init.min.js" />
     <Content Include="application\scripts\jquery\adminflare-demo.min.js" />
     <Content Include="application\scripts\jquery\adminflare.js" />
@@ -245,6 +249,7 @@
     <Content Include="application\scripts\jquery\bootstrap.min.js" />
     <Content Include="application\scripts\jquery\fuelux-datagrid-example.min.js" />
     <Content Include="application\scripts\jquery\modernizr-jquery.min.js" />
+    <Content Include="application\scripts\services.js" />
     <Content Include="application\styles\black-blue\adminflare.css" />
     <Content Include="application\styles\black-blue\adminflare.min.css" />
     <Content Include="application\styles\black-blue\bootstrap.css" />
@@ -429,10 +434,6 @@
     <Content Include="Views\Home\Help.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="application\scripts\controllers\" />
-    <Folder Include="application\scripts\directives\" />
-    <Folder Include="application\scripts\filters\" />
-    <Folder Include="application\scripts\services\" />
     <Folder Include="application\scripts\vendor\" />
     <Folder Include="App_Data\" />
     <Folder Include="Controllers\v200\" />
