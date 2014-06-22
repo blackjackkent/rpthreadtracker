@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7"><![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"><![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9"><![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js"><!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>
+            RPThreadTracker - Dashboard
+        </title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width">
+	
+
+        <link href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="../styles/default/bootstrap.css"/>
+        <link rel="stylesheet" href="../styles/default/adminflare.css"/>
+
+        <style type="text/css">
+		/* ======================================================================= */
+		/* Server Statistics */
+            .well.widget-pie-charts .box { margin-bottom: -20px; }
+
+            /* ======================================================================= */
+
+            /* Why AdminFlare */
+
+            #why-adminflare ul {
+                margin: 0 -10px;
+                padding: 0 10px;
+                position: relative;
+            }
+
+            #why-adminflare ul:nth-child(2n) { background: rgba(0, 0, 0, 0.02); }
+
+            #why-adminflare li {
+                font-size: 14px;
+                list-style: none;
+                padding: 8px 10px;
+                padding-left: 23px;
+            }
+
+            #why-adminflare li i {
+                color: #666;
+                font-size: 14px;
+                margin: 3px 0 0 -23px;
+                position: absolute;
+            }
+
+
+            /* ======================================================================= */
+
+            /* Supported Browsers */
+
+            #supported-browsers header {
+                color: #666;
+                display: block;
+                font-size: 14px;
+            }
+
+            #supported-browsers header strong { font-size: 18px; }
+
+            #supported-browsers .span10 {
+                margin-bottom: -15px;
+                text-align: center;
+            }
+
+            #supported-browsers .span10 div {
+                display: inline-block;
+                margin-bottom: 15px;
+                margin-right: 15px;
+                width: 120px;
+            }
+
+            #supported-browsers .span10 div:last-child { margin-right: 0; }
+
+            #supported-browsers .span10 img {
+                height: 40px;
+                width: 40px;
+            }
+
+            #supported-browsers .span10 span {
+                font-size: 14px;
+                font-weight: 600;
+                line-height: 40px;
+            }
+
+            @media (max-width: 767px) {
+                #supported-browsers header {
+                    margin-bottom: 20px;
+                    text-align: center;
+                }
+            }
+
+            /* ======================================================================= */
+
+            /* Status panel */
+
+            .status-example {
+                line-height: 0;
+                position: relative;
+                top: 22px
+            }
+        </style>
+	
+	
+    </head>
+    <body>
+        <!-- Main navigation bar
+            ================================================== -->
+        <header class="navbar navbar-fixed-top" id="main-navbar">
+            <div class="navbar-inner">
+                <div class="container">
+
+                    <div class="nav-collapse collapse">
+                        <ul class="nav">
+                            <li><a href="#"><strong>RPThreadTracker</strong></a></li>
+                            <li class="active"><a href="#">Home</a></li>
+                            <li><a href="#">About</a></li>
+                            <li><a href="#">Contact</a></li>
+                            <li class="divider-vertical"></li>
+                        </ul>
+                        <form class="navbar-search pull-left" action="" _lpchecked="1">
+                            <input type="text" class="search-query" placeholder="Search" style="width: 120px">
+                        </form>
+                        <ul class="nav pull-right">
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle usermenu" data-toggle="dropdown">
+                                    <img alt="Avatar" src="../images/avatar.png">
+                                    <span>&nbsp;&nbsp;blackjackkent</span>
+                                </a>
+                            </li>
+                            <li class="separator"></li>
+                            <li>
+                                <a href="#">Log Out</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- / Main navigation bar -->
+	
+        <!-- Left navigation panel
+            ================================================== -->
+        <nav id="left-panel">
+            <div id="left-panel-content">
+                <ul>
+                    <li class="active">
+                        <a href="dashboard.html"><span class="icon-dashboard"></span>Dashboard</a>
+                    </li>
+                    <li>
+                        <a href="layout.html"><span class="icon-list"></span>All Threads</a>
+                    </li>
+                    <li>
+                        <a href="typography.html"><span class="icon-edit"></span>Your Turn</a>
+                    </li>
+                    <li>
+                        <a href="forms.html"><span class="icon-check"></span>Their Turn</a>
+                    </li>
+                    <li>
+                        <a href="forms.html"><span class="icon-unlock"></span>Public View</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="icon-caret-down"></div>
+            <div class="icon-caret-up"></div>
+        </nav>
+        <!-- / Left navigation panel -->
+	
+        <!-- Page content
+            ================================================== -->
+        <section class="container">
+
+            <!-- ================================================== -->
+            <section class="row-fluid">
+		
+                <!-- Last activity
+                    ================================================== -->
+                <div class="span8">
+                    <h3 class="box-header">
+                        <i class="icon-time"></i>
+                        Recent activity
+                    </h3>
+                    <div class="box">
+                        <div>
+					
+                            <!-- Tabs content
+                                ================================================== -->
+                            <div class="box-wide box-no-bottom-padding">
+						
+							
+                                <!-- Recent threads tab content -->
+                                <div class="widget-threads" id="Div2">
+							
+                                    <div class="thread">
+                                        <img src="../images/avatar.png" alt="">
+                                        <div class="content">
+                                            <span>14h</span>
+                                            <div>
+                                                <a href="#">Lorem ipsum dolor sit amet</a><br>
+                                                asked by <a href="#" title="">First User</a> in <a href="#" title="">Forum name</a>
+                                            </div>
+                                        </div>
+                                    </div>
+			
+                                    <div class="thread">
+                                        <img src="../images/avatar.png" alt="">
+                                        <div class="content">
+                                            <span>14h</span>
+                                            <div>
+                                                <a href="#">Lorem ipsum dolor sit amet</a><br>
+                                                asked by <a href="#" title="">Second User</a> in <a href="#" title="">Forum name</a>
+                                            </div>
+                                        </div>
+                                    </div>
+			
+                                    <div class="thread">
+                                        <img src="../images/avatar.png" alt="">
+                                        <div class="content">
+                                            <span>14h</span>
+                                            <div>
+                                                <a href="#">Lorem ipsum dolor sit amet</a><br>
+                                                asked by <a href="#" title="">Third User</a> in <a href="#" title="">Forum name</a>
+                                            </div>
+                                        </div>
+                                    </div>
+			
+                                    <div class="thread">
+                                        <img src="../images/avatar.png" alt="">
+                                        <div class="content">
+                                            <span>14h</span>
+                                            <div>
+                                                <a href="#">Lorem ipsum dolor sit amet</a><br>
+                                                asked by <a href="#" title="">Fourth User</a> in <a href="#" title="">Forum name</a>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="thread">
+                                        <img src="../images/avatar.png" alt="">
+                                        <div class="content">
+                                            <span>14h</span>
+                                            <div>
+                                                <a href="#">Lorem ipsum dolor sit amet</a><br>
+                                                asked by <a href="#" title="">Fifth User</a> in <a href="#" title="">Forum name</a>
+                                            </div>
+                                        </div>
+                                    </div>
+			
+                                    <div class="widget-actions">
+                                        <a href="#" class="btn btn-mini" title="">Show more</a>
+                                    </div>
+                                </div>
+                                <!-- / Recent threads tab content -->
+							
+                            </div>
+                            <!-- / Tabs content -->
+                        </div>
+                        <!-- / .tabbable -->
+                    </div>
+                </div>
+                <!-- / Last activity -->
+			
+                <!-- Daily statistics
+                    ================================================== -->
+                <div id="counters" class="span4">
+
+                    <h3 class="box-header"><i class="icon-fire" style="color: #cd522c"></i> Tracker News</h3>
+                    <div class=" box well widget-threads">
+                        <div class="thread">
+                            <img src="../images/avatar.png" alt="">
+                            <div class="content">
+                                <span>14h</span>
+                                <div>
+                                    <a href="#">Lorem ipsum dolor sit amet</a><br>
+                                    asked by <a href="#" title="">First User</a> in <a href="#" title="">Forum name</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="thread">
+                            <img src="../images/avatar.png" alt="">
+                            <div class="content">
+                                <span>14h</span>
+                                <div>
+                                    <a href="#">Lorem ipsum dolor sit amet</a><br>
+                                    asked by <a href="#" title="">First User</a> in <a href="#" title="">Forum name</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="thread">
+                            <img src="../images/avatar.png" alt="">
+                            <div class="content">
+                                <span>14h</span>
+                                <div>
+                                    <a href="#">Lorem ipsum dolor sit amet</a><br>
+                                    asked by <a href="#" title="">First User</a> in <a href="#" title="">Forum name</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="thread">
+                            <img src="../images/avatar.png" alt="">
+                            <div class="content">
+                                <span>14h</span>
+                                <div>
+                                    <a href="#">Lorem ipsum dolor sit amet</a><br>
+                                    asked by <a href="#" title="">First User</a> in <a href="#" title="">Forum name</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="thread">
+                            <img src="../images/avatar.png" alt="">
+                            <div class="content">
+                                <span>14h</span>
+                                <div>
+                                    <a href="#">Lorem ipsum dolor sit amet</a><br>
+                                    asked by <a href="#" title="">First User</a> in <a href="#" title="">Forum name</a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="widget-actions">
+                            <a href="#" class="btn btn-mini" title="">Follow Our Blog</a>
+                        </div>
+                    </div>
+
+					
+                </div>
+                <!-- / Daily statistics -->
+            </section>
+
+            <!-- Recent News
+                ================================================= -->
+            <section class="row-fluid">
+                <div class="span8">
+                    <h3 class="box-header">
+                        <i class="icon-signal"></i>
+                       At a Glance
+                    </h3>
+                    <div class="box no-border no-padding widget-statistics">
+				
+                        <div class="rounded-borders">
+                            <div class="counter small">
+                                <span>
+                                    35
+                                </span>
+                            </div>
+                            <div class="counter-label">
+                                Threads Tracked
+                            </div>
+                        </div>
+					
+                        <div class="rounded-borders">
+                            <div class="counter small">
+                                <span>
+                                    10
+                                </span>
+                            </div>
+                            <div class="counter-label">
+                                Your Turn
+                            </div>
+                        </div>
+					
+                        <div class="rounded-borders">
+                            <div class="counter small">
+                                <span>
+                                    25
+                                </span>
+                            </div>
+                            <div class="counter-label">
+                                Their Turn
+                            </div>
+                        </div>
+                </div>
+                    </div>
+                <div class="span4">
+                    <h3 class="box-header">Like the site? Donate!</h3>
+                    <div class="box well text-center">
+                        <div>
+                            <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
+                    <input type="hidden" name="cmd" value="_s-xclick">
+                    <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----MIIHNwYJKoZIhvcNAQcEoIIHKDCCByQCAQExggEwMIIBLAIBADCBlDCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwDQYJKoZIhvcNAQEBBQAEgYCdkCnTXx/RuVx7HBBL10zqmeJH1XcK0sgNZ6sBSkxf/4f5kLNu83TdGQBvKduPgjIKxu8+yrMgaU0O9JN62h2cqh3Ugb3BcpK6S4zf45unmMqtSlmsG3VOCCU5N75uqL+IywgG5edzifA/kc7HVxXLMlQlQ32QMwtGTQCU2LUNvjELMAkGBSsOAwIaBQAwgbQGCSqGSIb3DQEHATAUBggqhkiG9w0DBwQIb6NQDArCsHyAgZBvsH7rtdCN6OGQ4HP0qqeYcJfkgRUCdGOhhnHxvDK9fB8kwclnh9P04M1Ss+kA7epyOvLayZDv5zojOaUhFbzOY4esT/hsq+CMqQSVxNc5g/fQ3LB/sr7LbAlVgBkj6y/fhpLy3hGXK6NKUsSfiHSLhiusBflpuRJZAvONMBbMnZtOSWQ8jznG5Y/H3+EhCwCgggOHMIIDgzCCAuygAwIBAgIBADANBgkqhkiG9w0BAQUFADCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20wHhcNMDQwMjEzMTAxMzE1WhcNMzUwMjEzMTAxMzE1WjCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAMFHTt38RMxLXJyO2SmS+Ndl72T7oKJ4u4uw+6awntALWh03PewmIJuzbALScsTS4sZoS1fKciBGoh11gIfHzylvkdNe/hJl66/RGqrj5rFb08sAABNTzDTiqqNpJeBsYs/c2aiGozptX2RlnBktH+SUNpAajW724Nv2Wvhif6sFAgMBAAGjge4wgeswHQYDVR0OBBYEFJaffLvGbxe9WT9S1wob7BDWZJRrMIG7BgNVHSMEgbMwgbCAFJaffLvGbxe9WT9S1wob7BDWZJRroYGUpIGRMIGOMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDASBgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQDFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbYIBADAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBQUAA4GBAIFfOlaagFrl71+jq6OKidbWFSE+Q4FqROvdgIONth+8kSK//Y/4ihuE4Ymvzn5ceE3S/iBSQQMjyvb+s2TWbQYDwcp129OPIbD9epdr4tJOUNiSojw7BHwYRiPh58S1xGlFgHFXwrEBb3dgNbMUa+u4qectsMAXpVHnD9wIyfmHMYIBmjCCAZYCAQEwgZQwgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tAgEAMAkGBSsOAwIaBQCgXTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0xNDAzMTcwMTA5MTdaMCMGCSqGSIb3DQEJBDEWBBRJILNAkTVUgXTmWUFAaKaS/nE5xjANBgkqhkiG9w0BAQEFAASBgHF78RgQC/eZaM1pFdxZ350uTLAK8jxPS9x6k4MA9bfK70EitmPQg0Bq6P8WYs0EHdQ63Emlb2TbjyR+SQmNTGrWdvXXKRUdJqoBjyxSFgY2lzh1vAg9LY1fL9ab2CUoQvhNJTlnJUDFnIJVIlsS9cnG4xtRw81KuzZdYx07yFQ7-----END PKCS7-----
+                    ">
+                    <input type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                    <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                </form>
+                </div>
+            </section>
+            <!-- / Why AdminFlare -->
+
+            <!-- Supported browsers
+                ================================================== -->
+            <section class="row-fluid">
+                
+            </section>
+            <!-- / Supported browsers -->
+		
+            <!-- Page footer
+                ================================================== -->
+            <footer id="main-footer">
+                Copyright © 2014 <a href="http://blackjackkent.tumblr.com">blackjackkent.tumblr.com</a>, all rights reserved.
+                <a href="#" class="pull-right" id="on-top-link">
+                    Top&nbsp;<i class=" icon-chevron-up"></i>
+                </a>
+            </footer>
+            <!-- / Page footer -->
+        </section>
+    </body>
+</html>

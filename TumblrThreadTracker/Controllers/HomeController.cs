@@ -116,8 +116,7 @@ namespace TumblrThreadTracker.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            Models.DataModels.UserBlog blog = BlogFactory.BuildFromViewModel(viewBlog,
-                WebSecurity.GetUserId(User.Identity.Name));
+            Models.DataModels.UserBlog blog = BlogFactory.BuildFromViewModel(viewBlog);
             _blogRepository.InsertUserBlog(blog);
             return RedirectToAction("Threads");
         }
