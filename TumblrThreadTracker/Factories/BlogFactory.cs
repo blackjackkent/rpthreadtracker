@@ -9,9 +9,9 @@ namespace TumblrThreadTracker.Factories
 {
     public class BlogFactory
     {
-        public static DataModels.UserBlog BuildFromViewModel(ViewModels.UserBlog viewBlog, int userId)
+        public static DataModels.UserBlog BuildFromViewModel(ViewModels.UserBlog viewBlog)
         {
-            DataModels.UserBlog dataBlog = DataModels.UserBlog.Create(viewBlog.BlogShortname, userId);
+            DataModels.UserBlog dataBlog = DataModels.UserBlog.Create(viewBlog.BlogShortname, viewBlog.UserId);
             return dataBlog;
         }
 
