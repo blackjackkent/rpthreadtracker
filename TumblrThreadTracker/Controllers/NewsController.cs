@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web.Http;
-using TumblrThreadTracker.Models.ViewModels;
+using TumblrThreadTracker.Domain.Threads;
 using TumblrThreadTracker.Services;
 
 namespace TumblrThreadTracker.Controllers
@@ -8,10 +9,11 @@ namespace TumblrThreadTracker.Controllers
     public class NewsController : ApiController
     {
         // GET api/<controller>
-        public Thread Get()
+        public IEnumerable<Thread> Get()
         {
-            Thread thread = ThreadService.GetNewsThread();
-            return thread;
+            /*IEnumerable<Thread> threads = ThreadService.GetNewsThreads(5);
+            return threads;*/
+            throw new NotImplementedException();
         }
 
         // POST api/<controller>

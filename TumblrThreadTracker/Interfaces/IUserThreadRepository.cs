@@ -2,19 +2,20 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using TumblrThreadTracker.Domain.Threads;
 using TumblrThreadTracker.Models.DataModels;
 
 namespace TumblrThreadTracker.Interfaces
 {
     public interface IUserThreadRepository : IDisposable
     {
-        IEnumerable<UserThread> GetUserThreads();
-        IEnumerable<UserThread> GetUserThreads(int userBlogId);
-        UserThread GetUserThreadById(int userThreadId);
-        void InsertUserThread(UserThread userThread);
+        IEnumerable<Thread> GetUserThreads();
+        IEnumerable<Thread> GetUserThreads(int userBlogId);
+        Thread GetUserThreadById(int userThreadId);
+        void InsertUserThread(Thread userThread);
         void DeleteUserThread(int userThreadId);
         void DeleteUserThreadByPostId(string postId);
-        void UpdateUserThread(UserThread userThread);
+        void UpdateUserThread(Thread userThread);
         void Save();
     }
 }

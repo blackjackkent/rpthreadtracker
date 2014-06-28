@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
+using TumblrThreadTracker.Domain.Blogs;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models;
 using TumblrThreadTracker.Models.DataModels;
@@ -19,22 +20,22 @@ namespace TumblrThreadTracker.Repositories
             this.context = context;
         }
 
-        public IEnumerable<UserBlog> GetUserBlogs()
+        public IEnumerable<Blog> GetUserBlogs()
         {
             return context.UserBlogs.ToList();
         }
 
-        public IEnumerable<UserBlog> GetUserBlogs(int userProfileId)
+        public IEnumerable<Blog> GetUserBlogs(int userProfileId)
         {
             return context.UserBlogs.Where(u => u.UserId == userProfileId);
         }
 
-        public UserBlog GetUserBlogById(int userBlogId)
+        public Blog GetUserBlogById(int userBlogId)
         {
             return context.UserBlogs.Find(userBlogId);
         }
 
-        public void InsertUserBlog(UserBlog userBlog)
+        public void InsertUserBlog(Blog userBlog)
         {
              context.UserBlogs.Add(userBlog);
              Save();
@@ -42,12 +43,12 @@ namespace TumblrThreadTracker.Repositories
 
         public void DeleteUserBlog(int userBlogId)
         {
-            UserBlog userBlog = context.UserBlogs.Find(userBlogId);
+            Blog userBlog = context.UserBlogs.Find(userBlogId);
             context.UserBlogs.Remove(userBlog);
             Save();
         }
 
-        public void UpdateUserBlog(UserBlog userBlog)
+        public void UpdateUserBlog(Blog userBlog)
         {
             context.Entry(userBlog).State = EntityState.Modified;
             Save();

@@ -1,17 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using TumblrThreadTracker.Domain.Threads;
 
-namespace TumblrThreadTracker.Models.ViewModels
+namespace TumblrThreadTracker.Domain.Blogs
 {
-    public class UserBlog
+    public class BlogDto
     {
         public int UserBlogId { get; set; }
         public int UserId { get; set; }
         public string BlogShortname { get; set; }
-        public List<Thread> Threads { get; set; }
     }
 }
