@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
+using TumblrThreadTracker.Domain.Users;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models;
 using TumblrThreadTracker.Models.DataModels;

@@ -10,6 +10,7 @@ using System.Web.Security;
 using DotNetOpenAuth.AspNet;
 using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
 using Microsoft.Web.WebPages.OAuth;
+using TumblrThreadTracker.Domain.Users;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Repositories;
 using WebMatrix.WebData;

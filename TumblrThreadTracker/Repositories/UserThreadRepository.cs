@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Web;
+using TumblrThreadTracker.Domain.Threads;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models;
 using TumblrThreadTracker.Models.DataModels;
@@ -19,22 +20,22 @@ namespace TumblrThreadTracker.Repositories
             this.context = context;
         }
 
-        public IEnumerable<UserThread> GetUserThreads()
+        public IEnumerable<Thread> GetUserThreads()
         {
             return context.UserThreads.ToList();
         }
 
-        public IEnumerable<UserThread> GetUserThreads(int userBlogId)
+        public IEnumerable<Thread> GetUserThreads(int userBlogId)
         {
             return context.UserThreads.Where(u => u.UserBlogId == userBlogId);
         }
 
-        public UserThread GetUserThreadById(int userThreadId)
+        public Thread GetUserThreadById(int userThreadId)
         {
             return context.UserThreads.Find(userThreadId);
         }
 
-        public void InsertUserThread(UserThread userThread)
+        public void InsertUserThread(Thread userThread)
         {
              context.UserThreads.Add(userThread);
              Save();
@@ -42,14 +43,14 @@ namespace TumblrThreadTracker.Repositories
 
         public void DeleteUserThread(int userThreadId)
         {
-            UserThread userThread = context.UserThreads.Find(userThreadId);
+            Thread userThread = context.UserThreads.Find(userThreadId);
             context.UserThreads.Remove(userThread);
             Save();
         }
 
         public void DeleteUserThreadByPostId(string postId)
         {
-            UserThread userThread = context.UserThreads.FirstOrDefault(t => t.PostId == postId);
+            Thread userThread = context.UserThreads.FirstOrDefault(t => t.PostId == postId);
             if (userThread != null)
             {
                 context.UserThreads.Remove(userThread);
@@ -57,7 +58,7 @@ namespace TumblrThreadTracker.Repositories
             Save();
         }
 
-        public void UpdateUserThread(UserThread userThread)
+        public void UpdateUserThread(Thread userThread)
         {
             context.Entry(userThread).State = EntityState.Modified;
             Save();

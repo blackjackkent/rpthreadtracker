@@ -6,6 +6,9 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Web.Security;
 using System.Web.WebPages.Deployment;
+using TumblrThreadTracker.Domain.Blogs;
+using TumblrThreadTracker.Domain.Threads;
+using TumblrThreadTracker.Domain.Users;
 using TumblrThreadTracker.Models.DataModels;
 
 namespace TumblrThreadTracker.Models
@@ -19,8 +22,8 @@ namespace TumblrThreadTracker.Models
         }
 
         public DbSet<UserProfile> UserProfiles { get; set; }
-        public DbSet<UserBlog> UserBlogs { get; set; }
-        public DbSet<UserThread> UserThreads { get; set; }
+        public DbSet<Blog> UserBlogs { get; set; }
+        public DbSet<Thread> UserThreads { get; set; }
         public DbSet<webpages_Membership> webpages_Membership { get; set; }
     }
 

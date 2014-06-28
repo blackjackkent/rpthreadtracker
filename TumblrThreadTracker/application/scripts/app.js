@@ -10,5 +10,7 @@ angular.module('rpThreadTracker', [
 ]).
 config(['$routeProvider', function($routeProvider) {
   $routeProvider.when('/', {templateUrl: '/application/views/dashboard.html', controller: 'DashboardController'});
-  $routeProvider.otherwise({redirectTo: '/'});
+  $routeProvider.otherwise({ redirectTo: '/' });
+
+    // use the HTML5 History API
 }]);

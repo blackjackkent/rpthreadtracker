@@ -1,34 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Http;
-using TumblrThreadTracker.Factories;
+using TumblrThreadTracker.Domain.Blogs;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models;
-using ViewModels = TumblrThreadTracker.Models.ViewModels;
-using DataModels = TumblrThreadTracker.Models.DataModels;
 using TumblrThreadTracker.Repositories;
+using WebMatrix.WebData;
 
 namespace TumblrThreadTracker.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class BlogController : ApiController
     {
         private readonly IUserBlogRepository _blogRepository;
+        private static int _userId;
 
         public BlogController()
         {
             _blogRepository = new UserBlogRepository(new ThreadTrackerContext());
+            //_userId = WebSecurity.GetUserId(User.Identity.Name);
+            _userId = 7;
         }
 
-        public IEnumerable<ViewModels.UserBlog> Get(int id)
+        public IEnumerable<BlogDto> Get()
         {
-            IEnumerable<ViewModels.UserBlog> blogs = BlogFactory.BuildFromDataModel(_blogRepository.GetUserBlogs(id));
+            IEnumerable<BlogDto> blogs = Blog.GetBlogsByUserId(_userId, _blogRepository);
             return blogs;
         }
 
-        public void Post(ViewModels.UserBlog viewBlog)
+        public void Post(BlogDto viewBlog)
         {
-            DataModels.UserBlog blog = BlogFactory.BuildFromViewModel(viewBlog);
+            Blog blog = new Blog(viewBlog);
             _blogRepository.InsertUserBlog(blog);
         }
 
