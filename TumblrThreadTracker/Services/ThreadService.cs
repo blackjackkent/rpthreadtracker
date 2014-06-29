@@ -20,11 +20,13 @@ namespace TumblrThreadTracker.Services
 
         public static Post GetPost(string postId, string blogShortname) {
             ServiceObject serviceObject = RetrieveApiData(postId, blogShortname);
-            if (serviceObject != null)
+            if (serviceObject != null && serviceObject.response != null)
                 return serviceObject.response.posts.FirstOrDefault();
             RefreshApiCache(postId, blogShortname);
             ServiceObject updatedObject = RetrieveApiData(postId, blogShortname);
-            return updatedObject.response.posts.FirstOrDefault();
+            if (updatedObject != null && updatedObject.response != null)
+                return updatedObject.response.posts.FirstOrDefault();
+            return null;
         }
 
         private static ServiceObject RetrieveApiData(string postId, string blogShortname)
