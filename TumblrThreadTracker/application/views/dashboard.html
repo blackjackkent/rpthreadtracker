@@ -19,57 +19,13 @@
                     <!-- Recent threads tab content -->
                     <div class="widget-threads" id="Div2">
 							
-                        <div class="thread">
+                        <div class="thread" ng-repeat="thread in threads | orderBy:'LastPostDate':true | limitTo:5 " >
                             <img src="/application/images/avatar.png" alt="">
                             <div class="content">
-                                <span>14h</span>
+                                <span>{{thread.LastPostDate * 1000 | date:'medium'}}<br /><a href="#" ng-click="untrackThread(thread.UserThreadId)">Untrack</a></span>
                                 <div>
-                                    <a href="#">Lorem ipsum dolor sit amet</a><br>
-                                    asked by <a href="#" title="">First User</a> in <a href="#" title="">Forum name</a>
-                                </div>
-                            </div>
-                        </div>
-			
-                        <div class="thread">
-                            <img src="/application/images/avatar.png" alt="">
-                            <div class="content">
-                                <span>14h</span>
-                                <div>
-                                    <a href="#">Lorem ipsum dolor sit amet</a><br>
-                                    asked by <a href="#" title="">Second User</a> in <a href="#" title="">Forum name</a>
-                                </div>
-                            </div>
-                        </div>
-			
-                        <div class="thread">
-                            <img src="/application/images/avatar.png" alt="">
-                            <div class="content">
-                                <span>14h</span>
-                                <div>
-                                    <a href="#">Lorem ipsum dolor sit amet</a><br>
-                                    asked by <a href="#" title="">Third User</a> in <a href="#" title="">Forum name</a>
-                                </div>
-                            </div>
-                        </div>
-			
-                        <div class="thread">
-                            <img src="/application/images/avatar.png" alt="">
-                            <div class="content">
-                                <span>14h</span>
-                                <div>
-                                    <a href="#">Lorem ipsum dolor sit amet</a><br>
-                                    asked by <a href="#" title="">Fourth User</a> in <a href="#" title="">Forum name</a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="thread">
-                            <img src="/application/images/avatar.png" alt="">
-                            <div class="content">
-                                <span>14h</span>
-                                <div>
-                                    <a href="#">Lorem ipsum dolor sit amet</a><br>
-                                    asked by <a href="#" title="">Fifth User</a> in <a href="#" title="">Forum name</a>
+                                    <a href="{{thread.LastPostUrl}}">{{thread.UserTitle}}</a><br>
+                                    Last Post by <a href="{{thread.LastPostUrl}}">{{thread.LastPosterShortname}}</a>
                                 </div>
                             </div>
                         </div>

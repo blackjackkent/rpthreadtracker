@@ -4,10 +4,17 @@
 
 angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
   .controller('DashboardController', ['$scope', 'threadService', function($scope, threadService) {
-        threadService.getThreadIds().then(function(data) {
-            $scope.threadIds = data;
-            return data;
-        })
+      function updateThreads(data) {
+          $scope.threads = data;
+          console.log(data);
+      }
+
+        threadService.subscribe(updateThreads);
+        threadService.getThreads();
+
+        $scope.$on("$destroy", function () {
+            threadService.unsubscribe(updateThreads);
+        });
     }])
   .controller('MyCtrl2', ['$scope', function($scope) {
 
