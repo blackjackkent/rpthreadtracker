@@ -83,6 +83,7 @@ namespace TumblrThreadTracker.Domain.Threads
                     dto.LastPosterShortname = mostRecentNote.blog_name;
                     dto.LastPostUrl = mostRecentNote.blog_url + "post/" + mostRecentNote.post_id;
                     dto.LastPostDate = mostRecentNote.timestamp;
+                    dto.IsMyTurn = mostRecentNote.blog_name != blog.BlogShortname;
                 }
             }
             else
@@ -90,6 +91,7 @@ namespace TumblrThreadTracker.Domain.Threads
                 dto.LastPosterShortname = post.blog_name;
                 dto.LastPostUrl = post.post_url;
                 dto.LastPostDate = post.timestamp;
+                dto.IsMyTurn = post.blog_name != blog.BlogShortname;
             }
             return dto;
         }
