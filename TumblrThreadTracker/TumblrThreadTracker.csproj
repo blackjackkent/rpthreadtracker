@@ -278,6 +278,7 @@
     <Content Include="application\styles\default\adminflare.min.css" />
     <Content Include="application\styles\default\bootstrap.css" />
     <Content Include="application\styles\default\bootstrap.min.css" />
+    <Content Include="application\styles\default\custom.css" />
     <Content Include="application\styles\green\adminflare.css" />
     <Content Include="application\styles\green\adminflare.min.css" />
     <Content Include="application\styles\green\bootstrap.css" />
