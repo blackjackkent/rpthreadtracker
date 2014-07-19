@@ -100,12 +100,12 @@ angular.module('rpThreadTracker.services', [])
     ])
     .service('contextService', [
         '$q', '$http', function($q, $http) {
-            var currentSort = 'ascending',
+            var sortDescending = false,
                 currentBlog = '',
                 currentOrderBy = 'LastPostDate';
 
-            function getCurrentSort() {
-                return currentSort;
+            function getSortDescending() {
+                return sortDescending;
             }
 
             function getCurrentBlog() {
@@ -116,8 +116,8 @@ angular.module('rpThreadTracker.services', [])
                 return currentOrderBy;
             }
 
-            function setCurrentSort(sort) {
-                currentSort = sort;
+            function setSortDescending(sort) {
+                sortDescending = sort;
             }
 
             function setCurrentBlog(blogShortname) {
@@ -129,10 +129,10 @@ angular.module('rpThreadTracker.services', [])
             }
 
             return {
-                getCurrentSort: getCurrentSort,
+                getSortDescending: getSortDescending,
                 getCurrentBlog: getCurrentBlog,
                 getCurrentOrderBy: getCurrentOrderBy,
-                setCurrentSort: setCurrentSort,
+                setSortDescending: setSortDescending,
                 setCurrentBlog: setCurrentBlog,
                 setCurrentOrderBy: setCurrentOrderBy
             };

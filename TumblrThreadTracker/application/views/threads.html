@@ -6,30 +6,30 @@
             <option value="LastPostDate">Last Post Date</option>
             <option value="LastPosterShortname">Last Poster</option>
         </select>
-        <select ng-model="currentSort">
-            <option value="descending">Descending</option>
-            <option value="ascending">Ascending</option>
+        <select ng-model="sortDescending">
+            <option value="true">Descending</option>
+            <option value="false">Ascending</option>
         </select>
     </div>
     
     <div class="span3">
         <select ng-model="currentBlog">
             <option value="">All Blogs</option>
-            <option ng-repeat="blog in blogs" value="blog.BlogShortname">{{blog.BlogShortname}}</option>
+            <option ng-repeat="blog in blogs" ng-value="blog.BlogShortname">{{blog.BlogShortname}}</option>
         </select>
     </div>
 </section>
 <section class="row-fluid">
 		
-    <table class="table table-striped">
+    <table class="table table-striped thread-table">
         <tr>
             <th>Thread Title</th>
             <th>Last Poster</th>
             <th>Last Post Date</th>
             <th>&nbsp;</th>
             <th>&nbsp;</th>
-        </tr>
-        <tr ng-repeat="thread in threads">
+        </tr>   
+        <tr ng-repeat="thread in threads | isCurrentBlog:currentBlog | orderBy:currentOrderBy:sortDescending">
             <td>{{thread.UserTitle}}</td>
             <td>
                 <a ng-show="thread.LastPosterShortname != null" href="{{thread.LastPostUrl}}">{{thread.LastPosterShortname}}</a>

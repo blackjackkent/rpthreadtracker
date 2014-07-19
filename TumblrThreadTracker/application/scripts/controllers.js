@@ -19,7 +19,7 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
             threadService.subscribe(updateThreads);
             threadService.getThreads();
             $scope.currentBlog = contextService.getCurrentBlog();
-            $scope.currentSort = contextService.getCurrentSort();
+            $scope.sortDescending = contextService.getSortDescending();
             $scope.currentOrderBy = contextService.getCurrentOrderBy();
 
             blogService.getBlogs().then(function(blogs) {
