@@ -7,7 +7,7 @@
 <!--[if IE 7]><html class="no-js lt-ie9 lt-ie8"><![endif]-->
 <!--[if IE 8]><html class="no-js lt-ie9"><![endif]-->
 <!--[if gt IE 8]><!-->
-<html class="no-js"><!--<![endif]-->
+<html class="no-js" ng-app="rpThreadTracker"><!--<![endif]-->
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -154,10 +154,10 @@
             <div id="left-panel-content">
                 <ul>
                     <li class="active">
-                        <a href="~/application/views/dashboard.html"><span class="icon-dashboard"></span>Dashboard</a>
+                        <a href="/"><span class="icon-dashboard"></span>Dashboard</a>
                     </li>
                     <li>
-                        <a href="~/application/views/layout.html"><span class="icon-list"></span>All Threads</a>
+                        <a href="/threads"><span class="icon-list"></span>All Threads</a>
                     </li>
                     <li>
                         <a href="~/application/views/typography.html"><span class="icon-edit"></span>Your Turn</a>
@@ -176,7 +176,7 @@
         <!-- / Left navigation panel --><!-- Page content
                                             ================================================== -->
         <section class="container">
-            <div id="content" ng-app="rpThreadTracker" ng-view></div>
+            <div id="content" ng-view></div>
         </section>
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-route.js"></script>

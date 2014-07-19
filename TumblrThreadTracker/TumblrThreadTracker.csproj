@@ -293,6 +293,7 @@
     <Content Include="application\styles\red\adminflare.min.css" />
     <Content Include="application\styles\red\bootstrap.css" />
     <Content Include="application\styles\red\bootstrap.min.css" />
+    <Content Include="application\views\threads.html" />
     <Content Include="application\views\dashboard.html" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -367,7 +368,7 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
+          <DevelopmentServerPort>55562</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:54452/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>

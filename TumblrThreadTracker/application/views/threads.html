@@ -1,0 +1,58 @@
+<!-- ================================================== -->
+<section class="row-fluid">
+    <div class="span9">
+        <select ng-model="currentOrderBy" name="currentOrderBy">
+            <option value="UserTitle">Thread Title</option>
+            <option value="LastPostDate">Last Post Date</option>
+            <option value="LastPosterShortname">Last Poster</option>
+        </select>
+        <select ng-model="currentSort">
+            <option value="descending">Descending</option>
+            <option value="ascending">Ascending</option>
+        </select>
+    </div>
+    
+    <div class="span3">
+        <select ng-model="currentBlog">
+            <option value="">All Blogs</option>
+            <option ng-repeat="blog in blogs" value="blog.BlogShortname">{{blog.BlogShortname}}</option>
+        </select>
+    </div>
+</section>
+<section class="row-fluid">
+		
+    <table class="table table-striped">
+        <tr>
+            <th>Thread Title</th>
+            <th>Last Poster</th>
+            <th>Last Post Date</th>
+            <th>&nbsp;</th>
+            <th>&nbsp;</th>
+        </tr>
+        <tr ng-repeat="thread in threads">
+            <td>{{thread.UserTitle}}</td>
+            <td>
+                <a ng-show="thread.LastPosterShortname != null" href="{{thread.LastPostUrl}}">{{thread.LastPosterShortname}}</a>
+                <span ng-show="thread.LastPosterShortname == null">
+                    <span class="error">Not Found</span> 
+                    (<a target="_blank" href="http://tblrthreadtracker.tumblr.com/post/81543993047/i-keep-getting-a-last-poster-not-found-error-in" id="notFoundExplanation" title="Tumblr's web service occasionally claims a thread is not found when it actually exists. It will reappear eventually; until then, this thread is being displayed as your turn regardless of its actual state.">Why am I seeing this?</a>)
+                </span>
+            </td>
+            <td><span ng-show="thread.LastPostDate != null">{{thread.LastPostDate * 1000 | date:'medium'}}</span></td>
+            <td><a href="{{thread.LastPostUrl}}">View</a></td>
+            <td><a href="" ng-click="deleteThread(thread.UserThreadId)">Untrack</a></td>
+        </tr>
+    </table>
+
+</section>
+<!-- / Supported browsers -->
+		
+<!-- Page footer
+    ================================================== -->
+<footer id="main-footer">
+    Copyright © 2014 <a href="http://blackjackkent.tumblr.com">blackjackkent.tumblr.com</a>, all rights reserved.
+    <a href="#" class="pull-right" id="on-top-link">
+        Top&nbsp;<i class=" icon-chevron-up"></i>
+    </a>
+</footer>
+<!-- / Page footer -->
