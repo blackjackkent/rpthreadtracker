@@ -1,3 +1,5 @@
 ﻿.widget-threads .content > span {
     text-align: right;
 }
+
+label { display: inline;line-height: 50%;}

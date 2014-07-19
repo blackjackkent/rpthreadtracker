@@ -3,7 +3,7 @@
 angular.module('rpThreadTracker.services', [])
     .service('threadService', [
         '$q', '$http', function($q, $http) {
-            var _subscribers = [],
+            var subscribers = [],
                 threads = [];
 
             function getThreadIds() {
@@ -35,7 +35,7 @@ angular.module('rpThreadTracker.services', [])
                 });
             };
 
-            var getThread = function(id) {
+            function getThread(id) {
                 var deferred = $q.defer(),
                     config = {
                         url: '/api/Thread/' + id,
@@ -48,20 +48,19 @@ angular.module('rpThreadTracker.services', [])
                 $http(config).then(success);
             };
 
-
             function subscribe(callback) {
-                _subscribers.push(callback);
+                subscribers.push(callback);
             }
 
             function unsubscribe(callback) {
-                var index = _subscribers.indexOf(callback);
+                var index = subscribers.indexOf(callback);
                 if (index > -1) {
-                    _subscribers.splice(index, 1);
+                    subscribers.splice(index, 1);
                 }
             }
 
             function broadcast(data) {
-                angular.forEach(_subscribers, function (callback, key) {
+                angular.forEach(subscribers, function(callback, key) {
                     callback(data);
                 });
             }
@@ -70,6 +69,72 @@ angular.module('rpThreadTracker.services', [])
                 subscribe: subscribe,
                 unsubscribe: unsubscribe,
                 getThreads: getThreads
+            };
+        }
+    ])
+    .service('blogService', [
+        '$q', '$http', function($q, $http) {
+            var blogs = [];
+
+            function getBlogs(force) {
+                var deferred = $q.defer(),
+                    config = {
+                        url: '/api/Blog',
+                        method: 'GET'
+                    },
+                    success = function (response) {
+                        deferred.resolve(response.data);
+                    };
+                if (blogs.length > 0 && !force) {
+                    deferred.resolve(blogs);
+                    return deferred.promise;
+                }
+                $http(config).then(success);
+                return deferred.promise;
+            }
+
+            return {
+                getBlogs: getBlogs
+            };
+        }
+    ])
+    .service('contextService', [
+        '$q', '$http', function($q, $http) {
+            var currentSort = 'ascending',
+                currentBlog = '',
+                currentOrderBy = 'LastPostDate';
+
+            function getCurrentSort() {
+                return currentSort;
+            }
+
+            function getCurrentBlog() {
+                return currentBlog;
+            }
+
+            function getCurrentOrderBy() {
+                return currentOrderBy;
+            }
+
+            function setCurrentSort(sort) {
+                currentSort = sort;
+            }
+
+            function setCurrentBlog(blogShortname) {
+                currentBlog = blogShortname;
+            }
+
+            function setCurrentOrderBy(orderBy) {
+                currentOrderBy = orderBy;
+            }
+
+            return {
+                getCurrentSort: getCurrentSort,
+                getCurrentBlog: getCurrentBlog,
+                getCurrentOrderBy: getCurrentOrderBy,
+                setCurrentSort: setCurrentSort,
+                setCurrentBlog: setCurrentBlog,
+                setCurrentOrderBy: setCurrentOrderBy
             };
         }
     ]);
