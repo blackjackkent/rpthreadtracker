@@ -4,9 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
+using System.Web.Configuration;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.Service_Models;
 using TumblrThreadTracker.Services;
+using WebGrease.Css.Extensions;
 using Blog = TumblrThreadTracker.Domain.Blogs.Blog;
 
 namespace TumblrThreadTracker.Domain.Threads
@@ -47,6 +49,29 @@ namespace TumblrThreadTracker.Domain.Threads
             Blog blog = blogRepository.GetUserBlogById(thread.UserBlogId);
             Post post = ThreadService.GetPost(thread.PostId, blog.BlogShortname);
             return thread.ToDto(blog, post);
+        }
+
+        public static IEnumerable<ThreadDto> GetNewsThreads()
+        {
+            List<ThreadDto> threads = new List<ThreadDto>();
+            IEnumerable<Post> posts = ThreadService.GetNewsPosts(5);
+            foreach (var post in posts)
+            {
+                var thread = new ThreadDto
+                {
+                    BlogShortname = WebConfigurationManager.AppSettings["NewsBlogShortname"],
+                    ContentSnippet = null,
+                    IsMyTurn = false,
+                    LastPostDate = post.timestamp,
+                    LastPostUrl = post.post_url,
+                    LastPosterShortname = WebConfigurationManager.AppSettings["NewsBlogShortname"],
+                    PostId = Convert.ToInt64(post.id),
+                    Type = post.type,
+                    UserTitle = post.title
+                };
+                threads.Add(thread);
+            }
+            return threads;
         }
 
         public ThreadDto ToDto(Blog blog, Post post)
