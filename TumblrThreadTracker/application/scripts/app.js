@@ -10,8 +10,43 @@ angular.module('rpThreadTracker', [
 ]).
 config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
     $routeProvider.when('/', { templateUrl: '/application/views/dashboard.html', controller: 'MainController' });
-    $routeProvider.when('/threads', { templateUrl: '/application/views/threads.html', controller: 'MainController' });
-  $routeProvider.otherwise({ redirectTo: '/' });
+    $routeProvider.when('/', {
+        templateUrl: '/application/views/dashboard.html',
+        controller: 'MainController',
+        resolve: {
+            pageId: function () {
+                return "dashboard";
+            }
+        }
+    });
+    $routeProvider.when('/threads', {
+        templateUrl: '/application/views/threads.html',
+        controller: 'MainController',
+        resolve: {
+            pageId: function () {
+                return "allthreads";
+            }
+        }
+    });
+    $routeProvider.when('/threads/yourturn', {
+        templateUrl: '/application/views/threads.html',
+        controller: 'MainController',
+        resolve: {
+            pageId: function() {
+                return "yourturn";
+            }
+        }
+    });
+    $routeProvider.when('/threads/theirturn', {
+        templateUrl: '/application/views/threads.html',
+        controller: 'MainController',
+        resolve: {
+            pageId: function () {
+                return "theirturn";
+            }
+        }
+    });
+    $routeProvider.otherwise({ redirectTo: '/' });
 
     // use the HTML5 History API
 

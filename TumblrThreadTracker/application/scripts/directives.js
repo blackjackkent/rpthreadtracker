@@ -3,9 +3,18 @@
 /* Directives */
 
 
-angular.module('rpThreadTracker.directives', []).
-  directive('appVersion', ['version', function(version) {
-    return function(scope, elm, attrs) {
-      elm.text(version);
-    };
-  }]);
+angular.module('rpThreadTracker.directives', [])
+    .directive('headerNav', function() {
+        return {
+            restrict: 'E',
+            replace: 'true',
+            templateUrl: '/application/views/directives/header-nav.html'
+        };
+    })
+    .directive('sideNav', function() {
+        return {
+            restrict: 'E',
+            replace: 'true',
+            templateUrl: '/application/views/directives/side-nav.html'
+        };
+    });

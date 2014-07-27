@@ -164,7 +164,7 @@ namespace TumblrThreadTracker.Controllers
 
         public ActionResult GetLatestNews()
         {
-            Thread thread = ThreadService.GetNewsThreads();
+            Thread thread = ThreadService.GetNewsPosts();
             var jsonSerializer = new JavaScriptSerializer();
             string json = jsonSerializer.Serialize(thread);
             return Content(json, "application/json");

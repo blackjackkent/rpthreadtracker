@@ -4,10 +4,11 @@
 
 angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
     .controller('MainController', [
-        '$scope', 'threadService', 'contextService', 'blogService', function($scope, threadService, contextService, blogService) {
+        '$scope', 'threadService', 'contextService', 'blogService', 'newsService', 'pageId', function($scope, threadService, contextService, blogService, newsService, pageId) {
 
             function updateThreads(data) {
                 $scope.threads = data;
+                console.log(data);
                 $scope.myTurnCount = 0;
                 $scope.theirTurnCount = 0;
                 angular.forEach($scope.threads, function(thread) {
@@ -15,6 +16,8 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
                     $scope.theirTurnCount += thread.IsMyTurn ? 0 : 1;
                 });
             }
+
+            $scope.pageId = pageId;
 
             threadService.subscribe(updateThreads);
             threadService.getThreads();
@@ -24,6 +27,10 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
 
             blogService.getBlogs().then(function(blogs) {
                 $scope.blogs = blogs;
+            });
+
+            newsService.getNews().then(function(news) {
+                $scope.news = news;
             });
 
             $scope.$on("$destroy", function() {

@@ -1,0 +1,20 @@
+﻿<nav id="left-panel">
+    <div id="left-panel-content">
+        <ul>
+            <li ng-class="{active: pageId=='dashboard'}">
+                <a href="/"><span class="icon-dashboard"></span>Dashboard</a>
+            </li>
+            <li ng-class="{active: pageId=='allthreads'}">
+                <a href="/threads"><span class="icon-list"></span>All Threads</a>
+            </li>
+            <li ng-class="{active: pageId=='yourturn'}">
+                <a href="/threads/yourturn"><span class="icon-edit"></span>Your Turn</a>
+            </li>
+            <li ng-class="{active: pageId=='theirturn'}">
+                <a href="/threads/theirturn"><span class="icon-check"></span>Their Turn</a>
+            </li>
+        </ul>
+    </div>
+    <div class="icon-caret-down"></div>
+    <div class="icon-caret-up"></div>
+</nav>

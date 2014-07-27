@@ -113,76 +113,12 @@
 	
     </head>
     <body>
-        <!-- Main navigation bar
-            ================================================== -->
-        <header class="navbar navbar-fixed-top" id="main-navbar">
-            <div class="navbar-inner">
-                <div class="container">
-
-                    <div class="nav-collapse collapse">
-                        <ul class="nav">
-                            <li><a href="#"><strong>RPThreadTracker</strong></a></li>
-                            <li class="active"><a href="#">Home</a></li>
-                            <li><a href="#">About</a></li>
-                            <li><a href="#">Contact</a></li>
-                            <li class="divider-vertical"></li>
-                        </ul>
-                        <form class="navbar-search pull-left" action="" _lpchecked="1">
-                            <input type="text" class="search-query" placeholder="Search" style="width: 120px">
-                        </form>
-                        <ul class="nav pull-right">
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle usermenu" data-toggle="dropdown">
-                                    <img alt="Avatar" src="/application/images/avatar.png">
-                                    <span>&nbsp;&nbsp;blackjackkent</span>
-                                </a>
-                            </li>
-                            <li class="separator"></li>
-                            <li>
-                                <a href="#">Log Out</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </header>
-        <!-- / Main navigation bar -->
-	
-        <!-- Left navigation panel
-            ================================================== -->
-        <nav id="left-panel">
-            <div id="left-panel-content">
-                <ul>
-                    <li class="active">
-                        <a href="/"><span class="icon-dashboard"></span>Dashboard</a>
-                    </li>
-                    <li>
-                        <a href="/threads"><span class="icon-list"></span>All Threads</a>
-                    </li>
-                    <li>
-                        <a href="~/application/views/typography.html"><span class="icon-edit"></span>Your Turn</a>
-                    </li>
-                    <li>
-                        <a href="~/application/views/forms.html"><span class="icon-check"></span>Their Turn</a>
-                    </li>
-                    <li>
-                        <a href="~/application/views/forms.html"><span class="icon-unlock"></span>Public View</a>
-                    </li>
-                </ul>
-            </div>
-            <div class="icon-caret-down"></div>
-            <div class="icon-caret-up"></div>
-        </nav>
-        <!-- / Left navigation panel --><!-- Page content
-                                            ================================================== -->
-        <section class="container">
-            <div id="content" ng-view></div>
-        </section>
+        <div ng-view></div>
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.12/angular.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.1/angular-route.js"></script>
         <script src="~/application/scripts/app.js" type="text/javascript"></script>
-        <script src="~/application/scripts/controllers.js" type="text/javascript"></script>
         <script src="~/application/scripts/directives.js" type="text/javascript"></script>
+        <script src="~/application/scripts/controllers.js" type="text/javascript"></script>
         <script src="~/application/scripts/filters.js" type="text/javascript"></script>
         <script src="~/application/scripts/services.js" type="text/javascript"></script>
 

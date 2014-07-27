@@ -9,11 +9,10 @@ namespace TumblrThreadTracker.Controllers
     public class NewsController : ApiController
     {
         // GET api/<controller>
-        public IEnumerable<Thread> Get()
+        public IEnumerable<ThreadDto> Get()
         {
-            /*IEnumerable<Thread> threads = ThreadService.GetNewsThreads(5);
-            return threads;*/
-            throw new NotImplementedException();
+            IEnumerable<ThreadDto> threads = Thread.GetNewsThreads();
+            return threads;
         }
 
         // POST api/<controller>
