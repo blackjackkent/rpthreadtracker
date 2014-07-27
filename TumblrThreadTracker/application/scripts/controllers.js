@@ -8,7 +8,6 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
 
             function updateThreads(data) {
                 $scope.threads = data;
-                console.log(data);
                 $scope.myTurnCount = 0;
                 $scope.theirTurnCount = 0;
                 angular.forEach($scope.threads, function(thread) {
@@ -17,6 +16,15 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
                 });
             }
 
+            $scope.setCurrentBlog = function() {
+                contextService.setCurrentBlog($scope.currentBlog);
+            };
+            $scope.setSortDescending = function() {
+                contextService.setSortDescending($scope.sortDescending);
+            };
+            $scope.setCurrentOrderBy = function() {
+                contextService.setCurrentOrderBy($scope.currentOrderBy);
+            };
             $scope.pageId = pageId;
 
             threadService.subscribe(updateThreads);
