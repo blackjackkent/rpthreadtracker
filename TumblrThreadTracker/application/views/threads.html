@@ -8,19 +8,19 @@
         <!-- ================================================== -->
         <section class="row-fluid">
             <div class="span9">
-                <select ng-model="currentOrderBy" name="currentOrderBy">
+                <select ng-model="currentOrderBy" name="currentOrderBy" ng-change="setCurrentOrderBy()">
                     <option value="UserTitle">Thread Title</option>
                     <option value="LastPostDate">Last Post Date</option>
                     <option value="LastPosterShortname">Last Poster</option>
                 </select>
-                <select ng-model="sortDescending">
+                <select ng-model="sortDescending" ng-change="setSortDescending()">
                     <option value="true">Descending</option>
                     <option value="false">Ascending</option>
                 </select>
             </div>
     
             <div class="span3">
-                <select ng-model="currentBlog">
+                <select ng-model="currentBlog" ng-change="setCurrentBlog()">
                     <option value="">All Blogs</option>
                     <option ng-repeat="blog in blogs" ng-value="blog.BlogShortname">{{blog.BlogShortname}}</option>
                 </select>
