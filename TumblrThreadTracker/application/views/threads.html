@@ -8,6 +8,7 @@
         <!-- ================================================== -->
         <section class="row-fluid">
             <div class="span9">
+                <label class="inline-control-label">Order By: </label>
                 <select ng-model="currentOrderBy" name="currentOrderBy" ng-change="setCurrentOrderBy()">
                     <option value="UserTitle">Thread Title</option>
                     <option value="LastPostDate">Last Post Date</option>
@@ -25,6 +26,10 @@
                     <option ng-repeat="blog in blogs" ng-value="blog.BlogShortname">{{blog.BlogShortname}}</option>
                 </select>
             </div>
+        </section>
+        <section class="row-fluid">
+            <label class="inline-control-label">Share this view publically: </label>
+            <a href="{{publicUrl}}">{{publicUrl}}</a>
         </section>
         <section class="row-fluid">
 		
