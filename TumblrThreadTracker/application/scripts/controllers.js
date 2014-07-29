@@ -32,6 +32,7 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
             $scope.currentBlog = contextService.getCurrentBlog();
             $scope.sortDescending = contextService.getSortDescending();
             $scope.currentOrderBy = contextService.getCurrentOrderBy();
+            $scope.publicUrl = "http://www.rpthreadtracker.com/public/" + pageId + "?userId="
 
             blogService.getBlogs().then(function(blogs) {
                 $scope.blogs = blogs;
