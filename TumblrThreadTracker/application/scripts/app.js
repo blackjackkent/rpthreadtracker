@@ -2,54 +2,75 @@
 
 // Declare app level module which depends on filters, and services
 angular.module('rpThreadTracker', [
-  'ngRoute',
-  'rpThreadTracker.filters',
-  'rpThreadTracker.services',
-  'rpThreadTracker.directives',
-  'rpThreadTracker.controllers'
-]).
-config(['$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
-    $routeProvider.when('/', { templateUrl: '/application/views/dashboard.html', controller: 'MainController' });
-    $routeProvider.when('/', {
-        templateUrl: '/application/views/dashboard.html',
-        controller: 'MainController',
-        resolve: {
-            pageId: function () {
-                return "dashboard";
-            }
-        }
-    });
-    $routeProvider.when('/threads', {
-        templateUrl: '/application/views/threads.html',
-        controller: 'MainController',
-        resolve: {
-            pageId: function () {
-                return "allthreads";
-            }
-        }
-    });
-    $routeProvider.when('/threads/yourturn', {
-        templateUrl: '/application/views/threads.html',
-        controller: 'MainController',
-        resolve: {
-            pageId: function() {
-                return "yourturn";
-            }
-        }
-    });
-    $routeProvider.when('/threads/theirturn', {
-        templateUrl: '/application/views/threads.html',
-        controller: 'MainController',
-        resolve: {
-            pageId: function () {
-                return "theirturn";
-            }
-        }
-    });
-    $routeProvider.otherwise({ redirectTo: '/' });
+        'ngRoute',
+        'rpThreadTracker.filters',
+        'rpThreadTracker.services',
+        'rpThreadTracker.directives',
+        'rpThreadTracker.controllers'
+    ])
+    .config([
+        '$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+            $routeProvider.when('/', { templateUrl: '/application/views/dashboard.html', controller: 'MainController' });
+            $routeProvider.when('/', {
+                templateUrl: '/application/views/dashboard.html',
+                controller: 'MainController',
+                resolve: {
+                    pageId: function() {
+                        return "dashboard";
+                    }
+                }
+            });
+            $routeProvider.when('/threads', {
+                templateUrl: '/application/views/threads.html',
+                controller: 'MainController',
+                resolve: {
+                    pageId: function() {
+                        return "allthreads";
+                    }
+                }
+            });
+            $routeProvider.when('/threads/yourturn', {
+                templateUrl: '/application/views/threads.html',
+                controller: 'MainController',
+                resolve: {
+                    pageId: function() {
+                        return "yourturn";
+                    }
+                }
+            });
+            $routeProvider.when('/threads/theirturn', {
+                templateUrl: '/application/views/threads.html',
+                controller: 'MainController',
+                resolve: {
+                    pageId: function() {
+                        return "theirturn";
+                    }
+                }
+            });
+            $routeProvider.when('/login', {
+                templateUrl: '/application/views/login.html',
+                controller: 'LoginController',
+                resolve: {
+                    pageId: function () {
+                        return "login";
+                    }
+                }
+            });
 
-    // use the HTML5 History API
+            $routeProvider.when('/logout', {
+                templateUrl: '/application/views/login.html',
+                controller: 'LogoutController',
+                resolve: {
+                    pageId: function () {
+                        return "logout";
+                    }
+                }
+            });
+            $routeProvider.otherwise({ redirectTo: '/' });
 
-  $locationProvider.html5Mode(true);
-  $locationProvider.hashPrefix('!');
-}]);
+            // use the HTML5 History API
+
+            $locationProvider.html5Mode(true);
+            $locationProvider.hashPrefix('!');
+        }
+    ]);

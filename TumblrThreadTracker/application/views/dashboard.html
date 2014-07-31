@@ -58,7 +58,7 @@
                     <div class="thread" ng-repeat="thread in news | orderBy:'LastPostDate':true | limitTo:5 " >
                         <img src="/application/images/avatar.png" alt="">
                         <div class="content">
-                            <span>{{thread.LastPostDate * 1000 | date:'medium'}}<br /></span>
+                            <span>{{thread.LastPostDate * 1000 | date:'MM/dd/yyyy'}}<br /></span>
                             <div>
                                 <a href="{{thread.LastPostUrl}}">{{thread.UserTitle}}</a><br>
                             </div>

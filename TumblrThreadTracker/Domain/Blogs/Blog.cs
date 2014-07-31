@@ -38,8 +38,12 @@ namespace TumblrThreadTracker.Domain.Blogs
             };
         }
 
-        public static IEnumerable<BlogDto> GetBlogsByUserId(int id, IUserBlogRepository userBlogRepository)
+        public static IEnumerable<BlogDto> GetBlogsByUserId(int? id, IUserBlogRepository userBlogRepository)
         {
+            if (id == null)
+            {
+                return null;
+            }
             var blogList = new List<BlogDto>();
             IEnumerable<Blog> blogs = userBlogRepository.GetUserBlogs(id);
             foreach (Blog blog in blogs)

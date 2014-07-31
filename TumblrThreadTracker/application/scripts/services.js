@@ -82,7 +82,7 @@ angular.module('rpThreadTracker.services', [])
                         url: '/api/Blog',
                         method: 'GET'
                     },
-                    success = function (response) {
+                    success = function(response) {
                         deferred.resolve(response.data);
                     };
                 if (blogs.length > 0 && !force) {
@@ -99,7 +99,7 @@ angular.module('rpThreadTracker.services', [])
         }
     ])
     .service('newsService', [
-        '$q', '$http', function ($q, $http) {
+        '$q', '$http', function($q, $http) {
             var news = [];
 
             function getNews(force) {
@@ -108,7 +108,7 @@ angular.module('rpThreadTracker.services', [])
                         url: '/api/News',
                         method: 'GET'
                     },
-                    success = function (response) {
+                    success = function(response) {
                         deferred.resolve(response.data);
                     };
                 if (news.length > 0 && !force) {
@@ -154,13 +154,96 @@ angular.module('rpThreadTracker.services', [])
                 currentOrderBy = orderBy;
             }
 
+            function getPublicUrl(pageId, userId) {
+                return "http://www.rpthreadtracker.com/public/" + pageId + "?userId=" + userId + "&currentBlog=" + currentBlog + "&sortDescending=" + sortDescending + "&currentOrderBy=" + currentOrderBy;
+            }
+
             return {
                 getSortDescending: getSortDescending,
                 getCurrentBlog: getCurrentBlog,
                 getCurrentOrderBy: getCurrentOrderBy,
                 setSortDescending: setSortDescending,
                 setCurrentBlog: setCurrentBlog,
-                setCurrentOrderBy: setCurrentOrderBy
+                setCurrentOrderBy: setCurrentOrderBy,
+                getPublicUrl: getPublicUrl
+            };
+        }
+    ])
+    .service('sessionService', [
+        '$q', '$http', function($q, $http) {
+            var userId = 0;
+
+            function getUserId(force) {
+                var deferred = $q.defer(),
+                    config = {
+                        url: '/api/User',
+                        method: 'GET'
+                    },
+                    success = function (response) {
+                        deferred.resolve(response.data);
+                    };
+                if (userId != 0 && !force) {
+                    deferred.resolve(userId);
+                    return deferred.promise;
+                }
+                $http(config).then(success);
+                return deferred.promise;
+            }
+
+            function isLoggedIn() {
+                var deferred = $q.defer(),
+                    config = {
+                        method: 'GET',
+                        url: '/api/User'
+                    },
+                    success = function(response, status, headers, config) {
+                        deferred.resolve(true);
+                    },
+                    error = function(data) {
+                        deferred.reject(false);
+                    };
+                $http(config).then(success).catch(error);
+                return deferred.promise;
+            }
+
+            function login(username, password) {
+                var deferred = $q.defer(),
+                    config = {
+                        method: 'POST',
+                        url: '/api/Session',
+                        data: { UserName: username, Password: password }
+                    },
+                    success = function (response, status, headers, config) {
+                        deferred.resolve(response.data);
+                    },
+                    error = function (data) {
+                        deferred.reject(data);
+                    };
+                $http(config).then(success).catch(error);
+                return deferred.promise;
+            }
+
+            function logout() {
+                var deferred = $q.defer(),
+                    config = {
+                        method: 'DELETE',
+                        url: '/api/Session'
+                    },
+                    success = function (response, status, headers, config) {
+                        deferred.resolve(response.data);
+                    },
+                    error = function (data) {
+                        deferred.reject(data);
+                    };
+                $http(config).then(success).catch(error);
+                return deferred.promise;
+            }
+
+            return {
+                isLoggedIn: isLoggedIn,
+                login: login,
+                logout: logout,
+                getUserId: getUserId
             };
         }
     ]);

@@ -13,17 +13,20 @@ namespace TumblrThreadTracker.Controllers
     public class BlogController : ApiController
     {
         private readonly IUserBlogRepository _blogRepository;
-        private static int _userId;
+        private static int? _userId;
 
         public BlogController()
         {
             _blogRepository = new UserBlogRepository(new ThreadTrackerContext());
-            //_userId = WebSecurity.GetUserId(User.Identity.Name);
-            _userId = 7;
+            _userId = WebSecurity.GetUserId(User.Identity.Name);
         }
 
         public IEnumerable<BlogDto> Get()
         {
+            if (_userId == null)
+            {
+                return null;
+            }
             IEnumerable<BlogDto> blogs = Blog.GetBlogsByUserId(_userId, _blogRepository);
             return blogs;
         }

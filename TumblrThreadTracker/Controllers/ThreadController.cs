@@ -24,8 +24,7 @@ namespace TumblrThreadTracker.Controllers
         {
             _blogRepository = new UserBlogRepository(new ThreadTrackerContext());
             _threadRepository = new UserThreadRepository(new ThreadTrackerContext());
-           // _userId = WebSecurity.GetUserId(User.Identity.Name);
-            _userId = 7;
+            _userId = WebSecurity.GetUserId(User.Identity.Name);
         }
 
         // GET api/<controller>
