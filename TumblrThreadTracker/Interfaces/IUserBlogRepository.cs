@@ -7,7 +7,7 @@ namespace TumblrThreadTracker.Interfaces
     public interface IUserBlogRepository : IDisposable
     {
         IEnumerable<Blog> GetUserBlogs();
-        IEnumerable<Blog> GetUserBlogs(int userProfileId);
+        IEnumerable<Blog> GetUserBlogs(int? userProfileId);
         Blog GetUserBlogById(int userBlogId);
         void InsertUserBlog(Blog userBlog);
         void DeleteUserBlog(int userBlogId);

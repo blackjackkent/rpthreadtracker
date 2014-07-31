@@ -175,6 +175,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BlogController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ThreadController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
@@ -295,6 +297,7 @@
     <Content Include="application\styles\red\bootstrap.min.css" />
     <Content Include="application\views\directives\header-nav.html" />
     <Content Include="application\views\directives\side-nav.html" />
+    <Content Include="application\views\login.html" />
     <Content Include="application\views\threads.html" />
     <Content Include="application\views\dashboard.html" />
     <Content Include="favicon.ico" />

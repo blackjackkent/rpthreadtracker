@@ -444,9 +444,11 @@
     margin-bottom: 10px;
   }
 }
-body.signin-page {
-  background: #292929 url("../../images/left-menu-bg.png");
+body.signin-page, .signin-page {
+  background: #292929 url("/application/images/left-menu-bg.png");
   padding: 0;
+    height: 100%;
+    width: 100%;
 }
 .signin-page {
   /* ======================================================================= */
