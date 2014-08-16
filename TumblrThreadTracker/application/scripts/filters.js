@@ -9,6 +9,9 @@ angular.module('rpThreadTracker.filters', [])
                 return threads;
             }
             var out = [];
+            if (!threads) {
+                return out;
+            }
             for (var i = 0; i < threads.length; i++) {
                 if (threads[i].BlogShortname == blogShortname) {
                     out.push(threads[i]);
@@ -28,6 +31,10 @@ angular.module('rpThreadTracker.filters', [])
                 return threads;
 
             var out = [];
+
+            if (!threads) {
+                return out;
+            }
             for (var i = 0; i < threads.length; i++) {
                 if (threads[i].IsMyTurn == isMyTurnValue) {
                     out.push(threads[i]);

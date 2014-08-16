@@ -47,6 +47,10 @@ angular.module('rpThreadTracker', [
                     }
                 }
             });
+            $routeProvider.when('/public/:pageId', {
+                templateUrl: '/application/views/public.html',
+                controller: 'PublicController'
+            });
             $routeProvider.when('/login', {
                 templateUrl: '/application/views/login.html',
                 controller: 'LoginController',
