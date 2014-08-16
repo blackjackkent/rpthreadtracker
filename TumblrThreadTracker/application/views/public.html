@@ -1,0 +1,29 @@
+﻿<header>
+    <h3><a href="/">RPThreadTracker</a> | {{publicTitleString}}</h3>
+</header>
+<div class="container">
+    <section class="row-fluid">
+		
+        <table class="table table-striped thread-table">
+            <tr>
+                <th>Thread Title</th>
+                <th>Last Poster</th>
+                <th>Last Post Date</th>
+                <th>&nbsp;</th>
+                <th>&nbsp;</th>
+            </tr>   
+            <tr ng-repeat="thread in threads | isCurrentBlog:currentBlog | isCorrectTurn:pageId | orderBy:currentOrderBy:sortDescending">
+                <td>{{thread.UserTitle}}</td>
+                <td>
+                    <a ng-show="thread.LastPosterShortname != null" href="{{thread.LastPostUrl}}">{{thread.LastPosterShortname}}</a>
+                    <span ng-show="thread.LastPosterShortname == null">
+                        <span class="error">Not Found</span> 
+                        (<a target="_blank" href="http://tblrthreadtracker.tumblr.com/post/81543993047/i-keep-getting-a-last-poster-not-found-error-in" id="notFoundExplanation" title="Tumblr's web service occasionally claims a thread is not found when it actually exists. It will reappear eventually; until then, this thread is being displayed as your turn regardless of its actual state.">Why am I seeing this?</a>)
+                    </span>
+                </td>
+                <td><span ng-show="thread.LastPostDate != null">{{thread.LastPostDate * 1000 | date:'medium'}}</span></td>
+                <td><a target="_blank" href="{{thread.LastPostUrl}}">View</a></td>
+            </tr>
+        </table>
+    </section>
+</div>
