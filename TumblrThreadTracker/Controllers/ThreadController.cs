@@ -33,9 +33,9 @@ namespace TumblrThreadTracker.Controllers
             return Thread.GetById(id, _blogRepository, _threadRepository);
         }
 
-        public IEnumerable<int> Get()
+        public IEnumerable<int?> Get()
         {
-            var ids = new List<int>();
+            var ids = new List<int?>();
             var blogs = Blog.GetBlogsByUserId(_userId, _blogRepository);
             foreach (var blog in blogs)
             {
@@ -45,10 +45,18 @@ namespace TumblrThreadTracker.Controllers
         }
 
         // POST api/<controller>
-        public void Post(string postId, int userBlogId, string userTitle)
+        public void Post(long postId, string blogShortname, string userTitle)
         {
-           /* UserThread thread = ThreadFactory.BuildDataModel(postId, userBlogId, userTitle);
-            _threadRepository.InsertUserThread(thread);*/
+            BlogDto blog = Blog.GetBlogByShortname(blogShortname, _userId, _blogRepository);
+            ThreadDto dto = new ThreadDto
+            {
+                UserThreadId = null,
+                PostId = postId,
+                BlogShortname = blogShortname,
+                UserBlogId = blog.UserBlogId,
+                UserTitle = userTitle
+            };
+            Thread.AddNewThread(dto, _threadRepository);
         }
 
         // PUT api/<controller>/5

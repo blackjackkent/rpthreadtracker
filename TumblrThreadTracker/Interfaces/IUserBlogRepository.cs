@@ -9,6 +9,7 @@ namespace TumblrThreadTracker.Interfaces
         IEnumerable<Blog> GetUserBlogs();
         IEnumerable<Blog> GetUserBlogs(int? userProfileId);
         Blog GetUserBlogById(int userBlogId);
+        Blog GetUserBlogByShortname(string blogShortname, int userId);
         void InsertUserBlog(Blog userBlog);
         void DeleteUserBlog(int userBlogId);
         void UpdateUserBlog(Blog userBlog);

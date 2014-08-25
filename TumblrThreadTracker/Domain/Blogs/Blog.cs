@@ -23,9 +23,12 @@ namespace TumblrThreadTracker.Domain.Blogs
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int UserBlogId { get; set; }
+
         public int UserId { get; set; }
+
         [ForeignKey("UserId")]
         public UserProfile UserProfile { get; set; }
+
         public string BlogShortname { get; set; }
 
         public BlogDto ToDto()
@@ -41,16 +44,20 @@ namespace TumblrThreadTracker.Domain.Blogs
         public static IEnumerable<BlogDto> GetBlogsByUserId(int? id, IUserBlogRepository userBlogRepository)
         {
             if (id == null)
-            {
                 return null;
-            }
             var blogList = new List<BlogDto>();
             IEnumerable<Blog> blogs = userBlogRepository.GetUserBlogs(id);
             foreach (Blog blog in blogs)
-            {
                 blogList.Add(blog.ToDto());
-            }
             return blogList;
+        }
+
+        public static BlogDto GetBlogByShortname(string shortname, int userId, IUserBlogRepository userBlogRepository)
+        {
+            if (shortname == null)
+                return null;
+            Blog blog = userBlogRepository.GetUserBlogByShortname(shortname, userId);
+            return blog.ToDto();
         }
     }
 }

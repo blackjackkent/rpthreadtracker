@@ -16,7 +16,6 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
 
             $scope.setBodyClass('');
             sessionService.isLoggedIn().catch(function(isLoggedIn) {
-                console.log(isLoggedIn);
                 if (!isLoggedIn) {
                     $location.path('/login');
                 }
@@ -98,6 +97,40 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
             publicThreadService.subscribe(updateThreads);
             publicThreadService.getThreads($scope.userId, $scope.currentBlog);
 
+        }
+    ])
+    .controller('AddThreadController', [
+        '$scope', '$routeParams', '$location', 'sessionService', 'contextService', 'blogService', 'threadService', 'pageId', function ($scope, $routeParams, $location, sessionService, contextService, blogService, threadService, pageId) {
+            $scope.setBodyClass('');
+            sessionService.isLoggedIn().catch(function (isLoggedIn) {
+                if (!isLoggedIn) {
+                    $location.path('/login');
+                }
+            });
+            function success() {
+                $location.path('/threads');
+            }
+            function failure() {
+                $scope.genericError = "There was a problem tracking your thread.";
+            }
+            $scope.pageId = pageId;
+            $scope.currentBlog = contextService.getCurrentBlog();
+            $scope.addNewThread = function() {
+                if (!$scope.currentBlog || !$scope.postId || !$scope.userTitle) {
+                    return;
+                }
+                threadService.flushThreads();
+                threadService.addNewThread($scope.currentBlog, $scope.postId, $scope.userTitle).then(success, failure);
+            }
+            sessionService.getUserId().then(function (id) {
+                $scope.userId = id;
+            });
+            blogService.getBlogs().then(function (blogs) {
+                $scope.blogs = blogs;
+                if (!$scope.currentBlog) {
+                    $scope.currentBlog = blogs[0].BlogShortname;
+                }
+            });
         }
     ])
     .controller('LoginController', [
