@@ -30,14 +30,14 @@ namespace TumblrThreadTracker.Domain.Threads
 
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
-        public int UserThreadId { get; set; }
+        public int? UserThreadId { get; set; }
         public int UserBlogId { get; set; }
         [ForeignKey("UserBlogId")]
         public Blog UserBlog { get; set; }
         public string PostId { get; set; }
         public string UserTitle { get; set; }
 
-        public static IEnumerable<int> GetThreadIdsByBlogId(int blogId, IUserThreadRepository threadRepository)
+        public static IEnumerable<int?> GetThreadIdsByBlogId(int blogId, IUserThreadRepository threadRepository)
         {
             IEnumerable<Thread> threads = threadRepository.GetUserThreads(blogId);
             return threads.Select(t => t.UserThreadId);
@@ -49,6 +49,11 @@ namespace TumblrThreadTracker.Domain.Threads
             Blog blog = blogRepository.GetUserBlogById(thread.UserBlogId);
             Post post = ThreadService.GetPost(thread.PostId, blog.BlogShortname);
             return thread.ToDto(blog, post);
+        }
+
+        public static void AddNewThread(ThreadDto threadDto, IUserThreadRepository threadRepository)
+        {
+            threadRepository.InsertUserThread(new Thread(threadDto));
         }
 
         public static IEnumerable<ThreadDto> GetNewsThreads()

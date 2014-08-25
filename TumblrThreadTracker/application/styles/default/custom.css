@@ -1,14 +1,47 @@
-﻿.widget-threads .content > span {
-    text-align: right;
+﻿.widget-threads .content > span { text-align: right; }
+
+.error-message { color: #f00; }
+
+label {
+    display: inline;
+    line-height: 50%;
 }
-.error-message { color: #f00;}
 
-label { display: inline;line-height: 50%;}
-label.inline-control-label { line-height: 30px;vertical-align: top;}
+label.inline-control-label {
+    line-height: 30px;
+    vertical-align: top;
+}
 
-#recent-news .thread a:first-child { font-size: 12px;}
-.signin-page a.header { margin: 0 auto 10px;margin-top: 100px;width: auto;}
-.public-link-alert { font-size: 12px;text-align: center;}
+#recent-news .thread a:first-child { font-size: 12px; }
 
-.error-page header { height: auto;text-align: center;}
-.error-page header a { display: inline;}
+.signin-page a.header {
+    margin: 0 auto 10px;
+    margin-top: 100px;
+    width: auto;
+}
+
+.public-link-alert {
+    font-size: 12px;
+    text-align: center;
+}
+
+.error-page header {
+    height: auto;
+    text-align: center;
+}
+
+.error-page header a { display: inline; }
+
+.help-block.alert.alert-info {
+    margin-top: 10px;
+    width: 400px;
+}
+
+
+.help-block.alert.alert-info.inline {
+    display: inline-block;
+    margin-left: 10px;
+    vertical-align: top;
+    margin-top: -1px;
+    width: 200px;
+}

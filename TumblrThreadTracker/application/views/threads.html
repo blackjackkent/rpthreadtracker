@@ -8,16 +8,18 @@
         <!-- ================================================== -->
         <section class="row-fluid">
             <div class="span9">
-                <label class="inline-control-label">Order By: </label>
-                <select ng-model="currentOrderBy" name="currentOrderBy" ng-change="setCurrentOrderBy()">
-                    <option value="UserTitle">Thread Title</option>
-                    <option value="LastPostDate">Last Post Date</option>
-                    <option value="LastPosterShortname">Last Poster</option>
-                </select>
-                <select ng-model="sortDescending" ng-change="setSortDescending()">
-                    <option value="true">Descending</option>
-                    <option value="false">Ascending</option>
-                </select>
+                <form class="form-inline">
+                    <label class="inline-control-label">Order By: </label>
+                    <select ng-model="currentOrderBy" name="currentOrderBy" ng-change="setCurrentOrderBy()">
+                        <option value="UserTitle">Thread Title</option>
+                        <option value="LastPostDate">Last Post Date</option>
+                        <option value="LastPosterShortname">Last Poster</option>
+                    </select>
+                    <select ng-model="sortDescending" ng-change="setSortDescending()">
+                        <option value="true">Descending</option>
+                        <option value="false">Ascending</option>
+                    </select>
+                </form>
             </div>
     
             <div class="span3">

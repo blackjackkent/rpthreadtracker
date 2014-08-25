@@ -9,7 +9,7 @@ namespace TumblrThreadTracker.Domain.Threads
 {
     public class ThreadDto
     {
-        public int UserThreadId { get; set; }
+        public int? UserThreadId { get; set; }
         public long PostId { get; set; }
         public string UserTitle { get; set; }
         public string Type { get; set; }

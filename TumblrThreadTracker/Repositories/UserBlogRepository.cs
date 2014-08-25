@@ -35,6 +35,11 @@ namespace TumblrThreadTracker.Repositories
             return context.UserBlogs.Find(userBlogId);
         }
 
+        public Blog GetUserBlogByShortname(string blogShortname, int userId)
+        {
+            return context.UserBlogs.FirstOrDefault(b => b.BlogShortname == blogShortname && b.UserId == userId);
+        }
+
         public void InsertUserBlog(Blog userBlog)
         {
              context.UserBlogs.Add(userBlog);

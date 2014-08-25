@@ -31,9 +31,9 @@ namespace TumblrThreadTracker.Controllers
             return Thread.GetById(id, _blogRepository, _threadRepository);
         }
 
-        public IEnumerable<int> Get(int userId, string blogShortname)
+        public IEnumerable<int?> Get(int userId, string blogShortname)
         {
-            var ids = new List<int>();
+            var ids = new List<int?>();
             var blogs = new List<BlogDto>();
             blogs = !string.IsNullOrEmpty(blogShortname) 
                 ? Blog.GetBlogsByUserId(userId, _blogRepository).Where(b => b.BlogShortname == blogShortname).ToList() 

@@ -48,6 +48,26 @@ angular.module('rpThreadTracker.services', [])
                 $http(config).then(success);
             };
 
+            function flushThreads() {
+                threads = [];
+            }
+
+            function addNewThread(blogShortname, postId, userTitle) {
+                var deferred = $q.defer(),
+                config = {
+                    url: '/api/Thread?postId=' + postId + '&blogShortname=' + blogShortname + '&userTitle=' + userTitle,
+                    method: "POST"
+                },
+                success = function (response, status, headers, config) {
+                    deferred.resolve(response.data);
+                },
+                error = function (response, status, headers, config) {
+                    deferred.reject(response);
+                };
+                $http(config).then(success).catch(error);
+                return deferred.promise;
+            }
+
             function subscribe(callback) {
                 subscribers.push(callback);
             }
@@ -68,7 +88,9 @@ angular.module('rpThreadTracker.services', [])
             return {
                 subscribe: subscribe,
                 unsubscribe: unsubscribe,
-                getThreads: getThreads
+                getThreads: getThreads,
+                addNewThread: addNewThread,
+                flushThreads: flushThreads
             };
         }
     ])
