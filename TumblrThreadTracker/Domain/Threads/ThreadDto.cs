@@ -17,6 +17,7 @@ namespace TumblrThreadTracker.Domain.Threads
         public int UserBlogId { get; set; }
         public string BlogShortname { get; set; }
         public string LastPosterShortname { get; set; }
+        public string WatchedShortname { get; set; }
         public string LastPostUrl { get; set; }
         public long? LastPostDate { get; set; }
         public bool IsMyTurn { get; set; }

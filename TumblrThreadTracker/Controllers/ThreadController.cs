@@ -45,7 +45,7 @@ namespace TumblrThreadTracker.Controllers
         }
 
         // POST api/<controller>
-        public void Post(long postId, string blogShortname, string userTitle)
+        public void Post(long postId, string blogShortname, string userTitle, string watchedShortname)
         {
             BlogDto blog = Blog.GetBlogByShortname(blogShortname, _userId, _blogRepository);
             ThreadDto dto = new ThreadDto
@@ -54,7 +54,8 @@ namespace TumblrThreadTracker.Controllers
                 PostId = postId,
                 BlogShortname = blogShortname,
                 UserBlogId = blog.UserBlogId,
-                UserTitle = userTitle
+                UserTitle = userTitle,
+                WatchedShortname = watchedShortname
             };
             Thread.AddNewThread(dto, _threadRepository);
         }
