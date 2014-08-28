@@ -26,6 +26,7 @@ namespace TumblrThreadTracker.Domain.Threads
             UserBlogId = dto.UserBlogId;
             PostId = dto.PostId.ToString();
             UserTitle = dto.UserTitle;
+            WatchedShortname = dto.WatchedShortname;
         }
 
         [Key]
@@ -36,6 +37,7 @@ namespace TumblrThreadTracker.Domain.Threads
         public Blog UserBlog { get; set; }
         public string PostId { get; set; }
         public string UserTitle { get; set; }
+        public string WatchedShortname { get; set; }
 
         public static IEnumerable<int?> GetThreadIdsByBlogId(int blogId, IUserThreadRepository threadRepository)
         {
@@ -93,7 +95,8 @@ namespace TumblrThreadTracker.Domain.Threads
                     PostId = Convert.ToInt64(PostId),
                     Type = null,
                     UserThreadId = 0,
-                    UserTitle = UserTitle
+                    UserTitle = UserTitle,
+                    WatchedShortname = WatchedShortname
                 };
             }
             var dto = new ThreadDto
@@ -103,7 +106,8 @@ namespace TumblrThreadTracker.Domain.Threads
                 UserTitle = UserTitle,
                 Type = post.type,
                 BlogShortname = blog.BlogShortname,
-                UserBlogId = blog.UserBlogId
+                UserBlogId = blog.UserBlogId,
+                WatchedShortname = WatchedShortname
             };
             if (post.notes != null && post.notes.Any(n => n.type == "reblog"))
             {
@@ -113,7 +117,9 @@ namespace TumblrThreadTracker.Domain.Threads
                     dto.LastPosterShortname = mostRecentNote.blog_name;
                     dto.LastPostUrl = mostRecentNote.blog_url + "post/" + mostRecentNote.post_id;
                     dto.LastPostDate = mostRecentNote.timestamp;
-                    dto.IsMyTurn = mostRecentNote.blog_name != blog.BlogShortname;
+                    dto.IsMyTurn = !string.IsNullOrEmpty(WatchedShortname)
+                        ? mostRecentNote.blog_name == WatchedShortname
+                        : mostRecentNote.blog_name != blog.BlogShortname;
                 }
             }
             else
@@ -121,7 +127,9 @@ namespace TumblrThreadTracker.Domain.Threads
                 dto.LastPosterShortname = post.blog_name;
                 dto.LastPostUrl = post.post_url;
                 dto.LastPostDate = post.timestamp;
-                dto.IsMyTurn = post.blog_name != blog.BlogShortname;
+                dto.IsMyTurn = !string.IsNullOrEmpty(WatchedShortname)
+                        ? post.blog_name == WatchedShortname
+                        : post.blog_name != blog.BlogShortname;
             }
             return dto;
         }

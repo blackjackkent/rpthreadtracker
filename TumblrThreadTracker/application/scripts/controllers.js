@@ -115,12 +115,13 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
             }
             $scope.pageId = pageId;
             $scope.currentBlog = contextService.getCurrentBlog();
+            $scope.watchedShortname = "";
             $scope.addNewThread = function() {
                 if (!$scope.currentBlog || !$scope.postId || !$scope.userTitle) {
                     return;
                 }
                 threadService.flushThreads();
-                threadService.addNewThread($scope.currentBlog, $scope.postId, $scope.userTitle).then(success, failure);
+                threadService.addNewThread($scope.currentBlog, $scope.postId, $scope.userTitle, $scope.watchedShortname).then(success, failure);
             }
             sessionService.getUserId().then(function (id) {
                 $scope.userId = id;

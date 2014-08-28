@@ -42,6 +42,15 @@
                         </div>
                     </div>
                     <div class="control-group">
+                        <label class="control-label" for="watchedShortname">Watch For:</label>
+                        <div class="controls">
+                            <input type="text" name="watchedShortname" ng-model="watchedShortname" placeholder="Partner shortname">
+                            <span class="help-block alert alert-info">This should be the shortname of the user whose posts you are watching for.
+                                (In other words, when this user posts, the thread is marked as your turn.)<br />
+                                If left blank, the thread will be marked as your turn whenever the last poster is not you.</span>
+                        </div>
+                    </div>
+                    <div class="control-group">
                         <div class='controls'>
                             <button type="submit" class="btn">Add Thread</button>
                         </div>
