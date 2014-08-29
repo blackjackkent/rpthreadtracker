@@ -71,6 +71,16 @@ angular.module('rpThreadTracker', [
                 }
             });
 
+            $routeProvider.when('/edit-thread/:userThreadId', {
+                templateUrl: '/application/views/add-thread.html',
+                controller: 'EditThreadController',
+                resolve: {
+                    pageId: function () {
+                        return "edit-thread";
+                    }
+                }
+            });
+
             $routeProvider.when('/logout', {
                 templateUrl: '/application/views/login.html',
                 controller: 'LogoutController',
