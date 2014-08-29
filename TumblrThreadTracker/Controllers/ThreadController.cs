@@ -48,8 +48,12 @@ namespace TumblrThreadTracker.Controllers
         // POST api/<controller>
         public void Post(ThreadUpdateRequest request)
         {
-            BlogDto blog = Blog.GetBlogByShortname(request.BlogShortname, _userId, _blogRepository);
-            ThreadDto dto = new ThreadDto
+            if (request == null)
+            {
+                throw new ArgumentNullException();
+            }
+            var blog = Blog.GetBlogByShortname(request.BlogShortname, _userId, _blogRepository);
+            var dto = new ThreadDto
             {
                 UserThreadId = null,
                 PostId = request.PostId,
@@ -62,9 +66,23 @@ namespace TumblrThreadTracker.Controllers
         }
 
         // PUT api/<controller>/5
-        public void Put(int id, [FromBody] string value)
+        public void Put(ThreadUpdateRequest request)
         {
-            throw new NotImplementedException();
+            if (request == null || request.UserThreadId == null)
+            {
+                throw new ArgumentNullException();
+            }
+            var blog = Blog.GetBlogByShortname(request.BlogShortname, _userId, _blogRepository);
+            var dto = new ThreadDto
+            {
+                UserThreadId = request.UserThreadId,
+                PostId = request.PostId,
+                BlogShortname = request.BlogShortname,
+                UserBlogId = blog.UserBlogId,
+                UserTitle = request.UserTitle,
+                WatchedShortname = request.WatchedShortname
+            };
+            Thread.UpdateThread(dto, _threadRepository);
         }
 
         // DELETE api/<controller>/5

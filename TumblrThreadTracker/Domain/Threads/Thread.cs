@@ -58,6 +58,11 @@ namespace TumblrThreadTracker.Domain.Threads
             threadRepository.InsertUserThread(new Thread(threadDto));
         }
 
+        public static void UpdateThread(ThreadDto dto, IUserThreadRepository threadRepository)
+        {
+            threadRepository.UpdateUserThread(new Thread(dto));
+        }
+
         public static IEnumerable<ThreadDto> GetNewsThreads()
         {
             List<ThreadDto> threads = new List<ThreadDto>();

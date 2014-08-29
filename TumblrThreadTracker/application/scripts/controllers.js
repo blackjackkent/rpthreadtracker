@@ -116,7 +116,7 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
             $scope.pageId = pageId;
             $scope.currentBlog = contextService.getCurrentBlog();
             $scope.watchedShortname = "";
-            $scope.addNewThread = function() {
+            $scope.submitThread = function () {
                 if (!$scope.currentBlog || !$scope.postId || !$scope.userTitle) {
                     return;
                 }
@@ -131,6 +131,47 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
                 if (!$scope.currentBlog) {
                     $scope.currentBlog = blogs[0].BlogShortname;
                 }
+            });
+        }
+    ])
+    .controller('EditThreadController', [
+        '$scope', '$routeParams', '$location', 'sessionService', 'contextService', 'blogService', 'threadService', 'pageId', function ($scope, $routeParams, $location, sessionService, contextService, blogService, threadService, pageId) {
+            $scope.setBodyClass('');
+            sessionService.isLoggedIn().catch(function (isLoggedIn) {
+                if (!isLoggedIn) {
+                    $location.path('/login');
+                }
+            });
+            function success() {
+                $location.path('/threads');
+            }
+            function failure() {
+                $scope.genericError = "There was a problem editing your thread.";
+            }
+            $scope.pageId = pageId;
+            $scope.userThreadId = $routeParams.userThreadId;
+            threadService.getStandaloneThread($scope.userThreadId).then(function(thread) {
+                console.log(thread);
+                $scope.currentBlog = thread.BlogShortname;
+                $scope.userTitle = thread.UserTitle;
+                $scope.postId = thread.PostId;
+                $scope.watchedShortname = thread.WatchedShortname;
+                return blogService.getBlogs();
+            }).then(function (blogs) {
+                $scope.blogs = blogs;
+                if (!$scope.currentBlog) {
+                    $scope.currentBlog = blogs[0].BlogShortname;
+                }
+            });
+            $scope.submitThread = function() {
+                if (!$scope.currentBlog || !$scope.postId || !$scope.userTitle) {
+                    return;
+                }
+                threadService.flushThreads();
+                threadService.editThread($scope.userThreadId, $scope.currentBlog, $scope.postId, $scope.userTitle, $scope.watchedShortname).then(success, failure);
+            };
+            sessionService.getUserId().then(function (id) {
+                $scope.userId = id;
             });
         }
     ])

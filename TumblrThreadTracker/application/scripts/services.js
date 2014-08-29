@@ -48,6 +48,22 @@ angular.module('rpThreadTracker.services', [])
                 $http(config).then(success);
             };
 
+            function getStandaloneThread(id) {
+                var deferred = $q.defer(),
+                    config = {
+                        url: '/api/Thread/' + id,
+                        method: 'GET'
+                    },
+                    success = function (response) {
+                        deferred.resolve(response.data);
+                    },
+                    error = function(response) {
+                        deferred.reject(response.data);
+                    }
+                $http(config).then(success).catch(error);
+                return deferred.promise;
+            };
+
             function flushThreads() {
                 threads = [];
             }
@@ -58,6 +74,29 @@ angular.module('rpThreadTracker.services', [])
                     url: '/api/Thread',
                     method: "POST",
                     data: {
+                        PostId: postId,
+                        BlogShortname: blogShortname,
+                        UserTitle: userTitle,
+                        watchedShortname: watchedShortname
+                    }
+                },
+                success = function (response, status, headers, config) {
+                    deferred.resolve(response.data);
+                },
+                error = function (response, status, headers, config) {
+                    deferred.reject(response);
+                };
+                $http(config).then(success).catch(error);
+                return deferred.promise;
+            }
+
+            function editThread(userThreadId, blogShortname, postId, userTitle, watchedShortname) {
+                var deferred = $q.defer(),
+                config = {
+                    url: '/api/Thread',
+                    method: "PUT",
+                    data: {
+                        UserThreadId: userThreadId,
                         PostId: postId,
                         BlogShortname: blogShortname,
                         UserTitle: userTitle,
@@ -95,7 +134,9 @@ angular.module('rpThreadTracker.services', [])
                 subscribe: subscribe,
                 unsubscribe: unsubscribe,
                 getThreads: getThreads,
+                getStandaloneThread: getStandaloneThread,
                 addNewThread: addNewThread,
+                editThread: editThread,
                 flushThreads: flushThreads
             };
         }
