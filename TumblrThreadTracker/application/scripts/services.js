@@ -55,8 +55,14 @@ angular.module('rpThreadTracker.services', [])
             function addNewThread(blogShortname, postId, userTitle, watchedShortname) {
                 var deferred = $q.defer(),
                 config = {
-                    url: '/api/Thread?postId=' + postId + '&blogShortname=' + blogShortname + '&userTitle=' + userTitle + "&watchedShortname=" + watchedShortname,
-                    method: "POST"
+                    url: '/api/Thread',
+                    method: "POST",
+                    data: {
+                        PostId: postId,
+                        BlogShortname: blogShortname,
+                        UserTitle: userTitle,
+                        watchedShortname: watchedShortname
+                    }
                 },
                 success = function (response, status, headers, config) {
                     deferred.resolve(response.data);
