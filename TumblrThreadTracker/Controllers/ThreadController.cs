@@ -7,6 +7,7 @@ using TumblrThreadTracker.Domain.Blogs;
 using TumblrThreadTracker.Domain.Threads;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models;
+using TumblrThreadTracker.Models.RequestModels;
 using TumblrThreadTracker.Repositories;
 using TumblrThreadTracker.Services;
 using WebMatrix.WebData;
@@ -45,17 +46,17 @@ namespace TumblrThreadTracker.Controllers
         }
 
         // POST api/<controller>
-        public void Post(long postId, string blogShortname, string userTitle, string watchedShortname)
+        public void Post(ThreadUpdateRequest request)
         {
-            BlogDto blog = Blog.GetBlogByShortname(blogShortname, _userId, _blogRepository);
+            BlogDto blog = Blog.GetBlogByShortname(request.BlogShortname, _userId, _blogRepository);
             ThreadDto dto = new ThreadDto
             {
                 UserThreadId = null,
-                PostId = postId,
-                BlogShortname = blogShortname,
+                PostId = request.PostId,
+                BlogShortname = request.BlogShortname,
                 UserBlogId = blog.UserBlogId,
-                UserTitle = userTitle,
-                WatchedShortname = watchedShortname
+                UserTitle = request.UserTitle,
+                WatchedShortname = request.WatchedShortname
             };
             Thread.AddNewThread(dto, _threadRepository);
         }
