@@ -59,6 +59,11 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
                 $scope.news = news;
             });
 
+            $scope.untrackThread = function (userThreadId) {
+                threadService.flushThreads();
+                threadService.untrackThread(userThreadId).then(threadService.getThreads());
+            };
+
             $scope.$on("$destroy", function() {
                 threadService.unsubscribe(updateThreads);
             });

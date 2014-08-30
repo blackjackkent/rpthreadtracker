@@ -113,6 +113,22 @@ angular.module('rpThreadTracker.services', [])
                 return deferred.promise;
             }
 
+            function untrackThread(userThreadId) {
+                var deferred = $q.defer(),
+                config = {
+                    url: '/api/Thread?userThreadId=' + userThreadId,
+                    method: "DELETE"
+                },
+                success = function (response, status, headers, config) {
+                    deferred.resolve(response.data);
+                },
+                error = function (response, status, headers, config) {
+                    deferred.reject(response);
+                };
+                $http(config).then(success).catch(error);
+                return deferred.promise;
+            }
+
             function subscribe(callback) {
                 subscribers.push(callback);
             }
@@ -137,6 +153,7 @@ angular.module('rpThreadTracker.services', [])
                 getStandaloneThread: getStandaloneThread,
                 addNewThread: addNewThread,
                 editThread: editThread,
+                untrackThread: untrackThread,
                 flushThreads: flushThreads
             };
         }
