@@ -86,9 +86,9 @@ namespace TumblrThreadTracker.Controllers
         }
 
         // DELETE api/<controller>/5
-        public void Delete(string id)
+        public void Delete(int userThreadId)
         {
-            _threadRepository.DeleteUserThreadByPostId(id);
+            _threadRepository.DeleteUserThread(userThreadId);
         }
     }
 }
