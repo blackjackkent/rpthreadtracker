@@ -17,4 +17,11 @@ angular.module('rpThreadTracker.directives', [])
             replace: 'true',
             templateUrl: '/application/views/directives/side-nav.html'
         };
+    })
+    .directive('footer', function () {
+        return {
+            restrict: 'E',
+            replace: 'true',
+            templateUrl: '/application/views/directives/footer.html'
+        };
     });
