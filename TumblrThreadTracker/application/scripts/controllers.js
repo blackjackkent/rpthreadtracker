@@ -180,6 +180,14 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
             });
         }
     ])
+    .controller('StaticController', [
+        '$scope', 'pageId', function ($scope, pageId) {
+            $scope.setBodyClass('');
+            $scope.pageId = pageId;
+            console.log(pageId);
+            $scope.publicView = true;
+        }
+    ])
     .controller('LoginController', [
         '$scope', '$location', 'sessionService', function($scope, $location, sessionService) {
             var success = function() {

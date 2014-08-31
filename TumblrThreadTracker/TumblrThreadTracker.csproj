@@ -298,6 +298,7 @@
     <Content Include="application\styles\red\bootstrap.css" />
     <Content Include="application\styles\red\bootstrap.min.css" />
     <Content Include="application\views\add-thread.html" />
+    <Content Include="application\views\about.html" />
     <Content Include="application\views\directives\header-nav.html" />
     <Content Include="application\views\directives\side-nav.html" />
     <Content Include="application\views\login.html" />

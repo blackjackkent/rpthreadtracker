@@ -4,13 +4,13 @@
 
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li><a href="#"><strong>RPThreadTracker</strong></a></li>
-                    <li class="active"><a href="#">Home</a></li>
-                    <li><a href="#">About</a></li>
-                    <li><a href="#">Contact</a></li>
+                    <li><a href="/"><strong>RPThreadTracker</strong></a></li>
+                    <li ng-class="{active: pageId=='about'}"><a href="/about">About</a></li>
+                    <li ng-class="{active: pageId=='contact'}"><a href="/contact">Contact</a></li>
+                    <li ng-class="{active: pageId=='help'}"><a href="/help">Help</a></li>
                     <li class="divider-vertical"></li>
-                    <li><a href="/add-thread">Track New Thread</a></li>
-                    <li><a href="/manage-blogs">Manage Blogs</a></li>
+                    <li ng-hide="publicView"><a href="/add-thread">Track New Thread</a></li>
+                    <li ng-hide="publicView"><a href="/manage-blogs">Manage Blogs</a></li>
                 </ul>
                 <ul class="nav pull-right">
                     <li class="dropdown">

@@ -81,6 +81,36 @@ angular.module('rpThreadTracker', [
                 }
             });
 
+            $routeProvider.when('/about', {
+                templateUrl: '/application/views/about.html',
+                controller: 'StaticController',
+                resolve: {
+                    pageId: function () {
+                        return "about";
+                    }
+                }
+            });
+
+            $routeProvider.when('/contact', {
+                templateUrl: '/application/views/contact.html',
+                controller: 'StaticController',
+                resolve: {
+                    pageId: function () {
+                        return "contact";
+                    }
+                }
+            });
+
+            $routeProvider.when('/help', {
+                templateUrl: '/application/views/help.html',
+                controller: 'StaticController',
+                resolve: {
+                    pageId: function () {
+                        return "help";
+                    }
+                }
+            });
+
             $routeProvider.when('/logout', {
                 templateUrl: '/application/views/login.html',
                 controller: 'LogoutController',
