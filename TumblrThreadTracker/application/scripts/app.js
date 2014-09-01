@@ -81,6 +81,16 @@ angular.module('rpThreadTracker', [
                 }
             });
 
+            $routeProvider.when('/manage-blogs', {
+                templateUrl: '/application/views/manage-blogs.html',
+                controller: 'ManageBlogsController',
+                resolve: {
+                    pageId: function () {
+                        return "manage-blogs";
+                    }
+                }
+            });
+
             $routeProvider.when('/about', {
                 templateUrl: '/application/views/about.html',
                 controller: 'StaticController',

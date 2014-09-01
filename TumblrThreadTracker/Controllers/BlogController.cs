@@ -42,9 +42,9 @@ namespace TumblrThreadTracker.Controllers
             throw new NotImplementedException();
         }
 
-        public void Delete(int id)
+        public void Delete(int userBlogId)
         {
-            _blogRepository.DeleteUserBlog(id);
+            _blogRepository.DeleteUserBlog(userBlogId);
         }
     }
 }

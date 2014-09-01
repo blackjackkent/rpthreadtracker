@@ -41,7 +41,9 @@ label.inline-control-label {
 .help-block.alert.alert-info.inline {
     display: inline-block;
     margin-left: 10px;
-    vertical-align: top;
     margin-top: -1px;
+    vertical-align: top;
     width: 200px;
 }
+
+.blog-table td { border: none; }

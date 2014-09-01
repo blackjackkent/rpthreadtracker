@@ -250,8 +250,29 @@ angular.module('rpThreadTracker.services', [])
                 return deferred.promise;
             }
 
+            function flushBlogs() {
+                blogs = [];
+            }
+
+            function untrackBlog(userBlogId) {
+                var deferred = $q.defer(),
+                config = {
+                    url: '/api/Blog?userBlogId=' + userBlogId,
+                    method: "DELETE"
+                },
+                success = function (response, status, headers, config) {
+                    deferred.resolve(response.data);
+                },
+                error = function (response, status, headers, config) {
+                    deferred.reject(response);
+                };
+                $http(config).then(success).catch(error);
+                return deferred.promise;
+            }
             return {
-                getBlogs: getBlogs
+                getBlogs: getBlogs,
+                flushBlogs: flushBlogs,
+                untrackBlog: untrackBlog
             };
         }
     ])

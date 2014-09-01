@@ -121,13 +121,13 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
             $scope.pageId = pageId;
             $scope.currentBlog = contextService.getCurrentBlog();
             $scope.watchedShortname = "";
-            $scope.submitThread = function () {
+            $scope.submitThread = function() {
                 if (!$scope.currentBlog || !$scope.postId || !$scope.userTitle) {
                     return;
                 }
                 threadService.flushThreads();
                 threadService.addNewThread($scope.currentBlog, $scope.postId, $scope.userTitle, $scope.watchedShortname).then(success, failure);
-            }
+            };
             sessionService.getUserId().then(function (id) {
                 $scope.userId = id;
             });
@@ -175,6 +175,35 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
                 threadService.flushThreads();
                 threadService.editThread($scope.userThreadId, $scope.currentBlog, $scope.postId, $scope.userTitle, $scope.watchedShortname).then(success, failure);
             };
+            sessionService.getUserId().then(function (id) {
+                $scope.userId = id;
+            });
+        }
+    ])
+    .controller('ManageBlogsController', [
+        '$scope', '$location', 'sessionService', 'blogService', 'pageId', function ($scope, $location, sessionService, blogService, pageId) {
+            $scope.setBodyClass('');
+            sessionService.isLoggedIn().catch(function (isLoggedIn) {
+                if (!isLoggedIn) {
+                    $location.path('/login');
+                }
+            });
+            function success() {
+                blogService.flushBlogs();
+                blogService.getBlogs().then(function (blogs) {
+                    $scope.blogs = blogs;
+                });
+            }
+            function failure() {
+                $scope.genericError = "There was a problem updating your blogs.";
+            }
+            $scope.untrackBlog = function (userBlogId) {
+                blogService.untrackBlog(userBlogId).then(success).catch(failure);
+            };
+            $scope.pageId = pageId;
+            blogService.getBlogs().then(function (blogs) {
+                $scope.blogs = blogs;
+            });
             sessionService.getUserId().then(function (id) {
                 $scope.userId = id;
             });

@@ -2,18 +2,17 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Web;
 using TumblrThreadTracker.Domain.Blogs;
+using TumblrThreadTracker.Domain.Threads;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models;
-using TumblrThreadTracker.Models.DataModels;
 
 namespace TumblrThreadTracker.Repositories
 {
     public class UserBlogRepository : IUserBlogRepository
     {
-        private bool disposed = false;
-        private ThreadTrackerContext context;
+        private readonly ThreadTrackerContext context;
+        private bool disposed;
 
         public UserBlogRepository(ThreadTrackerContext context)
         {
@@ -42,14 +41,17 @@ namespace TumblrThreadTracker.Repositories
 
         public void InsertUserBlog(Blog userBlog)
         {
-             context.UserBlogs.Add(userBlog);
-             Save();
+            context.UserBlogs.Add(userBlog);
+            Save();
         }
 
         public void DeleteUserBlog(int userBlogId)
         {
             Blog userBlog = context.UserBlogs.Find(userBlogId);
+            List<Thread> threads = context.UserThreads.Where(t => t.UserBlogId == userBlogId).ToList();
             context.UserBlogs.Remove(userBlog);
+            foreach (Thread thread in threads)
+                context.UserThreads.Remove(thread);
             Save();
         }
 
@@ -64,22 +66,22 @@ namespace TumblrThreadTracker.Repositories
             context.SaveChanges();
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!disposed)
             {
                 if (disposing)
                 {
                     context.Dispose();
                 }
             }
-            this.disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            disposed = true;
         }
     }
 }
