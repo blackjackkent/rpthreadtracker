@@ -1,0 +1,53 @@
+<header-nav></header-nav>
+<side-nav></side-nav>
+
+
+<section class="container">
+    <div id="content">
+
+        <!-- ================================================== -->
+        <section class="row-fluid">
+            <form class="form-horizontal" name="newBlogForm" ng-submit="createBlog()">
+                <fieldset>
+                    <legend>Add a New Blog</legend>
+                    <p>Enter the shortname of your blog below to connect it to your account. The shortname is the part of the URL before "tumblr.com", 
+                        i.e. http://<strong>shortname</strong>.tumblr.com.</p><br />
+                 
+                    <p class="alert alert-error" ng-show="newBlogForm.userTitle.$error.required && newBlogForm.userTitle.$dirty">You must enter a blog shortname.</p>
+                    
+                    <div class="control-group">
+                        <label class="control-label" for="newBlogShortname">Blog shortname:</label>
+                        <div class="controls">
+                            <input type="text" id="Text1" name="newBlogShortname" required ng-model="newBlogShortname" placeholder="Shortname">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class='controls'>
+                            <button type="submit" class="btn">Add Blog</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+            
+            <fieldset>
+                <legend>Manage Existing Blogs</legend>
+                <table class="table table-striped blog-table">
+                    <tr ng-repeat="blog in blogs | orderBy:'BlogShortname'">
+                        <td>{{blog.BlogShortname}}</td>
+                        <td><a href="/edit-blog/{{blog.UserBlogId}}">Edit</a></td>
+                        <td><a href="" ng-click="untrackBlog(blog.UserBlogId)">Untrack</a></td>
+                    </tr>
+                </table>
+            </fieldset>
+        </section>
+        
+        <!-- / Supported browsers -->
+		
+        <!-- Page footer
+            ================================================== -->
+        <footer></footer>
+        <!-- / Page footer -->
+        
+                
+    </div>
+</section>
