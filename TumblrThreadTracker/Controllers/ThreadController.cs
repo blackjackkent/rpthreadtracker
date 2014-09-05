@@ -58,7 +58,7 @@ namespace TumblrThreadTracker.Controllers
                 UserThreadId = null,
                 PostId = request.PostId,
                 BlogShortname = request.BlogShortname,
-                UserBlogId = blog.UserBlogId,
+                UserBlogId = blog.UserBlogId != null ? blog.UserBlogId.Value : -1,
                 UserTitle = request.UserTitle,
                 WatchedShortname = request.WatchedShortname
             };
@@ -78,7 +78,7 @@ namespace TumblrThreadTracker.Controllers
                 UserThreadId = request.UserThreadId,
                 PostId = request.PostId,
                 BlogShortname = request.BlogShortname,
-                UserBlogId = blog.UserBlogId,
+                UserBlogId = blog.UserBlogId != null ? blog.UserBlogId.Value : -1,
                 UserTitle = request.UserTitle,
                 WatchedShortname = request.WatchedShortname
             };

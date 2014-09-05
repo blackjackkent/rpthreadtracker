@@ -22,7 +22,7 @@ namespace TumblrThreadTracker.Domain.Blogs
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int UserBlogId { get; set; }
+        public int? UserBlogId { get; set; }
 
         public int UserId { get; set; }
 
@@ -58,6 +58,11 @@ namespace TumblrThreadTracker.Domain.Blogs
                 return null;
             Blog blog = userBlogRepository.GetUserBlogByShortname(shortname, userId);
             return blog.ToDto();
+        }
+
+        public static void AddNewBlog(BlogDto dto, IUserBlogRepository blogRepository)
+        {
+            blogRepository.InsertUserBlog(new Blog(dto));
         }
     }
 }

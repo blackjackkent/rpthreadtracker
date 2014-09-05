@@ -39,8 +39,12 @@ namespace TumblrThreadTracker.Domain.Threads
         public string UserTitle { get; set; }
         public string WatchedShortname { get; set; }
 
-        public static IEnumerable<int?> GetThreadIdsByBlogId(int blogId, IUserThreadRepository threadRepository)
+        public static IEnumerable<int?> GetThreadIdsByBlogId(int? blogId, IUserThreadRepository threadRepository)
         {
+            if (blogId == null)
+            {
+                return new List<int?>();
+            }
             IEnumerable<Thread> threads = threadRepository.GetUserThreads(blogId);
             return threads.Select(t => t.UserThreadId);
         }
@@ -111,7 +115,7 @@ namespace TumblrThreadTracker.Domain.Threads
                 UserTitle = UserTitle,
                 Type = post.type,
                 BlogShortname = blog.BlogShortname,
-                UserBlogId = blog.UserBlogId,
+                UserBlogId = blog.UserBlogId != null ? blog.UserBlogId.Value : -1,
                 WatchedShortname = WatchedShortname
             };
             if (post.notes != null && post.notes.Any(n => n.type == "reblog"))

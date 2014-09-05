@@ -254,6 +254,25 @@ angular.module('rpThreadTracker.services', [])
                 blogs = [];
             }
 
+            function createBlog(blogShortname) {
+                var deferred = $q.defer(),
+                config = {
+                    url: '/api/Blog',
+                    method: "POST",
+                    data: {
+                        BlogShortname: blogShortname
+                    }
+                },
+                success = function (response, status, headers, config) {
+                    deferred.resolve(response.data);
+                },
+                error = function (response, status, headers, config) {
+                    deferred.reject(response);
+                };
+                $http(config).then(success).catch(error);
+                return deferred.promise;
+            }
+
             function untrackBlog(userBlogId) {
                 var deferred = $q.defer(),
                 config = {
@@ -272,6 +291,7 @@ angular.module('rpThreadTracker.services', [])
             return {
                 getBlogs: getBlogs,
                 flushBlogs: flushBlogs,
+                createBlog: createBlog,
                 untrackBlog: untrackBlog
             };
         }
