@@ -10,7 +10,7 @@ namespace TumblrThreadTracker.Interfaces
     public interface IUserThreadRepository : IDisposable
     {
         IEnumerable<Thread> GetUserThreads();
-        IEnumerable<Thread> GetUserThreads(int userBlogId);
+        IEnumerable<Thread> GetUserThreads(int? userBlogId);
         Thread GetUserThreadById(int userThreadId);
         void InsertUserThread(Thread userThread);
         void DeleteUserThread(int userThreadId);

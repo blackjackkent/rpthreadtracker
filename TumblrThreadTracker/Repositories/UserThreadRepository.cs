@@ -25,8 +25,12 @@ namespace TumblrThreadTracker.Repositories
             return context.UserThreads.ToList();
         }
 
-        public IEnumerable<Thread> GetUserThreads(int userBlogId)
+        public IEnumerable<Thread> GetUserThreads(int? userBlogId)
         {
+            if (userBlogId == null)
+            {
+                return null;
+            }
             return context.UserThreads.Where(u => u.UserBlogId == userBlogId);
         }
 

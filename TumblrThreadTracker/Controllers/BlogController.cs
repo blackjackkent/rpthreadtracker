@@ -4,12 +4,13 @@ using System.Web.Http;
 using TumblrThreadTracker.Domain.Blogs;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models;
+using TumblrThreadTracker.Models.RequestModels;
 using TumblrThreadTracker.Repositories;
 using WebMatrix.WebData;
 
 namespace TumblrThreadTracker.Controllers
 {
-    //[Authorize]
+    [Authorize]
     public class BlogController : ApiController
     {
         private readonly IUserBlogRepository _blogRepository;
@@ -31,10 +32,18 @@ namespace TumblrThreadTracker.Controllers
             return blogs;
         }
 
-        public void Post(BlogDto viewBlog)
+        public void Post(BlogUpdateRequest request)
         {
-            Blog blog = new Blog(viewBlog);
-            _blogRepository.InsertUserBlog(blog);
+            if (request == null || _userId == null)
+            {
+                throw new ArgumentNullException();
+            }
+            var dto = new BlogDto
+            {
+                UserId = _userId.Value,
+                BlogShortname = request.BlogShortname,
+            };
+            Blog.AddNewBlog(dto, _blogRepository);
         }
 
         public void Put(int id, [FromBody] string value)

@@ -189,6 +189,8 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
                 }
             });
             function success() {
+                $scope.newBlogForm.$setPristine();
+                $scope.newBlogShortname = '';
                 blogService.flushBlogs();
                 blogService.getBlogs().then(function (blogs) {
                     $scope.blogs = blogs;
@@ -196,6 +198,11 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
             }
             function failure() {
                 $scope.genericError = "There was a problem updating your blogs.";
+            }
+            $scope.createBlog = function() {
+                if ($scope.newBlogShortname != '') {
+                    blogService.createBlog($scope.newBlogShortname).then(success).catch(failure);
+                }
             }
             $scope.untrackBlog = function (userBlogId) {
                 blogService.untrackBlog(userBlogId).then(success).catch(failure);
