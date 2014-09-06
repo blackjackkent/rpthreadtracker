@@ -22,6 +22,11 @@ namespace TumblrThreadTracker.Controllers
             _userId = WebSecurity.GetUserId(User.Identity.Name);
         }
 
+        public BlogDto Get(int id)
+        {
+            return Blog.GetBlogById(id, _blogRepository);
+        }
+
         public IEnumerable<BlogDto> Get()
         {
             if (_userId == null)
@@ -46,9 +51,19 @@ namespace TumblrThreadTracker.Controllers
             Blog.AddNewBlog(dto, _blogRepository);
         }
 
-        public void Put(int id, [FromBody] string value)
+        public void Put(BlogUpdateRequest request)
         {
-            throw new NotImplementedException();
+            if (request == null || request.UserBlogId == null)
+            {
+                throw new ArgumentNullException();
+            }
+            var dto = new BlogDto
+            {
+                BlogShortname = request.BlogShortname,
+                UserBlogId = request.UserBlogId,
+                UserId = _userId != null ? _userId.Value : -1
+            };
+            Blog.UpdateBlog(dto, _blogRepository);
         }
 
         public void Delete(int userBlogId)

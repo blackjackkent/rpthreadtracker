@@ -80,7 +80,6 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
             $scope.publicTitleString = buildPublicTitleString();
 
             function updateThreads(data) {
-                console.log(data);
                 $scope.threads = data;
             }
 
@@ -156,7 +155,6 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
             $scope.pageId = pageId;
             $scope.userThreadId = $routeParams.userThreadId;
             threadService.getStandaloneThread($scope.userThreadId).then(function(thread) {
-                console.log(thread);
                 $scope.currentBlog = thread.BlogShortname;
                 $scope.userTitle = thread.UserTitle;
                 $scope.postId = thread.PostId;
@@ -216,11 +214,41 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
             });
         }
     ])
+    .controller('EditBlogController', [
+        '$scope', '$routeParams', '$location', 'sessionService', 'contextService', 'blogService', 'threadService', 'pageId', function ($scope, $routeParams, $location, sessionService, contextService, blogService, threadService, pageId) {
+            $scope.setBodyClass('');
+            sessionService.isLoggedIn().catch(function (isLoggedIn) {
+                if (!isLoggedIn) {
+                    $location.path('/login');
+                }
+            });
+            function success() {
+                $location.path('/manage-blogs');
+            }
+            function failure() {
+                $scope.genericError = "There was a problem editing your blog.";
+            }
+            $scope.pageId = pageId;
+            $scope.userBlogId = $routeParams.userBlogId;
+            blogService.getStandaloneBlog($scope.userBlogId).then(function(blog) {
+                $scope.blogToEdit = blog;
+            });
+            $scope.submitBlog = function () {
+                if (!$scope.newBlogShortname) {
+                    return;
+                }
+                blogService.flushBlogs();
+                blogService.editBlog($scope.userBlogId, $scope.newBlogShortname).then(success, failure);
+            };
+            sessionService.getUserId().then(function (id) {
+                $scope.userId = id;
+            });
+        }
+    ])
     .controller('StaticController', [
         '$scope', 'pageId', function ($scope, pageId) {
             $scope.setBodyClass('');
             $scope.pageId = pageId;
-            console.log(pageId);
             $scope.publicView = true;
         }
     ])
