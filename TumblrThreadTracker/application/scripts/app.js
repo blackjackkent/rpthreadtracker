@@ -91,6 +91,16 @@ angular.module('rpThreadTracker', [
                 }
             });
 
+            $routeProvider.when('/edit-blog/:userBlogId', {
+                templateUrl: '/application/views/edit-blog.html',
+                controller: 'EditBlogController',
+                resolve: {
+                    pageId: function () {
+                        return "edit-blog";
+                    }
+                }
+            });
+
             $routeProvider.when('/about', {
                 templateUrl: '/application/views/about.html',
                 controller: 'StaticController',

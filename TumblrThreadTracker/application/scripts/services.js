@@ -250,6 +250,23 @@ angular.module('rpThreadTracker.services', [])
                 return deferred.promise;
             }
 
+            function getStandaloneBlog(id) {
+                var deferred = $q.defer(),
+                    config = {
+                        url: '/api/Blog/' + id,
+                        method: 'GET'
+                    },
+                    success = function (response) {
+                        console.log(id);
+                        deferred.resolve(response.data);
+                    },
+                    error = function (response) {
+                        deferred.reject(response.data);
+                    }
+                $http(config).then(success).catch(error);
+                return deferred.promise;
+            };
+
             function flushBlogs() {
                 blogs = [];
             }
@@ -261,6 +278,26 @@ angular.module('rpThreadTracker.services', [])
                     method: "POST",
                     data: {
                         BlogShortname: blogShortname
+                    }
+                },
+                success = function (response, status, headers, config) {
+                    deferred.resolve(response.data);
+                },
+                error = function (response, status, headers, config) {
+                    deferred.reject(response);
+                };
+                $http(config).then(success).catch(error);
+                return deferred.promise;
+            }
+
+            function editBlog(userBlogId, newBlogShortname) {
+                var deferred = $q.defer(),
+                config = {
+                    url: '/api/Blog',
+                    method: "PUT",
+                    data: {
+                        UserBlogId: userBlogId,
+                        BlogShortname: newBlogShortname
                     }
                 },
                 success = function (response, status, headers, config) {
@@ -290,8 +327,10 @@ angular.module('rpThreadTracker.services', [])
             }
             return {
                 getBlogs: getBlogs,
+                getStandaloneBlog: getStandaloneBlog,
                 flushBlogs: flushBlogs,
                 createBlog: createBlog,
+                editBlog: editBlog,
                 untrackBlog: untrackBlog
             };
         }

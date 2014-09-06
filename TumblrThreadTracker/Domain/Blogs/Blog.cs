@@ -41,6 +41,12 @@ namespace TumblrThreadTracker.Domain.Blogs
             };
         }
 
+        public static BlogDto GetBlogById(int userBlogId, IUserBlogRepository blogRepository)
+        {
+            Blog blog = blogRepository.GetUserBlogById(userBlogId);
+            return blog.ToDto();
+        }
+
         public static IEnumerable<BlogDto> GetBlogsByUserId(int? id, IUserBlogRepository userBlogRepository)
         {
             if (id == null)
@@ -63,6 +69,11 @@ namespace TumblrThreadTracker.Domain.Blogs
         public static void AddNewBlog(BlogDto dto, IUserBlogRepository blogRepository)
         {
             blogRepository.InsertUserBlog(new Blog(dto));
+        }
+
+        public static void UpdateBlog(BlogDto dto, IUserBlogRepository blogRepository)
+        {
+            blogRepository.UpdateUserBlog(new Blog(dto));
         }
     }
 }
