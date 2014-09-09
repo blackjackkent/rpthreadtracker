@@ -9,7 +9,7 @@
                     <li ng-class="{active: pageId=='contact'}"><a href="/contact">Contact</a></li>
                     <li ng-class="{active: pageId=='help'}"><a href="/help">Help</a></li>
                     <li class="divider-vertical"></li>
-                    <li ng-hide="publicView"><a href="/add-thread">Track New Thread</a></li>
+                    <li ng-hide="publicView || blogs.length == 0"><a href="/add-thread">Track New Thread</a></li>
                     <li ng-hide="publicView"><a href="/manage-blogs">Manage Blogs</a></li>
                 </ul>
                 <ul class="nav pull-right">

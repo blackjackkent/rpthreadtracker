@@ -1,4 +1,6 @@
-﻿.widget-threads .content > span { text-align: right; }
+﻿.widget-threads .content { margin-left: 0;}
+.widget-threads .content > span { text-align: right; }
+.widget-threads .refresh-link { float: left;}
 
 .error-message { color: #f00; }
 

@@ -14,6 +14,7 @@
                         i.e. http://<strong>shortname</strong>.tumblr.com.</p><br />
                  
                     <p class="alert alert-error" ng-show="newBlogForm.newBlogShortname.$error.required && newBlogForm.newBlogShortname.$dirty">You must enter a blog shortname.</p>
+                    <p class="alert alert-error" ng-show="genericError">{{genericError}}</p>
                     
                     <div class="control-group">
                         <label class="control-label" for="newBlogShortname">Blog shortname:</label>
@@ -26,6 +27,8 @@
                             <button type="submit" class="btn">Add Blog</button>
                         </div>
                     </div>
+                    
+                    <p class="alert alert-success" ng-show="showSuccessMessage">Blogs updated. Type a new shortname to add another blog to track, or click "Track New Thread" to add a thread for one of the blogs below.</p>
                 </fieldset>
             </form>
             
@@ -36,6 +39,9 @@
                         <td>{{blog.BlogShortname}}</td>
                         <td><a href="/edit-blog/{{blog.UserBlogId}}">Edit</a></td>
                         <td><a href="" ng-click="untrackBlog(blog.UserBlogId)">Untrack</a></td>
+                    </tr>
+                    <tr ng-show="blogs.length == 0">
+                        <td>You have not yet added any blogs.</td>
                     </tr>
                 </table>
             </fieldset>
