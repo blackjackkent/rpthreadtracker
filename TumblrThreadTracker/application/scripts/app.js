@@ -147,4 +147,21 @@ angular.module('rpThreadTracker', [
             $locationProvider.html5Mode(true);
             $locationProvider.hashPrefix('!');
         }
-    ]);
+    ])
+    .config([
+    '$httpProvider', function ($httpProvider) {
+        $httpProvider.interceptors.push([
+            '$q', '$location', function ($q, $location) {
+                return {
+                    responseError: function (response) {
+                        if (response.status == '401') {
+                            $location.path('/login');
+                        } else {
+                            return $q.reject(response);
+                        }
+                    }
+                };
+            }
+        ]);
+    }
+]);

@@ -7,7 +7,7 @@
 
         <!-- ================================================== -->
         <section class="row-fluid">
-            <div class="span9">
+            <div class="span8">
                 <form class="form-inline">
                     <label class="inline-control-label">Order By: </label>
                     <select ng-model="currentOrderBy" name="currentOrderBy" ng-change="setCurrentOrderBy()">
@@ -25,9 +25,12 @@
             <div class="span3">
                 <select ng-model="currentBlog" ng-change="setCurrentBlog()">
                     <option value="">All Blogs</option>
-                    <option ng-repeat="blog in blogs" ng-value="blog.BlogShortname">{{blog.BlogShortname}}</option>
+                    <option ng-repeat="blog in blogs | orderBy:'BlogShortname'" ng-value="blog.BlogShortname">{{blog.BlogShortname}}</option>
                 </select>
+                
             </div>
+            <div class="span1">
+                                    <a href="#" class="btn refresh-link" ng-click="refreshThreads()">Refresh</a></div>
         </section>
         <section class="row-fluid alert alert-info public-link-alert">
             Share this view publically:
@@ -46,17 +49,22 @@
                     <th>&nbsp;</th>
                     <th>&nbsp;</th>
                 </tr>   
+                
+                <tr>
+                    <td ng-show="blogs.length == 0"colspan="6" class="alert public-link-alert">You have not yet added any blogs on which to track threads. Click "Manage Blogs" to get started.</td>
+                    <td ng-show="blogs.length > 0 && threads.length == 0" colspan="6" class="alert alert-info public-link-alert">You are not yet tracking any threads. Click "Track New Thread" to track a thread from one of your current blogs.</td>
+                </tr>
                 <tr ng-repeat="thread in threads | isCurrentBlog:currentBlog | isCorrectTurn:pageId | orderBy:currentOrderBy:sortDescending">
                     <td>{{thread.UserTitle}}</td>
                     <td>
-                        <a ng-show="thread.LastPosterShortname != null" href="{{thread.LastPostUrl}}">{{thread.LastPosterShortname}}</a>
+                        <a ng-show="thread.LastPosterShortname != null" href="{{thread.LastPostUrl}}" target="_blank">{{thread.LastPosterShortname}}</a>
                         <span ng-show="thread.LastPosterShortname == null">
                             <span class="error">Not Found</span> 
                             (<a target="_blank" href="http://tblrthreadtracker.tumblr.com/post/84787503106/fix-in-place-for-not-found-error-please-read" id="notFoundExplanation">Why am I seeing this?</a>)
-                    </span>
+                        </span>
                     </td>
                     <td><span ng-show="thread.LastPostDate != null">{{thread.LastPostDate * 1000 | date:'medium'}}</span></td>
-                    <td><a href="{{thread.LastPostUrl}}">View</a></td>
+                    <td><a target="_blank" href="{{thread.LastPostUrl}}">View</a></td>
                     <td><a href="/edit-thread/{{thread.UserThreadId}}">Edit</a></td>
                     <td><a href="" ng-click="untrackThread(thread.UserThreadId)">Untrack</a></td>
                 </tr>

@@ -63,6 +63,7 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
                 threadService.flushThreads();
                 threadService.untrackThread(userThreadId).then(threadService.getThreads());
             };
+            $scope.refreshThreads = function() { threadService.getThreads(true); };
 
             $scope.$on("$destroy", function() {
                 threadService.unsubscribe(updateThreads);
@@ -179,7 +180,7 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
         }
     ])
     .controller('ManageBlogsController', [
-        '$scope', '$location', 'sessionService', 'blogService', 'pageId', function ($scope, $location, sessionService, blogService, pageId) {
+        '$scope', '$location', 'sessionService', 'blogService', 'threadService', 'pageId', function ($scope, $location, sessionService, blogService, threadService, pageId) {
             $scope.setBodyClass('');
             sessionService.isLoggedIn().catch(function (isLoggedIn) {
                 if (!isLoggedIn) {
@@ -189,13 +190,16 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
             function success() {
                 $scope.newBlogForm.$setPristine();
                 $scope.newBlogShortname = '';
+                $scope.showSuccessMessage = true;
                 blogService.flushBlogs();
+                threadService.flushThreads();
                 blogService.getBlogs().then(function (blogs) {
                     $scope.blogs = blogs;
                 });
             }
             function failure() {
                 $scope.genericError = "There was a problem updating your blogs.";
+                $scope.showSuccessMessage = false;
             }
             $scope.createBlog = function() {
                 if ($scope.newBlogShortname != '') {

@@ -103,7 +103,7 @@ namespace TumblrThreadTracker.Domain.Threads
                     LastPosterShortname = null,
                     PostId = Convert.ToInt64(PostId),
                     Type = null,
-                    UserThreadId = 0,
+                    UserThreadId = UserThreadId,
                     UserTitle = UserTitle,
                     WatchedShortname = WatchedShortname
                 };

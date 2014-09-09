@@ -28,10 +28,11 @@ angular.module('rpThreadTracker.services', [])
                     return;
                 }
                 threads = [];
-                getThreadIds().then(function(ids) {
+                getThreadIds().then(function (ids) {
                     angular.forEach(ids, function(value, key) {
                         getThread(value);
                     });
+                    broadcast(threads);
                 });
             };
 

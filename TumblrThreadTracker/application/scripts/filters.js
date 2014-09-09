@@ -21,7 +21,7 @@ angular.module('rpThreadTracker.filters', [])
         };
     })
     .filter('isCorrectTurn', function() {
-        return function (threads, pageId) {
+        return function (threads, pageId, filterNulls) {
             var isMyTurnValue = null;
             if (pageId == 'yourturn')
                 isMyTurnValue = true;
@@ -36,7 +36,8 @@ angular.module('rpThreadTracker.filters', [])
                 return out;
             }
             for (var i = 0; i < threads.length; i++) {
-                if (threads[i].IsMyTurn == isMyTurnValue) {
+                var isNullFilteredThread = filterNulls && (threads[i].LastPostDate == null);
+                if (threads[i].IsMyTurn == isMyTurnValue && !isNullFilteredThread) {
                     out.push(threads[i]);
                 }
             }

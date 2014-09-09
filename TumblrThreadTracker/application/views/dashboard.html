@@ -24,9 +24,17 @@
 							
                             <!-- Recent threads tab content -->
                             <div class="widget-threads" id="Div2">
-							
-                                <div class="thread" ng-repeat="thread in threads | filter:LastPostDate != null | orderBy:'LastPostDate':true | limitTo:5 " >
-                                    <img src="/application/images/avatar.png" alt="">
+                                <div class="thread" ng-show="blogs.length == 0">
+                                    <div class="content">
+                                        You have not yet added any blogs to your account. Click "Manage Blogs" to add a new blog.
+                                    </div>
+                                </div>
+                                <div class="thread" ng-show="blogs.length > 0 && threads.length == 0">
+                                    <div class="content">
+                                        You are not yet tracking any threads.<br/> Click "Track New Thread" to track a thread from one of your current blogs.
+                                    </div>
+                                </div>
+                                <div class="thread" ng-repeat="thread in threads | isCorrectTurn:'yourturn':true | orderBy:'LastPostDate':true | limitTo:5 " >
                                     <div class="content">
                                         <span>{{thread.LastPostDate * 1000 | date:'medium'}}<br /><a href="#" ng-click="untrackThread(thread.UserThreadId)">Untrack</a></span>
                                         <div>
@@ -37,7 +45,8 @@
                                 </div>
 			
                                 <div class="widget-actions">
-                                    <a href="/threads" class="btn btn-mini" title="">Show more</a>
+                                    <a href="#" class="refresh-link" ng-click="refreshThreads()">Refresh</a>
+                                    <a href="/threads" class="btn btn-mini" ng-show="threads.length > 0">Show more</a>
                                 </div>
                             </div>
                             <!-- / Recent threads tab content -->
@@ -56,7 +65,6 @@
                 <h3 class="box-header"><i class="icon-fire" style="color: #cd522c"></i> Tracker News</h3>
                 <div class=" box well widget-threads">
                     <div class="thread" ng-repeat="thread in news | orderBy:'LastPostDate':true | limitTo:5 " >
-                        <img src="/application/images/avatar.png" alt="">
                         <div class="content">
                             <span>{{thread.LastPostDate * 1000 | date:'MM/dd/yyyy'}}<br /></span>
                             <div>
