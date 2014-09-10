@@ -34,7 +34,7 @@
                                         You are not yet tracking any threads.<br/> Click "Track New Thread" to track a thread from one of your current blogs.
                                     </div>
                                 </div>
-                                <div class="thread" ng-repeat="thread in threads | isCorrectTurn:'yourturn':true | orderBy:'LastPostDate':true | limitTo:5 " >
+                                <div class="thread" ng-repeat="thread in threads | isCorrectTurn:'allthreads':true | orderBy:'LastPostDate':true | limitTo:5 " >
                                     <div class="content">
                                         <span>{{thread.LastPostDate * 1000 | date:'medium'}}<br /><a href="#" ng-click="untrackThread(thread.UserThreadId)">Untrack</a></span>
                                         <div>
