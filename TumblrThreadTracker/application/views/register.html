@@ -1,0 +1,24 @@
+    <section id="signin-container">
+        <a href="" class="header">
+            <span>
+                Register for<br>
+                <strong>RP Thread Tracker</strong>
+            </span>
+        </a>
+        <form method="get" accept-charset="utf-8" ng-submit="register()" id="register-form">
+            <span ng-show="error" class="error-message">{{error}}</span>
+            <fieldset>
+                <div class="fields">
+                    <input type="text" name="username" ng-model="username" placeholder="Username" id="" tabindex="1" />
+                    <input type="email" name="email" ng-model="email" placeholder="Email" id="" tabindex="2" />
+                    <br /><br />
+                    <input type="password" name="password" ng-model="password" placeholder="Password" id="" tabindex="3" />
+                    <input type="password" name="confirmPassword" ng-model="confirmPassword" placeholder="Confirm Password" id="" tabindex="4" />
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-block" tabindex="5">Register</button>
+            </fieldset>
+            
+                <p>Already have an account? <a href="/login" title="">Login</a></p>
+        </form>
+    </section>

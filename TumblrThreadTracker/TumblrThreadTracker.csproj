@@ -301,6 +301,7 @@
     <Content Include="application\views\add-thread.html" />
     <Content Include="application\views\about.html" />
     <Content Include="application\views\contact.html" />
+    <Content Include="application\views\register.html" />
     <Content Include="application\views\edit-blog.html" />
     <Content Include="application\views\manage-blogs.html" />
     <Content Include="application\views\help.html" />

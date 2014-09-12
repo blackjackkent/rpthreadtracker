@@ -60,6 +60,15 @@ angular.module('rpThreadTracker', [
                     }
                 }
             });
+            $routeProvider.when('/register', {
+                templateUrl: '/application/views/register.html',
+                controller: 'RegisterController',
+                resolve: {
+                    pageId: function () {
+                        return "register";
+                    }
+                }
+            });
 
             $routeProvider.when('/add-thread', {
                 templateUrl: '/application/views/add-thread.html',

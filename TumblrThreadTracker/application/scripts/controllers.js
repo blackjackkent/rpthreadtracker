@@ -271,6 +271,21 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
             };
         }
     ])
+    .controller('RegisterController', [
+        '$scope', '$location', 'sessionService', function ($scope, $location, sessionService) {
+            var success = function () {
+                $location.path('/');
+            },
+                fail = function () {
+                    $scope.error = "Incorrect username or password.";
+                };
+            $scope.setBodyClass('signin-page');
+
+            $scope.login = function () {
+                sessionService.login($scope.username, $scope.password).then(success, fail);
+            };
+        }
+    ])
     .controller('LogoutController', [
         '$scope', '$location', 'sessionService', function($scope, $location, sessionService) {
             var success = function() {
