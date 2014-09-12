@@ -49,3 +49,5 @@ label.inline-control-label {
 }
 
 .blog-table td { border: none; }
+
+#register-form .fields { border: none;}
