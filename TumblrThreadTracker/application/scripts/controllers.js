@@ -42,6 +42,7 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
             };
             $scope.pageId = pageId;
             $scope.displayPublicUrl = true;
+            $scope.dashboardFilter = 'yourturn';
 
             threadService.subscribe(updateThreads);
             threadService.getThreads();
@@ -277,11 +278,12 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
                 $location.path('/');
             },
                 fail = function () {
-                    $scope.error = "Incorrect username or password.";
+                    $scope.error = "Error registering account. Please try again later.";
                 };
             $scope.setBodyClass('signin-page');
 
-            $scope.login = function () {
+            $scope.register = function () {
+                $scope.error = "";
                 sessionService.login($scope.username, $scope.password).then(success, fail);
             };
         }

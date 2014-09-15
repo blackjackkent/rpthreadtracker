@@ -12,7 +12,17 @@
             <div class="span8">
                 <h3 class="box-header">
                     <i class="icon-time"></i>
-                    Recent activity
+                    Recent activity 
+                    <span id="dashboard-filter-selector">
+                        <span ng-show="dashboardFilter == 'allthreads'">All Threads</span>
+                        <a href="#" ng-show="dashboardFilter != 'allthreads'" ng-click="dashboardFilter = 'allthreads'">All Threads</a>
+                        | 
+                        <span ng-show="dashboardFilter == 'yourturn'">Your Turn</span>
+                        <a href="#" ng-show="dashboardFilter != 'yourturn'" ng-click="dashboardFilter = 'yourturn'">Your Turn</a>
+                        | 
+                        <span ng-show="dashboardFilter == 'theirturn'">Their Turn</span>
+                        <a href="#" ng-show="dashboardFilter != 'theirturn'" ng-click="dashboardFilter = 'theirturn'">Their Turn</a>
+                    </span>
                 </h3>
                 <div class="box">
                     <div>
@@ -34,7 +44,7 @@
                                         You are not yet tracking any threads.<br/> Click "Track New Thread" to track a thread from one of your current blogs.
                                     </div>
                                 </div>
-                                <div class="thread" ng-repeat="thread in threads | isCorrectTurn:'allthreads':true | orderBy:'LastPostDate':true | limitTo:5 " >
+                                <div class="thread" ng-repeat="thread in threads | isCorrectTurn:dashboardFilter:true | orderBy:'LastPostDate':true | limitTo:5 " >
                                     <div class="content">
                                         <span>{{thread.LastPostDate * 1000 | date:'medium'}}<br /><a href="#" ng-click="untrackThread(thread.UserThreadId)">Untrack</a></span>
                                         <div>
@@ -46,7 +56,7 @@
 			
                                 <div class="widget-actions">
                                     <a href="#" class="refresh-link" ng-click="refreshThreads()">Refresh</a>
-                                    <a href="/threads" class="btn btn-mini" ng-show="threads.length > 0">Show more</a>
+                                    <a href="/threads/{{dashboardFilter}}" class="btn btn-mini" ng-show="threads.length > 0">Show more</a>
                                 </div>
                             </div>
                             <!-- / Recent threads tab content -->
