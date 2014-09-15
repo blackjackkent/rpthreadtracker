@@ -2,6 +2,8 @@
 .widget-threads .content > span { text-align: right; }
 .widget-threads .refresh-link { float: left;}
 
+#dashboard-filter-selector {font-size: 12px; float: right;padding: 5px;}
+
 .error-message { color: #f00; }
 
 label {

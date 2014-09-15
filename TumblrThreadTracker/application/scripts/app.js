@@ -29,6 +29,15 @@ angular.module('rpThreadTracker', [
                     }
                 }
             });
+            $routeProvider.when('/threads/allthreads', {
+                templateUrl: '/application/views/threads.html',
+                controller: 'MainController',
+                resolve: {
+                    pageId: function () {
+                        return "allthreads";
+                    }
+                }
+            });
             $routeProvider.when('/threads/yourturn', {
                 templateUrl: '/application/views/threads.html',
                 controller: 'MainController',

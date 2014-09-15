@@ -318,6 +318,7 @@
     <Content Include="application\fonts\fontawesome\fontawesome-webfont.ttf" />
     <Content Include="application\fonts\fontawesome\fontawesome-webfont.woff" />
     <Content Include="application\fonts\fontawesome\FontAwesome.otf" />
+    <None Include="Properties\PublishProfiles\dev publish.pubxml" />
     <None Include="Properties\PublishProfiles\tumblrthreadtracker.pubxml" />
     <Content Include="Static\NewThreadModal.html" />
     <Content Include="Web.config">
