@@ -15,12 +15,6 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
         function($scope, $location, threadService, contextService, blogService, newsService, sessionService, pageId) {
 
             $scope.setBodyClass('');
-            sessionService.isLoggedIn().catch(function(isLoggedIn) {
-                if (!isLoggedIn) {
-                    $location.path('/login');
-                }
-            });
-
             function updateThreads(data) {
                 $scope.threads = data;
                 $scope.myTurnCount = 0;
@@ -49,8 +43,9 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
             $scope.currentBlog = contextService.getCurrentBlog();
             $scope.sortDescending = contextService.getSortDescending();
             $scope.currentOrderBy = contextService.getCurrentOrderBy();
-            sessionService.getUserId().then(function(id) {
-                $scope.userId = id;
+            sessionService.getUser().then(function(user) {
+                $scope.userId = user.UserId;
+                $scope.user = user;
             });
             blogService.getBlogs().then(function(blogs) {
                 $scope.blogs = blogs;
@@ -108,11 +103,6 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
     .controller('AddThreadController', [
         '$scope', '$routeParams', '$location', 'sessionService', 'contextService', 'blogService', 'threadService', 'pageId', function ($scope, $routeParams, $location, sessionService, contextService, blogService, threadService, pageId) {
             $scope.setBodyClass('');
-            sessionService.isLoggedIn().catch(function (isLoggedIn) {
-                if (!isLoggedIn) {
-                    $location.path('/login');
-                }
-            });
             function success() {
                 $location.path('/threads');
             }
@@ -129,8 +119,9 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
                 threadService.flushThreads();
                 threadService.addNewThread($scope.currentBlog, $scope.postId, $scope.userTitle, $scope.watchedShortname).then(success, failure);
             };
-            sessionService.getUserId().then(function (id) {
-                $scope.userId = id;
+            sessionService.getUser().then(function (user) {
+                $scope.userId = user.UserId;
+                $scope.user = user;
             });
             blogService.getBlogs().then(function (blogs) {
                 $scope.blogs = blogs;
@@ -143,11 +134,6 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
     .controller('EditThreadController', [
         '$scope', '$routeParams', '$location', 'sessionService', 'contextService', 'blogService', 'threadService', 'pageId', function ($scope, $routeParams, $location, sessionService, contextService, blogService, threadService, pageId) {
             $scope.setBodyClass('');
-            sessionService.isLoggedIn().catch(function (isLoggedIn) {
-                if (!isLoggedIn) {
-                    $location.path('/login');
-                }
-            });
             function success() {
                 $location.path('/threads');
             }
@@ -175,19 +161,15 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
                 threadService.flushThreads();
                 threadService.editThread($scope.userThreadId, $scope.currentBlog, $scope.postId, $scope.userTitle, $scope.watchedShortname).then(success, failure);
             };
-            sessionService.getUserId().then(function (id) {
-                $scope.userId = id;
+            sessionService.getUser().then(function (user) {
+                $scope.userId = user.UserId;
+                $scope.user = user;
             });
         }
     ])
     .controller('ManageBlogsController', [
         '$scope', '$location', 'sessionService', 'blogService', 'threadService', 'pageId', function ($scope, $location, sessionService, blogService, threadService, pageId) {
             $scope.setBodyClass('');
-            sessionService.isLoggedIn().catch(function (isLoggedIn) {
-                if (!isLoggedIn) {
-                    $location.path('/login');
-                }
-            });
             function success() {
                 $scope.newBlogForm.$setPristine();
                 $scope.newBlogShortname = '';
@@ -214,19 +196,15 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
             blogService.getBlogs().then(function (blogs) {
                 $scope.blogs = blogs;
             });
-            sessionService.getUserId().then(function (id) {
-                $scope.userId = id;
+            sessionService.getUser().then(function (user) {
+                $scope.userId = user.UserId;
+                $scope.user = user;
             });
         }
     ])
     .controller('EditBlogController', [
         '$scope', '$routeParams', '$location', 'sessionService', 'contextService', 'blogService', 'threadService', 'pageId', function ($scope, $routeParams, $location, sessionService, contextService, blogService, threadService, pageId) {
             $scope.setBodyClass('');
-            sessionService.isLoggedIn().catch(function (isLoggedIn) {
-                if (!isLoggedIn) {
-                    $location.path('/login');
-                }
-            });
             function success() {
                 $location.path('/manage-blogs');
             }
@@ -245,16 +223,60 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
                 blogService.flushBlogs();
                 blogService.editBlog($scope.userBlogId, $scope.newBlogShortname).then(success, failure);
             };
-            sessionService.getUserId().then(function (id) {
-                $scope.userId = id;
+            sessionService.getUser().then(function (user) {
+                $scope.userId = user.UserId;
+                $scope.user = user;
+            });
+        }
+    ])
+    .controller('ManageAccountController', [
+        '$scope', '$location', 'sessionService', 'blogService', 'threadService', 'pageId', function ($scope, $location, sessionService, blogService, threadService, pageId) {
+            $scope.setBodyClass('');
+            function success() {
+                $scope.newBlogForm.$setPristine();
+                $scope.newBlogShortname = '';
+                $scope.showSuccessMessage = true;
+                blogService.flushBlogs();
+                threadService.flushThreads();
+                blogService.getBlogs().then(function (blogs) {
+                    $scope.blogs = blogs;
+                });
+            }
+            function failure() {
+                $scope.genericError = "There was a problem updating your blogs.";
+                $scope.showSuccessMessage = false;
+            }
+            $scope.createBlog = function () {
+                if ($scope.newBlogShortname != '') {
+                    blogService.createBlog($scope.newBlogShortname).then(success).catch(failure);
+                }
+            }
+            $scope.untrackBlog = function (userBlogId) {
+                blogService.untrackBlog(userBlogId).then(success).catch(failure);
+            };
+            $scope.pageId = pageId;
+            blogService.getBlogs().then(function (blogs) {
+                $scope.blogs = blogs;
+            });
+            sessionService.getUser().then(function (user) {
+                $scope.userId = user.UserId;
+                $scope.user = user;
             });
         }
     ])
     .controller('StaticController', [
-        '$scope', 'pageId', function ($scope, pageId) {
+        '$scope', 'sessionService', 'pageId', function ($scope, sessionService, pageId) {
             $scope.setBodyClass('');
             $scope.pageId = pageId;
             $scope.publicView = true;
+            sessionService.isLoggedIn().then(function (isLoggedIn) {
+                if (isLoggedIn) {
+                    sessionService.getUser().then(function(user) {
+                        $scope.userId = user.UserId;
+                        $scope.user = user;
+                    });
+                }
+            });
         }
     ])
     .controller('LoginController', [
@@ -265,10 +287,32 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
                 fail = function() {
                     $scope.error = "Incorrect username or password.";
                 };
+            sessionService.isLoggedIn().then(function (isLoggedIn) {
+                if (isLoggedIn) {
+                    $location.path('/');
+                }
+            });
             $scope.setBodyClass('signin-page');
 
             $scope.login = function() {
                 sessionService.login($scope.username, $scope.password).then(success, fail);
+            };
+        }
+    ])
+    .controller('ForgotPasswordController', [
+        '$scope', '$location', 'sessionService', function ($scope, $location, sessionService) {
+            var success = function () {
+                $scope.success = "Success. Check your email box for a temporary password."
+            },
+                fail = function () {
+                    $scope.error = "Unknown error. Please try again later.";
+                };
+            $scope.setBodyClass('signin-page');
+
+            $scope.submitForgotPassword = function () {
+                $scope.error = "";
+                $scope.success = "";
+                sessionService.submitForgotPassword($scope.username).then(success, fail);
             };
         }
     ])

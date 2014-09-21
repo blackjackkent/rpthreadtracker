@@ -23,12 +23,9 @@ namespace TumblrThreadTracker.Domain.Blogs
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int? UserBlogId { get; set; }
-
         public int UserId { get; set; }
-
         [ForeignKey("UserId")]
         public UserProfile UserProfile { get; set; }
-
         public string BlogShortname { get; set; }
 
         public BlogDto ToDto()

@@ -21,5 +21,10 @@ namespace TumblrThreadTracker.Domain.Threads
         public string LastPostUrl { get; set; }
         public long? LastPostDate { get; set; }
         public bool IsMyTurn { get; set; }
+
+        public Thread ToModel()
+        {
+            return new Thread(this);
+        }
     }
 }
