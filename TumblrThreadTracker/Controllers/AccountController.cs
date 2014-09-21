@@ -13,6 +13,7 @@ using Microsoft.Web.WebPages.OAuth;
 using TumblrThreadTracker.Domain.Users;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models;
+using TumblrThreadTracker.Models.RequestModels;
 using TumblrThreadTracker.Repositories;
 using WebMatrix.WebData;
 using IsolationLevel = System.Transactions.IsolationLevel;
@@ -31,25 +32,6 @@ namespace TumblrThreadTracker.Controllers
         public int GetUserId()
         {
             return WebSecurity.GetUserId(User.Identity.Name);
-        }
-        
-        [HttpPost]
-        [AllowAnonymous]
-        public HttpResponseMessage Login(LoginModel model, string returnUrl)
-        {
-            if (ModelState == null)
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
-
-            return WebSecurity.Login(model.UserName, model.Password, model.RememberMe)
-                ? new HttpResponseMessage(HttpStatusCode.OK)
-                : new HttpResponseMessage(HttpStatusCode.Unauthorized);
-        }
-
-        [HttpPost]
-        public HttpResponseMessage LogOff()
-        {
-            WebSecurity.Logout();
-            throw new NotImplementedException();
         }
         
         [HttpPost]
@@ -79,30 +61,7 @@ namespace TumblrThreadTracker.Controllers
             }
             throw new NotImplementedException();
         }
-
-        [HttpPost]
-        [AllowAnonymous]
-        public HttpResponseMessage ForgotPassword(string userName)
-        {
-            //check user existance
-            var user = UserProfile.GetByUsername(userName, _userProfileRepository);
-            if (user == null)
-                throw new ObjectNotFoundException();
-            //generate password token
-            string token = WebSecurity.GeneratePasswordResetToken(userName);
-            user.ToModel().SendForgotPasswordEmail(token, _userProfileRepository);
-            return new HttpResponseMessage(HttpStatusCode.OK);
-        }
-
-        [HttpPost]
-        public HttpResponseMessage ChangePassword(LocalPasswordModel model)
-        {
-            bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
-            if (!hasLocalAccount)
-                throw new InvalidOperationException();
-            WebSecurity.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);
-        }
-
+        
         #region Helpers
 
         public enum ManageMessageId
