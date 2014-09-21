@@ -1,0 +1,57 @@
+<header-nav></header-nav>
+<side-nav></side-nav>
+
+
+<section class="container">
+    <div id="content">
+
+        <!-- ================================================== -->
+        <section class="row-fluid">
+            <h3>Manage Your Account</h3>
+            <form class="form-horizontal" name="newBlogForm" ng-submit="createBlog()">
+                <fieldset>
+                    <legend>Change Your Password</legend>
+                 
+                    <p class="alert alert-error" ng-show="newBlogForm.newBlogShortname.$error.required && newBlogForm.newBlogShortname.$dirty">You must enter a blog shortname.</p>
+                    <p class="alert alert-error" ng-show="genericError">{{genericError}}</p>
+                    
+                    <div class="control-group">
+                        <label class="control-label" for="oldPassword">Current Password:</label>
+                        <div class="controls">
+                            <input type="text" id="old-password" name="oldPassword" required ng-model="oldPassword" placeholder="Current Password">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="newPassword">New Password:</label>
+                        <div class="controls">
+                            <input type="text" id="Text1" name="newPassword" required ng-model="newPassword" placeholder="New Password">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="confirmNewPassword">Confirm New Password:</label>
+                        <div class="controls">
+                            <input type="text" id="Text2" name="confirmNewPassword" required ng-model="confirmNewPassword" placeholder="Confirm New Password">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class='controls'>
+                            <button type="submit" class="btn">Change Password</button>
+                        </div>
+                    </div>
+                    
+                    <p class="alert alert-success" ng-show="showSuccessMessage">Account updated.</p>
+                </fieldset>
+            </form>
+            
+        </section>
+        
+        <!-- / Supported browsers -->
+		
+        <!-- Page footer
+            ================================================== -->
+        <footer></footer>
+        <!-- / Page footer -->
+        
+                
+    </div>
+</section>

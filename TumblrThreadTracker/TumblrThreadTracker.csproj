@@ -186,6 +186,7 @@
     <Compile Include="Domain\Threads\Thread.cs" />
     <Compile Include="Domain\Threads\ThreadDto.cs" />
     <Compile Include="Domain\Users\UserProfile.cs" />
+    <Compile Include="Domain\Users\UserProfileDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -211,6 +212,7 @@
     <Compile Include="Repositories\UserThreadRepository.cs" />
     <Compile Include="Repositories\UserProfileRepository.cs" />
     <Compile Include="Repositories\UserBlogRepository.cs" />
+    <Compile Include="Services\EmailService.cs" />
     <Compile Include="Services\ThreadService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -301,6 +303,7 @@
     <Content Include="application\views\add-thread.html" />
     <Content Include="application\views\about.html" />
     <Content Include="application\views\contact.html" />
+    <Content Include="application\views\forgot-password.html" />
     <Content Include="application\views\register.html" />
     <Content Include="application\views\edit-blog.html" />
     <Content Include="application\views\manage-blogs.html" />

@@ -119,6 +119,16 @@ angular.module('rpThreadTracker', [
                 }
             });
 
+            $routeProvider.when('/manage-account', {
+                templateUrl: '/application/views/manage-account.html',
+                controller: 'ManageAccountController',
+                resolve: {
+                    pageId: function () {
+                        return "manage-account";
+                    }
+                }
+            });
+
             $routeProvider.when('/about', {
                 templateUrl: '/application/views/about.html',
                 controller: 'StaticController',
@@ -158,7 +168,17 @@ angular.module('rpThreadTracker', [
                     }
                 }
             });
-            $routeProvider.otherwise({ redirectTo: '/' });
+
+            $routeProvider.when('/forgot-password', {
+                templateUrl: '/application/views/forgot-password.html',
+                controller: 'ForgotPasswordController',
+                resolve: {
+                    pageId: function () {
+                        return "forgotpassword";
+                    }
+                }
+            });
+            $routeProvider.otherwise({ redirectTo: '/about' });
 
             // use the HTML5 History API
 
@@ -172,8 +192,16 @@ angular.module('rpThreadTracker', [
             '$q', '$location', function ($q, $location) {
                 return {
                     responseError: function (response) {
-                        if (response.status == '401') {
-                            $location.path('/login');
+                        var whitelist = [
+                            "/about",
+                            "/help",
+                            "/contact",
+                            "/login",
+                            "/register",
+                            "/forgot-password"
+                        ];
+                        if (response.status == '401' && (whitelist.indexOf($location.path()) == -1)) {
+                            $location.path('/about');
                         } else {
                             return $q.reject(response);
                         }

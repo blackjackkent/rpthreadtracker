@@ -13,15 +13,22 @@
                     <li ng-hide="publicView"><a href="/manage-blogs">Manage Blogs</a></li>
                 </ul>
                 <ul class="nav pull-right">
-                    <li class="dropdown">
-                        <a href="#" class="dropdown-toggle usermenu" data-toggle="dropdown">
+                    <li class="dropdown" ng-show="user">
+                        <a href="/manage-account" class="dropdown-toggle usermenu" data-toggle="dropdown">
                             <img alt="Avatar" src="/application/images/avatar.png">
-                            <span>&nbsp;&nbsp;blackjackkent</span>
+                            <span>&nbsp;&nbsp;{{user.UserName}}</span>
                         </a>
                     </li>
                     <li class="separator"></li>
-                    <li>
+                    <li ng-show="user">
                         <a href="/logout">Log Out</a>
+                    </li>
+                    <li ng-hide="user">
+                        <a href="/login">Log In</a>
+                    </li>
+                    <li class="separator" ng-hide="user"></li>
+                    <li ng-hide="user">
+                        <a href="/register">Register</a>
                     </li>
                 </ul>
             </div>

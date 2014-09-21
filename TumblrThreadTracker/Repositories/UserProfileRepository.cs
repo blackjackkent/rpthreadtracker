@@ -30,6 +30,11 @@ namespace TumblrThreadTracker.Repositories
             return _context.UserProfiles.Find(userProfileId);
         }
 
+        public UserProfile GetUserProfileByUsername(string username)
+        {
+            return _context.UserProfiles.FirstOrDefault(p => p.UserName == username);
+        }
+
         public void InsertUserProfile(UserProfile userProfile)
         {
              _context.UserProfiles.Add(userProfile);
@@ -52,6 +57,11 @@ namespace TumblrThreadTracker.Repositories
         public void Save()
         {
             _context.SaveChanges();
+        }
+
+        public bool IsValidPasswordResetToken(int userId, string resetToken)
+        {
+            return _context.webpages_Membership.Any(m => m.UserId == userId && m.PasswordVerificationToken == resetToken);
         }
 
         protected virtual void Dispose(bool disposing)

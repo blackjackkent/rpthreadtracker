@@ -4,6 +4,8 @@
 
 #dashboard-filter-selector {font-size: 12px; float: right;padding: 5px;}
 
+#forgot-password-form p { color: #aaa;}
+
 .error-message { color: #f00; }
 
 label {
