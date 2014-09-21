@@ -484,7 +484,7 @@ angular.module('rpThreadTracker.services', [])
                 var deferred = $q.defer(),
                     config = {
                         method: 'POST',
-                        url: '/api/Account/ForgotPassword?username=' + username
+                        url: '/api/ForgotPassword?username=' + username
                     },
                     success = function(response, status, headers, config) {
                         deferred.resolve(response.data);
@@ -496,11 +496,33 @@ angular.module('rpThreadTracker.services', [])
                 return deferred.promise;
             }
 
+            function changePassword(oldPassword, newPassword, confirmNewPassword) {
+                var deferred = $q.defer(),
+                     config = {
+                         url: '/api/ChangePassword',
+                         method: "POST",
+                         data: {
+                             OldPassword: oldPassword,
+                             NewPassword: newPassword,
+                             ConfirmNewPassword: confirmNewPassword
+                         }
+                     },
+                     success = function (response, status, headers, config) {
+                         deferred.resolve(response.data);
+                     },
+                     error = function (response, status, headers, config) {
+                         deferred.reject(response);
+                     };
+                $http(config).then(success).catch(error);
+                return deferred.promise;
+            }
+
             return {
                 isLoggedIn: isLoggedIn,
                 login: login,
                 logout: logout,
                 submitForgotPassword: submitForgotPassword,
+                changePassword: changePassword,
                 getUser: getUser
             };
         }

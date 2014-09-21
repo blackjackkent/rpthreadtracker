@@ -175,6 +175,8 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BlogController.cs" />
+    <Compile Include="Controllers\ChangePasswordController.cs" />
+    <Compile Include="Controllers\ForgotPasswordController.cs" />
     <Compile Include="Controllers\PublicThreadController.cs" />
     <Compile Include="Controllers\SessionController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -201,6 +203,7 @@
     <Compile Include="Models\DataModels\AccountModels.cs" />
     <Compile Include="Models\DataModels\webpages_Membership.cs" />
     <Compile Include="Models\RequestModels\BlogUpdateRequest.cs" />
+    <Compile Include="Models\RequestModels\ChangePasswordRequest.cs" />
     <Compile Include="Models\RequestModels\ThreadUpdateRequest.cs" />
     <Compile Include="Models\Service Models\Blog.cs" />
     <Compile Include="Models\Service Models\Note.cs" />
@@ -303,6 +306,7 @@
     <Content Include="application\views\add-thread.html" />
     <Content Include="application\views\about.html" />
     <Content Include="application\views\contact.html" />
+    <Content Include="application\views\manage-account.html" />
     <Content Include="application\views\forgot-password.html" />
     <Content Include="application\views\register.html" />
     <Content Include="application\views\edit-blog.html" />
