@@ -9,6 +9,7 @@ namespace TumblrThreadTracker.Interfaces
         IEnumerable<UserProfile> GetUserProfiles();
         UserProfile GetUserProfileById(int userProfileId);
         UserProfile GetUserProfileByUsername(string username);
+        UserProfile GetUserProfileByEmail(string email);
         void InsertUserProfile(UserProfile userProfile);
         void DeleteUserProfile(int userProfileId);
         void UpdateUserProfile(UserProfile userProfile);

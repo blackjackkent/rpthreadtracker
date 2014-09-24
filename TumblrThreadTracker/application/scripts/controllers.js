@@ -331,13 +331,16 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
                     $location.path('/');
                 },
                 fail = function() {
-                    $scope.error = "Error registering account. Please try again later.";
+                    $scope.genericError = "Error registering account. Please try again later.";
                 };
             $scope.setBodyClass('signin-page');
 
             $scope.register = function() {
                 $scope.error = "";
-                sessionService.login($scope.username, $scope.password).then(success, fail);
+                if (!$scope.registerForm.$valid || $scope.confirmPassword != $scope.Password) {
+                    return;
+                }
+                sessionService.register($scope.username, $scope.email, $scope.Password, $scope.confirmPassword).then(success, fail);
             };
         }
     ])

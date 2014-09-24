@@ -1,24 +1,55 @@
-    <section id="signin-container">
-        <a href="" class="header">
-            <span>
-                Register for<br>
-                <strong>RP Thread Tracker</strong>
-            </span>
-        </a>
-        <form method="get" accept-charset="utf-8" ng-submit="register()" id="register-form">
-            <span ng-show="error" class="error-message">{{error}}</span>
-            <fieldset>
-                <div class="fields">
-                    <input type="text" name="username" ng-model="username" placeholder="Username" id="" tabindex="1" />
-                    <input type="email" name="email" ng-model="email" placeholder="Email" id="" tabindex="2" />
-                    <br /><br />
-                    <input type="password" name="password" ng-model="password" placeholder="Password" id="" tabindex="3" />
-                    <input type="password" name="confirmPassword" ng-model="confirmPassword" placeholder="Confirm Password" id="" tabindex="4" />
+<section id="signin-container">
+    <a href="" class="header">
+        <span>
+            Register for<br>
+            <strong>RP Thread Tracker</strong>
+        </span>
+    </a>
+    <form method="get" accept-charset="utf-8" name="registerForm" ng-submit="register()">
+        <fieldset>
+            <p class="alert alert-error" ng-show="genericError">{{genericError}}</p>
+                    
+            <p class="alert alert-error" ng-show="(registerForm.username.$dirty || registerForm.submitted) 
+                                    && (!(registerForm.username.$focused) && registerForm.username.$error.required)">You must enter a valid username.</p>
+            <p class="alert alert-error" ng-show="(registerForm.email.$dirty || registerForm.submitted) 
+                                    && (registerForm.email.$error.email 
+                                    && !(registerForm.email.$focused) || registerForm.email.$error.required)">You must enter a valid email.</p>
+            <p class="alert alert-error" ng-show="(registerForm.Password.$dirty || registerForm.submitted) 
+                                    && (!(registerForm.Password.$focused) && registerForm.Password.$error.required)">You must enter a password.</p>
+            <p class="alert alert-error" ng-show="(registerForm.confirmPassword.$dirty || registerForm.submitted) 
+                                    && (!(registerForm.confirmPassword.$focused) && registerForm.confirmPassword.$error.required)">You must confirm your password.</p>
+            <p class="alert alert-error" ng-show="((registerForm.confirmPassword.$dirty && registerForm.Password.$dirty) || registerForm.submitted) 
+                                    && (!(registerForm.confirmPassword.$focused) && !(registerForm.Password.$focused) && confirmPassword != Password)">Your passwords must match.</p>
+            <div class="control-group">
+                <div class="controls">
+                    <input type="text" id="username" name="username" required ng-model="username" placeholder="Username" ng-focus>
                 </div>
+            </div>
 
-                <button type="submit" class="btn btn-primary btn-block" tabindex="5">Register</button>
-            </fieldset>
+            <div class="control-group">
+                <div class="controls">
+                    <input type="email" id="email" name="email" required ng-model="email" placeholder="Email" ng-focus>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <input type="password" id="Text1" name="Password" required ng-model="Password" placeholder="Password" ng-focus>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class="controls">
+                    <input type="password" id="Text2" name="confirmPassword" required ng-model="confirmPassword" ng-match="Password" placeholder="Confirm Password" ng-focus>
+                </div>
+            </div>
+            <div class="control-group">
+                <div class='controls'>
+                    <button type="submit" class="btn btn-primary btn-block" tabindex="4">Sign Up</button>
+                </div>
+            </div>
+                    
+            <p class="alert alert-success" ng-show="showSuccessMessage">Account updated.</p>
+        </fieldset>
             
-                <p>Already have an account? <a href="/login" title="">Login</a></p>
-        </form>
-    </section>
+        <p>Already have an account? <a href="/login" title="">Login</a></p>
+    </form>
+</section>
