@@ -35,6 +35,11 @@ namespace TumblrThreadTracker.Repositories
             return _context.UserProfiles.FirstOrDefault(p => p.UserName == username);
         }
 
+        public UserProfile GetUserProfileByEmail(string email)
+        {
+            return _context.UserProfiles.FirstOrDefault(p => p.Email == email);
+        }
+
         public void InsertUserProfile(UserProfile userProfile)
         {
              _context.UserProfiles.Add(userProfile);

@@ -204,6 +204,7 @@
     <Compile Include="Models\DataModels\webpages_Membership.cs" />
     <Compile Include="Models\RequestModels\BlogUpdateRequest.cs" />
     <Compile Include="Models\RequestModels\ChangePasswordRequest.cs" />
+    <Compile Include="Models\RequestModels\RegisterRequest.cs" />
     <Compile Include="Models\RequestModels\ThreadUpdateRequest.cs" />
     <Compile Include="Models\Service Models\Blog.cs" />
     <Compile Include="Models\Service Models\Note.cs" />

@@ -496,6 +496,28 @@ angular.module('rpThreadTracker.services', [])
                 return deferred.promise;
             }
 
+            function register(username, email, password, confirmPassword) {
+                var deferred = $q.defer(),
+                     config = {
+                         url: '/api/Account',
+                         method: "POST",
+                         data: {
+                             Username: username,
+                             Email: email,
+                             Password: password,
+                             ConfirmPassword: confirmPassword
+                         }
+                     },
+                     success = function (response, status, headers, config) {
+                         deferred.resolve(response.data);
+                     },
+                     error = function (response, status, headers, config) {
+                         deferred.reject(response);
+                     };
+                $http(config).then(success).catch(error);
+                return deferred.promise;
+            }
+
             function changePassword(oldPassword, newPassword, confirmNewPassword) {
                 var deferred = $q.defer(),
                      config = {
@@ -523,6 +545,7 @@ angular.module('rpThreadTracker.services', [])
                 logout: logout,
                 submitForgotPassword: submitForgotPassword,
                 changePassword: changePassword,
+                register: register,
                 getUser: getUser
             };
         }
