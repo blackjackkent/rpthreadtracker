@@ -8,7 +8,8 @@ angular.module('rpThreadTracker.directives', [])
         return {
             restrict: 'E',
             replace: 'true',
-            templateUrl: '/application/views/directives/header-nav.html'
+            templateUrl: '/application/views/directives/header-nav.html',
+            controller: 'HeaderController'
         };
     })
     .directive('sideNav', function() {
