@@ -11,6 +11,7 @@
                     <li class="divider-vertical"></li>
                     <li ng-hide="publicView || blogs.length == 0"><a href="/add-thread">Track New Thread</a></li>
                     <li ng-hide="publicView"><a href="/manage-blogs">Manage Blogs</a></li>
+                    <li ng-show="loading" class="loading-icon"><img src="/application/images/loading.gif"/></li>
                 </ul>
                 <ul class="nav pull-right">
                     <li class="dropdown" ng-show="user">

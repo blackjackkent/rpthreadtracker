@@ -97,10 +97,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/21/2014 14:25:19</publishTime>
     </File>
     <File Include="application/scripts/controllers.js">
-      <publishTime>09/21/2014 15:37:24</publishTime>
+      <publishTime>09/23/2014 19:31:04</publishTime>
     </File>
     <File Include="application/scripts/directives.js">
-      <publishTime>09/11/2014 21:57:24</publishTime>
+      <publishTime>09/23/2014 19:08:42</publishTime>
     </File>
     <File Include="application/scripts/filters.js">
       <publishTime>09/11/2014 21:57:24</publishTime>
@@ -130,7 +130,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/11/2014 21:57:24</publishTime>
     </File>
     <File Include="application/scripts/services.js">
-      <publishTime>09/21/2014 15:33:38</publishTime>
+      <publishTime>09/23/2014 19:32:28</publishTime>
     </File>
     <File Include="application/styles/black-blue/adminflare.css">
       <publishTime>09/11/2014 21:57:24</publishTime>
@@ -304,7 +304,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/11/2014 21:57:25</publishTime>
     </File>
     <File Include="application/views/login.html">
-      <publishTime>09/17/2014 18:32:59</publishTime>
+      <publishTime>09/23/2014 00:22:07</publishTime>
     </File>
     <File Include="application/views/manage-account.html">
       <publishTime>09/21/2014 14:59:49</publishTime>
@@ -316,7 +316,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>09/11/2014 21:57:25</publishTime>
     </File>
     <File Include="application/views/register.html">
-      <publishTime>09/11/2014 22:16:34</publishTime>
+      <publishTime>09/23/2014 19:27:45</publishTime>
     </File>
     <File Include="application/views/threads.html">
       <publishTime>09/11/2014 21:57:25</publishTime>
@@ -325,10 +325,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/03/2014 18:51:52</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>09/21/2014 20:05:40</publishTime>
+      <publishTime>09/23/2014 21:38:18</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>09/21/2014 20:05:40</publishTime>
+      <publishTime>09/23/2014 21:38:18</publishTime>
     </File>
     <File Include="bin/DotNetOpenAuth.AspNet.dll">
       <publishTime>03/03/2014 18:51:51</publishTime>
@@ -403,7 +403,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/03/2014 18:51:50</publishTime>
     </File>
     <File Include="bin/TumblrThreadTracker.dll">
-      <publishTime>09/21/2014 20:05:20</publishTime>
+      <publishTime>09/23/2014 20:32:07</publishTime>
     </File>
     <File Include="bin/TumblrThreadTracker.pdb">
       <publishTime>09/13/2014 14:49:20</publishTime>
@@ -424,7 +424,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/04/2014 23:48:09</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>09/21/2014 20:05:30</publishTime>
+      <publishTime>09/23/2014 21:38:08</publishTime>
     </File>
     <File Include="Static/NewThreadModal.html">
       <publishTime>05/07/2014 22:44:16</publishTime>

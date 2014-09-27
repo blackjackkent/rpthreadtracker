@@ -10,6 +10,19 @@ angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services'])
             };
         }
     ])
+    .controller('HeaderController', [
+        '$scope', 'threadService', function($scope, threadService) {
+            threadService.subscribe(showLoadingIcon);
+            threadService.subscribeOnComplete(hideLoadingIcon);
+            $scope.loading = false;
+            function showLoadingIcon() {
+                $scope.loading = true;
+            }
+            function hideLoadingIcon() {
+                $scope.loading = false;
+            }
+        }
+    ])
     .controller('MainController', [
         '$scope', '$location', 'threadService', 'contextService', 'blogService', 'newsService', 'sessionService', 'pageId',
         function($scope, $location, threadService, contextService, blogService, newsService, sessionService, pageId) {

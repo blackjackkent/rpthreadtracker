@@ -4,6 +4,7 @@ angular.module('rpThreadTracker.services', [])
     .service('threadService', [
         '$q', '$http', function($q, $http) {
             var subscribers = [],
+                subscribersOnComplete = [],
                 threads = [];
 
             function getThreadIds() {
@@ -27,12 +28,17 @@ angular.module('rpThreadTracker.services', [])
                     broadcast(threads);
                     return;
                 }
+
+                broadcast(threads);
                 threads = [];
+                var queue = [];
                 getThreadIds().then(function(ids) {
                     angular.forEach(ids, function(value, key) {
-                        getThread(value);
+                        queue.push(getThread(value));
                     });
-                    broadcast(threads);
+                    $q.all(queue).then(function (results) {
+                        broadcastOnComplete();
+                    });
                 });
             };
 
@@ -45,8 +51,10 @@ angular.module('rpThreadTracker.services', [])
                     success = function(response) {
                         threads.push(response.data);
                         broadcast(threads);
+                        deferred.resolve(true);
                     };
                 $http(config).then(success);
+                return deferred.promise;
             };
 
             function getStandaloneThread(id) {
@@ -134,8 +142,19 @@ angular.module('rpThreadTracker.services', [])
                 subscribers.push(callback);
             }
 
+            function subscribeOnComplete(callback) {
+                subscribersOnComplete.push(callback);
+            }
+
             function unsubscribe(callback) {
                 var index = subscribers.indexOf(callback);
+                if (index > -1) {
+                    subscribers.splice(index, 1);
+                }
+            }
+
+            function unsubscribeOnComplete(callback) {
+                var index = subscribersOnComplete.indexOf(callback);
                 if (index > -1) {
                     subscribers.splice(index, 1);
                 }
@@ -147,9 +166,17 @@ angular.module('rpThreadTracker.services', [])
                 });
             }
 
+            function broadcastOnComplete() {
+                angular.forEach(subscribersOnComplete, function(callback, key) {
+                    callback();
+                });
+            }
+
             return {
                 subscribe: subscribe,
                 unsubscribe: unsubscribe,
+                subscribeOnComplete: subscribeOnComplete,
+                unsubscribeOnComplete: unsubscribeOnComplete,
                 getThreads: getThreads,
                 getStandaloneThread: getStandaloneThread,
                 addNewThread: addNewThread,

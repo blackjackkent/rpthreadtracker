@@ -8,6 +8,9 @@
 
 .error-message { color: #f00; }
 
+.loading-icon { line-height: 35px; }
+.loading-icon img { width: 30px; }
+
 label {
     display: inline;
     line-height: 50%;
