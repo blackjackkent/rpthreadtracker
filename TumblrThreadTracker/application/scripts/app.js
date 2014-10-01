@@ -1,14 +1,14 @@
 ﻿'use strict';
+var rpThreadTracker = rpThreadTracker || {};
+rpThreadTracker.app = angular.module('rpThreadTracker', ['ngRoute', 'rpThreadTracker.filters', 'rpThreadTracker.services', 'rpThreadTracker.directives', 'rpThreadTracker.controllers']);
+rpThreadTracker.controllers = angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services']);
+rpThreadTracker.directives = angular.module('rpThreadTracker.directives', []);
+rpThreadTracker.filters = angular.module('rpThreadTracker.filters', []);
+rpThreadTracker.services = angular.module('rpThreadTracker.services', []);
 
 // Declare app level module which depends on filters, and services
-angular.module('rpThreadTracker', [
-        'ngRoute',
-        'rpThreadTracker.filters',
-        'rpThreadTracker.services',
-        'rpThreadTracker.directives',
-        'rpThreadTracker.controllers'
-    ])
-    .config([
+
+rpThreadTracker.app.config([
         '$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
             $routeProvider.when('/', { templateUrl: '/application/views/dashboard.html', controller: 'MainController' });
             $routeProvider.when('/', {
@@ -210,4 +210,5 @@ angular.module('rpThreadTracker', [
             }
         ]);
     }
-]);
+
+    ]);
