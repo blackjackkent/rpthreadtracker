@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Web.Mvc;
-using System.Web.Script.Serialization;
+﻿using System.Web.Mvc;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models;
 using TumblrThreadTracker.Repositories;
-using TumblrThreadTracker.Services;
-using WebMatrix.WebData;
 
 namespace TumblrThreadTracker.Controllers
 {
@@ -22,7 +18,6 @@ namespace TumblrThreadTracker.Controllers
 
         public ActionResult Index()
         {
-            
             return View();
         }
     }

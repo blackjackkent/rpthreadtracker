@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using TumblrThreadTracker.Domain.Blogs;
-using TumblrThreadTracker.Domain.Threads;
+﻿using System.Web.Http;
 using TumblrThreadTracker.Domain.Users;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models;
@@ -16,8 +10,8 @@ namespace TumblrThreadTracker.Controllers
     [Authorize]
     public class UserController : ApiController
     {
-        private readonly IUserProfileRepository _userProfileRepository;
         private static int _userId;
+        private readonly IUserProfileRepository _userProfileRepository;
 
         public UserController()
         {

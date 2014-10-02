@@ -11,7 +11,7 @@ namespace TumblrThreadTracker.Controllers
         [HttpPost]
         public HttpResponseMessage Post(LoginModel model)
         {
-            if (ModelState == null)
+            if (model == null)
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
 
             return WebSecurity.Login(model.UserName, model.Password, model.RememberMe)
