@@ -35,7 +35,7 @@ namespace TumblrThreadTracker.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
-            return View();
+            return RedirectToAction("SiteDown", "Home");
         }
 
         //
@@ -46,6 +46,7 @@ namespace TumblrThreadTracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Login(LoginModel model, string returnUrl)
         {
+            return RedirectToAction("SiteDown", "Home");
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
                 return RedirectToLocal(returnUrl);
@@ -63,6 +64,8 @@ namespace TumblrThreadTracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
+
+            return RedirectToAction("SiteDown", "Home");
             WebSecurity.Logout();
 
             return RedirectToAction("Index", "Home");
@@ -74,6 +77,8 @@ namespace TumblrThreadTracker.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+
+            return RedirectToAction("SiteDown", "Home");
             return View();
         }
 
@@ -85,6 +90,8 @@ namespace TumblrThreadTracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Register(RegisterModel model)
         {
+
+            return RedirectToAction("SiteDown", "Home");
             if (ModelState.IsValid)
             {
                 // Attempt to register the user
@@ -114,6 +121,8 @@ namespace TumblrThreadTracker.Controllers
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
+
+            return RedirectToAction("SiteDown", "Home");
             return View();
         }
 
@@ -122,6 +131,8 @@ namespace TumblrThreadTracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ForgotPassword(string userName)
         {
+
+            return RedirectToAction("SiteDown", "Home");
             //check user existance
             var user = Membership.GetUser(userName);
             if (user == null)
@@ -165,6 +176,8 @@ namespace TumblrThreadTracker.Controllers
         [AllowAnonymous]
         public ActionResult ResetPassword(string un, string rt)
         {
+
+            return RedirectToAction("SiteDown", "Home");
             ThreadTrackerContext db = new ThreadTrackerContext();
             //TODO: Check the un and rt matching and then perform following
             //get userid of received username
@@ -241,6 +254,7 @@ namespace TumblrThreadTracker.Controllers
 
         private static void SendEmail(string emailid, string subject, string body)
         {
+            throw new NotImplementedException();
             SmtpClient client = new SmtpClient();
             client.DeliveryMethod = SmtpDeliveryMethod.Network;
             client.Host = "mail.rpthreadtracker.com";
@@ -268,6 +282,8 @@ namespace TumblrThreadTracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Disassociate(string provider, string providerUserId)
         {
+
+            return RedirectToAction("SiteDown", "Home");
             string ownerAccount = OAuthWebSecurity.GetUserName(provider, providerUserId);
             ManageMessageId? message = null;
 
@@ -295,6 +311,8 @@ namespace TumblrThreadTracker.Controllers
 
         public ActionResult Manage(ManageMessageId? message)
         {
+
+            return RedirectToAction("SiteDown", "Home");
             ViewBag.StatusMessage =
                 message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
                 : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
@@ -312,6 +330,8 @@ namespace TumblrThreadTracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Manage(LocalPasswordModel model)
         {
+
+            return RedirectToAction("SiteDown", "Home");
             bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             ViewBag.HasLocalPassword = hasLocalAccount;
             ViewBag.ReturnUrl = Url.Action("Manage");
@@ -376,6 +396,8 @@ namespace TumblrThreadTracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLogin(string provider, string returnUrl)
         {
+
+            return RedirectToAction("SiteDown", "Home");
             return new ExternalLoginResult(provider, Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
         }
 
@@ -385,6 +407,8 @@ namespace TumblrThreadTracker.Controllers
         [AllowAnonymous]
         public ActionResult ExternalLoginCallback(string returnUrl)
         {
+
+            return RedirectToAction("SiteDown", "Home");
             AuthenticationResult result = OAuthWebSecurity.VerifyAuthentication(Url.Action("ExternalLoginCallback", new { ReturnUrl = returnUrl }));
             if (!result.IsSuccessful)
             {
@@ -420,6 +444,8 @@ namespace TumblrThreadTracker.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult ExternalLoginConfirmation(RegisterExternalLoginModel model, string returnUrl)
         {
+
+            return RedirectToAction("SiteDown", "Home");
             string provider = null;
             string providerUserId = null;
 
@@ -464,6 +490,8 @@ namespace TumblrThreadTracker.Controllers
         [AllowAnonymous]
         public ActionResult ExternalLoginFailure()
         {
+
+            return RedirectToAction("SiteDown", "Home");
             return View();
         }
 
@@ -471,6 +499,8 @@ namespace TumblrThreadTracker.Controllers
         [ChildActionOnly]
         public ActionResult ExternalLoginsList(string returnUrl)
         {
+
+            return RedirectToAction("SiteDown", "Home");
             ViewBag.ReturnUrl = returnUrl;
             return PartialView("_ExternalLoginsListPartial", OAuthWebSecurity.RegisteredClientData);
         }
@@ -478,6 +508,8 @@ namespace TumblrThreadTracker.Controllers
         [ChildActionOnly]
         public ActionResult RemoveExternalLogins()
         {
+
+            return RedirectToAction("SiteDown", "Home");
             ICollection<OAuthAccount> accounts = OAuthWebSecurity.GetAccountsFromUserName(User.Identity.Name);
             List<ExternalLogin> externalLogins = new List<ExternalLogin>();
             foreach (OAuthAccount account in accounts)
@@ -499,6 +531,8 @@ namespace TumblrThreadTracker.Controllers
         #region Helpers
         private ActionResult RedirectToLocal(string returnUrl)
         {
+
+            return RedirectToAction("SiteDown", "Home");
             if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);

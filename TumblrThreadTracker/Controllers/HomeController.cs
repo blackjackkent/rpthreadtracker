@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using TumblrThreadTracker.Factories;
@@ -26,24 +27,22 @@ namespace TumblrThreadTracker.Controllers
 
         public ActionResult Index()
         {
-            if (!Request.IsAuthenticated)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            return RedirectToAction("Threads");
+            return RedirectToAction("SiteDown");
+        }
+
+        public ActionResult SiteDown()
+        {
+            return View();
         }
 
         public ActionResult Threads()
         {
-            if (!Request.IsAuthenticated)
-            {
-                return RedirectToAction("Login", "Account");
-            }
-            return View();
+            return RedirectToAction("SiteDown");
         }
 
         public ActionResult GetThreads()
         {
+            throw new NotImplementedException();
             IEnumerable<UserBlog> blogs =
                 BlogFactory.BuildFromDataModel(_blogRepository.GetUserBlogs(WebSecurity.GetUserId(User.Identity.Name)));
             var manager = new ThreadManager
@@ -73,6 +72,7 @@ namespace TumblrThreadTracker.Controllers
 
         public ActionResult GetBlogs()
         {
+            throw new NotImplementedException();
             IEnumerable<Models.DataModels.UserBlog> blogs =
                 _blogRepository.GetUserBlogs(WebSecurity.GetUserId(User.Identity.Name));
             var jsonSerializer = new JavaScriptSerializer();
@@ -82,6 +82,7 @@ namespace TumblrThreadTracker.Controllers
 
         public ActionResult GetThreadIds()
         {
+            throw new NotImplementedException();
             IEnumerable<UserBlog> blogs =
                 BlogFactory.BuildFromDataModel(_blogRepository.GetUserBlogs(WebSecurity.GetUserId(User.Identity.Name)));
             var threadIds = new List<int>();
@@ -100,6 +101,7 @@ namespace TumblrThreadTracker.Controllers
 
         public ActionResult GetThread(int threadId)
         {
+            throw new NotImplementedException();
             UserThread thread = _threadRepository.GetUserThreadById(threadId);
             Models.DataModels.UserBlog blog = _blogRepository.GetUserBlogById(thread.UserBlogId);
             Thread viewThread = ThreadService.GetThread(thread.PostId, blog.BlogShortname, thread.UserTitle);
@@ -111,6 +113,7 @@ namespace TumblrThreadTracker.Controllers
         [HttpPost]
         public ActionResult ConnectBlog(UserBlog viewBlog)
         {
+            return RedirectToAction("SiteDown");
             if (!Request.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Account");
@@ -124,6 +127,7 @@ namespace TumblrThreadTracker.Controllers
 
         public ActionResult RemoveBlog(int userBlogId)
         {
+            return RedirectToAction("SiteDown");
             _blogRepository.DeleteUserBlog(userBlogId);
             return RedirectToAction("Threads", "Home");
         }
@@ -131,6 +135,7 @@ namespace TumblrThreadTracker.Controllers
         [HttpPost]
         public ActionResult TrackThread(string postId, int userBlogId, string userTitle)
         {
+            return RedirectToAction("SiteDown");
             if (!Request.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Account");
@@ -143,6 +148,7 @@ namespace TumblrThreadTracker.Controllers
 
         public ActionResult UntrackThread(string postId)
         {
+            return RedirectToAction("SiteDown");
             if (!Request.IsAuthenticated)
             {
                 return RedirectToAction("Login", "Account");
@@ -153,6 +159,7 @@ namespace TumblrThreadTracker.Controllers
 
         public ActionResult Contact()
         {
+            return RedirectToAction("SiteDown");
             ViewBag.Message = "Your contact page.";
 
             return View();
@@ -160,6 +167,7 @@ namespace TumblrThreadTracker.Controllers
 
         public ActionResult About()
         {
+            return RedirectToAction("SiteDown");
             ViewBag.Message = "Your contact page.";
 
             return View();
@@ -167,11 +175,13 @@ namespace TumblrThreadTracker.Controllers
 
         public ActionResult Help()
         {
+            return RedirectToAction("SiteDown");
             return View();
         }
 
         public ActionResult GetLatestNews()
         {
+            throw new NotImplementedException();
             Thread thread = ThreadService.GetNewsThread();
             var jsonSerializer = new JavaScriptSerializer();
             string json = jsonSerializer.Serialize(thread);
