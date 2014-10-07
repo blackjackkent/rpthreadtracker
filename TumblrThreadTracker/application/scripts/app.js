@@ -61,7 +61,7 @@ rpThreadTracker.app.config([
                 controller: 'PublicController'
             });
             $routeProvider.when('/login', {
-                templateUrl: '/application/views/login.html',
+                templateUrl: '/application/views/login.html?v=10614',
                 controller: 'LoginController',
                 resolve: {
                     pageId: function () {

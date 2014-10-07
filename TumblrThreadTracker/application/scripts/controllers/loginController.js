@@ -16,8 +16,10 @@ rpThreadTracker.controllers.controller('LoginController', [
         $scope.setBodyClass('signin-page');
 
         $scope.login = function ($element) {
-            $scope.username = loginForm.username.value;
-            $scope.password = loginForm.password.value;
+            if ($scope.loginForm != undefined) {
+                $scope.username = loginForm.username.value;
+                $scope.password = loginForm.password.value;
+            }
             sessionService.login($scope.username, $scope.password).then(success, fail);
         };
     }
