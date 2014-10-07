@@ -32,7 +32,6 @@ rpThreadTracker.services.service('blogService', [
                     method: 'GET'
                 },
                 success = function(response) {
-                    console.log(id);
                     deferred.resolve(response.data);
                 },
                 error = function(response) {
