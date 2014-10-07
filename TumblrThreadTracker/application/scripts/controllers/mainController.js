@@ -46,9 +46,10 @@ rpThreadTracker.controllers.controller('MainController', [
             $scope.news = news;
         });
 
-        $scope.untrackThread = function(userThreadId) {
+        $scope.untrackThread = function(userThreadId, threadTitle) {
             threadService.flushThreads();
             threadService.untrackThread(userThreadId).then(threadService.getThreads());
+            $scope.genericSuccess = threadTitle + " has been untracked.";
         };
         $scope.refreshThreads = function() { threadService.getThreads(true); };
 

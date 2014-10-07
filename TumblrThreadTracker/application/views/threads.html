@@ -39,6 +39,9 @@
             </a>
         </section>
         <section class="row-fluid">
+            <p class="alert alert-success" ng-show="genericSuccess">{{genericSuccess}}</p>
+        </section>
+        <section class="row-fluid">
 		
             <table class="table table-striped thread-table">
                 <tr>
@@ -66,7 +69,7 @@
                     <td><span ng-show="thread.LastPostDate != null">{{thread.LastPostDate * 1000 | date:'medium'}}</span></td>
                     <td><a target="_blank" href="{{thread.LastPostUrl}}">View</a></td>
                     <td><a href="/edit-thread/{{thread.UserThreadId}}">Edit</a></td>
-                    <td><a href="" ng-click="untrackThread(thread.UserThreadId)">Untrack</a></td>
+                    <td><a href="" ng-click="untrackThread(thread.UserThreadId, thread.UserTitle)">Untrack</a></td>
                 </tr>
             </table>
 
