@@ -10,8 +10,12 @@ rpThreadTracker.services.service('blogService', [
                     url: '/api/Blog',
                     method: 'GET'
                 },
-                success = function(response) {
-                    deferred.resolve(response.data);
+                success = function (response) {
+                    if (!response) {
+                        deferred.resolve(null);
+                    } else {
+                        deferred.resolve(response.data);
+                    }
                 };
             if (blogs.length > 0 && !force) {
                 deferred.resolve(blogs);

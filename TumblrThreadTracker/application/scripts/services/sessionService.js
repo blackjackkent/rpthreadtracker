@@ -10,9 +10,13 @@ rpThreadTracker.services.service('sessionService', [
                     url: '/api/User',
                     method: 'GET'
                 },
-                success = function(response) {
-                    user = response.data;
-                    deferred.resolve(response.data);
+                success = function (response) {
+                    if (response) {
+                        user = response.data;
+                        deferred.resolve(response.data);
+                    } else {
+                        deferred.resolve(null);
+                    }
                 };
             if (user != null && !force) {
                 deferred.resolve(user);

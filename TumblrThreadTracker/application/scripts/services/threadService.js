@@ -12,8 +12,12 @@ rpThreadTracker.services.service('threadService', [
                     url: '/api/Thread',
                     method: 'GET'
                 },
-                success = function(response) {
-                    deferred.resolve(response.data);
+                success = function (response) {
+                    if (response) {
+                        deferred.resolve(response.data);
+                    } else {
+                        deferred.resolve(null);
+                    }
                 },
                 error = function(data) {
                     deferred.reject(data);
