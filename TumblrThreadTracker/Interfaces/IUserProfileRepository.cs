@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using TumblrThreadTracker.Models.DataModels;
+using TumblrThreadTracker.Domain.Users;
 
 namespace TumblrThreadTracker.Interfaces
 {
@@ -10,9 +8,12 @@ namespace TumblrThreadTracker.Interfaces
     {
         IEnumerable<UserProfile> GetUserProfiles();
         UserProfile GetUserProfileById(int userProfileId);
+        UserProfile GetUserProfileByUsername(string username);
+        UserProfile GetUserProfileByEmail(string email);
         void InsertUserProfile(UserProfile userProfile);
         void DeleteUserProfile(int userProfileId);
         void UpdateUserProfile(UserProfile userProfile);
         void Save();
+        bool IsValidPasswordResetToken(int userId, string resetToken);
     }
 }

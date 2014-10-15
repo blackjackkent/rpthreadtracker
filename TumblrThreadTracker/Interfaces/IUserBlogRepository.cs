@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using TumblrThreadTracker.Models.DataModels;
+using TumblrThreadTracker.Domain.Blogs;
 
 namespace TumblrThreadTracker.Interfaces
 {
     public interface IUserBlogRepository : IDisposable
     {
-        IEnumerable<UserBlog> GetUserBlogs();
-        IEnumerable<UserBlog> GetUserBlogs(int userProfileId);
-        UserBlog GetUserBlogById(int userBlogId);
-        void InsertUserBlog(UserBlog userBlog);
+        IEnumerable<Blog> GetUserBlogs();
+        IEnumerable<Blog> GetUserBlogs(int? userProfileId);
+        Blog GetUserBlogById(int userBlogId);
+        Blog GetUserBlogByShortname(string blogShortname, int userId);
+        void InsertUserBlog(Blog userBlog);
         void DeleteUserBlog(int userBlogId);
-        void UpdateUserBlog(UserBlog userBlog);
+        void UpdateUserBlog(Blog userBlog);
         void Save();
     }
 }

@@ -1,53 +1,62 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.Entity;
 using System.Linq;
-using System.Web;
+using TumblrThreadTracker.Domain.Blogs;
+using TumblrThreadTracker.Domain.Threads;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models;
-using TumblrThreadTracker.Models.DataModels;
 
 namespace TumblrThreadTracker.Repositories
 {
     public class UserBlogRepository : IUserBlogRepository
     {
-        private bool disposed = false;
-        private ThreadTrackerContext context;
+        private readonly ThreadTrackerContext context;
+        private bool disposed;
 
         public UserBlogRepository(ThreadTrackerContext context)
         {
             this.context = context;
         }
 
-        public IEnumerable<UserBlog> GetUserBlogs()
+        public IEnumerable<Blog> GetUserBlogs()
         {
             return context.UserBlogs.ToList();
         }
 
-        public IEnumerable<UserBlog> GetUserBlogs(int userProfileId)
+        public IEnumerable<Blog> GetUserBlogs(int? userProfileId)
         {
             return context.UserBlogs.Where(u => u.UserId == userProfileId);
         }
 
-        public UserBlog GetUserBlogById(int userBlogId)
+        public Blog GetUserBlogById(int userBlogId)
         {
             return context.UserBlogs.Find(userBlogId);
         }
 
-        public void InsertUserBlog(UserBlog userBlog)
+        public Blog GetUserBlogByShortname(string blogShortname, int userId)
         {
-             context.UserBlogs.Add(userBlog);
-             Save();
+            return context.UserBlogs.FirstOrDefault(b => b.BlogShortname == blogShortname && b.UserId == userId);
+        }
+
+        public void InsertUserBlog(Blog userBlog)
+        {
+            context.UserBlogs.Add(userBlog);
+            Save();
         }
 
         public void DeleteUserBlog(int userBlogId)
         {
-            UserBlog userBlog = context.UserBlogs.Find(userBlogId);
+            Blog userBlog = context.UserBlogs.Find(userBlogId);
+            List<Thread> threads = context.UserThreads.Where(t => t.UserBlogId == userBlogId).ToList();
             context.UserBlogs.Remove(userBlog);
+            foreach (Thread thread in threads)
+                context.UserThreads.Remove(thread);
             Save();
         }
 
-        public void UpdateUserBlog(UserBlog userBlog)
+        public void UpdateUserBlog(Blog userBlog)
         {
             context.Entry(userBlog).State = EntityState.Modified;
             Save();
@@ -58,22 +67,22 @@ namespace TumblrThreadTracker.Repositories
             context.SaveChanges();
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
         protected virtual void Dispose(bool disposing)
         {
-            if (!this.disposed)
+            if (!disposed)
             {
                 if (disposing)
                 {
                     context.Dispose();
                 }
             }
-            this.disposed = true;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            disposed = true;
         }
     }
 }

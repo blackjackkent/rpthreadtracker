@@ -1,3 +1,11 @@
 */bin
 */obj
 *.suo
+*.bak
+*.orig
+*.BACKUP.*
+*.BASE.*
+*.LOCAL.*
+*.REMOTE.*
+TumblrThreadTracker/App_Data/TumblrThreadTracker.mdf
+TumblrThreadTracker/App_Data/TumblrThreadTracker_log.ldf
