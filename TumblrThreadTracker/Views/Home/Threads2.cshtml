@@ -24,7 +24,7 @@
             </div>
             <ul>
                 <li><a href="#" data-blogId="all">All Blogs</a></li>
-                @foreach (UserBlog blog in Model.UserBlogs)
+                @foreach (Blog blog in Model.UserBlogs)
                 {
                     <li><a href="#" data-blogId="@blog.BlogShortname">@blog.BlogShortname</a></li>
                 }

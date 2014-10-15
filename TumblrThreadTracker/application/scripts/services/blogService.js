@@ -1,0 +1,112 @@
+﻿'use strict';
+var rpThreadTracker = rpThreadTracker || {};
+rpThreadTracker.services.service('blogService', [
+    '$q', '$http', function($q, $http) {
+        var blogs = [];
+
+        function getBlogs(force) {
+            var deferred = $q.defer(),
+                config = {
+                    url: '/api/Blog',
+                    method: 'GET'
+                },
+                success = function (response) {
+                    if (!response) {
+                        deferred.resolve(null);
+                    } else {
+                        deferred.resolve(response.data);
+                    }
+                };
+            if (blogs.length > 0 && !force) {
+                deferred.resolve(blogs);
+                return deferred.promise;
+            }
+            $http(config).then(success);
+            return deferred.promise;
+        }
+
+        function getStandaloneBlog(id) {
+            var deferred = $q.defer(),
+                config = {
+                    url: '/api/Blog/' + id,
+                    method: 'GET'
+                },
+                success = function(response) {
+                    deferred.resolve(response.data);
+                },
+                error = function(response) {
+                    deferred.reject(response.data);
+                };
+            $http(config).then(success).catch(error);
+            return deferred.promise;
+        };
+
+        function flushBlogs() {
+            blogs = [];
+        }
+
+        function createBlog(blogShortname) {
+            var deferred = $q.defer(),
+                config = {
+                    url: '/api/Blog',
+                    method: "POST",
+                    data: {
+                        BlogShortname: blogShortname
+                    }
+                },
+                success = function(response, status, headers, config) {
+                    deferred.resolve(response.data);
+                },
+                error = function(response, status, headers, config) {
+                    deferred.reject(response);
+                };
+            $http(config).then(success).catch(error);
+            return deferred.promise;
+        }
+
+        function editBlog(userBlogId, newBlogShortname) {
+            var deferred = $q.defer(),
+                config = {
+                    url: '/api/Blog',
+                    method: "PUT",
+                    data: {
+                        UserBlogId: userBlogId,
+                        BlogShortname: newBlogShortname
+                    }
+                },
+                success = function(response, status, headers, config) {
+                    deferred.resolve(response.data);
+                },
+                error = function(response, status, headers, config) {
+                    deferred.reject(response);
+                };
+            $http(config).then(success).catch(error);
+            return deferred.promise;
+        }
+
+        function untrackBlog(userBlogId) {
+            var deferred = $q.defer(),
+                config = {
+                    url: '/api/Blog?userBlogId=' + userBlogId,
+                    method: "DELETE"
+                },
+                success = function(response, status, headers, config) {
+                    deferred.resolve(response.data);
+                },
+                error = function(response, status, headers, config) {
+                    deferred.reject(response);
+                };
+            $http(config).then(success).catch(error);
+            return deferred.promise;
+        }
+
+        return {
+            getBlogs: getBlogs,
+            getStandaloneBlog: getStandaloneBlog,
+            flushBlogs: flushBlogs,
+            createBlog: createBlog,
+            editBlog: editBlog,
+            untrackBlog: untrackBlog
+        };
+    }
+]);

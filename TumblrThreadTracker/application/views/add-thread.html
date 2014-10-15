@@ -1,0 +1,72 @@
+<header-nav></header-nav>
+<side-nav></side-nav>
+
+
+<section class="container">
+    <div id="content">
+
+        <!-- ================================================== -->
+        <section class="row-fluid">
+            <form class="form-horizontal" name="newThreadForm" ng-submit="submitThread()">
+                <fieldset>
+                    <legend>Track a New Thread</legend>
+                    <p>Enter information for your thread below.<br />Be sure to select the appropriate blog with which to associate this thread.<br /></p><br />
+                 
+                    <p class="alert alert-error" ng-show="newThreadForm.postId.$error.pattern">Enter only the post ID, not the full URL.</p>
+                    <p class="alert alert-error" ng-show="newThreadForm.userTitle.$error.required && newThreadForm.userTitle.$dirty">You must enter a thread title for tracking purposes. (This does not have to match a title on the actual Tumblr thread.)</p>
+                    <p class="alert alert-error" ng-show="newThreadForm.postId.$error.required && newThreadForm.postId.$dirty">You must enter a post ID in order to track a thread.</p>
+                    <p class="alert alert-error" ng-show="genericError">{{genericError}}</p>
+                    
+                    <div class="control-group">
+                        <label class="control-label" for="currentBlog">Blog:</label>
+                        <div class="controls">
+                            <select name="currentBlog" ng-model="currentBlog">
+                                <option ng-repeat="blog in blogs | orderBy:'BlogShortname'" ng-value="blog.BlogShortname">{{blog.BlogShortname}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="userTitle">Thread Title:</label>
+                        <div class="controls">
+                            <input type="text" id="userTitle" name="userTitle" required ng-model="userTitle" placeholder="Thread Title">
+                            <span class="help-block alert alert-info inline">This can be anything you like!</span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="postId">Post ID:</label>
+                        <div class="controls">
+                            <input type="text" id="postId" name="postId" ng-pattern="/^\-?\d+$/" required ng-model="postId" placeholder="Post ID">
+                            <span class="help-block alert alert-info">This can be the ID of any post in the thread FROM YOUR BLOG.<br />
+                                Found in the URL as follows: http://blogshortname.tumblr.com/post/<strong>123456</strong>/posttitle</span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="watchedShortname">Watch For:</label>
+                        <div class="controls">
+                            <input type="text" name="watchedShortname" ng-model="watchedShortname" placeholder="Partner shortname">
+                            <span class="help-block alert alert-info">This should be the shortname of the user whose posts you are watching for.
+                                (In other words, when this user posts, the thread is marked as your turn.)<br />
+                                If left blank, the thread will be marked as your turn whenever the last poster is not you.<br />
+                                <strong style="color: red">Note that</strong> if you fill in a value here and your partner later changes their blog URL, or if you misspell your partner's shortname, the tracker will no longer detect their replies until you edit this field.
+                            </span>
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class='controls'>
+                            <button type="submit" class="btn">Submit</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </section>
+        
+        <!-- / Supported browsers -->
+		
+        <!-- Page footer
+            ================================================== -->
+        <footer></footer>
+        <!-- / Page footer -->
+        
+                
+    </div>
+</section>
