@@ -1,7 +1,7 @@
 ﻿'use strict';
 var rpThreadTracker = rpThreadTracker || {};
 rpThreadTracker.controllers.controller('PublicController', [
-    '$scope', '$routeParams', 'publicThreadService', function($scope, $routeParams, publicThreadService) {
+    '$scope', '$routeParams', '$filter', 'publicThreadService', function($scope, $routeParams, $filter, publicThreadService) {
         $scope.pageId = $routeParams.pageId;
         $scope.userId = $routeParams.userId;
         $scope.currentBlog = $routeParams.currentBlog;
@@ -12,6 +12,9 @@ rpThreadTracker.controllers.controller('PublicController', [
 
         function updateThreads(data) {
             $scope.threads = data;
+            var filtered = $filter('isCurrentBlog')(data, $scope.currentBlog);
+            filtered = $filter('isCorrectTurn')(filtered, $scope.pageId);
+            $scope.threadCount = filtered.length;
         }
 
         function buildPublicTitleString() {
