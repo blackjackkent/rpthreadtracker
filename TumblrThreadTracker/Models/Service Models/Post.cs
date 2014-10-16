@@ -25,5 +25,20 @@ namespace TumblrThreadTracker.Models.Service_Models
         public string state { get; set; }
         public long total_posts { get; set; }
         public List<Note> notes { get; set; }
+
+        public Note GetMostRecentRelevantNote(string blogShortname, string watchedShortname)
+        {
+            Note mostRecentRelevantNote = null;
+            if (string.IsNullOrEmpty(watchedShortname))
+                mostRecentRelevantNote =
+                    this.notes.OrderByDescending(n => n.timestamp)
+                        .FirstOrDefault(n => n.type == "reblog");
+            else
+                mostRecentRelevantNote =
+                    this.notes.OrderByDescending(n => n.timestamp)
+                        .FirstOrDefault(n => n.type == "reblog" && (n.blog_name == watchedShortname || n.blog_name == blogShortname));
+
+            return mostRecentRelevantNote;
+        }
     }
 }
