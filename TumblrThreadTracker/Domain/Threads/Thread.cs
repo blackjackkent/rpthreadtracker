@@ -120,26 +120,27 @@ namespace TumblrThreadTracker.Domain.Threads
             };
             if (post.notes != null && post.notes.Any(n => n.type == "reblog"))
             {
-                Note mostRecentNote = post.notes.OrderByDescending(n => n.timestamp).FirstOrDefault(n => n.type == "reblog");
-                if (mostRecentNote != null)
+                Note mostRecentRelevantNote = post.GetMostRecentRelevantNote(blog.BlogShortname, WatchedShortname);
+
+                if (mostRecentRelevantNote != null)
                 {
-                    dto.LastPosterShortname = mostRecentNote.blog_name;
-                    dto.LastPostUrl = mostRecentNote.blog_url + "post/" + mostRecentNote.post_id;
-                    dto.LastPostDate = mostRecentNote.timestamp;
+                    dto.LastPosterShortname = mostRecentRelevantNote.blog_name;
+                    dto.LastPostUrl = mostRecentRelevantNote.blog_url + "post/" + mostRecentRelevantNote.post_id;
+                    dto.LastPostDate = mostRecentRelevantNote.timestamp;
                     dto.IsMyTurn = !string.IsNullOrEmpty(WatchedShortname)
-                        ? mostRecentNote.blog_name == WatchedShortname
-                        : mostRecentNote.blog_name != blog.BlogShortname;
+                        ? mostRecentRelevantNote.blog_name == WatchedShortname
+                        : mostRecentRelevantNote.blog_name != blog.BlogShortname;
+                    return dto;
                 }
             }
-            else
-            {
-                dto.LastPosterShortname = post.blog_name;
+
+            dto.LastPosterShortname = post.blog_name;
                 dto.LastPostUrl = post.post_url;
                 dto.LastPostDate = post.timestamp;
                 dto.IsMyTurn = !string.IsNullOrEmpty(WatchedShortname)
                         ? post.blog_name == WatchedShortname
                         : post.blog_name != blog.BlogShortname;
-            }
+
             return dto;
         }
     }
