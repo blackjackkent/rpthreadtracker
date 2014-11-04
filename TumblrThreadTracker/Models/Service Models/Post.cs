@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using TumblrThreadTracker.Interfaces;
 
 namespace TumblrThreadTracker.Models.Service_Models
 {
-    public class Post
+    public class Post : IPost
     {
         public string blog_name { get; set; }
         public long id { get; set; }
@@ -31,12 +32,18 @@ namespace TumblrThreadTracker.Models.Service_Models
             Note mostRecentRelevantNote = null;
             if (string.IsNullOrEmpty(watchedShortname))
                 mostRecentRelevantNote =
-                    this.notes.OrderByDescending(n => n.timestamp)
+                    notes.OrderByDescending(n => n.timestamp)
                         .FirstOrDefault(n => n.type == "reblog");
             else
                 mostRecentRelevantNote =
-                    this.notes.OrderByDescending(n => n.timestamp)
-                        .FirstOrDefault(n => n.type == "reblog" && (n.blog_name == watchedShortname || n.blog_name == blogShortname));
+                    notes.OrderByDescending(n => n.timestamp)
+                        .FirstOrDefault(
+                            n => n.type == "reblog" 
+                            && (
+                                String.Equals(n.blog_name, watchedShortname, StringComparison.OrdinalIgnoreCase) 
+                                    || String.Equals(n.blog_name, blogShortname, StringComparison.OrdinalIgnoreCase)
+                               )
+                        );
 
             return mostRecentRelevantNote;
         }

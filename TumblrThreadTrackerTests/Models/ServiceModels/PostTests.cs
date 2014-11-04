@@ -216,5 +216,73 @@ namespace TumblrThreadTrackerTests.Models.ServiceModels
             Assert.That(returnedNote.blog_name, Is.EqualTo("not-cmdr-blackjack-shepard"));
             Assert.That(returnedNote.timestamp, Is.EqualTo(12345678));
         }
+
+        [Test]
+        public void Post_Should_Be_Case_Insensitive_When_Detecting_Relevant_Notes_Using_BlogShortname()
+        {
+            // Arrange
+            // Arrange
+            var note1 = new Note
+            {
+                blog_name = "not-cmdr-blackjack-shepard",
+                timestamp = 1234567,
+                type = "reblog"
+            };
+            var note2 = new Note
+            {
+                blog_name = "cmdr-blackjack-shepard",
+                timestamp = 12345678,
+                type = "reblog"
+            };
+            var post = new Post
+            {
+                notes = new List<Note> { note1, note2 }
+            };
+            const string userBlogShortname = "Cmdr-blackjack-shepard";
+            const string watchedShortname = "not-cmdr-blackjack-shepard";
+
+            // Act
+            var returnedNote = post.GetMostRecentRelevantNote(userBlogShortname, watchedShortname);
+
+            // Assert
+            Assert.That(returnedNote.blog_name, Is.EqualTo("cmdr-blackjack-shepard"));
+        }
+
+        [Test]
+        public void Post_Should_Be_Case_Insensitive_When_Detecting_Relevant_Notes_Using_WatchedShortname()
+        {
+            // Arrange
+            // Arrange
+            var note1 = new Note
+            {
+                blog_name = "cmdr-blackjack-shepard",
+                timestamp = 1234567,
+                type = "reblog"
+            };
+            var note2 = new Note
+            {
+                blog_name = "not-cmdr-blackjack-shepard",
+                timestamp = 12345678,
+                type = "reblog"
+            };
+            var note3 = new Note
+            {
+                blog_name = "someone-else-entirely",
+                timestamp = 12345678,
+                type = "reblog"
+            };
+            var post = new Post
+            {
+                notes = new List<Note> { note1, note2 }
+            };
+            const string userBlogShortname = "cmdr-blackjack-shepard";
+            const string watchedShortname = "Not-cmdr-blackjack-shepard";
+
+            // Act
+            var returnedNote = post.GetMostRecentRelevantNote(userBlogShortname, watchedShortname);
+
+            // Assert
+            Assert.That(returnedNote.blog_name, Is.EqualTo("not-cmdr-blackjack-shepard"));
+        }
     }
 }

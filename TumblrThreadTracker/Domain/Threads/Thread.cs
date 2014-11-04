@@ -90,7 +90,7 @@ namespace TumblrThreadTracker.Domain.Threads
             return threads;
         }
 
-        public ThreadDto ToDto(Blog blog, Post post)
+        public ThreadDto ToDto(Blog blog, IPost post)
         {
             if (post == null)
             {
@@ -128,8 +128,8 @@ namespace TumblrThreadTracker.Domain.Threads
                     dto.LastPostUrl = mostRecentRelevantNote.blog_url + "post/" + mostRecentRelevantNote.post_id;
                     dto.LastPostDate = mostRecentRelevantNote.timestamp;
                     dto.IsMyTurn = !string.IsNullOrEmpty(WatchedShortname)
-                        ? mostRecentRelevantNote.blog_name == WatchedShortname
-                        : mostRecentRelevantNote.blog_name != blog.BlogShortname;
+                        ? String.Equals(mostRecentRelevantNote.blog_name, WatchedShortname, StringComparison.OrdinalIgnoreCase)
+                        : !String.Equals(mostRecentRelevantNote.blog_name, blog.BlogShortname, StringComparison.OrdinalIgnoreCase);
                     return dto;
                 }
             }
@@ -138,8 +138,8 @@ namespace TumblrThreadTracker.Domain.Threads
                 dto.LastPostUrl = post.post_url;
                 dto.LastPostDate = post.timestamp;
                 dto.IsMyTurn = !string.IsNullOrEmpty(WatchedShortname)
-                        ? post.blog_name == WatchedShortname
-                        : post.blog_name != blog.BlogShortname;
+                        ? String.Equals(post.blog_name, WatchedShortname, StringComparison.OrdinalIgnoreCase)
+                        : !String.Equals(post.blog_name, blog.BlogShortname, StringComparison.OrdinalIgnoreCase);
 
             return dto;
         }
