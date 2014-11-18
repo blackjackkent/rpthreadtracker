@@ -7,6 +7,7 @@
 #forgot-password-form p { color: #aaa;}
 
 .error-message { color: #f00; }
+.success-message { color: #096; }
 
 .loading-icon { line-height: 35px; }
 .loading-icon img { width: 30px; }
