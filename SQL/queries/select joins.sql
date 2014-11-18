@@ -1,0 +1,1 @@
+﻿SELECT * FROM UserProfile p left join userblog b on p.userid = b.userid left join userthread t on b.userblogid = t.userblogid where blogshortname = 'sherlockholmesinsultingdetective'
