@@ -82,5 +82,10 @@ namespace TumblrThreadTracker.Domain.Blogs
         {
             blogRepository.UpdateUserBlog(new Blog(dto));
         }
+
+        public static void DeleteBlog(BlogDto blog, IUserBlogRepository blogRepository)
+        {
+            blogRepository.DeleteUserBlog(blog.UserBlogId);
+        }
     }
 }
