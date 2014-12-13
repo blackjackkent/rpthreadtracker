@@ -309,6 +309,8 @@
     <Content Include="application\scripts\services\publicThreadService.js" />
     <Content Include="application\scripts\services\sessionService.js" />
     <Content Include="application\scripts\services\threadService.js" />
+    <Content Include="application\scripts\vendor\angulartics-ga.js" />
+    <Content Include="application\scripts\vendor\angulartics.js" />
     <Content Include="application\styles\black-blue\adminflare.css" />
     <Content Include="application\styles\black-blue\adminflare.min.css" />
     <Content Include="application\styles\black-blue\bootstrap.css" />
@@ -469,7 +471,6 @@
     <Content Include="Scripts\jquery-2.1.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="application\scripts\vendor\" />
     <Folder Include="App_Data\" />
     <Folder Include="Controllers\v200\" />
     <Folder Include="Filters\" />
