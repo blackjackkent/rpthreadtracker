@@ -19,13 +19,11 @@ namespace TumblrThreadTracker.Controllers
     {
         private readonly IUserBlogRepository _blogRepository;
         private readonly IUserThreadRepository _threadRepository;
-        private static int _userId;
 
         public ThreadController()
         {
             _blogRepository = new UserBlogRepository(new ThreadTrackerContext());
             _threadRepository = new UserThreadRepository(new ThreadTrackerContext());
-            _userId = WebSecurity.GetUserId(User.Identity.Name);
         }
 
         // GET api/<controller>
@@ -36,8 +34,9 @@ namespace TumblrThreadTracker.Controllers
 
         public IEnumerable<int?> Get()
         {
+            var userId = WebSecurity.GetUserId(User.Identity.Name);
             var ids = new List<int?>();
-            var blogs = Blog.GetBlogsByUserId(_userId, _blogRepository);
+            var blogs = Blog.GetBlogsByUserId(userId, _blogRepository);
             foreach (var blog in blogs)
             {
                 ids.AddRange(Thread.GetThreadIdsByBlogId(blog.UserBlogId, _threadRepository));
@@ -49,10 +48,9 @@ namespace TumblrThreadTracker.Controllers
         public void Post(ThreadUpdateRequest request)
         {
             if (request == null)
-            {
                 throw new ArgumentNullException();
-            }
-            var blog = Blog.GetBlogByShortname(request.BlogShortname, _userId, _blogRepository);
+            var userId = WebSecurity.GetUserId(User.Identity.Name);
+            var blog = Blog.GetBlogByShortname(request.BlogShortname, userId, _blogRepository);
             var dto = new ThreadDto
             {
                 UserThreadId = null,
@@ -72,7 +70,8 @@ namespace TumblrThreadTracker.Controllers
             {
                 throw new ArgumentNullException();
             }
-            var blog = Blog.GetBlogByShortname(request.BlogShortname, _userId, _blogRepository);
+            var userId = WebSecurity.GetUserId(User.Identity.Name);
+            var blog = Blog.GetBlogByShortname(request.BlogShortname, userId, _blogRepository);
             var dto = new ThreadDto
             {
                 UserThreadId = request.UserThreadId,
@@ -88,7 +87,12 @@ namespace TumblrThreadTracker.Controllers
         // DELETE api/<controller>/5
         public void Delete(int userThreadId)
         {
-            _threadRepository.DeleteUserThread(userThreadId);
+            var userId = WebSecurity.GetUserId(User.Identity.Name);
+            var thread = Thread.GetById(userThreadId, _blogRepository, _threadRepository);
+            var blog = Blog.GetBlogById(thread.UserBlogId, _blogRepository);
+            if (blog.UserId != userId)
+                return;
+            Thread.DeleteThread(userThreadId, _threadRepository);
         }
     }
 }

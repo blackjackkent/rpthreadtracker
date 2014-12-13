@@ -97,6 +97,7 @@ namespace TumblrThreadTracker.Domain.Threads
                 return new ThreadDto
                 {
                     BlogShortname = blog.BlogShortname,
+                    UserBlogId = blog.UserBlogId.HasValue ? blog.UserBlogId.Value : -1,
                     IsMyTurn = true,
                     LastPostDate = null,
                     LastPostUrl = null,
@@ -142,6 +143,11 @@ namespace TumblrThreadTracker.Domain.Threads
                         : !String.Equals(post.blog_name, blog.BlogShortname, StringComparison.OrdinalIgnoreCase);
 
             return dto;
+        }
+
+        public static void DeleteThread(int userThreadId, IUserThreadRepository threadRepository)
+        {
+            threadRepository.DeleteUserThread(userThreadId);
         }
     }
 }

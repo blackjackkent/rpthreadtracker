@@ -46,7 +46,7 @@ namespace TumblrThreadTracker.Repositories
             Save();
         }
 
-        public void DeleteUserBlog(int userBlogId)
+        public void DeleteUserBlog(int? userBlogId)
         {
             Blog userBlog = context.UserBlogs.Find(userBlogId);
             List<Thread> threads = context.UserThreads.Where(t => t.UserBlogId == userBlogId).ToList();

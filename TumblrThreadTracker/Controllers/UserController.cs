@@ -10,18 +10,17 @@ namespace TumblrThreadTracker.Controllers
     [Authorize]
     public class UserController : ApiController
     {
-        private static int _userId;
         private readonly IUserProfileRepository _userProfileRepository;
 
         public UserController()
         {
             _userProfileRepository = new UserProfileRepository(new ThreadTrackerContext());
-            _userId = WebSecurity.GetUserId(User.Identity.Name);
         }
 
         public UserProfileDto Get()
         {
-            return _userProfileRepository.GetUserProfileById(_userId).ToDto();
+            var userId = WebSecurity.GetUserId(User.Identity.Name);
+            return _userProfileRepository.GetUserProfileById(userId).ToDto();
         }
     }
 }
