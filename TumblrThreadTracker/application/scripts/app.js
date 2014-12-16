@@ -1,6 +1,6 @@
 ﻿'use strict';
 var rpThreadTracker = rpThreadTracker || {};
-rpThreadTracker.app = angular.module('rpThreadTracker', ['ngRoute', 'rpThreadTracker.filters', 'rpThreadTracker.services', 'rpThreadTracker.directives', 'rpThreadTracker.controllers']);
+rpThreadTracker.app = angular.module('rpThreadTracker', ['ngRoute', 'rpThreadTracker.filters', 'rpThreadTracker.services', 'rpThreadTracker.directives', 'rpThreadTracker.controllers', 'angulartics', 'angulartics.google.analytics']);
 rpThreadTracker.controllers = angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services']);
 rpThreadTracker.directives = angular.module('rpThreadTracker.directives', []);
 rpThreadTracker.filters = angular.module('rpThreadTracker.filters', []);
