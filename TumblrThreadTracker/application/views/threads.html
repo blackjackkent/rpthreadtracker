@@ -10,12 +10,12 @@
             <div class="span8">
                 <form class="form-inline">
                     <label class="inline-control-label">Order By: </label>
-                    <select ng-model="currentOrderBy" name="currentOrderBy" ng-change="setCurrentOrderBy()">
+                    <select ng-model="currentOrderBy" name="currentOrderBy" analytics-on="change" analytics-category="Private Thread View" analytics-event="Change Order By" ng-change="setCurrentOrderBy()">
                         <option value="UserTitle">Thread Title</option>
                         <option value="LastPostDate">Last Post Date</option>
                         <option value="LastPosterShortname">Last Poster</option>
                     </select>
-                    <select ng-model="sortDescending" ng-change="setSortDescending()">
+                    <select ng-model="sortDescending" analytics-on="change" analytics-category="Private Thread View" analytics-event="Change Sort Descending" ng-change="setSortDescending()">
                         <option value="true">Descending</option>
                         <option value="false">Ascending</option>
                     </select>
@@ -23,14 +23,14 @@
             </div>
     
             <div class="span3">
-                <select ng-model="currentBlog" ng-change="setCurrentBlog()">
+                <select ng-model="currentBlog" analytics-on="change" analytics-category="Private Thread View" analytics-event="Change Current Blog" ng-change="setCurrentBlog()">
                     <option value="">All Blogs</option>
                     <option ng-repeat="blog in blogs | orderBy:'BlogShortname'" ng-value="blog.BlogShortname">{{blog.BlogShortname}}</option>
                 </select>
                 
             </div>
             <div class="span1">
-                                    <a href="#" class="btn refresh-link" ng-click="refreshThreads()">Refresh</a></div>
+                                    <a href="#" class="btn refresh-link" analytics-on="click" analytics-category="Private Thread View" analytics-event="Refresh (Private)" ng-click="refreshThreads()">Refresh</a></div>
         </section>
         <section class="row-fluid alert alert-info public-link-alert">
             Share this view publically:
@@ -69,7 +69,7 @@
                     <td><span ng-show="thread.LastPostDate != null">{{thread.LastPostDate * 1000 | date:'medium'}}</span></td>
                     <td><a target="_blank" href="{{thread.LastPostUrl}}">View</a></td>
                     <td><a href="/edit-thread/{{thread.UserThreadId}}">Edit</a></td>
-                    <td><a href="" ng-click="untrackThread(thread.UserThreadId, thread.UserTitle)">Untrack</a></td>
+                    <td><a href="" analytics-on="click" analytics-category="Private Thread View" analytics-event="Untrack Thread" ng-click="untrackThread(thread.UserThreadId, thread.UserTitle)">Untrack</a></td>
                 </tr>
             </table>
 
