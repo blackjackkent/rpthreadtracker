@@ -1,8 +1,8 @@
 ﻿'use strict';
 var rpThreadTracker = rpThreadTracker || {};
 rpThreadTracker.controllers.controller('MainController', [
-    '$scope', '$location', 'threadService', 'contextService', 'blogService', 'newsService', 'sessionService', 'pageId',
-    function($scope, $location, threadService, contextService, blogService, newsService, sessionService, pageId) {
+    '$scope', '$location', '$analytics', 'threadService', 'contextService', 'blogService', 'newsService', 'sessionService', 'pageId',
+    function($scope, $location, $analytics, threadService, contextService, blogService, newsService, sessionService, pageId) {
 
         $scope.setBodyClass('');
 
@@ -18,12 +18,15 @@ rpThreadTracker.controllers.controller('MainController', [
 
         $scope.setCurrentBlog = function() {
             contextService.setCurrentBlog($scope.currentBlog);
+            $analytics.eventTrack('Change Current Blog', { category: 'Private Thread View' });
         };
         $scope.setSortDescending = function() {
             contextService.setSortDescending($scope.sortDescending);
+            $analytics.eventTrack('Change Sort Descending', { category: 'Private Thread View' });
         };
         $scope.setCurrentOrderBy = function() {
             contextService.setCurrentOrderBy($scope.currentOrderBy);
+            $analytics.eventTrack('Change Order By', { category: 'Private Thread View' });
         };
         $scope.pageId = pageId;
         $scope.displayPublicUrl = true;
@@ -46,12 +49,16 @@ rpThreadTracker.controllers.controller('MainController', [
             $scope.news = news;
         });
 
-        $scope.untrackThread = function(userThreadId, threadTitle) {
+        $scope.untrackThread = function (userThreadId, threadTitle) {
             threadService.flushThreads();
-            threadService.untrackThread(userThreadId).then(threadService.getThreads());
+            threadService.untrackThread(userThreadId).then(function() { threadService.getThreads(); });
             $scope.genericSuccess = threadTitle + " has been untracked.";
         };
-        $scope.refreshThreads = function() { threadService.getThreads(true); };
+        $scope.refreshThreads = function () { threadService.getThreads(true); };
+        $scope.setDashboardFilter = function(filterString) {
+            $scope.dashboardFilter = filterString;
+            $analytics.eventTrack('Set Recent to ' + filterString, { category: 'Dashboard' });
+        };
 
         $scope.$on("$destroy", function() {
             threadService.unsubscribe(updateThreads);
