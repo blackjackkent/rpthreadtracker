@@ -303,6 +303,7 @@
     <Content Include="application\scripts\jquery\bootstrap.min.js" />
     <Content Include="application\scripts\jquery\fuelux-datagrid-example.min.js" />
     <Content Include="application\scripts\jquery\modernizr-jquery.min.js" />
+    <Content Include="application\scripts\services\adminflareService.js" />
     <Content Include="application\scripts\services\blogService.js" />
     <Content Include="application\scripts\services\contextService.js" />
     <Content Include="application\scripts\services\newsService.js" />

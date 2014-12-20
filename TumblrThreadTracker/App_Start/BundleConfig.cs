@@ -17,7 +17,7 @@ namespace TumblrThreadTracker
             bundles.Add(new CustomScriptBundle("~/bundles/angular-services").Include("~/application/scripts/services/*.js"));
 
 
-            BundleTable.EnableOptimizations = true;
+            //BundleTable.EnableOptimizations = true;
         }
     }
 }
