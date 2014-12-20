@@ -1,4 +1,23 @@
-﻿.widget-threads .content { margin-left: 0;}
+﻿#main-navbar .logo {
+    color: #fff;
+    display: inline-block;
+    height: 40px;
+    margin: 0 15px;padding: 0;
+    line-height: 40px;
+}
+
+#main-navbar .logo:hover {
+    text-decoration: none;
+}
+
+@media (max-width: 767px) {
+    section.container {
+        width: 90%;
+        margin: auto;
+    }
+    #dashboard-filter-selector { display: none;}
+}
+.widget-threads .content { margin-left: 0;}
 .widget-threads .content > span { text-align: right; }
 .widget-threads .refresh-link { float: left;}
 

@@ -1,7 +1,7 @@
-﻿'use strict';
-var rpThreadTracker = rpThreadTracker || {};
+﻿var rpThreadTracker = rpThreadTracker || {};
 rpThreadTracker.controllers.controller('HeaderController', [
-    '$scope', 'threadService', function($scope, threadService) {
+    '$scope', '$timeout', 'threadService', 'adminflareService', function ($scope, $timeout, threadService, adminflareService) {
+        $timeout(adminflareService.init);
         threadService.subscribe(showLoadingIcon);
         threadService.subscribeOnComplete(hideLoadingIcon);
         $scope.loading = false;
