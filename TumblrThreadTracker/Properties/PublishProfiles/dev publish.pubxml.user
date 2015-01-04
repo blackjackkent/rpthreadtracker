@@ -94,7 +94,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/12/2014 17:26:04</publishTime>
     </File>
     <File Include="application/scripts/app.js">
-      <publishTime>10/12/2014 17:26:04</publishTime>
+      <publishTime>12/15/2014 21:13:17</publishTime>
     </File>
     <File Include="application/scripts/controllers.js">
       <publishTime>09/27/2014 17:30:41</publishTime>
@@ -115,7 +115,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/17/2014 18:31:13</publishTime>
     </File>
     <File Include="application/scripts/controllers/headerController.js">
-      <publishTime>10/12/2014 17:26:04</publishTime>
+      <publishTime>12/20/2014 14:07:45</publishTime>
     </File>
     <File Include="application/scripts/controllers/loginController.js">
       <publishTime>10/12/2014 17:26:04</publishTime>
@@ -124,7 +124,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/12/2014 17:26:04</publishTime>
     </File>
     <File Include="application/scripts/controllers/mainController.js">
-      <publishTime>10/12/2014 17:26:04</publishTime>
+      <publishTime>01/04/2015 16:59:59</publishTime>
     </File>
     <File Include="application/scripts/controllers/manageAccountController.js">
       <publishTime>10/12/2014 17:26:04</publishTime>
@@ -172,7 +172,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/12/2014 17:26:04</publishTime>
     </File>
     <File Include="application/scripts/jquery/adminflare.js">
-      <publishTime>10/12/2014 17:26:04</publishTime>
+      <publishTime>12/20/2014 14:01:30</publishTime>
     </File>
     <File Include="application/scripts/jquery/adminflare.min.js">
       <publishTime>10/12/2014 17:26:04</publishTime>
@@ -192,6 +192,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="application/scripts/services.js">
       <publishTime>09/27/2014 17:19:28</publishTime>
     </File>
+    <File Include="application/scripts/services/adminflareService.js">
+      <publishTime>01/03/2015 18:23:38</publishTime>
+    </File>
     <File Include="application/scripts/services/blogService.js">
       <publishTime>10/12/2014 17:26:04</publishTime>
     </File>
@@ -209,6 +212,12 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="application/scripts/services/threadService.js">
       <publishTime>10/12/2014 17:26:04</publishTime>
+    </File>
+    <File Include="application/scripts/vendor/angulartics-ga.js">
+      <publishTime>10/28/2014 15:44:21</publishTime>
+    </File>
+    <File Include="application/scripts/vendor/angulartics.js">
+      <publishTime>10/28/2014 15:44:21</publishTime>
     </File>
     <File Include="application/styles/black-blue/adminflare.css">
       <publishTime>10/12/2014 17:26:04</publishTime>
@@ -295,7 +304,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/12/2014 17:26:04</publishTime>
     </File>
     <File Include="application/styles/default/adminflare.css">
-      <publishTime>10/12/2014 17:26:04</publishTime>
+      <publishTime>01/03/2015 15:20:59</publishTime>
     </File>
     <File Include="application/styles/default/adminflare.min.css">
       <publishTime>10/12/2014 17:26:04</publishTime>
@@ -307,7 +316,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/12/2014 17:26:04</publishTime>
     </File>
     <File Include="application/styles/default/custom.css">
-      <publishTime>11/17/2014 18:29:15</publishTime>
+      <publishTime>01/04/2015 17:09:06</publishTime>
     </File>
     <File Include="application/styles/green/adminflare.css">
       <publishTime>10/12/2014 17:26:04</publishTime>
@@ -352,25 +361,25 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/12/2014 17:26:04</publishTime>
     </File>
     <File Include="application/views/about.html">
-      <publishTime>10/12/2014 17:26:04</publishTime>
+      <publishTime>12/17/2014 17:59:21</publishTime>
     </File>
     <File Include="application/views/add-thread.html">
       <publishTime>10/12/2014 17:26:04</publishTime>
     </File>
     <File Include="application/views/contact.html">
-      <publishTime>10/12/2014 17:26:04</publishTime>
+      <publishTime>12/17/2014 18:01:24</publishTime>
     </File>
     <File Include="application/views/dashboard.html">
-      <publishTime>10/12/2014 17:26:04</publishTime>
+      <publishTime>12/17/2014 18:22:27</publishTime>
     </File>
     <File Include="application/views/directives/footer.html">
-      <publishTime>10/12/2014 17:26:04</publishTime>
+      <publishTime>12/20/2014 14:42:00</publishTime>
     </File>
     <File Include="application/views/directives/header-nav.html">
-      <publishTime>10/12/2014 17:26:04</publishTime>
+      <publishTime>12/20/2014 14:18:00</publishTime>
     </File>
     <File Include="application/views/directives/side-nav.html">
-      <publishTime>10/12/2014 17:26:04</publishTime>
+      <publishTime>01/04/2015 16:05:43</publishTime>
     </File>
     <File Include="application/views/edit-blog.html">
       <publishTime>10/12/2014 17:26:04</publishTime>
@@ -379,7 +388,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>11/17/2014 18:35:01</publishTime>
     </File>
     <File Include="application/views/help.html">
-      <publishTime>10/12/2014 17:26:04</publishTime>
+      <publishTime>12/17/2014 18:23:23</publishTime>
     </File>
     <File Include="application/views/login.html">
       <publishTime>10/12/2014 17:26:04</publishTime>
@@ -391,13 +400,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/12/2014 17:26:04</publishTime>
     </File>
     <File Include="application/views/public.html">
-      <publishTime>10/15/2014 23:04:38</publishTime>
+      <publishTime>12/15/2014 21:36:51</publishTime>
     </File>
     <File Include="application/views/register.html">
       <publishTime>10/12/2014 17:26:04</publishTime>
     </File>
     <File Include="application/views/threads.html">
-      <publishTime>10/12/2014 17:26:04</publishTime>
+      <publishTime>01/04/2015 17:04:02</publishTime>
     </File>
     <File Include="bin/AjaxMin.dll">
       <publishTime>10/12/2014 17:26:04</publishTime>
@@ -406,10 +415,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/12/2014 17:26:05</publishTime>
     </File>
     <File Include="bin/App_global.asax.compiled">
-      <publishTime>12/13/2014 14:22:38</publishTime>
+      <publishTime>01/04/2015 17:19:16</publishTime>
     </File>
     <File Include="bin/App_global.asax.dll">
-      <publishTime>12/13/2014 14:22:38</publishTime>
+      <publishTime>01/04/2015 17:19:16</publishTime>
     </File>
     <File Include="bin/BundleTransformer.Core.dll">
       <publishTime>10/12/2014 17:26:05</publishTime>
@@ -514,7 +523,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/12/2014 17:26:05</publishTime>
     </File>
     <File Include="bin/TumblrThreadTracker.dll">
-      <publishTime>12/13/2014 14:21:06</publishTime>
+      <publishTime>01/04/2015 17:13:19</publishTime>
     </File>
     <File Include="bin/TumblrThreadTracker.pdb">
       <publishTime>09/13/2014 14:49:20</publishTime>
@@ -634,7 +643,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>10/12/2014 17:26:04</publishTime>
     </File>
     <File Include="PrecompiledApp.config">
-      <publishTime>12/13/2014 14:21:46</publishTime>
+      <publishTime>01/04/2015 17:19:07</publishTime>
     </File>
     <File Include="Scripts/jquery-2.1.1.js">
       <publishTime>10/12/2014 17:26:04</publishTime>
@@ -724,7 +733,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/31/2014 19:27:47</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
-      <publishTime>10/12/2014 17:26:04</publishTime>
+      <publishTime>12/20/2014 13:58:18</publishTime>
     </File>
     <File Include="Views/Home/Threads.cshtml">
       <publishTime>06/15/2014 21:40:11</publishTime>
@@ -757,7 +766,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/03/2014 18:51:47</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/13/2014 14:21:25</publishTime>
+      <publishTime>01/03/2015 15:59:21</publishTime>
     </File>
   </ItemGroup>
 </Project>

@@ -33881,7 +33881,8 @@ rpThreadTracker.services.service('adminflareService', [
                   var left_panel = $('#left-panel');
 
                   var dropdown;
-                  for(var k in LP._dropdowns) {
+                  for (var k in LP._dropdowns) {
+
                     dropdown = LP._dropdowns[k];
 
                     dropdown.toggler.parent().append(dropdown.menu);
