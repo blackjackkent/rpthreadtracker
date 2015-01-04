@@ -6,7 +6,7 @@
     <div id="content">
 
         <!-- ================================================== -->
-        <section class="row-fluid">
+        <section class="row-fluid thread-filters">
             <div class="span8">
                 <form class="form-inline">
                     <label class="inline-control-label">Order By: </label>
@@ -15,9 +15,7 @@
                         <option value="LastPostDate">Last Post Date</option>
                         <option value="LastPosterShortname">Last Poster</option>
                     </select>
-                    <select ng-model="sortDescending" ng-change="setSortDescending()">
-                        <option value="true">Descending</option>
-                        <option value="false">Ascending</option>
+                    <select ng-model="sortDescending" ng-change="setSortDescending()" ng-options="o.v as o.n for o in [{ n: 'Descending', v: true }, { n: 'Ascending', v: false }]">
                     </select>
                 </form>
             </div>
@@ -43,7 +41,7 @@
         </section>
         <section class="row-fluid">
 		
-            <table class="table table-striped thread-table">
+            <table class="table table-condensed table-striped thread-table">
                 <tr>
                     <th>Thread Title</th>
                     <th>Last Poster</th>

@@ -1,6 +1,6 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
 	<s:Boolean x:Key="/Default/CoverageSessionsPersistenceManagerSettings/SessionPersistentData/=A8048D6A01DE44FB9DC93E88A1E27D7E/@KeyIndexDefined">True</s:Boolean>
-	<s:String x:Key="/Default/CoverageSessionsPersistenceManagerSettings/SessionPersistentData/=A8048D6A01DE44FB9DC93E88A1E27D7E/SessionName/@EntryValue">Session</s:String>
+	<s:String x:Key="/Default/CoverageSessionsPersistenceManagerSettings/SessionPersistentData/=A8048D6A01DE44FB9DC93E88A1E27D7E/SessionName/@EntryValue">New_Blog_Should_Correctly_Map_From_Dto</s:String>
 	<s:String x:Key="/Default/CoverageSessionsPersistenceManagerSettings/SessionPersistentData/=A8048D6A01DE44FB9DC93E88A1E27D7E/SnapshotLocation/@EntryValue">C:\Users\rosalindwills\AppData\Local\Temp\ssmLejeguw.tmp</s:String>
 	<s:Boolean x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestSessionPersistentData/=A8048D6A01DE44FB9DC93E88A1E27D7E/@KeyIndexDefined">True</s:Boolean>
 	<s:String x:Key="/Default/Housekeeping/UnitTestingMru/UnitTestSessionPersistentData/=A8048D6A01DE44FB9DC93E88A1E27D7E/Name/@EntryValue">New_Blog_Should_Correctly_Map_From_Dto</s:String>
