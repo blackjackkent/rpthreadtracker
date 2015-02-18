@@ -14,11 +14,11 @@ namespace TumblrThreadTracker.Controllers
     [Authorize]
     public class BlogController : ApiController
     {
-        private readonly IUserBlogRepository _blogRepository;
+        private readonly IRepository<Blog> _blogRepository;
 
-        public BlogController()
+        public BlogController(IRepository<Blog> userBlogRepository)
         {
-            _blogRepository = new UserBlogRepository(new ThreadTrackerContext());
+            _blogRepository = userBlogRepository;
         }
 
         public BlogDto Get(int id)

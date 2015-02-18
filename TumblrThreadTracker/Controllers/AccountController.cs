@@ -12,11 +12,11 @@ namespace TumblrThreadTracker.Controllers
 {
     public class AccountController : ApiController
     {
-        private readonly IUserProfileRepository _userProfileRepository;
+        private readonly IRepository<UserProfile> _userProfileRepository;
 
-        public AccountController()
+        public AccountController(IRepository<UserProfile> userProfileRepository)
         {
-            _userProfileRepository = new UserProfileRepository(new ThreadTrackerContext());
+            _userProfileRepository = userProfileRepository;
         }
 
         public int GetUserId()
@@ -28,8 +28,8 @@ namespace TumblrThreadTracker.Controllers
         [AllowAnonymous]
         public HttpResponseMessage Post(RegisterRequest request)
         {
-            var existingUsername = _userProfileRepository.GetUserProfileByUsername(request.Username);
-            var existingEmail = _userProfileRepository.GetUserProfileByEmail(request.Email);
+            var existingUsername = _userProfileRepository.Get(u => u.UserName == request.Username);
+            var existingEmail = _userProfileRepository.Get(u => u.Email == request.Email);
 
             if (existingUsername != null || existingEmail != null)
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
@@ -42,7 +42,7 @@ namespace TumblrThreadTracker.Controllers
                 UserName = request.Username,
                 Email = request.Email
             };
-            _userProfileRepository.UpdateUserProfile(profile);
+            _userProfileRepository.Update(profile);
             return new HttpResponseMessage(HttpStatusCode.Created);
         }
     }

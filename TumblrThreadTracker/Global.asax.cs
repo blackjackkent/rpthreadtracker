@@ -10,6 +10,17 @@ using WebMatrix.WebData;
 
 namespace TumblrThreadTracker
 {
+    using Domain.Blogs;
+    using Domain.Threads;
+    using Domain.Users;
+    using Infrastructure;
+    using Infrastructure.Repositories;
+    using Interfaces;
+    using Microsoft.Practices.Unity;
+    using Models;
+    using Models.DataModels;
+    using Repositories;
+
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
 
@@ -25,6 +36,14 @@ namespace TumblrThreadTracker
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
+
+            var container = new UnityContainer();
+            container.RegisterType<IRepository<UserProfile>, UserProfileRepository>()
+                     .RegisterType<IRepository<Blog>, UserBlogRepository>()
+                     .RegisterType<IRepository<Thread>, UserThreadRepository>()
+                     .RegisterType<IRepository<webpages_Membership>, webpages_MembershipRepository>()
+                     .RegisterType<IThreadTrackerContext, ThreadTrackerContext>();
+            DependencyResolver.SetResolver(new UnityResolver(container));
         }
     }
 }
