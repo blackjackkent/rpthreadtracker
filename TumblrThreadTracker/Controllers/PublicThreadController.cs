@@ -16,13 +16,13 @@ namespace TumblrThreadTracker.Controllers
     //[Authorize]
     public class PublicThreadController : ApiController
     {
-        private readonly IUserBlogRepository _blogRepository;
-        private readonly IUserThreadRepository _threadRepository;
+        private readonly IRepository<Blog> _blogRepository;
+        private readonly IRepository<Thread> _threadRepository;
 
-        public PublicThreadController()
+        public PublicThreadController(IRepository<Blog> userBlogRepository, IRepository<Thread> userThreadRepository)
         {
-            _blogRepository = new UserBlogRepository(new ThreadTrackerContext());
-            _threadRepository = new UserThreadRepository(new ThreadTrackerContext());
+            _blogRepository = userBlogRepository;
+            _threadRepository = userThreadRepository;
         }
 
         // GET api/<controller>
