@@ -32,15 +32,13 @@ namespace TumblrThreadTracker.Controllers
             return Thread.GetById(id, _blogRepository, _threadRepository);
         }
 
-        public IEnumerable<int?> Get()
+        public IEnumerable<int?> Get([FromUri] bool isArchived = false)
         {
             var userId = WebSecurity.GetUserId(User.Identity.Name);
             var ids = new List<int?>();
             var blogs = Blog.GetBlogsByUserId(userId, _blogRepository);
             foreach (var blog in blogs)
-            {
-                ids.AddRange(Thread.GetThreadIdsByBlogId(blog.UserBlogId, _threadRepository));
-            }
+                ids.AddRange(Thread.GetThreadIdsByBlogId(blog.UserBlogId, _threadRepository, isArchived));
             return ids;
         }
 

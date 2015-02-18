@@ -27,6 +27,7 @@ namespace TumblrThreadTracker.Domain.Threads
             PostId = dto.PostId.ToString();
             UserTitle = dto.UserTitle;
             WatchedShortname = dto.WatchedShortname;
+            IsArchived = dto.IsArchived;
         }
 
         [Key]
@@ -38,14 +39,13 @@ namespace TumblrThreadTracker.Domain.Threads
         public string PostId { get; set; }
         public string UserTitle { get; set; }
         public string WatchedShortname { get; set; }
+        public bool IsArchived { get; set; }
 
-        public static IEnumerable<int?> GetThreadIdsByBlogId(int? blogId, IUserThreadRepository threadRepository)
+        public static IEnumerable<int?> GetThreadIdsByBlogId(int? blogId, IUserThreadRepository threadRepository, bool isArchived = false)
         {
             if (blogId == null)
-            {
                 return new List<int?>();
-            }
-            IEnumerable<Thread> threads = threadRepository.GetUserThreads(blogId);
+            IEnumerable<Thread> threads = threadRepository.GetUserThreads(blogId, isArchived);
             return threads.Select(t => t.UserThreadId);
         }
 
@@ -106,7 +106,8 @@ namespace TumblrThreadTracker.Domain.Threads
                     Type = null,
                     UserThreadId = UserThreadId,
                     UserTitle = UserTitle,
-                    WatchedShortname = WatchedShortname
+                    WatchedShortname = WatchedShortname,
+                    IsArchived = IsArchived
                 };
             }
             var dto = new ThreadDto
@@ -117,7 +118,8 @@ namespace TumblrThreadTracker.Domain.Threads
                 Type = post.type,
                 BlogShortname = blog.BlogShortname,
                 UserBlogId = blog.UserBlogId != null ? blog.UserBlogId.Value : -1,
-                WatchedShortname = WatchedShortname
+                WatchedShortname = WatchedShortname,
+                IsArchived = IsArchived
             };
             if (post.notes != null && post.notes.Any(n => n.type == "reblog"))
             {
