@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TumblrThreadTracker.Models.Service_Models;
+﻿using System.Collections.Generic;
+using TumblrThreadTracker.Models.ServiceModels;
 
 namespace TumblrThreadTracker.Interfaces
 {

@@ -1,14 +1,12 @@
-﻿namespace TumblrThreadTracker.Repositories
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Data.Entity;
-    using System.Linq;
-    using System.Linq.Expressions;
-    using Domain.Users;
-    using Interfaces;
-    using Models;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
+using TumblrThreadTracker.Interfaces;
+using TumblrThreadTracker.Models.DomainModels.Users;
 
+namespace TumblrThreadTracker.Infrastructure.Repositories
+{
     public class UserProfileRepository : IRepository<UserProfile>
     {
         private readonly IThreadTrackerContext _context;
@@ -49,7 +47,7 @@
         public void Delete(int? id)
         {
             var toUpdate = _context.UserProfiles.FirstOrDefault(b => b.UserId == id);
-            _context.GetDBSet(typeof(UserProfile)).Remove(toUpdate);
+            _context.GetDbSet(typeof (UserProfile)).Remove(toUpdate);
             _context.Commit();
         }
     }

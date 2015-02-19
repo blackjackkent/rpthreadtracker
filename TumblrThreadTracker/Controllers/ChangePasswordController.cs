@@ -14,7 +14,7 @@ namespace TumblrThreadTracker.Controllers
         [HttpPost]
         public HttpResponseMessage ChangePassword(ChangePasswordRequest model)
         {
-            bool hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
+            var hasLocalAccount = OAuthWebSecurity.HasLocalAccount(WebSecurity.GetUserId(User.Identity.Name));
             if (!hasLocalAccount)
                 throw new InvalidOperationException();
             WebSecurity.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);

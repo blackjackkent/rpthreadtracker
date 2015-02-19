@@ -1,4 +1,4 @@
-﻿namespace TumblrThreadTracker.Domain.Blogs
+﻿namespace TumblrThreadTracker.Models.DomainModels.Blogs
 {
     public class BlogDto
     {

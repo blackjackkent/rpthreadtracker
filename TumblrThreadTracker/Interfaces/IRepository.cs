@@ -1,9 +1,9 @@
-﻿namespace TumblrThreadTracker.Interfaces
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Linq.Expressions;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
 
+namespace TumblrThreadTracker.Interfaces
+{
     public interface IRepository<T>
     {
         T Get(int id);

@@ -1,11 +1,11 @@
 ﻿using System.Collections.Generic;
 using Moq;
 using NUnit.Framework;
-using TumblrThreadTracker.Domain.Blogs;
-using TumblrThreadTracker.Domain.Threads;
 using TumblrThreadTracker.Interfaces;
-using TumblrThreadTracker.Models.Service_Models;
-using Blog = TumblrThreadTracker.Domain.Blogs.Blog;
+using TumblrThreadTracker.Models.DomainModels.Blogs;
+using TumblrThreadTracker.Models.DomainModels.Threads;
+using TumblrThreadTracker.Models.ServiceModels;
+using Blog = TumblrThreadTracker.Models.DomainModels.Blogs.Blog;
 
 namespace TumblrThreadTrackerTests.Domain
 {

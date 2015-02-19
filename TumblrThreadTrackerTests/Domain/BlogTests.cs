@@ -1,7 +1,7 @@
 ﻿using Moq;
 using NUnit.Framework;
-using TumblrThreadTracker.Domain.Blogs;
 using TumblrThreadTracker.Interfaces;
+using TumblrThreadTracker.Models.DomainModels.Blogs;
 
 namespace TumblrThreadTrackerTests.Domain
 {

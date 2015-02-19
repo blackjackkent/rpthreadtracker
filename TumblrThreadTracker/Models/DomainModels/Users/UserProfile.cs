@@ -2,19 +2,25 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
+using System.Linq;
 using System.Text;
+using TumblrThreadTracker.Infrastructure.Services;
 using TumblrThreadTracker.Interfaces;
-using TumblrThreadTracker.Services;
+using TumblrThreadTracker.Models.DomainModels.Account;
 using WebMatrix.WebData;
 
-namespace TumblrThreadTracker.Domain.Users
+namespace TumblrThreadTracker.Models.DomainModels.Users
 {
-    using System.Linq;
-    using Models.DataModels;
-
     [Table("UserProfile")]
     public class UserProfile
     {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int UserId { get; set; }
+        public string UserName { get; set; }
+        public string Email { get; set; }
+        public string Password { get; set; }
+
         public UserProfile()
         {
         }
@@ -25,14 +31,6 @@ namespace TumblrThreadTracker.Domain.Users
             UserName = dto.UserName;
             Email = dto.Email;
         }
-
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int UserId { get; set; }
-
-        public string UserName { get; set; }
-        public string Email { get; set; }
-        public string Password { get; set; }
 
         public UserProfileDto ToDto()
         {
@@ -47,20 +45,16 @@ namespace TumblrThreadTracker.Domain.Users
         public static UserProfileDto GetByUserId(int id, IRepository<UserProfile> userProfileRepository)
         {
             var profile = userProfileRepository.Get(id);
-            if (profile == null)
-                return null;
-            return profile.ToDto();
+            return profile == null ? null : profile.ToDto();
         }
 
         public static UserProfileDto GetByUsername(string username, IRepository<UserProfile> userProfileRepository)
         {
             var profile = userProfileRepository.Get(u => u.UserName == username).FirstOrDefault();
-            if (profile == null)
-                return null;
-            return profile.ToDto();
+            return profile == null ? null : profile.ToDto();
         }
 
-        public void SendForgotPasswordEmail(string token, IRepository<webpages_Membership> webpages_MembershipRepository)
+        public void SendForgotPasswordEmail(string token, IRepository<WebpagesMembership> webpages_MembershipRepository)
         {
             var isValidToken = IsValidToken(token, webpages_MembershipRepository);
             if (!isValidToken)
@@ -69,7 +63,7 @@ namespace TumblrThreadTracker.Domain.Users
             SendTemporaryPasswordEmail(newPassword);
         }
 
-        private bool IsValidToken(string resetToken, IRepository<webpages_Membership> webpages_MembershipRepository)
+        private bool IsValidToken(string resetToken, IRepository<WebpagesMembership> webpages_MembershipRepository)
         {
             var record = webpages_MembershipRepository.Get(m => m.UserId == UserId && m.PasswordVerificationToken == resetToken);
             return record.Any();

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using TumblrThreadTracker.Models.Service_Models;
-using Blog = TumblrThreadTracker.Domain.Blogs.Blog;
-
-namespace TumblrThreadTracker.Domain.Threads
+﻿namespace TumblrThreadTracker.Models.DomainModels.Threads
 {
     public class ThreadDto
     {

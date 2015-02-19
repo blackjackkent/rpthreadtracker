@@ -1,47 +1,40 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using System.Web;
-using TumblrThreadTracker.Domain.Threads;
+using System.Linq.Expressions;
 using TumblrThreadTracker.Interfaces;
-using TumblrThreadTracker.Models;
-using TumblrThreadTracker.Models.DataModels;
+using TumblrThreadTracker.Models.DomainModels.Threads;
 
-namespace TumblrThreadTracker.Repositories
+namespace TumblrThreadTracker.Infrastructure.Repositories
 {
-    using System.Linq.Expressions;
-
     public class UserThreadRepository : IRepository<Thread>
     {
-        private bool disposed = false;
-        private IThreadTrackerContext context;
+        private readonly IThreadTrackerContext _context;
 
         public UserThreadRepository(IThreadTrackerContext context)
         {
-            this.context = context;
+            _context = context;
         }
 
         public Thread Get(int id)
         {
-            return context.UserThreads.FirstOrDefault(t => t.UserThreadId == id);
+            return _context.UserThreads.FirstOrDefault(t => t.UserThreadId == id);
         }
 
         public IEnumerable<Thread> Get(Expression<Func<Thread, bool>> criteria)
         {
-            return context.UserThreads.Where(criteria);
+            return _context.UserThreads.Where(criteria);
         }
 
         public void Insert(Thread entity)
         {
-            context.UserThreads.Add(entity);
-            context.Commit();
+            _context.UserThreads.Add(entity);
+            _context.Commit();
         }
 
         public void Update(Thread entity)
         {
-            var toUpdate = context.UserThreads.FirstOrDefault(b => b.UserThreadId == entity.UserThreadId);
+            var toUpdate = _context.UserThreads.FirstOrDefault(b => b.UserThreadId == entity.UserThreadId);
             if (toUpdate != null)
             {
                 toUpdate.UserBlogId = entity.UserBlogId;
@@ -49,14 +42,14 @@ namespace TumblrThreadTracker.Repositories
                 toUpdate.UserTitle = entity.UserTitle;
                 toUpdate.WatchedShortname = entity.WatchedShortname;
             }
-            context.Commit();
+            _context.Commit();
         }
 
         public void Delete(int? id)
         {
-            var toUpdate = context.UserThreads.FirstOrDefault(b => b.UserThreadId == id);
-            context.GetDBSet(typeof(Thread)).Remove(toUpdate);
-            context.Commit();
+            var toUpdate = _context.UserThreads.FirstOrDefault(b => b.UserThreadId == id);
+            _context.GetDbSet(typeof (Thread)).Remove(toUpdate);
+            _context.Commit();
         }
     }
 }

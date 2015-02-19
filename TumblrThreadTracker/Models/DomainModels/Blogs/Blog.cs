@@ -2,17 +2,23 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics.CodeAnalysis;
-using TumblrThreadTracker.Domain.Users;
+using System.Linq;
 using TumblrThreadTracker.Interfaces;
+using TumblrThreadTracker.Models.DomainModels.Users;
 
-namespace TumblrThreadTracker.Domain.Blogs
+namespace TumblrThreadTracker.Models.DomainModels.Blogs
 {
-    using System.Linq;
-
     [Table("UserBlog")]
     public class Blog
     {
-        [ExcludeFromCodeCoverage]
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int? UserBlogId { get; set; }
+        [ForeignKey("UserId")]
+        public UserProfile UserProfile { get; set; }
+        public int UserId { get; set; }
+        public string BlogShortname { get; set; }
+
         public Blog()
         {
         }
@@ -23,17 +29,6 @@ namespace TumblrThreadTracker.Domain.Blogs
             BlogShortname = dto.BlogShortname;
             UserId = dto.UserId;
         }
-
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int? UserBlogId { get; set; }
-
-        public int UserId { get; set; }
-
-        [ForeignKey("UserId")]
-        public UserProfile UserProfile { get; set; }
-
-        public string BlogShortname { get; set; }
 
         public BlogDto ToDto()
         {
@@ -48,7 +43,7 @@ namespace TumblrThreadTracker.Domain.Blogs
         [ExcludeFromCodeCoverage]
         public static BlogDto GetBlogById(int userBlogId, IRepository<Blog> blogRepository)
         {
-            Blog blog = blogRepository.Get(userBlogId);
+            var blog = blogRepository.Get(userBlogId);
             return blog.ToDto();
         }
 
@@ -57,11 +52,8 @@ namespace TumblrThreadTracker.Domain.Blogs
         {
             if (id == null)
                 return null;
-            var blogList = new List<BlogDto>();
-            IEnumerable<Blog> blogs = userBlogRepository.Get(b => b.UserId == id);
-            foreach (Blog blog in blogs)
-                blogList.Add(blog.ToDto());
-            return blogList;
+            var blogs = userBlogRepository.Get(b => b.UserId == id);
+            return blogs.Select(blog => blog.ToDto()).ToList();
         }
 
         [ExcludeFromCodeCoverage]
@@ -69,8 +61,8 @@ namespace TumblrThreadTracker.Domain.Blogs
         {
             if (shortname == null)
                 return null;
-            Blog blog = userBlogRepository.Get(b => b.BlogShortname == shortname && b.UserId == userId).FirstOrDefault();
-            return blog.ToDto();
+            var blog = userBlogRepository.Get(b => b.BlogShortname == shortname && b.UserId == userId).FirstOrDefault();
+            return blog != null ? blog.ToDto() : null;
         }
 
         [ExcludeFromCodeCoverage]
