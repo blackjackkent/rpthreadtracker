@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using TumblrThreadTracker.Domain.Users;
@@ -28,10 +29,10 @@ namespace TumblrThreadTracker.Controllers
         [AllowAnonymous]
         public HttpResponseMessage Post(RegisterRequest request)
         {
-            var existingUsername = _userProfileRepository.Get(u => u.UserName == request.Username);
-            var existingEmail = _userProfileRepository.Get(u => u.Email == request.Email);
+            var existingUsername = _userProfileRepository.Get(u => u.UserName == request.Username).Any();
+            var existingEmail = _userProfileRepository.Get(u => u.Email == request.Email).Any();
 
-            if (existingUsername != null || existingEmail != null)
+            if (existingUsername || existingEmail)
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
 
             WebSecurity.CreateUserAndAccount(request.Username, request.Password);

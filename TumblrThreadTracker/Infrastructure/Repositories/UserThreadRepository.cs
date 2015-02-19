@@ -43,7 +43,12 @@ namespace TumblrThreadTracker.Repositories
         {
             var toUpdate = context.UserThreads.FirstOrDefault(b => b.UserThreadId == entity.UserThreadId);
             if (toUpdate != null)
-                toUpdate = entity;
+            {
+                toUpdate.UserBlogId = entity.UserBlogId;
+                toUpdate.PostId = entity.PostId;
+                toUpdate.UserTitle = entity.UserTitle;
+                toUpdate.WatchedShortname = entity.WatchedShortname;
+            }
             context.Commit();
         }
 

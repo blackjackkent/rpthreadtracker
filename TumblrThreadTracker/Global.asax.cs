@@ -6,6 +6,7 @@ using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Microsoft.Practices.Unity;
 using WebMatrix.WebData;
 
 namespace TumblrThreadTracker
@@ -16,7 +17,6 @@ namespace TumblrThreadTracker
     using Infrastructure;
     using Infrastructure.Repositories;
     using Interfaces;
-    using Microsoft.Practices.Unity;
     using Models;
     using Models.DataModels;
     using Repositories;
@@ -36,14 +36,6 @@ namespace TumblrThreadTracker
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             AuthConfig.RegisterAuth();
-
-            var container = new UnityContainer();
-            container.RegisterType<IRepository<UserProfile>, UserProfileRepository>()
-                     .RegisterType<IRepository<Blog>, UserBlogRepository>()
-                     .RegisterType<IRepository<Thread>, UserThreadRepository>()
-                     .RegisterType<IRepository<webpages_Membership>, webpages_MembershipRepository>()
-                     .RegisterType<IThreadTrackerContext, ThreadTrackerContext>();
-            DependencyResolver.SetResolver(new UnityResolver(container));
         }
     }
 }
