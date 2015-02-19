@@ -1,8 +1,6 @@
 ﻿using System.Web.Http;
-using TumblrThreadTracker.Domain.Users;
 using TumblrThreadTracker.Interfaces;
-using TumblrThreadTracker.Models;
-using TumblrThreadTracker.Repositories;
+using TumblrThreadTracker.Models.DomainModels.Users;
 using WebMatrix.WebData;
 
 namespace TumblrThreadTracker.Controllers

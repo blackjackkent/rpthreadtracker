@@ -197,7 +197,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
@@ -212,16 +211,18 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ThreadController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
-    <Compile Include="Domain\DomainModels\Blogs\Blog.cs" />
-    <Compile Include="Domain\DomainModels\Blogs\BlogDto.cs" />
-    <Compile Include="Domain\DomainModels\Threads\Thread.cs" />
-    <Compile Include="Domain\DomainModels\Threads\ThreadDto.cs" />
-    <Compile Include="Domain\DomainModels\Users\UserProfile.cs" />
-    <Compile Include="Domain\DomainModels\Users\UserProfileDto.cs" />
+    <Compile Include="Models\RequestModels\LoginRequest.cs" />
+    <Compile Include="Infrastructure\ThreadTrackerContext.cs" />
+    <Compile Include="Models\DomainModels\Blogs\Blog.cs" />
+    <Compile Include="Models\DomainModels\Blogs\BlogDto.cs" />
+    <Compile Include="Models\DomainModels\Threads\Thread.cs" />
+    <Compile Include="Models\DomainModels\Threads\ThreadDto.cs" />
+    <Compile Include="Models\DomainModels\Users\UserProfile.cs" />
+    <Compile Include="Models\DomainModels\Users\UserProfileDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\Repositories\webpages_MembershipRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\WebpagesMembershipRepository.cs" />
     <Compile Include="Infrastructure\UnityResolver.cs" />
     <Compile Include="Interfaces\IPost.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
@@ -231,18 +232,17 @@
       <DependentUpon>201403151939344_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Domain\DataModels\AccountModels.cs" />
-    <Compile Include="Domain\DataModels\webpages_Membership.cs" />
-    <Compile Include="Domain\RequestModels\BlogUpdateRequest.cs" />
-    <Compile Include="Domain\RequestModels\ChangePasswordRequest.cs" />
-    <Compile Include="Domain\RequestModels\RegisterRequest.cs" />
-    <Compile Include="Domain\RequestModels\ThreadUpdateRequest.cs" />
-    <Compile Include="Domain\Service Models\Blog.cs" />
-    <Compile Include="Domain\Service Models\Note.cs" />
-    <Compile Include="Domain\Service Models\Post.cs" />
-    <Compile Include="Domain\Service Models\ServiceMeta.cs" />
-    <Compile Include="Domain\Service Models\ServiceObject.cs" />
-    <Compile Include="Domain\Service Models\ServiceResponse.cs" />
+    <Compile Include="Models\DomainModels\Account\WebpagesMembership.cs" />
+    <Compile Include="Models\RequestModels\BlogUpdateRequest.cs" />
+    <Compile Include="Models\RequestModels\ChangePasswordRequest.cs" />
+    <Compile Include="Models\RequestModels\RegisterRequest.cs" />
+    <Compile Include="Models\RequestModels\ThreadUpdateRequest.cs" />
+    <Compile Include="Models\ServiceModels\Blog.cs" />
+    <Compile Include="Models\ServiceModels\Note.cs" />
+    <Compile Include="Models\ServiceModels\Post.cs" />
+    <Compile Include="Models\ServiceModels\ServiceMeta.cs" />
+    <Compile Include="Models\ServiceModels\ServiceObject.cs" />
+    <Compile Include="Models\ServiceModels\ServiceResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Infrastructure\Repositories\UserThreadRepository.cs" />
     <Compile Include="Infrastructure\Repositories\UserProfileRepository.cs" />
@@ -401,7 +401,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Controllers\v200\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

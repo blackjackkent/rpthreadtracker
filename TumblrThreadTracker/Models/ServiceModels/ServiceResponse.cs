@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
-namespace TumblrThreadTracker.Models.Service_Models
+namespace TumblrThreadTracker.Models.ServiceModels
 {
     public class ServiceResponse
     {

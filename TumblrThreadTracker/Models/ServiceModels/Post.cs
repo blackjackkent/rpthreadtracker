@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using TumblrThreadTracker.Interfaces;
 
-namespace TumblrThreadTracker.Models.Service_Models
+namespace TumblrThreadTracker.Models.ServiceModels
 {
     public class Post : IPost
     {
@@ -29,7 +28,7 @@ namespace TumblrThreadTracker.Models.Service_Models
 
         public Note GetMostRecentRelevantNote(string blogShortname, string watchedShortname)
         {
-            Note mostRecentRelevantNote = null;
+            Note mostRecentRelevantNote;
             if (string.IsNullOrEmpty(watchedShortname))
                 mostRecentRelevantNote =
                     notes.OrderByDescending(n => n.timestamp)

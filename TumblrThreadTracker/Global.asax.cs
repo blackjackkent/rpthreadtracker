@@ -11,15 +11,10 @@ using WebMatrix.WebData;
 
 namespace TumblrThreadTracker
 {
-    using Domain.Blogs;
-    using Domain.Threads;
-    using Domain.Users;
     using Infrastructure;
     using Infrastructure.Repositories;
     using Interfaces;
     using Models;
-    using Models.DataModels;
-    using Repositories;
 
     // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
     // visit http://go.microsoft.com/?LinkId=9394801
@@ -35,7 +30,6 @@ namespace TumblrThreadTracker
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            AuthConfig.RegisterAuth();
         }
     }
 }

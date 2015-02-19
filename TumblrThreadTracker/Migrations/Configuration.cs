@@ -1,3 +1,5 @@
+using TumblrThreadTracker.Infrastructure;
+
 namespace TumblrThreadTracker.Migrations
 {
     using System;
@@ -5,14 +7,14 @@ namespace TumblrThreadTracker.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<TumblrThreadTracker.Models.ThreadTrackerContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<ThreadTrackerContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
         }
 
-        protected override void Seed(TumblrThreadTracker.Models.ThreadTrackerContext context)
+        protected override void Seed(ThreadTrackerContext context)
         {
             //  This method will be called after migrating to the latest version.
 

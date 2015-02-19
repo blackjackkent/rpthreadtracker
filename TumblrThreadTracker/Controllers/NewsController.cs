@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Web.Http;
-using TumblrThreadTracker.Domain.Threads;
+using TumblrThreadTracker.Models.DomainModels.Threads;
 
 namespace TumblrThreadTracker.Controllers
 {
@@ -8,7 +8,7 @@ namespace TumblrThreadTracker.Controllers
     {
         public IEnumerable<ThreadDto> Get()
         {
-            IEnumerable<ThreadDto> threads = Thread.GetNewsThreads();
+            var threads = Thread.GetNewsThreads();
             return threads;
         }
     }

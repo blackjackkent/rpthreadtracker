@@ -1,59 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
-using System.Data.Entity;
 using System.Linq;
-using TumblrThreadTracker.Domain.Blogs;
-using TumblrThreadTracker.Domain.Threads;
+using System.Linq.Expressions;
 using TumblrThreadTracker.Interfaces;
-using TumblrThreadTracker.Models;
+using TumblrThreadTracker.Models.DomainModels.Blogs;
 
-namespace TumblrThreadTracker.Repositories
+namespace TumblrThreadTracker.Infrastructure.Repositories
 {
-    using System.Linq.Expressions;
-
     public class UserBlogRepository : IRepository<Blog>
     {
-        private readonly IThreadTrackerContext context;
-        private bool disposed;
+        private readonly IThreadTrackerContext _context;
 
         public UserBlogRepository(IThreadTrackerContext context)
         {
-            this.context = context;
+            _context = context;
         }
 
         public Blog Get(int id)
         {
-            return context.UserBlogs.FirstOrDefault(b => b.UserBlogId == id);
+            return _context.UserBlogs.FirstOrDefault(b => b.UserBlogId == id);
         }
 
         public IEnumerable<Blog> Get(Expression<Func<Blog, bool>> criteria)
         {
-            return context.UserBlogs.Where(criteria);
+            return _context.UserBlogs.Where(criteria);
         }
 
         public void Insert(Blog entity)
         {
-            context.UserBlogs.Add(entity);
-            context.Commit();
+            _context.UserBlogs.Add(entity);
+            _context.Commit();
         }
 
         public void Update(Blog entity)
         {
-            var toUpdate = context.UserBlogs.FirstOrDefault(b => b.UserBlogId == entity.UserBlogId);
+            var toUpdate = _context.UserBlogs.FirstOrDefault(b => b.UserBlogId == entity.UserBlogId);
             if (toUpdate != null)
             {
                 toUpdate.BlogShortname = entity.BlogShortname;
                 toUpdate.UserId = entity.UserId;
             }
-            context.Commit();
+            _context.Commit();
         }
 
         public void Delete(int? id)
         {
-            var toUpdate = context.UserBlogs.FirstOrDefault(b => b.UserBlogId == id);
-            context.GetDBSet(typeof(Blog)).Remove(toUpdate);
-            context.Commit();
+            var toUpdate = _context.UserBlogs.FirstOrDefault(b => b.UserBlogId == id);
+            _context.GetDbSet(typeof (Blog)).Remove(toUpdate);
+            _context.Commit();
         }
     }
 }

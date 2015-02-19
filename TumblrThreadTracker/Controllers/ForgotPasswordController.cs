@@ -2,38 +2,34 @@
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-using TumblrThreadTracker.Domain.Users;
 using TumblrThreadTracker.Interfaces;
-using TumblrThreadTracker.Models;
-using TumblrThreadTracker.Repositories;
+using TumblrThreadTracker.Models.DomainModels.Account;
+using TumblrThreadTracker.Models.DomainModels.Users;
 using WebMatrix.WebData;
 
 namespace TumblrThreadTracker.Controllers
 {
-    using Models.DataModels;
-
     public class ForgotPasswordController : ApiController
     {
         private readonly IRepository<UserProfile> _userProfileRepository;
-        private readonly IRepository<webpages_Membership> _webpages_MembershipRepository; 
+        private readonly IRepository<WebpagesMembership> _webpagesMembershipRepository;
 
-        public ForgotPasswordController(IRepository<UserProfile> userProfileRepository, IRepository<webpages_Membership> webpages_MembershipRepository)
+        public ForgotPasswordController(IRepository<UserProfile> userProfileRepository,
+            IRepository<WebpagesMembership> webpagesMembershipRepository)
         {
             _userProfileRepository = userProfileRepository;
-            _webpages_MembershipRepository = webpages_MembershipRepository;
+            _webpagesMembershipRepository = webpagesMembershipRepository;
         }
 
         [HttpPost]
         [AllowAnonymous]
         public HttpResponseMessage Post(string username)
         {
-            //check user existance
-            UserProfileDto user = UserProfile.GetByUsername(username, _userProfileRepository);
+            var user = UserProfile.GetByUsername(username, _userProfileRepository);
             if (user == null)
                 throw new ObjectNotFoundException();
-            //generate password token
-            string token = WebSecurity.GeneratePasswordResetToken(username);
-            user.ToModel().SendForgotPasswordEmail(token, _webpages_MembershipRepository);
+            var token = WebSecurity.GeneratePasswordResetToken(username);
+            user.ToModel().SendForgotPasswordEmail(token, _webpagesMembershipRepository);
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
     }

@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web.Http;
-using TumblrThreadTracker.Domain.Blogs;
-using TumblrThreadTracker.Domain.Threads;
 using TumblrThreadTracker.Interfaces;
-using TumblrThreadTracker.Models;
+using TumblrThreadTracker.Models.DomainModels.Blogs;
+using TumblrThreadTracker.Models.DomainModels.Threads;
 using TumblrThreadTracker.Models.RequestModels;
-using TumblrThreadTracker.Repositories;
-using TumblrThreadTracker.Services;
 using WebMatrix.WebData;
 
 namespace TumblrThreadTracker.Controllers
@@ -26,7 +21,6 @@ namespace TumblrThreadTracker.Controllers
             _threadRepository = userThreadRepository;
         }
 
-        // GET api/<controller>
         public ThreadDto Get(int id)
         {
             return Thread.GetById(id, _blogRepository, _threadRepository);
@@ -38,13 +32,10 @@ namespace TumblrThreadTracker.Controllers
             var ids = new List<int?>();
             var blogs = Blog.GetBlogsByUserId(userId, _blogRepository);
             foreach (var blog in blogs)
-            {
                 ids.AddRange(Thread.GetThreadIdsByBlogId(blog.UserBlogId, _threadRepository));
-            }
             return ids;
         }
 
-        // POST api/<controller>
         public void Post(ThreadUpdateRequest request)
         {
             if (request == null)
@@ -63,13 +54,10 @@ namespace TumblrThreadTracker.Controllers
             Thread.AddNewThread(dto, _threadRepository);
         }
 
-        // PUT api/<controller>/5
         public void Put(ThreadUpdateRequest request)
         {
             if (request == null || request.UserThreadId == null)
-            {
                 throw new ArgumentNullException();
-            }
             var userId = WebSecurity.GetUserId(User.Identity.Name);
             var blog = Blog.GetBlogByShortname(request.BlogShortname, userId, _blogRepository);
             var dto = new ThreadDto
@@ -84,7 +72,6 @@ namespace TumblrThreadTracker.Controllers
             Thread.UpdateThread(dto, _threadRepository);
         }
 
-        // DELETE api/<controller>/5
         public void Delete(int userThreadId)
         {
             var userId = WebSecurity.GetUserId(User.Identity.Name);

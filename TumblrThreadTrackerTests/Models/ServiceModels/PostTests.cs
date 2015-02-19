@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using TumblrThreadTracker.Models.Service_Models;
+using TumblrThreadTracker.Models.ServiceModels;
 
 namespace TumblrThreadTrackerTests.Models.ServiceModels
 {

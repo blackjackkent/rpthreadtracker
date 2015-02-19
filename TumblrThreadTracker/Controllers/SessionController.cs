@@ -2,6 +2,7 @@
 using System.Net.Http;
 using System.Web.Http;
 using TumblrThreadTracker.Models;
+using TumblrThreadTracker.Models.RequestModels;
 using WebMatrix.WebData;
 
 namespace TumblrThreadTracker.Controllers
@@ -9,7 +10,7 @@ namespace TumblrThreadTracker.Controllers
     public class SessionController : ApiController
     {
         [HttpPost]
-        public HttpResponseMessage Post(LoginModel model)
+        public HttpResponseMessage Post(LoginRequest model)
         {
             if (model == null)
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);

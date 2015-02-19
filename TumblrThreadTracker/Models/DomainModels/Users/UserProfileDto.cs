@@ -1,4 +1,4 @@
-﻿namespace TumblrThreadTracker.Domain.Users
+﻿namespace TumblrThreadTracker.Models.DomainModels.Users
 {
     public class UserProfileDto
     {
