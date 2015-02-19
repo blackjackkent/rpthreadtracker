@@ -1,56 +1,53 @@
-﻿using System;
+﻿using Microsoft.Practices.Unity;
+using System;
 using System.Collections.Generic;
 using System.Web.Http.Dependencies;
-using Microsoft.Practices.Unity;
 
-namespace TumblrThreadTracker.Infrastructure
+public class UnityResolver : IDependencyResolver
 {
-    public class UnityResolver : IDependencyResolver
+    protected IUnityContainer container;
+
+    public UnityResolver(IUnityContainer container)
     {
-        protected IUnityContainer Container;
-
-        public UnityResolver(IUnityContainer container)
+        if (container == null)
         {
-            if (container == null)
-            {
-                throw new ArgumentNullException("container");
-            }
-            this.Container = container;
+            throw new ArgumentNullException("container");
         }
+        this.container = container;
+    }
 
-        public object GetService(Type serviceType)
+    public object GetService(Type serviceType)
+    {
+        try
         {
-            try
-            {
-                return Container.Resolve(serviceType);
-            }
-            catch (ResolutionFailedException)
-            {
-                return null;
-            }
+            return container.Resolve(serviceType);
         }
+        catch (ResolutionFailedException)
+        {
+            return null;
+        }
+    }
 
-        public IEnumerable<object> GetServices(Type serviceType)
+    public IEnumerable<object> GetServices(Type serviceType)
+    {
+        try
         {
-            try
-            {
-                return Container.ResolveAll(serviceType);
-            }
-            catch (ResolutionFailedException)
-            {
-                return new List<object>();
-            }
+            return container.ResolveAll(serviceType);
         }
+        catch (ResolutionFailedException)
+        {
+            return new List<object>();
+        }
+    }
 
-        public IDependencyScope BeginScope()
-        {
-            var child = Container.CreateChildContainer();
-            return new UnityResolver(child);
-        }
+    public IDependencyScope BeginScope()
+    {
+        var child = container.CreateChildContainer();
+        return new UnityResolver(child);
+    }
 
-        public void Dispose()
-        {
-            Container.Dispose();
-        }
+    public void Dispose()
+    {
+        container.Dispose();
     }
 }

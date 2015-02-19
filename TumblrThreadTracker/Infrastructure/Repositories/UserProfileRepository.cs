@@ -12,7 +12,6 @@
     public class UserProfileRepository : IRepository<UserProfile>
     {
         private readonly IThreadTrackerContext _context;
-        private bool _disposed = false;
 
         public UserProfileRepository(IThreadTrackerContext context)
         {
@@ -39,7 +38,11 @@
         {
             var toUpdate = _context.UserProfiles.FirstOrDefault(b => b.UserId == entity.UserId);
             if (toUpdate != null)
-                toUpdate = entity;
+            {
+                toUpdate.UserName = entity.UserName;
+                toUpdate.Email = entity.Email;
+                toUpdate.Password = entity.Password;
+            }
             _context.Commit();
         }
 
@@ -48,12 +51,6 @@
             var toUpdate = _context.UserProfiles.FirstOrDefault(b => b.UserId == id);
             _context.GetDBSet(typeof(UserProfile)).Remove(toUpdate);
             _context.Commit();
-        }
-        
-
-        public bool IsValidPasswordResetToken(int userId, string resetToken)
-        {
-            return _context.webpages_Membership.Any(m => m.UserId == userId && m.PasswordVerificationToken == resetToken);
         }
     }
 }
