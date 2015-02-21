@@ -211,6 +211,8 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ThreadController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
+    <Compile Include="Infrastructure\Services\WebSecurityService.cs" />
+    <Compile Include="Interfaces\IWebSecurityService.cs" />
     <Compile Include="Models\RequestModels\LoginRequest.cs" />
     <Compile Include="Infrastructure\ThreadTrackerContext.cs" />
     <Compile Include="Models\DomainModels\Blogs\Blog.cs" />

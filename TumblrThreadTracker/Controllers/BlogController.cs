@@ -12,10 +12,12 @@ namespace TumblrThreadTracker.Controllers
     public class BlogController : ApiController
     {
         private readonly IRepository<Blog> _blogRepository;
+        private readonly IWebSecurityService _webSecurityService;
 
-        public BlogController(IRepository<Blog> userBlogRepository)
+        public BlogController(IRepository<Blog> userBlogRepository, IWebSecurityService webSecurityService)
         {
             _blogRepository = userBlogRepository;
+            _webSecurityService = webSecurityService;
         }
 
         public BlogDto Get(int id)
@@ -25,14 +27,14 @@ namespace TumblrThreadTracker.Controllers
 
         public IEnumerable<BlogDto> Get()
         {
-            var userId = WebSecurity.GetUserId(User.Identity.Name);
+            var userId = _webSecurityService.GetUserId(User.Identity.Name);
             var blogs = Blog.GetBlogsByUserId(userId, _blogRepository);
             return blogs;
         }
 
         public void Post(BlogUpdateRequest request)
         {
-            var userId = WebSecurity.GetUserId(User.Identity.Name);
+            var userId = _webSecurityService.GetUserId(User.Identity.Name);
             if (request == null)
                 throw new ArgumentNullException();
             var dto = new BlogDto
@@ -45,7 +47,7 @@ namespace TumblrThreadTracker.Controllers
 
         public void Put(BlogUpdateRequest request)
         {
-            var userId = WebSecurity.GetUserId(User.Identity.Name);
+            var userId = _webSecurityService.GetUserId(User.Identity.Name);
             if (request == null || request.UserBlogId == null)
                 throw new ArgumentNullException();
             var dto = new BlogDto
@@ -59,7 +61,7 @@ namespace TumblrThreadTracker.Controllers
 
         public void Delete(int userBlogId)
         {
-            var userId = WebSecurity.GetUserId(User.Identity.Name);
+            var userId = _webSecurityService.GetUserId(User.Identity.Name);
             var blog = Blog.GetBlogById(userBlogId, _blogRepository);
             if (blog.UserId != userId)
                 return;

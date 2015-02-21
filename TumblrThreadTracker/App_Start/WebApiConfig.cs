@@ -2,6 +2,7 @@
 using Microsoft.Practices.Unity;
 using TumblrThreadTracker.Infrastructure;
 using TumblrThreadTracker.Infrastructure.Repositories;
+using TumblrThreadTracker.Infrastructure.Services;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models;
 using TumblrThreadTracker.Models.DomainModels.Account;
@@ -20,6 +21,7 @@ namespace TumblrThreadTracker
                 .RegisterType<IRepository<Blog>, UserBlogRepository>()
                 .RegisterType<IRepository<Thread>, UserThreadRepository>()
                 .RegisterType<IRepository<WebpagesMembership>, WebpagesMembershipRepository>()
+                .RegisterType<IWebSecurityService, WebSecurityService>()
                 .RegisterType<IThreadTrackerContext, ThreadTrackerContext>();
             config.DependencyResolver = new UnityResolver(container);
 
