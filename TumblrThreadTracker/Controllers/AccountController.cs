@@ -12,10 +12,12 @@ namespace TumblrThreadTracker.Controllers
     public class AccountController : ApiController
     {
         private readonly IRepository<UserProfile> _userProfileRepository;
+        private IWebSecurityService _webSecurityService;
 
-        public AccountController(IRepository<UserProfile> userProfileRepository)
+        public AccountController(IRepository<UserProfile> userProfileRepository, IWebSecurityService webSecurityService)
         {
             _userProfileRepository = userProfileRepository;
+            _webSecurityService = webSecurityService;
         }
 
         public int GetUserId()
@@ -33,15 +35,8 @@ namespace TumblrThreadTracker.Controllers
             if (existingUsername || existingEmail)
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
 
-            WebSecurity.CreateUserAndAccount(request.Username, request.Password);
-            WebSecurity.Login(request.Username, request.Password);
-            var profile = new UserProfile
-            {
-                UserId = WebSecurity.GetUserId(request.Username),
-                UserName = request.Username,
-                Email = request.Email
-            };
-            _userProfileRepository.Update(profile);
+            _webSecurityService.CreateAccount(request.Username, request.Password, request.Email, _userProfileRepository);
+            _webSecurityService.Login(request.Username, request.Password);
             return new HttpResponseMessage(HttpStatusCode.Created);
         }
     }
