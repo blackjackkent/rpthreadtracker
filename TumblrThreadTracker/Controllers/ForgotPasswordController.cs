@@ -13,21 +13,23 @@ namespace TumblrThreadTracker.Controllers
     {
         private readonly IRepository<UserProfile> _userProfileRepository;
         private readonly IRepository<WebpagesMembership> _webpagesMembershipRepository;
-        private readonly IWebSecurityService _webSecurityService; 
+        private readonly IWebSecurityService _webSecurityService;
+        private readonly IUserProfileService _userProfileService;
 
         public ForgotPasswordController(IRepository<UserProfile> userProfileRepository,
-            IRepository<WebpagesMembership> webpagesMembershipRepository, IWebSecurityService webSecurityService)
+            IRepository<WebpagesMembership> webpagesMembershipRepository, IWebSecurityService webSecurityService, IUserProfileService userProfileService)
         {
             _userProfileRepository = userProfileRepository;
             _webpagesMembershipRepository = webpagesMembershipRepository;
             _webSecurityService = webSecurityService;
+            _userProfileService = userProfileService;
         }
 
         [HttpPost]
         [AllowAnonymous]
         public HttpResponseMessage Post(string username)
         {
-            var user = UserProfile.GetByUsername(username, _userProfileRepository);
+            var user = _userProfileService.GetByUsername(username, _userProfileRepository);
             if (user == null)
                 throw new ObjectNotFoundException();
             var token = _webSecurityService.GeneratePasswordResetToken(username);

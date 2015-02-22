@@ -211,7 +211,13 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ThreadController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
+    <Compile Include="Infrastructure\Services\BlogService.cs" />
+    <Compile Include="Infrastructure\Services\ThreadService.cs" />
+    <Compile Include="Infrastructure\Services\UserProfileService.cs" />
     <Compile Include="Infrastructure\Services\WebSecurityService.cs" />
+    <Compile Include="Interfaces\IBlogService.cs" />
+    <Compile Include="Interfaces\IThreadService.cs" />
+    <Compile Include="Interfaces\IUserProfileService.cs" />
     <Compile Include="Interfaces\IWebSecurityService.cs" />
     <Compile Include="Models\RequestModels\LoginRequest.cs" />
     <Compile Include="Infrastructure\ThreadTrackerContext.cs" />
@@ -250,7 +256,7 @@
     <Compile Include="Infrastructure\Repositories\UserProfileRepository.cs" />
     <Compile Include="Infrastructure\Repositories\UserBlogRepository.cs" />
     <Compile Include="Infrastructure\Services\EmailService.cs" />
-    <Compile Include="Infrastructure\Services\ThreadService.cs" />
+    <Compile Include="Infrastructure\Services\TumblrClient.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="application\fonts\fontawesome\fontawesome-webfont.svg" />

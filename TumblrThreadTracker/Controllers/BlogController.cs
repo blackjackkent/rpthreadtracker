@@ -13,22 +13,24 @@ namespace TumblrThreadTracker.Controllers
     {
         private readonly IRepository<Blog> _blogRepository;
         private readonly IWebSecurityService _webSecurityService;
+        private readonly IBlogService _blogService;
 
-        public BlogController(IRepository<Blog> userBlogRepository, IWebSecurityService webSecurityService)
+        public BlogController(IRepository<Blog> userBlogRepository, IWebSecurityService webSecurityService, IBlogService blogService)
         {
             _blogRepository = userBlogRepository;
             _webSecurityService = webSecurityService;
+            _blogService = blogService;
         }
 
         public BlogDto Get(int id)
         {
-            return Blog.GetBlogById(id, _blogRepository);
+            return _blogService.GetBlogById(id, _blogRepository);
         }
 
         public IEnumerable<BlogDto> Get()
         {
             var userId = _webSecurityService.GetUserId(User.Identity.Name);
-            var blogs = Blog.GetBlogsByUserId(userId, _blogRepository);
+            var blogs = _blogService.GetBlogsByUserId(userId, _blogRepository);
             return blogs;
         }
 
@@ -42,7 +44,7 @@ namespace TumblrThreadTracker.Controllers
                 UserId = userId,
                 BlogShortname = request.BlogShortname,
             };
-            Blog.AddNewBlog(dto, _blogRepository);
+            _blogService.AddNewBlog(dto, _blogRepository);
         }
 
         public void Put(BlogUpdateRequest request)
@@ -56,16 +58,16 @@ namespace TumblrThreadTracker.Controllers
                 UserBlogId = request.UserBlogId,
                 UserId = userId
             };
-            Blog.UpdateBlog(dto, _blogRepository);
+            _blogService.UpdateBlog(dto, _blogRepository);
         }
 
         public void Delete(int userBlogId)
         {
             var userId = _webSecurityService.GetUserId(User.Identity.Name);
-            var blog = Blog.GetBlogById(userBlogId, _blogRepository);
+            var blog = _blogService.GetBlogById(userBlogId, _blogRepository);
             if (blog.UserId != userId)
                 return;
-            Blog.DeleteBlog(blog, _blogRepository);
+            _blogService.DeleteBlog(blog, _blogRepository);
         }
     }
 }
