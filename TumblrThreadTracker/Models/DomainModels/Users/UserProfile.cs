@@ -42,17 +42,6 @@ namespace TumblrThreadTracker.Models.DomainModels.Users
             };
         }
 
-        public static UserProfileDto GetByUserId(int id, IRepository<UserProfile> userProfileRepository)
-        {
-            var profile = userProfileRepository.Get(id);
-            return profile == null ? null : profile.ToDto();
-        }
-
-        public static UserProfileDto GetByUsername(string username, IRepository<UserProfile> userProfileRepository)
-        {
-            var profile = userProfileRepository.Get(u => u.UserName == username).FirstOrDefault();
-            return profile == null ? null : profile.ToDto();
-        }
 
         public void SendForgotPasswordEmail(string token, IRepository<WebpagesMembership> webpages_MembershipRepository)
         {

@@ -1,66 +1,61 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
-using System.Net;
 using System.Web.Configuration;
-using RestSharp;
-using TumblrThreadTracker.Models.ServiceModels;
+using TumblrThreadTracker.Interfaces;
+using TumblrThreadTracker.Models.DomainModels.Blogs;
+using TumblrThreadTracker.Models.DomainModels.Threads;
 
 namespace TumblrThreadTracker.Infrastructure.Services
 {
-    public class ThreadService
+    public class ThreadService : IThreadService
     {
-        private const string ApiKey = "***REMOVED***";
-        private static readonly RestClient Client = new RestClient("http://api.tumblr.com/v2");
-
-        public static Post GetPost(string postId, string blogShortname)
+        public IEnumerable<int?> GetThreadIdsByBlogId(int? blogId, IRepository<Thread> threadRepository)
         {
-            var serviceObject = RetrieveApiData(postId, blogShortname);
-            if (serviceObject != null && serviceObject.response != null)
-                return serviceObject.response.posts.FirstOrDefault();
-            RefreshApiCache(postId, blogShortname);
-            var updatedObject = RetrieveApiData(postId, blogShortname);
-            if (updatedObject != null && updatedObject.response != null)
-                return updatedObject.response.posts.FirstOrDefault();
-            return null;
+            if (blogId == null)
+                return new List<int?>();
+            var threads = threadRepository.Get(t => t.UserBlogId == blogId);
+            return threads.Select(t => t.UserThreadId);
         }
 
-        public static IEnumerable<Post> GetNewsPosts(int limit)
+        public ThreadDto GetById(int id, IRepository<Blog> blogRepository, IRepository<Thread> threadRepository)
         {
-            var serviceObject = RetrieveApiData(null, WebConfigurationManager.AppSettings["NewsBlogShortname"], "news",
-                limit);
-            return serviceObject != null ? serviceObject.response.posts : null;
+            var thread = threadRepository.Get(id);
+            var blog = blogRepository.Get(thread.UserBlogId);
+            var post = TumblrClient.GetPost(thread.PostId, blog.BlogShortname);
+            return thread.ToDto(blog, post);
         }
 
-        private static ServiceObject RetrieveApiData(string postId, string blogShortname, string tag = null,
-            int? limit = null)
+        public void AddNewThread(ThreadDto threadDto, IRepository<Thread> threadRepository)
         {
-            var request = new RestRequest("blog/" + blogShortname + ".tumblr.com/posts", Method.GET);
-            request.AddParameter("api_key", ApiKey);
-            request.AddParameter("notes_info", "true");
-            if (postId != null)
-                request.AddParameter("id", postId);
-            if (tag != null)
-                request.AddParameter("tag", tag);
-            if (limit != null)
-                request.AddParameter("limit", limit);
-            request.AddHeader("Content-Type", "application/json; charset=utf-8");
-            var response = Client.Execute<ServiceObject>(request);
-            var serviceObject = response.Data;
-            return serviceObject;
+            threadRepository.Insert(new Thread(threadDto));
         }
 
-        private static void RefreshApiCache(string postId, string blogShortname)
+        public void UpdateThread(ThreadDto dto, IRepository<Thread> threadRepository)
         {
-            var url = "http://" + blogShortname + ".tumblr.com/post/" + postId;
-            var webRequest = WebRequest.Create(url);
-            try
+            threadRepository.Update(new Thread(dto));
+        }
+
+        public IEnumerable<ThreadDto> GetNewsThreads()
+        {
+            var posts = TumblrClient.GetNewsPosts(5);
+            return posts.Select(post => new ThreadDto
             {
-                webRequest.GetResponse().GetResponseStream();
-            }
-            catch
-            {
-                //honestly I don't care if it 404ed
-            }
+                BlogShortname = WebConfigurationManager.AppSettings["NewsBlogShortname"],
+                ContentSnippet = null,
+                IsMyTurn = false,
+                LastPostDate = post.timestamp,
+                LastPostUrl = post.post_url,
+                LastPosterShortname = WebConfigurationManager.AppSettings["NewsBlogShortname"],
+                PostId = Convert.ToInt64(post.id),
+                Type = post.type,
+                UserTitle = post.title
+            }).ToList();
+        }
+
+        public void DeleteThread(int userThreadId, IRepository<Thread> threadRepository)
+        {
+            threadRepository.Delete(userThreadId);
         }
     }
 }

@@ -36,49 +36,6 @@ namespace TumblrThreadTracker.Models.DomainModels.Threads
             WatchedShortname = dto.WatchedShortname;
         }
 
-        public static IEnumerable<int?> GetThreadIdsByBlogId(int? blogId, IRepository<Thread> threadRepository)
-        {
-            if (blogId == null)
-                return new List<int?>();
-            var threads = threadRepository.Get(t => t.UserBlogId == blogId);
-            return threads.Select(t => t.UserThreadId);
-        }
-
-        public static ThreadDto GetById(int id, IRepository<Blog> blogRepository, IRepository<Thread> threadRepository)
-        {
-            var thread = threadRepository.Get(id);
-            var blog = blogRepository.Get(thread.UserBlogId);
-            var post = ThreadService.GetPost(thread.PostId, blog.BlogShortname);
-            return thread.ToDto(blog, post);
-        }
-
-        public static void AddNewThread(ThreadDto threadDto, IRepository<Thread> threadRepository)
-        {
-            threadRepository.Insert(new Thread(threadDto));
-        }
-
-        public static void UpdateThread(ThreadDto dto, IRepository<Thread> threadRepository)
-        {
-            threadRepository.Update(new Thread(dto));
-        }
-
-        public static IEnumerable<ThreadDto> GetNewsThreads()
-        {
-            var posts = ThreadService.GetNewsPosts(5);
-            return posts.Select(post => new ThreadDto
-            {
-                BlogShortname = WebConfigurationManager.AppSettings["NewsBlogShortname"],
-                ContentSnippet = null,
-                IsMyTurn = false,
-                LastPostDate = post.timestamp,
-                LastPostUrl = post.post_url,
-                LastPosterShortname = WebConfigurationManager.AppSettings["NewsBlogShortname"],
-                PostId = Convert.ToInt64(post.id),
-                Type = post.type,
-                UserTitle = post.title
-            }).ToList();
-        }
-
         public ThreadDto ToDto(Blog blog, IPost post)
         {
             if (post == null)
@@ -134,11 +91,6 @@ namespace TumblrThreadTracker.Models.DomainModels.Threads
                 : !String.Equals(post.blog_name, blog.BlogShortname, StringComparison.OrdinalIgnoreCase);
 
             return dto;
-        }
-
-        public static void DeleteThread(int userThreadId, IRepository<Thread> threadRepository)
-        {
-            threadRepository.Delete(userThreadId);
         }
     }
 }

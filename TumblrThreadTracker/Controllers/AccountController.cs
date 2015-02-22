@@ -12,7 +12,7 @@ namespace TumblrThreadTracker.Controllers
     public class AccountController : ApiController
     {
         private readonly IRepository<UserProfile> _userProfileRepository;
-        private IWebSecurityService _webSecurityService;
+        private readonly IWebSecurityService _webSecurityService;
 
         public AccountController(IRepository<UserProfile> userProfileRepository, IWebSecurityService webSecurityService)
         {
@@ -22,7 +22,7 @@ namespace TumblrThreadTracker.Controllers
 
         public int GetUserId()
         {
-            return WebSecurity.GetUserId(User.Identity.Name);
+            return _webSecurityService.GetUserId(User.Identity.Name);
         }
 
         [HttpPost]
