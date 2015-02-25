@@ -63,8 +63,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controllers\ChangePasswordControllerTests.cs" />
-    <Compile Include="Controllers\SessionControllerTests.cs" />
     <Compile Include="Domain\BlogTests.cs" />
     <Compile Include="Domain\ThreadTests.cs" />
     <Compile Include="Models\ServiceModels\PostTests.cs" />

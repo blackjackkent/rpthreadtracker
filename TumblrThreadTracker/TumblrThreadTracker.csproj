@@ -217,6 +217,7 @@
     <Compile Include="Infrastructure\Services\WebSecurityService.cs" />
     <Compile Include="Interfaces\IBlogService.cs" />
     <Compile Include="Interfaces\IThreadService.cs" />
+    <Compile Include="Interfaces\ITumblrClient.cs" />
     <Compile Include="Interfaces\IUserProfileService.cs" />
     <Compile Include="Interfaces\IWebSecurityService.cs" />
     <Compile Include="Models\RequestModels\LoginRequest.cs" />

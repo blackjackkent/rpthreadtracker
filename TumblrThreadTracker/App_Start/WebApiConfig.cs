@@ -25,6 +25,7 @@ namespace TumblrThreadTracker
                 .RegisterType<IBlogService, BlogService>()
                 .RegisterType<IThreadService, ThreadService>()
                 .RegisterType<IUserProfileService, UserProfileService>()
+                .RegisterType<ITumblrClient, TumblrClient>()
                 .RegisterType<IThreadTrackerContext, ThreadTrackerContext>();
             config.DependencyResolver = new UnityResolver(container);
 

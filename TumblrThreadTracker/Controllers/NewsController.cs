@@ -8,15 +8,17 @@ namespace TumblrThreadTracker.Controllers
     public class NewsController : ApiController
     {
         private readonly IThreadService _threadService;
+        private readonly ITumblrClient _tumblrClient;
 
-        public NewsController(IThreadService threadService)
+        public NewsController(IThreadService threadService, ITumblrClient tumblrClient)
         {
             _threadService = threadService;
+            _tumblrClient = tumblrClient;
         }
 
         public IEnumerable<ThreadDto> Get()
         {
-            var threads = _threadService.GetNewsThreads();
+            var threads = _threadService.GetNewsThreads(_tumblrClient);
             return threads;
         }
     }
