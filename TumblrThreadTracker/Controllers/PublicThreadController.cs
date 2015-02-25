@@ -14,18 +14,20 @@ namespace TumblrThreadTracker.Controllers
         private readonly IRepository<Thread> _threadRepository;
         private readonly IThreadService _threadService;
         private readonly IBlogService _blogService;
+        private readonly ITumblrClient _tumblrClient;
 
-        public PublicThreadController(IRepository<Blog> userBlogRepository, IRepository<Thread> userThreadRepository, IBlogService blogService, IThreadService threadService)
+        public PublicThreadController(IRepository<Blog> userBlogRepository, IRepository<Thread> userThreadRepository, IBlogService blogService, IThreadService threadService, ITumblrClient tumblrClient)
         {
             _blogRepository = userBlogRepository;
             _threadRepository = userThreadRepository;
             _blogService = blogService;
             _threadService = threadService;
+            _tumblrClient = tumblrClient;
         }
 
         public ThreadDto Get(int id)
         {
-            return _threadService.GetById(id, _blogRepository, _threadRepository);
+            return _threadService.GetById(id, _blogRepository, _threadRepository, _tumblrClient);
         }
 
         public IEnumerable<int?> Get(int userId, string blogShortname)

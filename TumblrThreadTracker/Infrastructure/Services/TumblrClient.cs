@@ -7,12 +7,14 @@ using TumblrThreadTracker.Models.ServiceModels;
 
 namespace TumblrThreadTracker.Infrastructure.Services
 {
-    public class TumblrClient
+    using Interfaces;
+
+    public class TumblrClient : ITumblrClient
     {
         private const string ApiKey = "***REMOVED***";
         private static readonly RestClient Client = new RestClient("http://api.tumblr.com/v2");
 
-        public static Post GetPost(string postId, string blogShortname)
+        public IPost GetPost(string postId, string blogShortname)
         {
             var serviceObject = RetrieveApiData(postId, blogShortname);
             if (serviceObject != null && serviceObject.response != null)
@@ -24,7 +26,7 @@ namespace TumblrThreadTracker.Infrastructure.Services
             return null;
         }
 
-        public static IEnumerable<Post> GetNewsPosts(int limit)
+        public IEnumerable<Post> GetNewsPosts(int limit)
         {
             var serviceObject = RetrieveApiData(null, WebConfigurationManager.AppSettings["NewsBlogShortname"], "news",
                 limit);

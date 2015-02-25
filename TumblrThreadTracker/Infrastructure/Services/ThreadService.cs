@@ -18,11 +18,11 @@ namespace TumblrThreadTracker.Infrastructure.Services
             return threads.Select(t => t.UserThreadId);
         }
 
-        public ThreadDto GetById(int id, IRepository<Blog> blogRepository, IRepository<Thread> threadRepository)
+        public ThreadDto GetById(int id, IRepository<Blog> blogRepository, IRepository<Thread> threadRepository, ITumblrClient tumblrClient)
         {
             var thread = threadRepository.Get(id);
             var blog = blogRepository.Get(thread.UserBlogId);
-            var post = TumblrClient.GetPost(thread.PostId, blog.BlogShortname);
+            var post = tumblrClient.GetPost(thread.PostId, blog.BlogShortname);
             return thread.ToDto(blog, post);
         }
 
@@ -36,9 +36,9 @@ namespace TumblrThreadTracker.Infrastructure.Services
             threadRepository.Update(new Thread(dto));
         }
 
-        public IEnumerable<ThreadDto> GetNewsThreads()
+        public IEnumerable<ThreadDto> GetNewsThreads(ITumblrClient tumblrClient)
         {
-            var posts = TumblrClient.GetNewsPosts(5);
+            var posts = tumblrClient.GetNewsPosts(5);
             return posts.Select(post => new ThreadDto
             {
                 BlogShortname = WebConfigurationManager.AppSettings["NewsBlogShortname"],

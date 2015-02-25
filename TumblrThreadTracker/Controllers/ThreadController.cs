@@ -18,19 +18,21 @@ namespace TumblrThreadTracker.Controllers
         private readonly IWebSecurityService _webSecurityService;
         private readonly IBlogService _blogService;
         private readonly IThreadService _threadService;
+        private readonly ITumblrClient _tumblrClient;
 
-        public ThreadController(IRepository<Blog> userBlogRepository, IRepository<Thread> userThreadRepository, IWebSecurityService webSecurityService, IBlogService blogService, IThreadService threadService)
+        public ThreadController(IRepository<Blog> userBlogRepository, IRepository<Thread> userThreadRepository, IWebSecurityService webSecurityService, IBlogService blogService, IThreadService threadService, ITumblrClient tumblrClient)
         {
             _blogRepository = userBlogRepository;
             _threadRepository = userThreadRepository;
             _webSecurityService = webSecurityService;
             _blogService = blogService;
             _threadService = threadService;
+            _tumblrClient = tumblrClient;
         }
 
         public ThreadDto Get(int id)
         {
-            return _threadService.GetById(id, _blogRepository, _threadRepository);
+            return _threadService.GetById(id, _blogRepository, _threadRepository, _tumblrClient);
         }
 
         public IEnumerable<int?> Get()
@@ -82,7 +84,7 @@ namespace TumblrThreadTracker.Controllers
         public void Delete(int userThreadId)
         {
             var userId = _webSecurityService.GetUserId(User.Identity.Name);
-            var thread = _threadService.GetById(userThreadId, _blogRepository, _threadRepository);
+            var thread = _threadService.GetById(userThreadId, _blogRepository, _threadRepository, _tumblrClient);
             var blog = _blogService.GetBlogById(thread.UserBlogId, _blogRepository);
             if (blog.UserId != userId)
                 return;
