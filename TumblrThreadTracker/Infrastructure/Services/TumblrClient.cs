@@ -26,7 +26,7 @@ namespace TumblrThreadTracker.Infrastructure.Services
             return null;
         }
 
-        public IEnumerable<Post> GetNewsPosts(int limit)
+        public IEnumerable<Post> GetNewsPosts(int? limit = null)
         {
             var serviceObject = RetrieveApiData(null, WebConfigurationManager.AppSettings["NewsBlogShortname"], "news",
                 limit);

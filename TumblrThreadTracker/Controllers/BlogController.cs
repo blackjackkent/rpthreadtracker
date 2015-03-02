@@ -4,7 +4,6 @@ using System.Web.Http;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.DomainModels.Blogs;
 using TumblrThreadTracker.Models.RequestModels;
-using WebMatrix.WebData;
 
 namespace TumblrThreadTracker.Controllers
 {
@@ -12,10 +11,11 @@ namespace TumblrThreadTracker.Controllers
     public class BlogController : ApiController
     {
         private readonly IRepository<Blog> _blogRepository;
-        private readonly IWebSecurityService _webSecurityService;
         private readonly IBlogService _blogService;
+        private readonly IWebSecurityService _webSecurityService;
 
-        public BlogController(IRepository<Blog> userBlogRepository, IWebSecurityService webSecurityService, IBlogService blogService)
+        public BlogController(IRepository<Blog> userBlogRepository, IWebSecurityService webSecurityService,
+            IBlogService blogService)
         {
             _blogRepository = userBlogRepository;
             _webSecurityService = webSecurityService;

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using TumblrThreadTracker.Interfaces;
+using TumblrThreadTracker.Models.DomainModels;
 
 namespace TumblrThreadTracker.Models.ServiceModels
 {
-    public class Post : IPost
+    public class Post : ServiceModel, IPost
     {
         public string blog_name { get; set; }
         public long id { get; set; }

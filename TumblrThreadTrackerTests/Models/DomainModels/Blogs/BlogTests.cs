@@ -1,9 +1,8 @@
-﻿using Moq;
-using NUnit.Framework;
-using TumblrThreadTracker.Interfaces;
+﻿using NUnit.Framework;
 using TumblrThreadTracker.Models.DomainModels.Blogs;
+using TumblrThreadTrackerTests.TestBuilders;
 
-namespace TumblrThreadTrackerTests.Domain
+namespace TumblrThreadTrackerTests.Models.DomainModels.Blogs
 {
     [TestFixture]
     public class BlogTests
@@ -12,7 +11,7 @@ namespace TumblrThreadTrackerTests.Domain
         public void New_Blog_Should_Correctly_Map_From_Dto()
         {
             // Arrange
-            var dto = new BlogDto {BlogShortname = "testShortname", UserBlogId = 3, UserId = 7};
+            var dto = new BlogBuilder().BuildDto();
 
             // Act
             var blog = dto.ToModel();
@@ -27,16 +26,15 @@ namespace TumblrThreadTrackerTests.Domain
         public void Blog_Should_Correctly_Map_To_Dto()
         {
             // Arrange
-            var dto = new BlogDto { BlogShortname = "testShortname", UserBlogId = 3, UserId = 7 };
-            var blog = dto.ToModel();
+            var blog = new BlogBuilder().Build();
 
             // Act
             var newDto = blog.ToDto();
 
             // Assert
-            Assert.That(dto.BlogShortname, Is.EqualTo(blog.BlogShortname));
-            Assert.That(dto.UserBlogId, Is.EqualTo(blog.UserBlogId));
-            Assert.That(dto.UserId, Is.EqualTo(blog.UserId));
+            Assert.That(newDto.BlogShortname, Is.EqualTo(blog.BlogShortname));
+            Assert.That(newDto.UserBlogId, Is.EqualTo(blog.UserBlogId));
+            Assert.That(newDto.UserId, Is.EqualTo(blog.UserId));
         }
     }
 }
