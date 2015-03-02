@@ -1,6 +1,8 @@
-﻿namespace TumblrThreadTracker.Models.DomainModels.Users
+﻿using TumblrThreadTracker.Interfaces;
+
+namespace TumblrThreadTracker.Models.DomainModels.Users
 {
-    public class UserProfileDto
+    public class UserProfileDto : IDto<UserProfile>
     {
         public int UserId { get; set; }
         public string UserName { get; set; }

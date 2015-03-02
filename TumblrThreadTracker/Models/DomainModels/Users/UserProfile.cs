@@ -12,7 +12,7 @@ using WebMatrix.WebData;
 namespace TumblrThreadTracker.Models.DomainModels.Users
 {
     [Table("UserProfile")]
-    public class UserProfile
+    public class UserProfile : DomainModel
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

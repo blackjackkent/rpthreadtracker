@@ -1,6 +1,8 @@
-﻿namespace TumblrThreadTracker.Models.DomainModels.Blogs
+﻿using TumblrThreadTracker.Interfaces;
+
+namespace TumblrThreadTracker.Models.DomainModels.Blogs
 {
-    public class BlogDto
+    public class BlogDto : IDto<Blog>
     {
         public int? UserBlogId { get; set; }
         public int UserId { get; set; }

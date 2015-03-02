@@ -216,10 +216,13 @@
     <Compile Include="Infrastructure\Services\UserProfileService.cs" />
     <Compile Include="Infrastructure\Services\WebSecurityService.cs" />
     <Compile Include="Interfaces\IBlogService.cs" />
+    <Compile Include="Interfaces\IDto.cs" />
     <Compile Include="Interfaces\IThreadService.cs" />
     <Compile Include="Interfaces\ITumblrClient.cs" />
     <Compile Include="Interfaces\IUserProfileService.cs" />
     <Compile Include="Interfaces\IWebSecurityService.cs" />
+    <Compile Include="Models\DomainModels\DomainModel.cs" />
+    <Compile Include="Models\Model.cs" />
     <Compile Include="Models\RequestModels\LoginRequest.cs" />
     <Compile Include="Infrastructure\ThreadTrackerContext.cs" />
     <Compile Include="Models\DomainModels\Blogs\Blog.cs" />
@@ -247,6 +250,7 @@
     <Compile Include="Models\RequestModels\RegisterRequest.cs" />
     <Compile Include="Models\RequestModels\ThreadUpdateRequest.cs" />
     <Compile Include="Models\ServiceModels\Blog.cs" />
+    <Compile Include="Models\ServiceModels\ServiceModel.cs" />
     <Compile Include="Models\ServiceModels\Note.cs" />
     <Compile Include="Models\ServiceModels\Post.cs" />
     <Compile Include="Models\ServiceModels\ServiceMeta.cs" />

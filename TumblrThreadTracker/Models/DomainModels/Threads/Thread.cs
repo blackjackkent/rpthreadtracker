@@ -1,32 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
-using System.Web.Configuration;
-using TumblrThreadTracker.Infrastructure.Services;
 using TumblrThreadTracker.Interfaces;
-using TumblrThreadTracker.Models.DomainModels.Blogs;
+using TumblrThreadTracker.Models.ServiceModels;
+using Blog = TumblrThreadTracker.Models.DomainModels.Blogs.Blog;
 
 namespace TumblrThreadTracker.Models.DomainModels.Threads
 {
     [Table("UserThread")]
-    public class Thread
+    public class Thread : DomainModel
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int? UserThreadId { get; set; }
-        public int UserBlogId { get; set; }
-        [ForeignKey("UserBlogId")]
-        public Blog UserBlog { get; set; }
-        public string PostId { get; set; }
-        public string UserTitle { get; set; }
-        public string WatchedShortname { get; set; }
-
-        public Thread()
-        {
-        }
-
         public Thread(ThreadDto dto)
         {
             UserThreadId = dto.UserThreadId;
@@ -35,6 +19,19 @@ namespace TumblrThreadTracker.Models.DomainModels.Threads
             UserTitle = dto.UserTitle;
             WatchedShortname = dto.WatchedShortname;
         }
+
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int? UserThreadId { get; set; }
+
+        public int UserBlogId { get; set; }
+
+        [ForeignKey("UserBlogId")]
+        public Blog UserBlog { get; set; }
+
+        public string PostId { get; set; }
+        public string UserTitle { get; set; }
+        public string WatchedShortname { get; set; }
 
         public ThreadDto ToDto(Blog blog, IPost post)
         {
@@ -67,7 +64,7 @@ namespace TumblrThreadTracker.Models.DomainModels.Threads
             };
             if (post.notes != null && post.notes.Any(n => n.type == "reblog"))
             {
-                var mostRecentRelevantNote = post.GetMostRecentRelevantNote(blog.BlogShortname, WatchedShortname);
+                Note mostRecentRelevantNote = post.GetMostRecentRelevantNote(blog.BlogShortname, WatchedShortname);
 
                 if (mostRecentRelevantNote != null)
                 {
