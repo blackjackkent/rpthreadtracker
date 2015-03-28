@@ -43,5 +43,10 @@ namespace TumblrThreadTracker.Infrastructure.Services
         {
             WebSecurity.Logout();
         }
+
+        public bool ResetPassword(string resetToken, string newPassword)
+        {
+            return WebSecurity.ResetPassword(resetToken, newPassword);
+        }
     }
 }
