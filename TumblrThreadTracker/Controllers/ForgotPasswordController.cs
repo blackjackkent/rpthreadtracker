@@ -36,7 +36,7 @@ namespace TumblrThreadTracker.Controllers
             if (user == null)
                 throw new ObjectNotFoundException();
             var token = _webSecurityService.GeneratePasswordResetToken(username);
-            user.ToModel().SendForgotPasswordEmail(token, _webpagesMembershipRepository, _emailService);
+            user.ToModel().SendForgotPasswordEmail(token, _webpagesMembershipRepository, _emailService, _webSecurityService);
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
     }

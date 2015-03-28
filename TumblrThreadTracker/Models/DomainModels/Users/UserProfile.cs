@@ -43,12 +43,12 @@ namespace TumblrThreadTracker.Models.DomainModels.Users
         }
 
 
-        public void SendForgotPasswordEmail(string token, IRepository<WebpagesMembership> webpagesMembershipRepository, IEmailService emailService)
+        public void SendForgotPasswordEmail(string token, IRepository<WebpagesMembership> webpagesMembershipRepository, IEmailService emailService, IWebSecurityService securityService)
         {
             var isValidToken = IsValidToken(token, webpagesMembershipRepository);
             if (!isValidToken)
                 throw new InvalidDataException();
-            var newPassword = ResetPassword(token);
+            var newPassword = ResetPassword(token, securityService);
             SendTemporaryPasswordEmail(newPassword, emailService);
         }
 
@@ -58,10 +58,10 @@ namespace TumblrThreadTracker.Models.DomainModels.Users
             return record.Any();
         }
 
-        private string ResetPassword(string resetToken)
+        private string ResetPassword(string resetToken, IWebSecurityService webSecurityService)
         {
             var newPassword = GenerateRandomPassword(6);
-            var response = WebSecurity.ResetPassword(resetToken, newPassword);
+            var response = webSecurityService.ResetPassword(resetToken, newPassword);
             if (!response)
                 throw new InvalidOperationException();
             return newPassword;

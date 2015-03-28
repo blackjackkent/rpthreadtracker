@@ -10,5 +10,6 @@ namespace TumblrThreadTracker.Interfaces
         void ChangePassword(string name, string oldPassword, string newPassword);
         string GeneratePasswordResetToken(string username);
         void Logout();
+        bool ResetPassword(string resetToken, string newPassword);
     }
 }
