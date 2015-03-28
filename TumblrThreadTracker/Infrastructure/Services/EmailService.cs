@@ -1,11 +1,12 @@
 ﻿using System.Net;
 using System.Net.Mail;
+using TumblrThreadTracker.Interfaces;
 
 namespace TumblrThreadTracker.Infrastructure.Services
 {
-    public class EmailService
+    public class EmailService : IEmailService
     {
-        public static void SendEmail(string emailid, string subject, string body)
+        public void SendEmail(string emailid, string subject, string body)
         {
             var client = new SmtpClient
             {

@@ -43,18 +43,18 @@ namespace TumblrThreadTracker.Models.DomainModels.Users
         }
 
 
-        public void SendForgotPasswordEmail(string token, IRepository<WebpagesMembership> webpages_MembershipRepository)
+        public void SendForgotPasswordEmail(string token, IRepository<WebpagesMembership> webpagesMembershipRepository, IEmailService emailService)
         {
-            var isValidToken = IsValidToken(token, webpages_MembershipRepository);
+            var isValidToken = IsValidToken(token, webpagesMembershipRepository);
             if (!isValidToken)
                 throw new InvalidDataException();
             var newPassword = ResetPassword(token);
-            SendTemporaryPasswordEmail(newPassword);
+            SendTemporaryPasswordEmail(newPassword, emailService);
         }
 
-        private bool IsValidToken(string resetToken, IRepository<WebpagesMembership> webpages_MembershipRepository)
+        private bool IsValidToken(string resetToken, IRepository<WebpagesMembership> webpagesMembershipRepository)
         {
-            var record = webpages_MembershipRepository.Get(m => m.UserId == UserId && m.PasswordVerificationToken == resetToken);
+            var record = webpagesMembershipRepository.Get(m => m.UserId == UserId && m.PasswordVerificationToken == resetToken);
             return record.Any();
         }
 
@@ -67,7 +67,7 @@ namespace TumblrThreadTracker.Models.DomainModels.Users
             return newPassword;
         }
 
-        private void SendTemporaryPasswordEmail(string newPassword)
+        private void SendTemporaryPasswordEmail(string newPassword, IEmailService emailService)
         {
             const string subject = "RPThreadTracker ~ New Temporary Password";
             var bodyBuilder = new StringBuilder();
@@ -79,7 +79,7 @@ namespace TumblrThreadTracker.Models.DomainModels.Users
             bodyBuilder.Append("<p>Thanks, and have a great day!</p>");
             bodyBuilder.Append("<p>~Tracker-mun</p>");
             var body = bodyBuilder.ToString();
-            EmailService.SendEmail(Email, subject, body);
+            emailService.SendEmail(Email, subject, body);
         }
 
         private static string GenerateRandomPassword(int length)
