@@ -15,6 +15,10 @@ namespace TumblrThreadTracker.Models.DomainModels.Blogs
         public int UserId { get; set; }
         public string BlogShortname { get; set; }
 
+        public Blog()
+        {
+        }
+
         public Blog(BlogDto dto)
         {
             UserBlogId = dto.UserBlogId;

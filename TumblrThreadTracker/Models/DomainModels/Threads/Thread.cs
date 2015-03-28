@@ -11,6 +11,10 @@ namespace TumblrThreadTracker.Models.DomainModels.Threads
     [Table("UserThread")]
     public class Thread : DomainModel
     {
+        public Thread()
+        {
+        }
+
         public Thread(ThreadDto dto)
         {
             UserThreadId = dto.UserThreadId;
