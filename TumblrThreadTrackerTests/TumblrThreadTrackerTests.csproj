@@ -71,6 +71,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Infrastructure\Repositories\UserBlogRepositoryTests.cs" />
+    <Compile Include="Infrastructure\Repositories\UserThreadRepositoryTests.cs" />
+    <Compile Include="Infrastructure\Services\UserProfileServiceTests.cs" />
     <Compile Include="Models\DomainModels\Threads\ThreadTests.cs" />
     <Compile Include="Models\DomainModels\Blogs\BlogTests.cs" />
     <Compile Include="Models\DomainModels\Users\UserTests.cs" />
@@ -96,8 +99,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
-    <Folder Include="Infrastructure\Repositories\" />
-    <Folder Include="Infrastructure\Services\" />
     <Folder Include="Models\RequestModels\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
