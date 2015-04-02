@@ -1,16 +1,15 @@
 ﻿using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models;
-using TumblrThreadTracker.Models.DomainModels;
 
-namespace TumblrThreadTrackerTests.TestBuilders
+namespace TumblrThreadTrackerTests.TestBuilders.Domain
 {
-    public abstract class Builder<TModel, TDto>
+    public abstract class DomainBuilder<TModel, TDto>
         where TDto : IDto<TModel>
         where TModel : Model
     {
         protected TDto Dto;
 
-        protected Builder(TDto dto)
+        protected DomainBuilder(TDto dto)
         {
             Dto = dto;
         }
@@ -25,12 +24,12 @@ namespace TumblrThreadTrackerTests.TestBuilders
             return Dto;
         }
 
-        public static implicit operator TModel(Builder<TModel, TDto> builder)
+        public static implicit operator TModel(DomainBuilder<TModel, TDto> builder)
         {
             return builder.Dto.ToModel();
         }
 
-        public static implicit operator TDto(Builder<TModel, TDto> builder)
+        public static implicit operator TDto(DomainBuilder<TModel, TDto> builder)
         {
             return builder.Dto;
         }

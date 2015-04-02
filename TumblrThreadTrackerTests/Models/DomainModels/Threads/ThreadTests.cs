@@ -7,6 +7,7 @@ using TumblrThreadTracker.Models.DomainModels.Blogs;
 using TumblrThreadTracker.Models.DomainModels.Threads;
 using TumblrThreadTracker.Models.ServiceModels;
 using TumblrThreadTrackerTests.TestBuilders;
+using TumblrThreadTrackerTests.TestBuilders.Domain;
 using Blog = TumblrThreadTracker.Models.DomainModels.Blogs.Blog;
 
 namespace TumblrThreadTrackerTests.Models.DomainModels.Threads

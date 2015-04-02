@@ -3,16 +3,20 @@ using System.Linq;
 using System.Net;
 using System.Web.Configuration;
 using RestSharp;
+using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.ServiceModels;
 
 namespace TumblrThreadTracker.Infrastructure.Services
 {
-    using Interfaces;
-
     public class TumblrClient : ITumblrClient
     {
         private const string ApiKey = "***REMOVED***";
-        private static readonly RestClient Client = new RestClient("http://api.tumblr.com/v2");
+        private static IRestClient _client;
+
+        public TumblrClient(IRestClient client)
+        {
+            _client = client;
+        }
 
         public IPost GetPost(string postId, string blogShortname)
         {
@@ -46,7 +50,7 @@ namespace TumblrThreadTracker.Infrastructure.Services
             if (limit != null)
                 request.AddParameter("limit", limit);
             request.AddHeader("Content-Type", "application/json; charset=utf-8");
-            var response = Client.Execute<ServiceObject>(request);
+            var response = _client.Execute<ServiceObject>(request);
             var serviceObject = response.Data;
             return serviceObject;
         }

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TumblrThreadTracker.Models.DomainModels.Threads;
+﻿using TumblrThreadTracker.Models.DomainModels.Threads;
 
-namespace TumblrThreadTrackerTests.TestBuilders
+namespace TumblrThreadTrackerTests.TestBuilders.Domain
 {
-    public class ThreadBuilder : Builder<Thread, ThreadDto>
+    public class ThreadBuilder : DomainBuilder<Thread, ThreadDto>
     {
         public ThreadBuilder()
             : base(GetDefaultValues())
