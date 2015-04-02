@@ -7,6 +7,7 @@ using NUnit.Framework;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.DomainModels.Account;
 using TumblrThreadTrackerTests.TestBuilders;
+using TumblrThreadTrackerTests.TestBuilders.Domain;
 
 namespace TumblrThreadTrackerTests.Models.DomainModels.Users
 {

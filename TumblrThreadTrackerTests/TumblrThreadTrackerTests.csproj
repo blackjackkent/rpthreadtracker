@@ -50,6 +50,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="RestSharp, Version=104.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\RestSharp.104.4.0\lib\net4\RestSharp.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
@@ -73,16 +77,19 @@
   <ItemGroup>
     <Compile Include="Infrastructure\Repositories\UserBlogRepositoryTests.cs" />
     <Compile Include="Infrastructure\Repositories\UserThreadRepositoryTests.cs" />
+    <Compile Include="Infrastructure\Services\TumblrClientTests.cs" />
     <Compile Include="Infrastructure\Services\UserProfileServiceTests.cs" />
     <Compile Include="Models\DomainModels\Threads\ThreadTests.cs" />
     <Compile Include="Models\DomainModels\Blogs\BlogTests.cs" />
     <Compile Include="Models\DomainModels\Users\UserTests.cs" />
     <Compile Include="Models\ServiceModels\PostTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TestBuilders\UserProfileBuilder.cs" />
-    <Compile Include="TestBuilders\BlogBuilder.cs" />
-    <Compile Include="TestBuilders\Builder.cs" />
-    <Compile Include="TestBuilders\ThreadBuilder.cs" />
+    <Compile Include="TestBuilders\Domain\UserProfileBuilder.cs" />
+    <Compile Include="TestBuilders\Domain\BlogBuilder.cs" />
+    <Compile Include="TestBuilders\Domain\DomainBuilder.cs" />
+    <Compile Include="TestBuilders\Domain\ThreadBuilder.cs" />
+    <Compile Include="TestBuilders\Service\ServiceObjectBuilder.cs" />
+    <Compile Include="TestBuilders\Service\ServiceBuilder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

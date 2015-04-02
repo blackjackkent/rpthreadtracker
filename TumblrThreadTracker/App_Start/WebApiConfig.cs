@@ -1,5 +1,6 @@
 ﻿using System.Web.Http;
 using Microsoft.Practices.Unity;
+using RestSharp;
 using TumblrThreadTracker.Infrastructure;
 using TumblrThreadTracker.Infrastructure.Repositories;
 using TumblrThreadTracker.Infrastructure.Services;
@@ -25,7 +26,7 @@ namespace TumblrThreadTracker
                 .RegisterType<IBlogService, BlogService>()
                 .RegisterType<IThreadService, ThreadService>()
                 .RegisterType<IUserProfileService, UserProfileService>()
-                .RegisterType<ITumblrClient, TumblrClient>()
+                .RegisterType<ITumblrClient, TumblrClient>(new InjectionConstructor(new RestClient("http://api.tumblr.com/v2")))
                 .RegisterType<IEmailService, EmailService>()
                 .RegisterType<IThreadTrackerContext, ThreadTrackerContext>();
             config.DependencyResolver = new UnityResolver(container);

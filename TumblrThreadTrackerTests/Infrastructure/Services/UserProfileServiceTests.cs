@@ -11,6 +11,7 @@ using TumblrThreadTracker.Infrastructure.Services;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.DomainModels.Users;
 using TumblrThreadTrackerTests.TestBuilders;
+using TumblrThreadTrackerTests.TestBuilders.Domain;
 
 namespace TumblrThreadTrackerTests.Infrastructure.Services
 {

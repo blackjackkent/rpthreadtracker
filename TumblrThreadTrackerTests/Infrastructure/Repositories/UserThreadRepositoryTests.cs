@@ -11,6 +11,7 @@ using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.DomainModels.Blogs;
 using TumblrThreadTracker.Models.DomainModels.Threads;
 using TumblrThreadTrackerTests.TestBuilders;
+using TumblrThreadTrackerTests.TestBuilders.Domain;
 
 namespace TumblrThreadTrackerTests.Infrastructure.Repositories
 {

@@ -1,6 +1,7 @@
 ﻿using NUnit.Framework;
 using TumblrThreadTracker.Models.DomainModels.Blogs;
 using TumblrThreadTrackerTests.TestBuilders;
+using TumblrThreadTrackerTests.TestBuilders.Domain;
 
 namespace TumblrThreadTrackerTests.Models.DomainModels.Blogs
 {

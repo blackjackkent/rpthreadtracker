@@ -1,8 +1,8 @@
 ﻿using TumblrThreadTracker.Models.DomainModels.Blogs;
 
-namespace TumblrThreadTrackerTests.TestBuilders
+namespace TumblrThreadTrackerTests.TestBuilders.Domain
 {
-    public class BlogBuilder : Builder<Blog, BlogDto>
+    public class BlogBuilder : DomainBuilder<Blog, BlogDto>
     {
         public BlogBuilder()
             : base(GetDefaultValues())

@@ -1,9 +1,8 @@
-﻿using TumblrThreadTracker.Models.DomainModels.Blogs;
-using TumblrThreadTracker.Models.DomainModels.Users;
+﻿using TumblrThreadTracker.Models.DomainModels.Users;
 
-namespace TumblrThreadTrackerTests.TestBuilders
+namespace TumblrThreadTrackerTests.TestBuilders.Domain
 {
-    public class UserProfileBuilder : Builder<UserProfile, UserProfileDto>
+    public class UserProfileBuilder : DomainBuilder<UserProfile, UserProfileDto>
     {
         public UserProfileBuilder()
             : base(GetDefaultValues())
