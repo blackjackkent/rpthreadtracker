@@ -22,6 +22,7 @@ namespace TumblrThreadTracker.Models.DomainModels.Threads
             PostId = dto.PostId.ToString();
             UserTitle = dto.UserTitle;
             WatchedShortname = dto.WatchedShortname;
+            IsArchived = dto.IsArchived;
         }
 
         [Key]
@@ -36,6 +37,7 @@ namespace TumblrThreadTracker.Models.DomainModels.Threads
         public string PostId { get; set; }
         public string UserTitle { get; set; }
         public string WatchedShortname { get; set; }
+        public bool IsArchived { get; set; }
 
         public ThreadDto ToDto(Blog blog, IPost post)
         {
@@ -53,7 +55,8 @@ namespace TumblrThreadTracker.Models.DomainModels.Threads
                     Type = null,
                     UserThreadId = UserThreadId,
                     UserTitle = UserTitle,
-                    WatchedShortname = WatchedShortname
+                    WatchedShortname = WatchedShortname,
+                    IsArchived = IsArchived
                 };
             }
             var dto = new ThreadDto
@@ -64,7 +67,8 @@ namespace TumblrThreadTracker.Models.DomainModels.Threads
                 Type = post.type,
                 BlogShortname = blog.BlogShortname,
                 UserBlogId = blog.UserBlogId != null ? blog.UserBlogId.Value : -1,
-                WatchedShortname = WatchedShortname
+                WatchedShortname = WatchedShortname,
+                IsArchived = IsArchived
             };
             if (post.notes != null && post.notes.Any(n => n.type == "reblog"))
             {

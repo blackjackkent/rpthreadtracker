@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.Http;
 using TumblrThreadTracker.Infrastructure.Services;
 using TumblrThreadTracker.Interfaces;
@@ -41,7 +42,7 @@ namespace TumblrThreadTracker.Controllers
             var ids = new List<int?>();
             var blogs = _blogService.GetBlogsByUserId(userId, _blogRepository);
             foreach (var blog in blogs)
-                ids.AddRange(_threadService.GetThreadIdsByBlogId(blog.UserBlogId, _threadRepository));
+                ids.AddRange(_threadService.GetThreadIdsByBlogId(blog.UserBlogId, _threadRepository, isArchived));
             return ids;
         }
 
