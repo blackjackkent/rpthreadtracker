@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
-using TumblrThreadTracker.Models.DomainModels.Blogs;
 using TumblrThreadTracker.Models.ServiceModels;
-using TumblrThreadTrackerTests.TestBuilders.Service;
 using Blog = TumblrThreadTracker.Models.ServiceModels.Blog;
 
-namespace TumblrThreadTrackerTests.TestBuilders.Domain
+namespace TumblrThreadTrackerTests.TestBuilders.Service
 {
     public class ServiceObjectBuilder : ServiceBuilder<ServiceObject>
     {
