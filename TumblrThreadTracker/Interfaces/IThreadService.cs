@@ -7,7 +7,7 @@ namespace TumblrThreadTracker.Interfaces
 {
     public interface IThreadService
     {
-        IEnumerable<int?> GetThreadIdsByBlogId(int? blogId, IRepository<Thread> threadRepository);
+        IEnumerable<int?> GetThreadIdsByBlogId(int? blogId, IRepository<Thread> threadRepository, bool isArchived = false);
         ThreadDto GetById(int id, IRepository<Blog> blogRepository, IRepository<Thread> threadRepository, ITumblrClient tumblrClient);
         void AddNewThread(ThreadDto threadDto, IRepository<Thread> threadRepository);
         void UpdateThread(ThreadDto dto, IRepository<Thread> threadRepository);

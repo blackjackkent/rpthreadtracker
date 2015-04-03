@@ -10,11 +10,11 @@ namespace TumblrThreadTracker.Infrastructure.Services
 {
     public class ThreadService : IThreadService
     {
-        public IEnumerable<int?> GetThreadIdsByBlogId(int? blogId, IRepository<Thread> threadRepository)
+        public IEnumerable<int?> GetThreadIdsByBlogId(int? blogId, IRepository<Thread> threadRepository, bool isArchived = false)
         {
             if (blogId == null)
                 return new List<int?>();
-            var threads = threadRepository.Get(t => t.UserBlogId == blogId);
+            var threads = threadRepository.Get(t => t.UserBlogId == blogId && t.IsArchived == isArchived);
             return threads.Select(t => t.UserThreadId);
         }
 
