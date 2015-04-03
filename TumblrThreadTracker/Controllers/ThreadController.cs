@@ -35,7 +35,7 @@ namespace TumblrThreadTracker.Controllers
             return _threadService.GetById(id, _blogRepository, _threadRepository, _tumblrClient);
         }
 
-        public IEnumerable<int?> Get()
+        public IEnumerable<int?> Get([FromUri] bool isArchived = false)
         {
             var userId = _webSecurityService.GetUserId(User.Identity.Name);
             var ids = new List<int?>();
