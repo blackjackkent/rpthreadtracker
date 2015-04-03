@@ -4,12 +4,14 @@ rpThreadTracker.services.service('threadService', [
     '$q', '$http', function($q, $http) {
         var subscribers = [],
             subscribersOnComplete = [],
-            threads = [];
+            subscribersOnArchiveUpdate = [],
+            threads = [],
+            archivedThreads = [];
 
-        function getThreadIds() {
+        function getThreadIds(isArchived) {
             var deferred = $q.defer(),
                 config = {
-                    url: '/api/Thread',
+                    url: '/api/Thread?isArchived=' + isArchived,
                     method: 'GET'
                 },
                 success = function (response) {
@@ -35,7 +37,7 @@ rpThreadTracker.services.service('threadService', [
             broadcast(threads);
             threads = [];
             var queue = [];
-            getThreadIds().then(function(ids) {
+            getThreadIds(false).then(function(ids) {
                 angular.forEach(ids, function(value, key) {
                     queue.push(getThread(value));
                 });
@@ -45,15 +47,38 @@ rpThreadTracker.services.service('threadService', [
             });
         };
 
+        function getArchive(force) {
+            if (archivedThreads.length > 0 && !force) {
+                broadcastOnArchiveUpdate(archivedThreads);
+                return;
+            }
+            broadcastOnArchiveUpdate(archivedThreads);
+            archivedThreads = [];
+            var queue = [];
+            getThreadIds(true).then(function (ids) {
+                angular.forEach(ids, function (value, key) {
+                    queue.push(getThread(value));
+                });
+                $q.all(queue).then(function (results) {
+                    broadcastOnComplete();
+                });
+            });
+        }
+
         function getThread(id) {
             var deferred = $q.defer(),
                 config = {
                     url: '/api/Thread/' + id,
                     method: 'GET'
                 },
-                success = function(response) {
-                    threads.push(response.data);
-                    broadcast(threads);
+                success = function (response) {
+                    if (response.data.IsArchived == false) {
+                        threads.push(response.data);
+                        broadcast(threads);
+                    } else {
+                        archivedThreads.push(response.data);
+                        broadcastOnArchiveUpdate(archivedThreads);
+                    }
                     deferred.resolve(true);
                 };
             $http(config).then(success);
@@ -149,6 +174,10 @@ rpThreadTracker.services.service('threadService', [
             subscribersOnComplete.push(callback);
         }
 
+        function subscribeOnArchiveUpdate(callback) {
+            subscribersOnArchiveUpdate.push(callback);
+        }
+
         function unsubscribe(callback) {
             var index = subscribers.indexOf(callback);
             if (index > -1) {
@@ -159,7 +188,14 @@ rpThreadTracker.services.service('threadService', [
         function unsubscribeOnComplete(callback) {
             var index = subscribersOnComplete.indexOf(callback);
             if (index > -1) {
-                subscribers.splice(index, 1);
+                subscribersOnComplete.splice(index, 1);
+            }
+        }
+
+        function unsubscribeOnArchiveUpdate(callback) {
+            var index = subscribersOnArchiveUpdate.indexOf(callback);
+            if (index > -1) {
+                subscribersOnArchiveUpdate.splice(index, 1);
             }
         }
 
@@ -175,12 +211,21 @@ rpThreadTracker.services.service('threadService', [
             });
         }
 
+        function broadcastOnArchiveUpdate(data) {
+            angular.forEach(subscribersOnArchiveUpdate, function (callback, key) {
+                callback(data);
+            });
+        }
+
         return {
             subscribe: subscribe,
             unsubscribe: unsubscribe,
             subscribeOnComplete: subscribeOnComplete,
             unsubscribeOnComplete: unsubscribeOnComplete,
+            subscribeOnArchiveUpdate: subscribeOnArchiveUpdate,
+            unsubscribeOnArchiveUpdate: unsubscribeOnArchiveUpdate,
             getThreads: getThreads,
+            getArchive: getArchive,
             getStandaloneThread: getStandaloneThread,
             addNewThread: addNewThread,
             editThread: editThread,
