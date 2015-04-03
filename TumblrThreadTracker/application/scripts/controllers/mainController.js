@@ -32,8 +32,13 @@ rpThreadTracker.controllers.controller('MainController', [
         $scope.displayPublicUrl = true;
         $scope.dashboardFilter = 'yourturn';
 
-        threadService.subscribe(updateThreads);
-        threadService.getThreads();
+        if (pageId == "archived") {
+            threadService.subscribeOnArchiveUpdate(updateThreads);
+            threadService.getArchive();
+        } else {
+            threadService.subscribe(updateThreads);
+            threadService.getThreads();
+        }
         $scope.currentBlog = contextService.getCurrentBlog();
         $scope.sortDescending = contextService.getSortDescending();
         $scope.currentOrderBy = contextService.getCurrentOrderBy();
@@ -62,6 +67,7 @@ rpThreadTracker.controllers.controller('MainController', [
 
         $scope.$on("$destroy", function() {
             threadService.unsubscribe(updateThreads);
+            threadService.unsubscribeOnArchiveUpdate(updateThreads);
         });
     }
 ]);

@@ -56,6 +56,15 @@ rpThreadTracker.app.config([
                     }
                 }
             });
+            $routeProvider.when('/threads/archived', {
+                templateUrl: '/application/views/threads.html',
+                controller: 'MainController',
+                resolve: {
+                    pageId: function () {
+                        return "archived";
+                    }
+                }
+            });
             $routeProvider.when('/public/:pageId', {
                 templateUrl: '/application/views/public.html',
                 controller: 'PublicController'
