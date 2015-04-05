@@ -30,7 +30,7 @@
             <div class="span1">
                 <a href="#" class="btn refresh-link" analytics-on="click" analytics-category="Private Thread View" analytics-event="Refresh (Private)" ng-click="refreshThreads()">Refresh</a></div>
         </section>
-        <section class="row-fluid alert alert-info public-link-alert">
+        <section ng-show="pageId != 'archived'" class="row-fluid alert alert-info public-link-alert">
             Share this view publically:
             <a href="http://www.rpthreadtracker.com/public/{{pageId}}?userId={{userId}}&currentBlog={{currentBlog}}&sortDescending={{sortDescending}}&currentOrderBy={{currentOrderBy}}">
                 http://www.rpthreadtracker.com/public/{{pageId}}?userId={{userId}}&amp;currentBlog={{currentBlog}}&amp;sortDescending={{sortDescending}}&amp;currentOrderBy={{currentOrderBy}}
@@ -46,6 +46,7 @@
                     <th>Thread Title</th>
                     <th>Last Poster</th>
                     <th>Last Post Date</th>
+                    <th>&nbsp;</th>
                     <th>&nbsp;</th>
                     <th>&nbsp;</th>
                     <th>&nbsp;</th>
@@ -68,6 +69,10 @@
                     <td><a target="_blank" href="{{thread.LastPostUrl}}">View</a></td>
                     <td><a href="/edit-thread/{{thread.UserThreadId}}">Edit</a></td>
                     <td><a href="#" analytics-on="click" analytics-category="Private Thread View" analytics-event="Untrack Thread" ng-click="untrackThread(thread.UserThreadId, thread.UserTitle)">Untrack</a></td>
+                    <td>
+                        <a ng-show="pageId != 'archived'" href="#" analytics-on="click" analytics-category="Private Thread View" analytics-event="Archive Thread" ng-click="archiveThread(thread.UserThreadId, thread.BlogShortname, thread.PostId, thread.UserTitle, thread.WatchedShortname)">Archive</a>
+                        <a ng-show="pageId == 'archived'" href="#" analytics-on="click" analytics-category="Private Thread View" analytics-event="Unarchive Thread" ng-click="unarchiveThread(thread.UserThreadId, thread.BlogShortname, thread.PostId, thread.UserTitle, thread.WatchedShortname)">Unarchive</a>
+                    </td>
                 </tr>
             </table>
 

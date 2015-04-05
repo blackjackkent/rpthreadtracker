@@ -65,22 +65,5 @@ namespace TumblrThreadTrackerTests.Infrastructure.Services
             // Assert
             Assert.That(result, Is.Null);
         }
-
-        [Test]
-        public void GetNewsPostsReturnsValidNewsObjects()
-        {
-            // Arrange
-            var restClient = new Mock<IRestClient>();
-            var response = new Mock<IRestResponse<ServiceObject>>();
-            response.SetupSequence(r => r.Data).Returns(null);
-            restClient.Setup(c => c.Execute<ServiceObject>(It.IsAny<IRestRequest>())).Returns(response.Object);
-            var tumblrClient = new TumblrClient(restClient.Object);
-
-            // Act
-            var result = tumblrClient.GetPost("12345", "test");
-
-            // Assert
-            Assert.That(result, Is.Null);
-        }
     }
 }

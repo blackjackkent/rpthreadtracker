@@ -46,9 +46,14 @@
                                 </div>
                                 <div class="thread" ng-repeat="thread in threads | isCorrectTurn:dashboardFilter:true | orderBy:'LastPostDate':true | limitTo:5 " >
                                     <div class="content">
-                                        <span>{{thread.LastPostDate * 1000 | date:'medium'}}<br /><a href="#" ng-click="untrackThread(thread.UserThreadId)">Untrack</a></span>
+                                        <span>{{thread.LastPostDate * 1000 | date:'medium'}}
+                                            <br />
+                                            <a href="#" ng-click="archiveThread(thread.UserThreadId, thread.BlogShortname, thread.PostId, thread.UserTitle, thread.WatchedShortname)">Archive</a> 
+                                            &bull; 
+                                            <a href="#" ng-click="untrackThread(thread.UserThreadId)">Untrack</a>
+                                        </span>
                                         <div>
-                                            <a href="{{thread.LastPostUrl}}">{{thread.UserTitle}}</a><br>
+                                            <a target="_blank" href="{{thread.LastPostUrl}}">{{thread.UserTitle}}</a><br>
                                             Last Post by <a href="{{thread.LastPostUrl}}">{{thread.LastPosterShortname}}</a>
                                         </div>
                                     </div>

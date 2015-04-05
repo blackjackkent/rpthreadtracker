@@ -41,6 +41,7 @@ namespace TumblrThreadTracker.Infrastructure.Repositories
                 toUpdate.PostId = entity.PostId;
                 toUpdate.UserTitle = entity.UserTitle;
                 toUpdate.WatchedShortname = entity.WatchedShortname;
+                toUpdate.IsArchived = entity.IsArchived;
             }
             _context.Commit();
         }

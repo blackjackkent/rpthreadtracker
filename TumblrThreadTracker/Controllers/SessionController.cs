@@ -23,7 +23,7 @@ namespace TumblrThreadTracker.Controllers
         {
             if (model == null)
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
-            return _webSecurityService.Login(model.UserName, model.Password, rememberMe: model.RememberMe)
+            return _webSecurityService.Login(model.UserName, model.Password)
                 ? new HttpResponseMessage(HttpStatusCode.OK)
                 : new HttpResponseMessage(HttpStatusCode.Unauthorized);
         }

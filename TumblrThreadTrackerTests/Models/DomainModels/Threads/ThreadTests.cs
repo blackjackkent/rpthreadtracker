@@ -38,7 +38,7 @@ namespace TumblrThreadTrackerTests.Models.DomainModels.Threads
                     UserBlogId = 10,
                     PostId = 12345,
                     UserTitle = "Test Thread",
-                    WatchedShortname = null
+                    WatchedShortname = null,
                 });
 
             // Act
@@ -130,6 +130,7 @@ namespace TumblrThreadTrackerTests.Models.DomainModels.Threads
             Assert.That(result.UserThreadId, Is.EqualTo(thread.UserThreadId));
             Assert.That(result.UserTitle, Is.EqualTo(thread.UserTitle));
             Assert.That(result.WatchedShortname, Is.EqualTo(thread.WatchedShortname));
+            Assert.That(result.IsArchived, Is.EqualTo(thread.IsArchived));
 
         }
 
@@ -155,6 +156,7 @@ namespace TumblrThreadTrackerTests.Models.DomainModels.Threads
             Assert.That(result.BlogShortname, Is.EqualTo(blog.BlogShortname));
             Assert.That(result.UserBlogId, Is.EqualTo(-1));
             Assert.That(result.WatchedShortname, Is.EqualTo(thread.WatchedShortname));
+            Assert.That(result.IsArchived, Is.EqualTo(thread.IsArchived));
         }
 
         [Test]
@@ -180,6 +182,7 @@ namespace TumblrThreadTrackerTests.Models.DomainModels.Threads
             Assert.That(result.UserThreadId, Is.EqualTo(thread.UserThreadId));
             Assert.That(result.UserTitle, Is.EqualTo(thread.UserTitle));
             Assert.That(result.WatchedShortname, Is.EqualTo(thread.WatchedShortname));
+            Assert.That(result.IsArchived, Is.EqualTo(thread.IsArchived));
         }
 
         [Test]
@@ -204,6 +207,7 @@ namespace TumblrThreadTrackerTests.Models.DomainModels.Threads
             Assert.That(result.BlogShortname, Is.EqualTo(blog.BlogShortname));
             Assert.That(result.UserBlogId, Is.EqualTo(-1));
             Assert.That(result.WatchedShortname, Is.EqualTo(thread.WatchedShortname));
+            Assert.That(result.IsArchived, Is.EqualTo(thread.IsArchived));
         }
     }
 }

@@ -24,7 +24,8 @@ namespace TumblrThreadTrackerTests.TestBuilders.Domain
                 UserBlogId = 15,
                 UserThreadId = 20,
                 UserTitle = "Test Thread",
-                WatchedShortname = "alpha-of-omega"
+                WatchedShortname = "alpha-of-omega",
+                IsArchived = true
             };
         }
 
@@ -74,6 +75,11 @@ namespace TumblrThreadTrackerTests.TestBuilders.Domain
         }
         public ThreadBuilder WithWatchedShortname(string watchedShortname) {
             Dto.WatchedShortname = watchedShortname;
+            return this;
+        }
+        public ThreadBuilder WithIsArchived(bool isArchived)
+        {
+            Dto.IsArchived = isArchived;
             return this;
         }
     }
