@@ -7,5 +7,6 @@
         public string BlogShortname { get; set; }
         public string UserTitle { get; set; }
         public string WatchedShortname { get; set; }
+        public bool IsArchived { get; set; }
     }
 }

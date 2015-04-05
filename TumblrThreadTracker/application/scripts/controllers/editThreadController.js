@@ -19,6 +19,7 @@ rpThreadTracker.controllers.controller('EditThreadController', [
             $scope.userTitle = thread.UserTitle;
             $scope.postId = thread.PostId;
             $scope.watchedShortname = thread.WatchedShortname;
+            $scope.isArchived = thread.IsArchived;
             return blogService.getBlogs();
         }).then(function(blogs) {
             $scope.blogs = blogs;
@@ -31,7 +32,7 @@ rpThreadTracker.controllers.controller('EditThreadController', [
                 return;
             }
             threadService.flushThreads();
-            threadService.editThread($scope.userThreadId, $scope.currentBlog, $scope.postId, $scope.userTitle, $scope.watchedShortname).then(success, failure);
+            threadService.editThread($scope.userThreadId, $scope.currentBlog, $scope.postId, $scope.userTitle, $scope.watchedShortname, $scope.isArchived).then(success, failure);
         };
         sessionService.getUser().then(function(user) {
             $scope.userId = user.UserId;

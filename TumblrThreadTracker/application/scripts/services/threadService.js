@@ -103,6 +103,7 @@ rpThreadTracker.services.service('threadService', [
 
         function flushThreads() {
             threads = [];
+            archivedThreads = [];
         }
 
         function addNewThread(blogShortname, postId, userTitle, watchedShortname) {
@@ -127,7 +128,7 @@ rpThreadTracker.services.service('threadService', [
             return deferred.promise;
         }
 
-        function editThread(userThreadId, blogShortname, postId, userTitle, watchedShortname) {
+        function editThread(userThreadId, blogShortname, postId, userTitle, watchedShortname, isArchived) {
             var deferred = $q.defer(),
                 config = {
                     url: '/api/Thread',
@@ -137,7 +138,8 @@ rpThreadTracker.services.service('threadService', [
                         PostId: postId,
                         BlogShortname: blogShortname,
                         UserTitle: userTitle,
-                        watchedShortname: watchedShortname
+                        WatchedShortname: watchedShortname,
+                        IsArchived: isArchived
                     }
                 },
                 success = function(response, status, headers, config) {

@@ -34,6 +34,5 @@ rpThreadTracker.controllers.controller('PublicController', [
 
         publicThreadService.subscribe(updateThreads);
         publicThreadService.getThreads($scope.userId, $scope.currentBlog);
-
     }
 ]);

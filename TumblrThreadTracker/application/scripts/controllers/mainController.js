@@ -56,8 +56,27 @@ rpThreadTracker.controllers.controller('MainController', [
 
         $scope.untrackThread = function (userThreadId, threadTitle) {
             threadService.flushThreads();
-            threadService.untrackThread(userThreadId).then(function() { threadService.getThreads(); });
+            threadService.untrackThread(userThreadId).then(function() {
+                threadService.getThreads();
+                threadService.getArchive();
+            });
             $scope.genericSuccess = threadTitle + " has been untracked.";
+        };
+        $scope.archiveThread = function(userThreadId, blogShortname, postId, userTitle, watchedShortname) {
+            threadService.flushThreads();
+            threadService.editThread(userThreadId, blogShortname, postId, userTitle, watchedShortname, true).then(function () {
+                threadService.getThreads();
+                threadService.getArchive();
+            });
+            $scope.genericSuccess = userTitle + " has been archived.";
+        };
+        $scope.unarchiveThread = function (userThreadId, blogShortname, postId, userTitle, watchedShortname) {
+            threadService.flushThreads();
+            threadService.editThread(userThreadId, blogShortname, postId, userTitle, watchedShortname, false).then(function() {
+                threadService.getThreads();
+                threadService.getArchive();
+            });
+            $scope.genericSuccess = userTitle + " has been unarchived.";
         };
         $scope.refreshThreads = function () { threadService.getThreads(true); };
         $scope.setDashboardFilter = function(filterString) {
