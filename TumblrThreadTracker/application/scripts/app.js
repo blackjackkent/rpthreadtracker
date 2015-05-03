@@ -7,12 +7,13 @@ rpThreadTracker.filters = angular.module('rpThreadTracker.filters', []);
 rpThreadTracker.services = angular.module('rpThreadTracker.services', []);
 
 // Declare app level module which depends on filters, and services
-
+var cacheBuster = Date.now();
+rpThreadTracker.app.constant("cacheBuster", cacheBuster);
 rpThreadTracker.app.config([
         '$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
             $routeProvider.when('/', { templateUrl: '/application/views/dashboard.html', controller: 'MainController' });
             $routeProvider.when('/', {
-                templateUrl: '/application/views/dashboard.html',
+                templateUrl: '/application/views/dashboard.html?cacheBuster=' + cacheBuster,
                 controller: 'MainController',
                 resolve: {
                     pageId: function() {
@@ -21,7 +22,7 @@ rpThreadTracker.app.config([
                 }
             });
             $routeProvider.when('/threads', {
-                templateUrl: '/application/views/threads.html',
+                templateUrl: '/application/views/threads.html?cacheBuster=' + cacheBuster,
                 controller: 'MainController',
                 resolve: {
                     pageId: function() {
@@ -30,7 +31,7 @@ rpThreadTracker.app.config([
                 }
             });
             $routeProvider.when('/threads/allthreads', {
-                templateUrl: '/application/views/threads.html',
+                templateUrl: '/application/views/threads.html?cacheBuster=' + cacheBuster,
                 controller: 'MainController',
                 resolve: {
                     pageId: function () {
@@ -39,7 +40,7 @@ rpThreadTracker.app.config([
                 }
             });
             $routeProvider.when('/threads/yourturn', {
-                templateUrl: '/application/views/threads.html',
+                templateUrl: '/application/views/threads.html?cacheBuster=' + cacheBuster,
                 controller: 'MainController',
                 resolve: {
                     pageId: function() {
@@ -48,7 +49,7 @@ rpThreadTracker.app.config([
                 }
             });
             $routeProvider.when('/threads/theirturn', {
-                templateUrl: '/application/views/threads.html',
+                templateUrl: '/application/views/threads.html?cacheBuster=' + cacheBuster,
                 controller: 'MainController',
                 resolve: {
                     pageId: function() {
@@ -66,7 +67,7 @@ rpThreadTracker.app.config([
                 }
             });
             $routeProvider.when('/public/:pageId', {
-                templateUrl: '/application/views/public.html',
+                templateUrl: '/application/views/public.html?cacheBuster=' + cacheBuster,
                 controller: 'PublicController'
             });
             $routeProvider.when('/login', {
@@ -79,7 +80,7 @@ rpThreadTracker.app.config([
                 }
             });
             $routeProvider.when('/register', {
-                templateUrl: '/application/views/register.html',
+                templateUrl: '/application/views/register.html?cacheBuster=' + cacheBuster,
                 controller: 'RegisterController',
                 resolve: {
                     pageId: function () {
@@ -89,7 +90,7 @@ rpThreadTracker.app.config([
             });
 
             $routeProvider.when('/add-thread', {
-                templateUrl: '/application/views/add-thread.html',
+                templateUrl: '/application/views/add-thread.html?cacheBuster=' + cacheBuster,
                 controller: 'AddThreadController',
                 resolve: {
                     pageId: function () {
@@ -99,7 +100,7 @@ rpThreadTracker.app.config([
             });
 
             $routeProvider.when('/edit-thread/:userThreadId', {
-                templateUrl: '/application/views/add-thread.html',
+                templateUrl: '/application/views/add-thread.html?cacheBuster=' + cacheBuster,
                 controller: 'EditThreadController',
                 resolve: {
                     pageId: function () {
@@ -109,7 +110,7 @@ rpThreadTracker.app.config([
             });
 
             $routeProvider.when('/manage-blogs', {
-                templateUrl: '/application/views/manage-blogs.html',
+                templateUrl: '/application/views/manage-blogs.html?cacheBuster=' + cacheBuster,
                 controller: 'ManageBlogsController',
                 resolve: {
                     pageId: function () {
@@ -119,7 +120,7 @@ rpThreadTracker.app.config([
             });
 
             $routeProvider.when('/edit-blog/:userBlogId', {
-                templateUrl: '/application/views/edit-blog.html',
+                templateUrl: '/application/views/edit-blog.html?cacheBuster=' + cacheBuster,
                 controller: 'EditBlogController',
                 resolve: {
                     pageId: function () {
@@ -129,7 +130,7 @@ rpThreadTracker.app.config([
             });
 
             $routeProvider.when('/manage-account', {
-                templateUrl: '/application/views/manage-account.html',
+                templateUrl: '/application/views/manage-account.html?cacheBuster=' + cacheBuster,
                 controller: 'ManageAccountController',
                 resolve: {
                     pageId: function () {
@@ -139,7 +140,7 @@ rpThreadTracker.app.config([
             });
 
             $routeProvider.when('/about', {
-                templateUrl: '/application/views/about.html',
+                templateUrl: '/application/views/about.html?cacheBuster=' + cacheBuster,
                 controller: 'StaticController',
                 resolve: {
                     pageId: function () {
@@ -149,7 +150,7 @@ rpThreadTracker.app.config([
             });
 
             $routeProvider.when('/contact', {
-                templateUrl: '/application/views/contact.html',
+                templateUrl: '/application/views/contact.html?cacheBuster=' + cacheBuster,
                 controller: 'StaticController',
                 resolve: {
                     pageId: function () {
@@ -159,7 +160,7 @@ rpThreadTracker.app.config([
             });
 
             $routeProvider.when('/help', {
-                templateUrl: '/application/views/help.html',
+                templateUrl: '/application/views/help.html?cacheBuster=' + cacheBuster,
                 controller: 'StaticController',
                 resolve: {
                     pageId: function () {
@@ -169,7 +170,7 @@ rpThreadTracker.app.config([
             });
 
             $routeProvider.when('/logout', {
-                templateUrl: '/application/views/login.html',
+                templateUrl: '/application/views/login.html?cacheBuster=' + cacheBuster,
                 controller: 'LogoutController',
                 resolve: {
                     pageId: function () {
@@ -179,7 +180,7 @@ rpThreadTracker.app.config([
             });
 
             $routeProvider.when('/forgot-password', {
-                templateUrl: '/application/views/forgot-password.html',
+                templateUrl: '/application/views/forgot-password.html?cacheBuster=' + cacheBuster,
                 controller: 'ForgotPasswordController',
                 resolve: {
                     pageId: function () {
