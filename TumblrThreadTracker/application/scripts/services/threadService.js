@@ -168,6 +168,8 @@ rpThreadTracker.services.service('threadService', [
             return deferred.promise;
         }
 
+
+
         function subscribe(callback) {
             subscribers.push(callback);
         }

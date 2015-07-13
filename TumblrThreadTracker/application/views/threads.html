@@ -19,16 +19,28 @@
                     </select>
                 </form>
             </div>
-    
+
             <div class="span3">
                 <select ng-model="currentBlog" ng-change="setCurrentBlog()">
                     <option value="">All Blogs</option>
                     <option ng-repeat="blog in blogs | orderBy:'BlogShortname'" ng-value="blog.BlogShortname">{{blog.BlogShortname}}</option>
                 </select>
-                
             </div>
             <div class="span1">
-                <a href="#" class="btn refresh-link" analytics-on="click" analytics-category="Private Thread View" analytics-event="Refresh (Private)" ng-click="refreshThreads()">Refresh</a></div>
+                <a href="#" class="btn refresh-link" analytics-on="click" analytics-category="Private Thread View" analytics-event="Refresh (Private)" ng-click="refreshThreads()">Refresh</a>
+            </div>
+        </section>
+        <section class="row-fluid thread-filters">
+            <div class="span5">
+                <label class="inline-control-label">
+                    Bulk Actions:
+                </label>
+                <select ng-model="bulkItemAction" name="bulkItemAction">
+                    <option value="UntrackSelected">Untrack Selected</option>
+                    <option value="ArchiveSelected">Archive Selected</option>
+                </select>
+                <a class="btn bulk-action-link" analytics-on="click" analytics-category="Private Thread View" analytics-event="Bulk Action" ng-click="bulkAction()">Go</a>
+            </div>
         </section>
         <section ng-show="pageId != 'archived'" class="row-fluid alert alert-info public-link-alert">
             Share this view publically:
@@ -40,9 +52,9 @@
             <p class="alert alert-success" ng-show="genericSuccess">{{genericSuccess}}</p>
         </section>
         <section class="row-fluid">
-		
             <table class="table table-condensed table-striped thread-table">
                 <tr>
+                    <th>&nbsp;</th>
                     <th>Thread Title</th>
                     <th>Last Poster</th>
                     <th>Last Post Date</th>
@@ -50,13 +62,16 @@
                     <th>&nbsp;</th>
                     <th>&nbsp;</th>
                     <th>&nbsp;</th>
-                </tr>   
-                
+                </tr>
+
                 <tr>
                     <td ng-show="blogs.length == 0"colspan="6" class="alert public-link-alert">You have not yet added any blogs on which to track threads. Click "Manage Blogs" to get started.</td>
                     <td ng-show="blogs.length > 0 && threads.length == 0" colspan="6" class="alert alert-info public-link-alert">You are not yet tracking any threads. Click "Track New Thread" to track a thread from one of your current blogs.</td>
                 </tr>
                 <tr ng-repeat="thread in threads | isCurrentBlog:currentBlog | isCorrectTurn:pageId | orderBy:currentOrderBy:sortDescending">
+                    <td>
+                        <input type="checkbox" value="{{thread.UserThreadId}}" ng-model="bulkItems[thread.UserThreadId]">
+                    </td>
                     <td>{{thread.UserTitle}}</td>
                     <td>
                         <a ng-show="thread.LastPosterShortname != null" href="{{thread.LastPostUrl}}" target="_blank">{{thread.LastPosterShortname}}</a>
@@ -65,10 +80,17 @@
                             (<a target="_blank" href="http://tblrthreadtracker.tumblr.com/post/84787503106/fix-in-place-for-not-found-error-please-read" id="notFoundExplanation">Why am I seeing this?</a>)
                         </span>
                     </td>
-                    <td><span ng-show="thread.LastPostDate != null">{{thread.LastPostDate * 1000 | date:'medium'}}</span></td>
-                    <td><a target="_blank" href="{{thread.LastPostUrl}}">View</a></td>
-                    <td><a href="/edit-thread/{{thread.UserThreadId}}">Edit</a></td>
-                    <td><a href="#" analytics-on="click" analytics-category="Private Thread View" analytics-event="Untrack Thread" ng-click="untrackThread(thread.UserThreadId, thread.UserTitle)">Untrack</a></td>
+                    <td>
+                        <span ng-show="thread.LastPostDate != null">{{thread.LastPostDate * 1000 | date:'medium'}}</span></td>
+                    <td>
+                        <a target="_blank" href="{{thread.LastPostUrl}}">View</a>
+                    </td>
+                    <td>
+                        <a href="/edit-thread/{{thread.UserThreadId}}">Edit</a>
+                    </td>
+                    <td>
+                        <a href="#" analytics-on="click" analytics-category="Private Thread View" analytics-event="Untrack Thread" ng-click="untrackThread(thread.UserThreadId, thread.UserTitle)">Untrack</a>
+                    </td>
                     <td>
                         <a ng-show="pageId != 'archived'" href="#" analytics-on="click" analytics-category="Private Thread View" analytics-event="Archive Thread" ng-click="archiveThread(thread.UserThreadId, thread.BlogShortname, thread.PostId, thread.UserTitle, thread.WatchedShortname)">Archive</a>
                         <a ng-show="pageId == 'archived'" href="#" analytics-on="click" analytics-category="Private Thread View" analytics-event="Unarchive Thread" ng-click="unarchiveThread(thread.UserThreadId, thread.BlogShortname, thread.PostId, thread.UserTitle, thread.WatchedShortname)">Unarchive</a>
@@ -78,12 +100,12 @@
 
         </section>
         <!-- / Supported browsers -->
-		
+
         <!-- Page footer
-            ================================================== -->
+        ================================================== -->
         <footer></footer>
         <!-- / Page footer -->
-        
-                
+
+
     </div>
 </section>

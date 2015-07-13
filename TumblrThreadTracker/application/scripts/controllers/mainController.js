@@ -28,9 +28,19 @@ rpThreadTracker.controllers.controller('MainController', [
             contextService.setCurrentOrderBy($scope.currentOrderBy);
             $analytics.eventTrack('Change Order By', { category: 'Private Thread View' });
         };
+        $scope.bulkAction = function() {
+            var bulkAffected = [];
+            for (var property in $scope.bulkItems) {
+                if ($scope.bulkItems.hasOwnProperty(property) && $scope.bulkItems[property] == true) {
+                    bulkAffected.push(property);
+                }
+            }
+        }
         $scope.pageId = pageId;
         $scope.displayPublicUrl = true;
         $scope.dashboardFilter = 'yourturn';
+        $scope.bulkItems = {};
+        $scope.bulkItemAction = "UntrackSelected";
 
         if (pageId == "archived") {
             threadService.subscribeOnArchiveUpdate(updateThreads);
