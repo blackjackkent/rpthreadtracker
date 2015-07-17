@@ -37,7 +37,8 @@
                 </label>
                 <select ng-model="bulkItemAction" name="bulkItemAction">
                     <option value="UntrackSelected">Untrack Selected</option>
-                    <option value="ArchiveSelected">Archive Selected</option>
+                    <option ng-show="pageId != 'archived'" value="ArchiveSelected">Archive Selected</option>
+                    <option ng-show="pageId == 'archived'" value="UnarchiveSelected">Unarchive Selected</option>
                 </select>
                 <a class="btn bulk-action-link" analytics-on="click" analytics-category="Private Thread View" analytics-event="Bulk Action" ng-click="bulkAction()">Go</a>
             </div>
@@ -89,11 +90,11 @@
                         <a href="/edit-thread/{{thread.UserThreadId}}">Edit</a>
                     </td>
                     <td>
-                        <a href="#" analytics-on="click" analytics-category="Private Thread View" analytics-event="Untrack Thread" ng-click="untrackThread(thread.UserThreadId, thread.UserTitle)">Untrack</a>
+                        <a href="#" analytics-on="click" analytics-category="Private Thread View" analytics-event="Untrack Thread" ng-click="untrackThreads([thread.UserThreadId])">Untrack</a>
                     </td>
                     <td>
-                        <a ng-show="pageId != 'archived'" href="#" analytics-on="click" analytics-category="Private Thread View" analytics-event="Archive Thread" ng-click="archiveThread(thread.UserThreadId, thread.BlogShortname, thread.PostId, thread.UserTitle, thread.WatchedShortname)">Archive</a>
-                        <a ng-show="pageId == 'archived'" href="#" analytics-on="click" analytics-category="Private Thread View" analytics-event="Unarchive Thread" ng-click="unarchiveThread(thread.UserThreadId, thread.BlogShortname, thread.PostId, thread.UserTitle, thread.WatchedShortname)">Unarchive</a>
+                        <a ng-show="pageId != 'archived'" href="#" analytics-on="click" analytics-category="Private Thread View" analytics-event="Archive Thread" ng-click="archiveThreads([thread.UserThreadId])">Archive</a>
+                        <a ng-show="pageId == 'archived'" href="#" analytics-on="click" analytics-category="Private Thread View" analytics-event="Unarchive Thread" ng-click="unarchiveThreads([thread.UserThreadId])">Unarchive</a>
                     </td>
                 </tr>
             </table>
