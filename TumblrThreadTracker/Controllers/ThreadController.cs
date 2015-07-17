@@ -83,14 +83,17 @@ namespace TumblrThreadTracker.Controllers
             _threadService.UpdateThread(dto, _threadRepository);
         }
 
-        public void Delete(int userThreadId)
+        public void Delete([FromUri] int[] userThreadIds)
         {
             var userId = _webSecurityService.GetUserId(User.Identity.Name);
-            var thread = _threadService.GetById(userThreadId, _blogRepository, _threadRepository, _tumblrClient);
-            var blog = _blogService.GetBlogById(thread.UserBlogId, _blogRepository);
-            if (blog.UserId != userId)
-                return;
-            _threadService.DeleteThread(userThreadId, _threadRepository);
+            foreach (var id in userThreadIds)
+            {
+                var thread = _threadService.GetById(id, _blogRepository, _threadRepository, _tumblrClient);
+                var blog = _blogService.GetBlogById(thread.UserBlogId, _blogRepository);
+                if (blog.UserId != userId)
+                    return;
+                _threadService.DeleteThread(id, _threadRepository);
+            }
         }
     }
 }

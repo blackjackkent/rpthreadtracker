@@ -128,6 +128,22 @@ rpThreadTracker.services.service('threadService', [
             return deferred.promise;
         }
 
+        function editThreads(threadsToEdit, archiveValue) {
+            var deferred = $q.defer();
+            var queue = [],
+            success = function (response, status, headers, config) {
+                deferred.resolve(response.data);
+            },
+               error = function (response, status, headers, config) {
+                   deferred.reject(response);
+               };
+            angular.forEach(threadsToEdit, function (value, key) {
+                queue.push(editThread(value.UserThreadId, value.BlogShortname, value.PostId, value.UserTitle, value.WatchedShortname, archiveValue));
+            });
+            $q.all(queue).then(success).catch(error);
+            return deferred.promise;
+        }
+
         function editThread(userThreadId, blogShortname, postId, userTitle, watchedShortname, isArchived) {
             var deferred = $q.defer(),
                 config = {
@@ -152,10 +168,15 @@ rpThreadTracker.services.service('threadService', [
             return deferred.promise;
         }
 
-        function untrackThread(userThreadId) {
+        function untrackThreads(userThreadIds) {
+            var queryString = "";
+            angular.forEach(userThreadIds, function (id) {
+                queryString += "userThreadIds=" + id + "&";
+            });
+            queryString.slice(1,queryString.length - 2);
             var deferred = $q.defer(),
                 config = {
-                    url: '/api/Thread?userThreadId=' + userThreadId,
+                    url: '/api/Thread?' + queryString,
                     method: "DELETE"
                 },
                 success = function(response, status, headers, config) {
@@ -167,8 +188,6 @@ rpThreadTracker.services.service('threadService', [
             $http(config).then(success).catch(error);
             return deferred.promise;
         }
-
-
 
         function subscribe(callback) {
             subscribers.push(callback);
@@ -233,7 +252,8 @@ rpThreadTracker.services.service('threadService', [
             getStandaloneThread: getStandaloneThread,
             addNewThread: addNewThread,
             editThread: editThread,
-            untrackThread: untrackThread,
+            editThreads: editThreads,
+            untrackThreads: untrackThreads,
             flushThreads: flushThreads
         };
     }
