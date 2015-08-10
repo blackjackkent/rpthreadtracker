@@ -20,6 +20,7 @@ namespace TumblrThreadTracker.Models.DomainModels.Users
         public string UserName { get; set; }
         public string Email { get; set; }
         public string Password { get; set; }
+        public DateTime LastLogin { get; set; }
 
         public UserProfile()
         {
@@ -30,6 +31,7 @@ namespace TumblrThreadTracker.Models.DomainModels.Users
             UserId = dto.UserId;
             UserName = dto.UserName;
             Email = dto.Email;
+            LastLogin = dto.LastLogin;
         }
 
         public UserProfileDto ToDto()
@@ -38,7 +40,8 @@ namespace TumblrThreadTracker.Models.DomainModels.Users
             {
                 UserId = UserId,
                 Email = Email,
-                UserName = UserName
+                UserName = UserName,
+                LastLogin = LastLogin
             };
         }
 
@@ -90,6 +93,12 @@ namespace TumblrThreadTracker.Models.DomainModels.Users
             for (var i = 0; i < length; i++)
                 chars[i] = allowedChars[rd.Next(0, allowedChars.Length)];
             return new string(chars);
+        }
+
+        public void SetLastLogin(DateTime date, IRepository<UserProfile> userProfileRepository)
+        {
+            LastLogin = date;
+            userProfileRepository.Update(this);
         }
     }
 }

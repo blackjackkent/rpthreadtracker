@@ -1,4 +1,5 @@
-﻿using TumblrThreadTracker.Interfaces;
+﻿using System;
+using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.DomainModels.Users;
 using TumblrThreadTracker.Models.RequestModels;
 using WebMatrix.WebData;
@@ -14,7 +15,8 @@ namespace TumblrThreadTracker.Infrastructure.Services
             {
                 UserId = WebSecurity.GetUserId(username),
                 UserName =username,
-                Email = email
+                Email = email,
+                LastLogin = DateTime.Now
             };
             userProfileRepository.Update(profile);
         }
