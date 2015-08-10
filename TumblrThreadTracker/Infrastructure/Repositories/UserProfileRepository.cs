@@ -40,6 +40,7 @@ namespace TumblrThreadTracker.Infrastructure.Repositories
                 toUpdate.UserName = entity.UserName;
                 toUpdate.Email = entity.Email;
                 toUpdate.Password = entity.Password;
+                toUpdate.LastLogin = entity.LastLogin;
             }
             _context.Commit();
         }

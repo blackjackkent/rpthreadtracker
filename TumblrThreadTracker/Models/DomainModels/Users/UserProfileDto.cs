@@ -1,4 +1,5 @@
-﻿using TumblrThreadTracker.Interfaces;
+﻿using System;
+using TumblrThreadTracker.Interfaces;
 
 namespace TumblrThreadTracker.Models.DomainModels.Users
 {
@@ -7,6 +8,7 @@ namespace TumblrThreadTracker.Models.DomainModels.Users
         public int UserId { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
+        public DateTime LastLogin { get; set; }
 
         public UserProfile ToModel()
         {
