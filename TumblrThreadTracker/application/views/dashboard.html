@@ -48,9 +48,9 @@
                                     <div class="content">
                                         <span>{{thread.LastPostDate * 1000 | date:'medium'}}
                                             <br />
-                                            <a href="#" ng-click="archiveThread(thread.UserThreadId, thread.BlogShortname, thread.PostId, thread.UserTitle, thread.WatchedShortname)">Archive</a> 
+                                            <a href="#" ng-click="archiveThreads([thread.UserThreadId])">Archive</a> 
                                             &bull; 
-                                            <a href="#" ng-click="untrackThread(thread.UserThreadId)">Untrack</a>
+                                            <a href="#" ng-click="untrackThreads([thread.UserThreadId])">Untrack</a>
                                         </span>
                                         <div>
                                             <a target="_blank" href="{{thread.LastPostUrl}}">{{thread.UserTitle}}</a><br>
