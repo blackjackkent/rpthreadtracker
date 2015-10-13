@@ -14,6 +14,7 @@
                         <option value="UserTitle">Thread Title</option>
                         <option value="LastPostDate">Last Post Date</option>
                         <option value="LastPosterShortname">Last Poster</option>
+                        <option value="WatchedShortname">Watched Shortname</option>
                     </select>
                     <select ng-model="sortDescending" ng-change="setSortDescending()" ng-options="o.v as o.n for o in [{ n: 'Descending', v: true }, { n: 'Ascending', v: false }]">
                     </select>
@@ -59,6 +60,7 @@
                     <th>Thread Title</th>
                     <th>Last Poster</th>
                     <th>Last Post Date</th>
+                    <th>Watched Shortname</th>
                     <th>&nbsp;</th>
                     <th>&nbsp;</th>
                     <th>&nbsp;</th>
@@ -83,6 +85,9 @@
                     </td>
                     <td>
                         <span ng-show="thread.LastPostDate != null">{{thread.LastPostDate * 1000 | date:'medium'}}</span></td>
+                    <td>
+                        <span ng-show="thread.WatchedShortname != null">{{thread.WatchedShortname}}</span>
+                    </td>
                     <td>
                         <a target="_blank" href="{{thread.LastPostUrl}}">View</a>
                     </td>
