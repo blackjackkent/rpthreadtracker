@@ -9,6 +9,7 @@
 }
 
 #main-navbar .logo:hover { text-decoration: none; }
+.thread-table { min-width: 1080px !important }
 
 @media (max-width: 767px) {
     body { padding: 40px 0;}
