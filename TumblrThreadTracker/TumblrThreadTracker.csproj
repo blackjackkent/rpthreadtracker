@@ -46,6 +46,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.4.0.4\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="BundleTransformer.Core, Version=1.9.22.0, Culture=neutral, PublicKeyToken=973c344c93aac60d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\BundleTransformer.Core.1.9.22\lib\net40\BundleTransformer.Core.dll</HintPath>
@@ -123,6 +126,8 @@
     <Reference Include="System.Net.Http.Primitives">
       <HintPath>..\packages\Microsoft.Net.Http.2.2.28\lib\net45\System.Net.Http.Primitives.dll</HintPath>
     </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -197,10 +202,26 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\AutoMapperConfiguration.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Infrastructure\BlogModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BlogModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\BlogModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BlogModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\BlogModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BlogModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BlogController.cs" />
     <Compile Include="Controllers\ChangePasswordController.cs" />
@@ -211,10 +232,22 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ThreadController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
+    <Compile Include="Infrastructure\Entities\IEntity.cs" />
+    <Compile Include="Infrastructure\Entities\RPThreadTrackerEntities.cs" />
+    <Compile Include="Infrastructure\Entities\UserBlog.cs" />
+    <Compile Include="Infrastructure\Entities\UserProfile.cs" />
+    <Compile Include="Infrastructure\Entities\UserThread.cs" />
+    <Compile Include="Infrastructure\Entities\UserThreadTag.cs" />
+    <Compile Include="Infrastructure\Entities\webpages_Membership.cs" />
+    <Compile Include="Infrastructure\ExtensionMethods.cs" />
+    <Compile Include="Infrastructure\Repositories\BaseRepository.cs" />
     <Compile Include="Infrastructure\Services\BlogService.cs" />
     <Compile Include="Infrastructure\Services\ThreadService.cs" />
     <Compile Include="Infrastructure\Services\UserProfileService.cs" />
     <Compile Include="Infrastructure\Services\WebSecurityService.cs" />
+    <Compile Include="Infrastructure\webpages_Membership.cs">
+      <DependentUpon>BlogModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Interfaces\IBlogService.cs" />
     <Compile Include="Interfaces\IDto.cs" />
     <Compile Include="Interfaces\IEmailService.cs" />
@@ -222,16 +255,16 @@
     <Compile Include="Interfaces\ITumblrClient.cs" />
     <Compile Include="Interfaces\IUserProfileService.cs" />
     <Compile Include="Interfaces\IWebSecurityService.cs" />
+    <Compile Include="Models\DomainModels\Account\WebpagesMembershipDto.cs" />
     <Compile Include="Models\DomainModels\DomainModel.cs" />
     <Compile Include="Models\Model.cs" />
     <Compile Include="Models\RequestModels\LoginRequest.cs" />
-    <Compile Include="Infrastructure\ThreadTrackerContext.cs" />
     <Compile Include="Models\DomainModels\Blogs\Blog.cs" />
     <Compile Include="Models\DomainModels\Blogs\BlogDto.cs" />
     <Compile Include="Models\DomainModels\Threads\Thread.cs" />
     <Compile Include="Models\DomainModels\Threads\ThreadDto.cs" />
-    <Compile Include="Models\DomainModels\Users\UserProfile.cs" />
-    <Compile Include="Models\DomainModels\Users\UserProfileDto.cs" />
+    <Compile Include="Models\DomainModels\Users\User.cs" />
+    <Compile Include="Models\DomainModels\Users\UserDto.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -240,11 +273,6 @@
     <Compile Include="Interfaces\IPost.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\IThreadTrackerContext.cs" />
-    <Compile Include="Migrations\201403151939344_Initial.cs" />
-    <Compile Include="Migrations\201403151939344_Initial.Designer.cs">
-      <DependentUpon>201403151939344_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DomainModels\Account\WebpagesMembership.cs" />
     <Compile Include="Models\RequestModels\BlogUpdateRequest.cs" />
     <Compile Include="Models\RequestModels\ChangePasswordRequest.cs" />
@@ -263,6 +291,18 @@
     <Compile Include="Infrastructure\Repositories\UserBlogRepository.cs" />
     <Compile Include="Infrastructure\Services\EmailService.cs" />
     <Compile Include="Infrastructure\Services\TumblrClient.cs" />
+    <Compile Include="Infrastructure\UserBlog.cs">
+      <DependentUpon>BlogModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\UserProfile.cs">
+      <DependentUpon>BlogModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\UserThread.cs">
+      <DependentUpon>BlogModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Infrastructure\UserThreadTag.cs">
+      <DependentUpon>BlogModel.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="application\fonts\fontawesome\fontawesome-webfont.svg" />
@@ -396,6 +436,23 @@
     <Content Include="application\fonts\fontawesome\fontawesome-webfont.ttf" />
     <Content Include="application\fonts\fontawesome\fontawesome-webfont.woff" />
     <Content Include="application\fonts\fontawesome\FontAwesome.otf" />
+    <EntityDeploy Include="Infrastructure\BlogModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>BlogModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Infrastructure\BlogModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BlogModel.edmx</DependentUpon>
+      <LastGenOutput>BlogModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Infrastructure\BlogModel.edmx.diagram">
+      <DependentUpon>BlogModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="Infrastructure\BlogModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>BlogModel.edmx</DependentUpon>
+      <LastGenOutput>BlogModel.cs</LastGenOutput>
+    </Content>
     <None Include="BundleTransformer.Configuration.xsd">
       <SubType>Designer</SubType>
     </None>
@@ -420,9 +477,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201403151939344_Initial.resx">
-      <DependentUpon>201403151939344_Initial.cs</DependentUpon>
-    </EmbeddedResource>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

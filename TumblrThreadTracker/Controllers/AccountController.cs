@@ -10,10 +10,10 @@ namespace TumblrThreadTracker.Controllers
 {
     public class AccountController : ApiController
     {
-        private readonly IRepository<UserProfile> _userProfileRepository;
+        private readonly IRepository<User> _userProfileRepository;
         private readonly IWebSecurityService _webSecurityService;
 
-        public AccountController(IRepository<UserProfile> userProfileRepository, IWebSecurityService webSecurityService)
+        public AccountController(IRepository<User> userProfileRepository, IWebSecurityService webSecurityService)
         {
             _userProfileRepository = userProfileRepository;
             _webSecurityService = webSecurityService;

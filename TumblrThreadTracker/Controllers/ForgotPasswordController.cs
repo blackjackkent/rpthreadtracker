@@ -12,12 +12,12 @@ namespace TumblrThreadTracker.Controllers
     public class ForgotPasswordController : ApiController
     {
         private readonly IEmailService _emailService;
-        private readonly IRepository<UserProfile> _userProfileRepository;
+        private readonly IRepository<User> _userProfileRepository;
         private readonly IRepository<WebpagesMembership> _webpagesMembershipRepository;
         private readonly IWebSecurityService _webSecurityService;
         private readonly IUserProfileService _userProfileService;
 
-        public ForgotPasswordController(IRepository<UserProfile> userProfileRepository,
+        public ForgotPasswordController(IRepository<User> userProfileRepository,
             IRepository<WebpagesMembership> webpagesMembershipRepository, IWebSecurityService webSecurityService, 
             IUserProfileService userProfileService, IEmailService emailService)
         {

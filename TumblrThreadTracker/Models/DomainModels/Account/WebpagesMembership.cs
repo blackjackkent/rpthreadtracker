@@ -4,10 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TumblrThreadTracker.Models.DomainModels.Account
 {
-    [Table("webpages_Membership")]
-    public class WebpagesMembership
+    public class WebpagesMembership : DomainModel
     {
-        [Key]
         public int UserId { get; set; }
         public DateTime? CreateDate { get; set; }
         public string ConfirmationToken { get; set; }

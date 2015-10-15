@@ -4,12 +4,12 @@ using System.Linq.Expressions;
 
 namespace TumblrThreadTracker.Interfaces
 {
-    public interface IRepository<T>
+    public interface IRepository<TModel>
     {
-        T Get(int id);
-        IEnumerable<T> Get(Expression<Func<T, bool>> criteria);
-        void Insert(T entity);
-        void Update(T entity);
-        void Delete(int? id);
+        TModel GetSingle(Expression<Func<TModel, bool>> filter);
+        IEnumerable<TModel> Get(Expression<Func<TModel, bool>> criteria);
+        void Insert(TModel entity);
+        TModel Update(object id, TModel entity);
+        void Delete(object id);
     }
 }

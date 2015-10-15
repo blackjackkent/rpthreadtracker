@@ -1,19 +1,15 @@
 ﻿using System;
 using System.Data.Entity;
-using TumblrThreadTracker.Models.DomainModels.Account;
-using TumblrThreadTracker.Models.DomainModels.Blogs;
-using TumblrThreadTracker.Models.DomainModels.Threads;
-using TumblrThreadTracker.Models.DomainModels.Users;
+using TumblrThreadTracker.Infrastructure;
 
 namespace TumblrThreadTracker.Interfaces
 {
     public interface IThreadTrackerContext
     {
         DbSet<UserProfile> UserProfiles { get; set; }
-        DbSet<Blog> UserBlogs { get; set; }
-        DbSet<Thread> UserThreads { get; set; }
-        DbSet<WebpagesMembership> WebpagesMembership { get; set; }
+        DbSet<UserBlog> UserBlogs { get; set; }
+        DbSet<UserThread> UserThreads { get; set; }
+        DbSet<webpages_Membership> webpages_Membership { get; set; }
         void Commit();
-        DbSet GetDbSet(Type type);
     }
 }

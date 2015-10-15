@@ -2,16 +2,16 @@
 
 namespace TumblrThreadTrackerTests.TestBuilders.Domain
 {
-    public class UserProfileBuilder : DomainBuilder<UserProfile, UserProfileDto>
+    public class UserProfileBuilder : DomainBuilder<User, UserDto>
     {
         public UserProfileBuilder()
             : base(GetDefaultValues())
         {
         }
 
-        private static UserProfileDto GetDefaultValues()
+        private static UserDto GetDefaultValues()
         {
-            return new UserProfileDto()
+            return new UserDto()
             {
                 UserId = 10,
                 UserName = "blackjackkent",

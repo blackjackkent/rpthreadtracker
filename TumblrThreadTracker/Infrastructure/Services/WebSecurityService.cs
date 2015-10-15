@@ -8,17 +8,17 @@ namespace TumblrThreadTracker.Infrastructure.Services
 {
     public class WebSecurityService : IWebSecurityService
     {
-        public void CreateAccount(string username, string password, string email, IRepository<UserProfile> userProfileRepository)
+        public void CreateAccount(string username, string password, string email, IRepository<User> userProfileRepository)
         {
             WebSecurity.CreateUserAndAccount(username, password);
-            var profile = new UserProfile
+            var profile = new User
             {
                 UserId = WebSecurity.GetUserId(username),
                 UserName =username,
                 Email = email,
                 LastLogin = DateTime.Now
             };
-            userProfileRepository.Update(profile);
+            userProfileRepository.Update(profile.UserId, profile);
         }
 
         public bool Login(string username, string password, bool rememberMe = true)

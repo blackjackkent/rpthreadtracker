@@ -9,7 +9,7 @@ namespace TumblrThreadTracker.Infrastructure.Services
     {
         public BlogDto GetBlogById(int userBlogId, IRepository<Blog> blogRepository)
         {
-            var blog = blogRepository.Get(userBlogId);
+            var blog = blogRepository.GetSingle(b => b.UserBlogId == userBlogId);
             return blog.ToDto();
         }
 
@@ -36,7 +36,7 @@ namespace TumblrThreadTracker.Infrastructure.Services
 
         public void UpdateBlog(BlogDto dto, IRepository<Blog> blogRepository)
         {
-            blogRepository.Update(new Blog(dto));
+            blogRepository.Update(dto.UserBlogId, new Blog(dto));
         }
 
         public void DeleteBlog(BlogDto blog, IRepository<Blog> blogRepository)
