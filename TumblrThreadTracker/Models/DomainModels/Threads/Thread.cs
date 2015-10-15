@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using NUnit.Framework;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.ServiceModels;
 using Blog = TumblrThreadTracker.Models.DomainModels.Blogs.Blog;
@@ -23,21 +25,20 @@ namespace TumblrThreadTracker.Models.DomainModels.Threads
             UserTitle = dto.UserTitle;
             WatchedShortname = dto.WatchedShortname;
             IsArchived = dto.IsArchived;
+            ThreadTags = dto.ThreadTags;
         }
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int? UserThreadId { get; set; }
-
         public int UserBlogId { get; set; }
-
         [ForeignKey("UserBlogId")]
         public Blog UserBlog { get; set; }
-
         public string PostId { get; set; }
         public string UserTitle { get; set; }
         public string WatchedShortname { get; set; }
         public bool IsArchived { get; set; }
+        public List<string> ThreadTags { get; set; }
 
         public ThreadDto ToDto(Blog blog, IPost post)
         {
@@ -56,7 +57,8 @@ namespace TumblrThreadTracker.Models.DomainModels.Threads
                     UserThreadId = UserThreadId,
                     UserTitle = UserTitle,
                     WatchedShortname = WatchedShortname,
-                    IsArchived = IsArchived
+                    IsArchived = IsArchived,
+                    ThreadTags = ThreadTags
                 };
             }
             var dto = new ThreadDto
@@ -68,7 +70,8 @@ namespace TumblrThreadTracker.Models.DomainModels.Threads
                 BlogShortname = blog.BlogShortname,
                 UserBlogId = blog.UserBlogId != null ? blog.UserBlogId.Value : -1,
                 WatchedShortname = WatchedShortname,
-                IsArchived = IsArchived
+                IsArchived = IsArchived,
+                ThreadTags = ThreadTags
             };
             if (post.notes != null && post.notes.Any(n => n.type == "reblog"))
             {

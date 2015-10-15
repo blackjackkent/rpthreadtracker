@@ -1,4 +1,7 @@
-﻿#left-panel-mobile { display: none;}
+﻿#main-navbar .container {width: 100% !important}
+.central-container { width: 95% !important; }
+
+#left-panel-mobile { display: none;}
 #main-navbar .logo {
     color: #fff;
     display: inline-block;
@@ -105,3 +108,11 @@ label.inline-control-label {
 #register-form .fields { border: none; }
 
 .thread-filters .bulk-action-link { display: inline-block;vertical-align: top;}
+
+#thread-tag-data { min-height: 30px;}
+.thread-tag-data-item { background-color: #d5eef1;border-color: #c8e0e6;color: #4e7b86;padding: 5px;margin-right: 5px;border-radius: 5px;padding-right: 20px; position:relative}
+.thread-tag-data-item:hover { background-color: #c8e0e6;cursor: pointer;}
+.thread-tag-data-item::after {
+    content: " \00D7 ";
+    position: absolute;right: 5px;
+}

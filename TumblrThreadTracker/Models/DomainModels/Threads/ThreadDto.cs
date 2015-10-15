@@ -1,4 +1,6 @@
-﻿using TumblrThreadTracker.Interfaces;
+﻿using System.Collections.Generic;
+using NUnit.Framework;
+using TumblrThreadTracker.Interfaces;
 
 namespace TumblrThreadTracker.Models.DomainModels.Threads
 {
@@ -17,6 +19,7 @@ namespace TumblrThreadTracker.Models.DomainModels.Threads
         public long? LastPostDate { get; set; }
         public bool IsMyTurn { get; set; }
         public bool IsArchived { get; set; }
+        public List<string> ThreadTags { get; set; }
 
         public Thread ToModel()
         {
