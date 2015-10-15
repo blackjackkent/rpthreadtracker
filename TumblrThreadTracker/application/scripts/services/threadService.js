@@ -106,7 +106,7 @@ rpThreadTracker.services.service('threadService', [
             archivedThreads = [];
         }
 
-        function addNewThread(blogShortname, postId, userTitle, watchedShortname) {
+        function addNewThread(blogShortname, postId, userTitle, watchedShortname, threadTags) {
             var deferred = $q.defer(),
                 config = {
                     url: '/api/Thread',
@@ -115,7 +115,8 @@ rpThreadTracker.services.service('threadService', [
                         PostId: postId,
                         BlogShortname: blogShortname,
                         UserTitle: userTitle,
-                        watchedShortname: watchedShortname
+                        WatchedShortname: watchedShortname,
+                        ThreadTags: threadTags
                     }
                 },
                 success = function(response, status, headers, config) {
