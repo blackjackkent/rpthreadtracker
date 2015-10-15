@@ -4,7 +4,7 @@ namespace TumblrThreadTracker.Interfaces
 {
     public interface IUserProfileService
     {
-        UserProfileDto GetByUserId(int id, IRepository<UserProfile> userProfileRepository);
-        UserProfileDto GetByUsername(string username, IRepository<UserProfile> userProfileRepository);
+        UserDto GetByUserId(int id, IRepository<User> userProfileRepository);
+        UserDto GetByUsername(string username, IRepository<User> userProfileRepository);
     }
 }

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="09f03c49473344a9ac46a633452d90a0" Name="Diagram1">
+        <EntityTypeShape EntityType="RPThreadTrackerModel.UserBlog" Width="1.5" PointX="3" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPThreadTrackerModel.UserProfile" Width="1.5" PointX="0.75" PointY="1.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPThreadTrackerModel.UserThread" Width="1.5" PointX="5.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="RPThreadTrackerModel.UserThreadTag" Width="1.5" PointX="7.5" PointY="1.375" IsExpanded="true" />
+        <AssociationConnector Association="RPThreadTrackerModel.FK_dbo_UserBlog_dbo_UserProfile_UserId" ManuallyRouted="false" />
+        <AssociationConnector Association="RPThreadTrackerModel.FK_dbo_UserThread_dbo_UserBlog_UserBlogId" ManuallyRouted="false" />
+        <AssociationConnector Association="RPThreadTrackerModel.FK__UserThrea__UserT__1B9317B3" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="RPThreadTrackerModel.webpages_Membership" Width="1.5" PointX="0.75" PointY="4.75" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

@@ -1,11 +1,11 @@
 ﻿using TumblrThreadTracker.Interfaces;
-using TumblrThreadTracker.Models;
+using TumblrThreadTracker.Models.DomainModels;
 
 namespace TumblrThreadTrackerTests.TestBuilders.Domain
 {
     public abstract class DomainBuilder<TModel, TDto>
         where TDto : IDto<TModel>
-        where TModel : Model
+        where TModel : DomainModel
     {
         protected TDto Dto;
 

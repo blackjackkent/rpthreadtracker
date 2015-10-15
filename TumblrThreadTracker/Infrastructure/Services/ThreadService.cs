@@ -20,8 +20,8 @@ namespace TumblrThreadTracker.Infrastructure.Services
 
         public ThreadDto GetById(int id, IRepository<Blog> blogRepository, IRepository<Thread> threadRepository, ITumblrClient tumblrClient)
         {
-            var thread = threadRepository.Get(id);
-            var blog = blogRepository.Get(thread.UserBlogId);
+            var thread = threadRepository.GetSingle(t => t.UserThreadId == id);
+            var blog = blogRepository.GetSingle(b => b.UserBlogId == thread.UserBlogId);
             var post = tumblrClient.GetPost(thread.PostId, blog.BlogShortname);
             return thread.ToDto(blog, post);
         }
@@ -33,7 +33,7 @@ namespace TumblrThreadTracker.Infrastructure.Services
 
         public void UpdateThread(ThreadDto dto, IRepository<Thread> threadRepository)
         {
-            threadRepository.Update(new Thread(dto));
+            threadRepository.Update(dto.UserThreadId, new Thread(dto));
         }
 
         public IEnumerable<ThreadDto> GetNewsThreads(ITumblrClient tumblrClient)

@@ -4,13 +4,13 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using NUnit.Framework;
+using TumblrThreadTracker.Infrastructure;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.ServiceModels;
 using Blog = TumblrThreadTracker.Models.DomainModels.Blogs.Blog;
 
 namespace TumblrThreadTracker.Models.DomainModels.Threads
 {
-    [Table("UserThread")]
     public class Thread : DomainModel
     {
         public Thread()
@@ -28,11 +28,8 @@ namespace TumblrThreadTracker.Models.DomainModels.Threads
             ThreadTags = dto.ThreadTags;
         }
 
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int? UserThreadId { get; set; }
         public int UserBlogId { get; set; }
-        [ForeignKey("UserBlogId")]
         public Blog UserBlog { get; set; }
         public string PostId { get; set; }
         public string UserTitle { get; set; }

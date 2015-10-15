@@ -6,13 +6,13 @@ namespace TumblrThreadTracker.Infrastructure.Services
 {
     public class UserProfileService : IUserProfileService
     {
-        public UserProfileDto GetByUserId(int id, IRepository<UserProfile> userProfileRepository)
+        public UserDto GetByUserId(int id, IRepository<User> userProfileRepository)
         {
-            var profile = userProfileRepository.Get(id);
+            var profile = userProfileRepository.GetSingle(p => p.UserId == id);
             return profile == null ? null : profile.ToDto();
         }
 
-        public UserProfileDto GetByUsername(string username, IRepository<UserProfile> userProfileRepository)
+        public UserDto GetByUsername(string username, IRepository<User> userProfileRepository)
         {
             var profile = userProfileRepository.Get(u => u.UserName == username).FirstOrDefault();
             return profile == null ? null : profile.ToDto();

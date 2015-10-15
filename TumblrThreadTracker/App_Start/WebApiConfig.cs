@@ -18,7 +18,7 @@ namespace TumblrThreadTracker
         public static void Register(HttpConfiguration config)
         {
             var container = new UnityContainer();
-            container.RegisterType<IRepository<UserProfile>, UserProfileRepository>()
+            container.RegisterType<IRepository<User>, UserProfileRepository>()
                 .RegisterType<IRepository<Blog>, UserBlogRepository>()
                 .RegisterType<IRepository<Thread>, UserThreadRepository>()
                 .RegisterType<IRepository<WebpagesMembership>, WebpagesMembershipRepository>()
@@ -28,7 +28,7 @@ namespace TumblrThreadTracker
                 .RegisterType<IUserProfileService, UserProfileService>()
                 .RegisterType<ITumblrClient, TumblrClient>(new InjectionConstructor(new RestClient("http://api.tumblr.com/v2")))
                 .RegisterType<IEmailService, EmailService>()
-                .RegisterType<IThreadTrackerContext, ThreadTrackerContext>();
+                .RegisterType<IThreadTrackerContext, RPThreadTrackerEntities>();
             config.DependencyResolver = new UnityResolver(container);
 
             config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new {id = RouteParameter.Optional});

@@ -14,9 +14,9 @@ namespace TumblrThreadTracker.Controllers
     public class SessionController : ApiController
     {
         private readonly IWebSecurityService _webSecurityService;
-        private readonly IRepository<UserProfile> _userProfileRepository;
+        private readonly IRepository<User> _userProfileRepository;
 
-        public SessionController(IWebSecurityService webSecurityService, IRepository<UserProfile> userProfileRepository)
+        public SessionController(IWebSecurityService webSecurityService, IRepository<User> userProfileRepository)
         {
             _webSecurityService = webSecurityService;
             _userProfileRepository = userProfileRepository;
@@ -29,7 +29,7 @@ namespace TumblrThreadTracker.Controllers
             var isLoggedIn = _webSecurityService.Login(model.UserName, model.Password);
             if (isLoggedIn)
             {
-                var account = _userProfileRepository.Get(_webSecurityService.GetUserId(model.UserName));
+                var account = _userProfileRepository.GetSingle(u => u.UserId == _webSecurityService.GetUserId(model.UserName));
                 account.SetLastLogin(DateTime.Now, _userProfileRepository);
             }
             return isLoggedIn 
