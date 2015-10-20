@@ -32,7 +32,7 @@
             </div>
         </section>
         <section class="row-fluid thread-filters">
-            <div class="span5">
+            <div class="span3">
                 <label class="inline-control-label">
                     Bulk Actions:
                 </label>
@@ -42,6 +42,13 @@
                     <option ng-show="pageId == 'archived'" value="UnarchiveSelected">Unarchive Selected</option>
                 </select>
                 <a class="btn bulk-action-link" analytics-on="click" analytics-category="Private Thread View" analytics-event="Bulk Action" ng-click="bulkAction()">Go</a>
+            </div>
+            <div class="span9">
+                <label class="inline-control-label">Filter By Tag:</label>
+                <select ng-model="filteredTag" ng-change="setFilteredTag()">
+                    <option value="">No Filter</option>
+                    <option ng-repeat="tag in allTags | orderBy:'toString()'" ng-value="tag">{{tag}}</option>
+                </select>
             </div>
         </section>
         <section ng-show="pageId != 'archived'" class="row-fluid alert alert-info public-link-alert">
@@ -71,7 +78,7 @@
                     <td ng-show="blogs.length == 0"colspan="6" class="alert public-link-alert">You have not yet added any blogs on which to track threads. Click "Manage Blogs" to get started.</td>
                     <td ng-show="blogs.length > 0 && threads.length == 0" colspan="6" class="alert alert-info public-link-alert">You are not yet tracking any threads. Click "Track New Thread" to track a thread from one of your current blogs.</td>
                 </tr>
-                <tr ng-repeat="thread in threads | isCurrentBlog:currentBlog | isCorrectTurn:pageId | orderBy:currentOrderBy:sortDescending">
+                <tr ng-repeat="thread in threads | isCurrentBlog:currentBlog | isCorrectTurn:pageId | containsFilteredTag:filteredTag | orderBy:currentOrderBy:sortDescending">
                     <td>
                         <input type="checkbox" value="{{thread.UserThreadId}}" ng-model="bulkItems[thread.UserThreadId]">
                     </td>

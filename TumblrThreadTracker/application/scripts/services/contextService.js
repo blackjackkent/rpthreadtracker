@@ -4,6 +4,7 @@ rpThreadTracker.services.service('contextService', [
     '$q', '$http', function($q, $http) {
         var sortDescending = false,
             currentBlog = '',
+            filteredTag = '',
             currentOrderBy = 'LastPostDate';
 
         function getSortDescending() {
@@ -18,6 +19,10 @@ rpThreadTracker.services.service('contextService', [
             return currentOrderBy;
         }
 
+        function getFilteredTag() {
+            return filteredTag;
+        }
+
         function setSortDescending(sort) {
             sortDescending = sort;
         }
@@ -30,6 +35,10 @@ rpThreadTracker.services.service('contextService', [
             currentOrderBy = orderBy;
         }
 
+        function setFilteredTag(newFilteredTag) {
+            filteredTag = newFilteredTag;
+        }
+
         function getPublicUrl(pageId, userId) {
             return "http://www.rpthreadtracker.com/public/" + pageId + "?userId=" + userId + "&currentBlog=" + currentBlog + "&sortDescending=" + sortDescending + "&currentOrderBy=" + currentOrderBy;
         }
@@ -38,9 +47,11 @@ rpThreadTracker.services.service('contextService', [
             getSortDescending: getSortDescending,
             getCurrentBlog: getCurrentBlog,
             getCurrentOrderBy: getCurrentOrderBy,
+            getFilteredTag: getFilteredTag,
             setSortDescending: setSortDescending,
             setCurrentBlog: setCurrentBlog,
             setCurrentOrderBy: setCurrentOrderBy,
+            setFilteredTag: setFilteredTag,
             getPublicUrl: getPublicUrl
         };
     }
