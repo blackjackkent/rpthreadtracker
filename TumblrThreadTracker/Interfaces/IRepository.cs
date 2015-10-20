@@ -8,8 +8,8 @@ namespace TumblrThreadTracker.Interfaces
     {
         TModel GetSingle(Expression<Func<TModel, bool>> filter);
         IEnumerable<TModel> Get(Expression<Func<TModel, bool>> criteria);
-        void Insert(TModel entity);
-        TModel Update(object id, TModel entity);
+        TModel Insert(TModel model);
+        TModel Update(object id, TModel model);
         void Delete(object id);
     }
 }
