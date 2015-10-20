@@ -7,12 +7,18 @@ rpThreadTracker.controllers.controller('MainController', [
         $scope.setBodyClass('');
 
         function updateThreads(data) {
+            $scope.allTags = [];
             $scope.threads = data;
             $scope.myTurnCount = 0;
             $scope.theirTurnCount = 0;
             angular.forEach($scope.threads, function(thread) {
                 $scope.myTurnCount += thread.IsMyTurn ? 1 : 0;
                 $scope.theirTurnCount += thread.IsMyTurn ? 0 : 1;
+                angular.forEach(thread.ThreadTags, function (tag) {
+                    if ($scope.allTags.indexOf(tag) == -1) {
+                        $scope.allTags.push(tag);
+                    }
+                });
             });
         }
 
@@ -39,6 +45,10 @@ rpThreadTracker.controllers.controller('MainController', [
             contextService.setCurrentOrderBy($scope.currentOrderBy);
             $analytics.eventTrack('Change Order By', { category: 'Private Thread View' });
         };
+        $scope.setFilteredTag = function () {
+            contextService.setFilteredTag($scope.filteredTag);
+            $analytics.eventTrack('Change Filtered Tag', { category: 'Private Thread View' });
+        };
         $scope.bulkAction = function() {
             var bulkAffected = [];
             for (var property in $scope.bulkItems) {
@@ -59,7 +69,6 @@ rpThreadTracker.controllers.controller('MainController', [
         $scope.dashboardFilter = 'yourturn';
         $scope.bulkItems = {};
         $scope.bulkItemAction = "UntrackSelected";
-
         if (pageId == "archived") {
             threadService.subscribeOnArchiveUpdate(updateThreads);
             threadService.getArchive();
@@ -70,6 +79,7 @@ rpThreadTracker.controllers.controller('MainController', [
         $scope.currentBlog = contextService.getCurrentBlog();
         $scope.sortDescending = contextService.getSortDescending();
         $scope.currentOrderBy = contextService.getCurrentOrderBy();
+        $scope.filteredTag = contextService.getFilteredTag();
         sessionService.getUser().then(function(user) {
             $scope.userId = user.UserId;
             $scope.user = user;
@@ -77,7 +87,6 @@ rpThreadTracker.controllers.controller('MainController', [
         blogService.getBlogs().then(function(blogs) {
             $scope.blogs = blogs;
         });
-
         newsService.getNews().then(function(news) {
             $scope.news = news;
         });

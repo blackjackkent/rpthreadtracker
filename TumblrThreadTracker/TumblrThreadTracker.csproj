@@ -347,6 +347,7 @@
     <Content Include="application\scripts\directives\headerNav.js" />
     <Content Include="application\scripts\directives\ngFocus.js" />
     <Content Include="application\scripts\directives\sideNav.js" />
+    <Content Include="application\scripts\filters\containsFilteredTag.js" />
     <Content Include="application\scripts\filters\isCorrectTurn.js" />
     <Content Include="application\scripts\filters\isCurrentBlog.js" />
     <Content Include="application\scripts\jquery\adminflare-demo-init.min.js" />
