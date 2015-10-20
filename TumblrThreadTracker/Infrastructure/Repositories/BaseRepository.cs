@@ -28,13 +28,14 @@ namespace TumblrThreadTracker.Infrastructure.Repositories
             return DbSet.ToSelection<TModel, TEntity>().Where(filter);
         }
 
-        public void Insert(TModel model)
+        public virtual TModel Insert(TModel model)
         {
             var entity = DbSet.Add(model.ToEntity<TModel, TEntity>());
             Context.Commit();
+            return entity.ToModel<TModel, TEntity>();
         }
 
-        public TModel Update(object id, TModel model)
+        public virtual TModel Update(object id, TModel model)
         {
             var entityToUpdate = DbSet.Find(id);
             entityToUpdate.Load(model);
@@ -42,7 +43,7 @@ namespace TumblrThreadTracker.Infrastructure.Repositories
             return model;
         }
 
-        public void Delete(object id)
+        public virtual void Delete(object id)
         {
             var entityToRemove = DbSet.Find(id);
             if (entityToRemove == null)

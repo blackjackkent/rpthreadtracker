@@ -91,7 +91,7 @@ rpThreadTracker.app.config([
 
             $routeProvider.when('/add-thread', {
                 templateUrl: '/application/views/add-thread.html?cacheBuster=' + cacheBuster,
-                controller: 'AddThreadController',
+                controller: 'ManageThreadController',
                 resolve: {
                     pageId: function () {
                         return "add-thread";
@@ -101,7 +101,7 @@ rpThreadTracker.app.config([
 
             $routeProvider.when('/edit-thread/:userThreadId', {
                 templateUrl: '/application/views/add-thread.html?cacheBuster=' + cacheBuster,
-                controller: 'EditThreadController',
+                controller: 'ManageThreadController',
                 resolve: {
                     pageId: function () {
                         return "edit-thread";

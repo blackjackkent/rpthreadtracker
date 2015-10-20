@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Linq;
+using AutoMapper;
 using TumblrThreadTracker.Infrastructure;
 using TumblrThreadTracker.Models.DomainModels.Account;
 using TumblrThreadTracker.Models.DomainModels.Blogs;
@@ -15,6 +16,8 @@ namespace TumblrThreadTracker
             ConfigureDtoToModel();
             ConfigureEntityToModel();
             ConfigureModelToEntity();
+            ConfigureEntityToDto();
+            ConfigureDtoToEntity();
         }
 
         private static void ConfigureModelToEntity()
@@ -33,8 +36,30 @@ namespace TumblrThreadTracker
         {
             Mapper.CreateMap<UserBlog, Blog>();
             Mapper.CreateMap<UserProfile, User>();
-            Mapper.CreateMap<UserThread, Thread>();
+            Mapper.CreateMap<UserThread, Thread>()
+                .ForMember(dest => dest.ThreadTags, m => m.MapFrom(src => src.UserThreadTags.Select(t => t.TagText)));
             Mapper.CreateMap<webpages_Membership, WebpagesMembership>();
+        }
+
+        private static void ConfigureEntityToDto()
+        {
+            Mapper.CreateMap<UserBlog, BlogDto>();
+            Mapper.CreateMap<UserProfile, UserDto>();
+            Mapper.CreateMap<UserThread, ThreadDto>()
+                .ForMember(dest => dest.ThreadTags, m => m.MapFrom(src => src.UserThreadTags.Select(t => t.TagText)));
+            Mapper.CreateMap<webpages_Membership, WebpagesMembershipDto>();
+        }
+
+        private static void ConfigureDtoToEntity()
+        {
+            Mapper.CreateMap<BlogDto, UserBlog>()
+                .ForMember(dest => dest.UserProfile, m => m.Ignore())
+                .ForMember(dest => dest.UserThreads, m => m.Ignore());
+            Mapper.CreateMap<UserDto, UserProfile>()
+                .ForMember(dest => dest.UserBlogs, m => m.Ignore());
+            Mapper.CreateMap<ThreadDto, UserThread>()
+                .ForMember(dest => dest.UserBlog, m => m.Ignore());
+            Mapper.CreateMap<WebpagesMembershipDto, webpages_Membership>();
         }
 
         private static void ConfigureDtoToModel()

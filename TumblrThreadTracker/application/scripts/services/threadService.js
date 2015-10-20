@@ -145,7 +145,7 @@ rpThreadTracker.services.service('threadService', [
             return deferred.promise;
         }
 
-        function editThread(userThreadId, blogShortname, postId, userTitle, watchedShortname, isArchived) {
+        function editThread(userThreadId, blogShortname, postId, userTitle, watchedShortname, threadTags, isArchived) {
             var deferred = $q.defer(),
                 config = {
                     url: '/api/Thread',
@@ -156,6 +156,7 @@ rpThreadTracker.services.service('threadService', [
                         BlogShortname: blogShortname,
                         UserTitle: userTitle,
                         WatchedShortname: watchedShortname,
+                        ThreadTags: threadTags,
                         IsArchived: isArchived
                     }
                 },

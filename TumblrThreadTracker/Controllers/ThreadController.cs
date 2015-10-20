@@ -79,6 +79,7 @@ namespace TumblrThreadTracker.Controllers
                 UserBlogId = blog.UserBlogId != null ? blog.UserBlogId.Value : -1,
                 UserTitle = request.UserTitle,
                 WatchedShortname = request.WatchedShortname,
+                ThreadTags = request.ThreadTags,
                 IsArchived = request.IsArchived
             };
             _threadService.UpdateThread(dto, _threadRepository);

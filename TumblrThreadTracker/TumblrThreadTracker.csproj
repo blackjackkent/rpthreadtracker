@@ -330,10 +330,9 @@
     <Content Include="application\images\png.png" />
     <Content Include="application\images\pricing-bg.png" />
     <Content Include="application\scripts\app.js" />
-    <Content Include="application\scripts\controllers\addThreadController.js" />
+    <Content Include="application\scripts\controllers\manageThreadController.js" />
     <Content Include="application\scripts\controllers\bodyController.js" />
     <Content Include="application\scripts\controllers\editBlogController.js" />
-    <Content Include="application\scripts\controllers\editThreadController.js" />
     <Content Include="application\scripts\controllers\forgotPasswordController.js" />
     <Content Include="application\scripts\controllers\headerController.js" />
     <Content Include="application\scripts\controllers\loginController.js" />
