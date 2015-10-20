@@ -19,9 +19,13 @@ namespace TumblrThreadTracker
 
         private static void ConfigureModelToEntity()
         {
-            Mapper.CreateMap<Blog, UserBlog>();
-            Mapper.CreateMap<User, UserProfile>();
-            Mapper.CreateMap<Thread, UserThread>();
+            Mapper.CreateMap<Blog, UserBlog>()
+                .ForMember(dest => dest.UserProfile, m => m.Ignore())
+                .ForMember(dest => dest.UserThreads, m => m.Ignore());
+            Mapper.CreateMap<User, UserProfile>()
+                .ForMember(dest => dest.UserBlogs, m => m.Ignore());
+            Mapper.CreateMap<Thread, UserThread>()
+                .ForMember(dest => dest.UserBlog, m => m.Ignore());
             Mapper.CreateMap<WebpagesMembership, webpages_Membership>();
         }
 

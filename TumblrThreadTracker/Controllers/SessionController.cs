@@ -29,7 +29,8 @@ namespace TumblrThreadTracker.Controllers
             var isLoggedIn = _webSecurityService.Login(model.UserName, model.Password);
             if (isLoggedIn)
             {
-                var account = _userProfileRepository.GetSingle(u => u.UserId == _webSecurityService.GetUserId(model.UserName));
+                var userId = _webSecurityService.GetUserId(model.UserName);
+                var account = _userProfileRepository.GetSingle(u => u.UserId == userId);
                 account.SetLastLogin(DateTime.Now, _userProfileRepository);
             }
             return isLoggedIn 
