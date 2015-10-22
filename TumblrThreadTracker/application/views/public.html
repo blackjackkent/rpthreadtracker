@@ -12,12 +12,12 @@
                 <th>&nbsp;</th>
                 <th>&nbsp;</th>
             </tr>   
-            <tr ng-repeat="thread in threads | isCurrentBlog:currentBlog | isCorrectTurn:pageId | orderBy:currentOrderBy:sortDescending">
+            <tr ng-repeat="thread in threads | isCurrentBlog:currentBlog | isCorrectTurn:pageId | containsFilteredTag:filteredTag |  orderBy:currentOrderBy:sortDescending">
                 <td>{{thread.UserTitle}}</td>
                 <td>
                     <a ng-show="thread.LastPosterShortname != null" href="{{thread.LastPostUrl}}">{{thread.LastPosterShortname}}</a>
                     <span ng-show="thread.LastPosterShortname == null">
-                        <span class="error">Not Found</span> 
+                        <span class="error">Not Found</span>
                         (<a target="_blank" href="http://tblrthreadtracker.tumblr.com/post/84787503106/fix-in-place-for-not-found-error-please-read" id="notFoundExplanation">Why am I seeing this?</a>)
                     </span>
                 </td>

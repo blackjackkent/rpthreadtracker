@@ -53,8 +53,8 @@
         </section>
         <section ng-show="pageId != 'archived'" class="row-fluid alert alert-info public-link-alert">
             Share this view publically:
-            <a href="http://www.rpthreadtracker.com/public/{{pageId}}?userId={{userId}}&currentBlog={{currentBlog}}&sortDescending={{sortDescending}}&currentOrderBy={{currentOrderBy}}">
-                http://www.rpthreadtracker.com/public/{{pageId}}?userId={{userId}}&amp;currentBlog={{currentBlog}}&amp;sortDescending={{sortDescending}}&amp;currentOrderBy={{currentOrderBy}}
+            <a href="http://www.rpthreadtracker.com/public/{{pageId}}?userId={{userId}}&currentBlog={{currentBlog}}&sortDescending={{sortDescending}}&currentOrderBy={{currentOrderBy}}&filteredTag={{filteredTag | escape}}">
+                http://www.rpthreadtracker.com/public/{{pageId}}?userId={{userId}}&amp;currentBlog={{currentBlog}}&amp;sortDescending={{sortDescending}}&amp;currentOrderBy={{currentOrderBy}}&amp;filteredTag={{filteredTag | escape}}
             </a>
         </section>
         <section class="row-fluid">

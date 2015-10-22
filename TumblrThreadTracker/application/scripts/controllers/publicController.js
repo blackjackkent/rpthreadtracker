@@ -7,6 +7,8 @@ rpThreadTracker.controllers.controller('PublicController', [
         $scope.currentBlog = $routeParams.currentBlog;
         $scope.currentOrderBy = $routeParams.currentOrderBy;
         $scope.sortDescending = $routeParams.sortDescending;
+        $scope.filteredTag = $routeParams.filteredTag;
+        console.log($scope.filteredTag);
         $scope.setBodyClass('centered-layout error-page');
         $scope.publicTitleString = buildPublicTitleString();
 
@@ -14,6 +16,7 @@ rpThreadTracker.controllers.controller('PublicController', [
             $scope.threads = data;
             var filtered = $filter('isCurrentBlog')(data, $scope.currentBlog);
             filtered = $filter('isCorrectTurn')(filtered, $scope.pageId);
+            filtered = $filter('containsFilteredTag')(filtered, decodeURIComponent($scope.filteredTag));
             $scope.threadCount = filtered.length;
         }
 
@@ -28,6 +31,9 @@ rpThreadTracker.controllers.controller('PublicController', [
             }
             if ($scope.currentBlog != "") {
                 result += " on " + $scope.currentBlog;
+            }
+            if ($scope.filteredTag != "") {
+                result += " tagged '" + $scope.filteredTag + "'";
             }
             return result;
         }
