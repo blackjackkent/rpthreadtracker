@@ -51,7 +51,6 @@ rpThreadTracker.controllers.controller('ManageThreadController', [
             }
         };
         $scope.handleThreadTagKeypress = function (e) {
-            console.log(e.keyCode);
             if (e.keyCode == 13 /** enter **/ || e.keyCode == 44 /** comma **/) {
                 e.originalEvent.preventDefault();
                 if ($scope.threadTagAddition != "" && $scope.threadTagAddition != null) {
@@ -61,7 +60,9 @@ rpThreadTracker.controllers.controller('ManageThreadController', [
         };
         $scope.handleThreadTagClick = function (e) {
             e.originalEvent.preventDefault();
-            $scope.addThreadTag($scope.threadTagAddition);
+            if ($scope.threadTagAddition != "" && $scope.threadTagAddition != null) {
+                $scope.addThreadTag($scope.threadTagAddition);
+            }
         };
         $scope.removeThreadTag = function(tag) {
             var index = $scope.threadTags.indexOf(tag);
@@ -69,8 +70,10 @@ rpThreadTracker.controllers.controller('ManageThreadController', [
                 $scope.threadTags.splice(index, 1);
             }
         };
-        $scope.addThreadTag = function(tagText) {
-            $scope.threadTags.push(tagText);
+        $scope.addThreadTag = function (tagText) {
+            if ($scope.threadTags.indexOf(tagText) == -1) {
+                $scope.threadTags.push(tagText);
+            }
             $scope.threadTagAddition = "";
         };
 

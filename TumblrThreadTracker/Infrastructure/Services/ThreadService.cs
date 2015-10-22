@@ -57,5 +57,13 @@ namespace TumblrThreadTracker.Infrastructure.Services
         {
             threadRepository.Delete(userThreadId);
         }
+
+        public IEnumerable<string> GetAllTagsByBlog(int? userBlogId, IRepository<Thread> threadRepository)
+        {
+            if (userBlogId == null)
+                return new List<string>();
+            var threads = threadRepository.Get(t => t.UserBlogId == userBlogId);
+            return threads.SelectMany(t => t.ThreadTags);
+        }
     }
 }

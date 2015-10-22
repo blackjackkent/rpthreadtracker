@@ -207,6 +207,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\TagController.cs" />
     <Compile Include="Infrastructure\BlogModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -277,6 +278,7 @@
     <Compile Include="Models\RequestModels\BlogUpdateRequest.cs" />
     <Compile Include="Models\RequestModels\ChangePasswordRequest.cs" />
     <Compile Include="Models\RequestModels\RegisterRequest.cs" />
+    <Compile Include="Models\RequestModels\TagCollectionResponse.cs" />
     <Compile Include="Models\RequestModels\ThreadUpdateRequest.cs" />
     <Compile Include="Models\ServiceModels\Blog.cs" />
     <Compile Include="Models\ServiceModels\ServiceModel.cs" />
