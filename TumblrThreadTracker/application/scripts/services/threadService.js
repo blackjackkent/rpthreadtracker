@@ -242,6 +242,26 @@ rpThreadTracker.services.service('threadService', [
             });
         }
 
+        function getTagsByBlog() {
+            var deferred = $q.defer(),
+                config = {
+                    url: '/api/Tag',
+                    method: 'GET'
+                },
+                success = function (response) {
+                    if (response) {
+                        deferred.resolve(response.data);
+                    } else {
+                        deferred.resolve(null);
+                    }
+                },
+                error = function (data) {
+                    deferred.reject(data);
+                };
+            $http(config).then(success).catch(error);
+            return deferred.promise;
+        }
+
         return {
             subscribe: subscribe,
             unsubscribe: unsubscribe,
@@ -256,7 +276,8 @@ rpThreadTracker.services.service('threadService', [
             editThread: editThread,
             editThreads: editThreads,
             untrackThreads: untrackThreads,
-            flushThreads: flushThreads
+            flushThreads: flushThreads,
+            getTagsByBlog: getTagsByBlog
         };
     }
 ]);

@@ -13,5 +13,6 @@ namespace TumblrThreadTracker.Interfaces
         void UpdateThread(ThreadDto dto, IRepository<Thread> threadRepository);
         IEnumerable<ThreadDto> GetNewsThreads(ITumblrClient tumblrClient);
         void DeleteThread(int userThreadId, IRepository<Thread> threadRepository);
+        IEnumerable<string> GetAllTagsByBlog(int? userBlogId, IRepository<Thread> threadRepository);
     }
 }
