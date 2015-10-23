@@ -139,7 +139,7 @@ rpThreadTracker.services.service('threadService', [
                    deferred.reject(response);
                };
             angular.forEach(threadsToEdit, function (value, key) {
-                queue.push(editThread(value.UserThreadId, value.BlogShortname, value.PostId, value.UserTitle, value.WatchedShortname, archiveValue));
+                queue.push(editThread(value.UserThreadId, value.BlogShortname, value.PostId, value.UserTitle, value.WatchedShortname, value.ThreadTags, archiveValue));
             });
             $q.all(queue).then(success).catch(error);
             return deferred.promise;
