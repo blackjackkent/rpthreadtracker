@@ -41,23 +41,25 @@ namespace TumblrThreadTracker.Infrastructure.Repositories
         public override Thread Update(object id, Thread model)
         {
             base.Update(id, model);
-            var threadEntity = _dbSet.Find(model.UserThreadId);
-            var existingTags = threadEntity.UserThreadTags.ToList();
-            foreach (var existingTag in existingTags)
+            if (model.ThreadTags != null)
             {
-                var tagHasNotBeenDeleted = model.ThreadTags.Any(i => i == existingTag.TagText);
+                var threadEntity = _dbSet.Find(model.UserThreadId);
+                var existingTags = threadEntity.UserThreadTags.ToList();
+                foreach (var existingTag in existingTags)
+                {
+                    var tagHasNotBeenDeleted = model.ThreadTags.Any(i => i == existingTag.TagText);
 
-                if (!tagHasNotBeenDeleted)
-                    _context.UserThreadTags.Remove(existingTag);
-            }
-
-            foreach (var updatedTag in model.ThreadTags)
-            {
-                if (!existingTags.Any(i => i.TagText == updatedTag))
-                    threadEntity.UserThreadTags.Add(new UserThreadTag
-                    {
-                        TagText = updatedTag
-                    });
+                    if (!tagHasNotBeenDeleted)
+                        _context.UserThreadTags.Remove(existingTag);
+                }
+                foreach (var updatedTag in model.ThreadTags)
+                {
+                    if (!existingTags.Any(i => i.TagText == updatedTag))
+                        threadEntity.UserThreadTags.Add(new UserThreadTag
+                        {
+                            TagText = updatedTag
+                        });
+                }
             }
             _context.Commit();
             return GetSingle(t => t.UserThreadId == model.UserThreadId);
