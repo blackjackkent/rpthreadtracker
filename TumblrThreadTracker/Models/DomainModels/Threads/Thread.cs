@@ -21,7 +21,7 @@ namespace TumblrThreadTracker.Models.DomainModels.Threads
         {
             UserThreadId = dto.UserThreadId;
             UserBlogId = dto.UserBlogId;
-            PostId = dto.PostId.ToString();
+            PostId = dto.PostId;
             UserTitle = dto.UserTitle;
             WatchedShortname = dto.WatchedShortname;
             IsArchived = dto.IsArchived;
@@ -49,7 +49,7 @@ namespace TumblrThreadTracker.Models.DomainModels.Threads
                     LastPostDate = null,
                     LastPostUrl = null,
                     LastPosterShortname = null,
-                    PostId = Convert.ToInt64(PostId),
+                    PostId = PostId,
                     Type = null,
                     UserThreadId = UserThreadId,
                     UserTitle = UserTitle,
@@ -61,7 +61,7 @@ namespace TumblrThreadTracker.Models.DomainModels.Threads
             var dto = new ThreadDto
             {
                 UserThreadId = UserThreadId,
-                PostId = post.id,
+                PostId = post.id.ToString(),
                 UserTitle = UserTitle,
                 Type = post.type,
                 BlogShortname = blog.BlogShortname,

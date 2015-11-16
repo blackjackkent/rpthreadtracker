@@ -47,7 +47,7 @@ namespace TumblrThreadTracker.Infrastructure.Services
                 LastPostDate = post.timestamp,
                 LastPostUrl = post.post_url,
                 LastPosterShortname = WebConfigurationManager.AppSettings["NewsBlogShortname"],
-                PostId = Convert.ToInt64(post.id),
+                PostId = post.id.ToString(),
                 Type = post.type,
                 UserTitle = post.title
             }).ToList();

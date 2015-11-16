@@ -76,7 +76,7 @@ namespace TumblrThreadTracker.Controllers
                 UserThreadId = request.UserThreadId,
                 PostId = request.PostId,
                 BlogShortname = request.BlogShortname,
-                UserBlogId = blog.UserBlogId != null ? blog.UserBlogId.Value : -1,
+                UserBlogId = blog.UserBlogId ?? -1,
                 UserTitle = request.UserTitle,
                 WatchedShortname = request.WatchedShortname,
                 ThreadTags = request.ThreadTags,

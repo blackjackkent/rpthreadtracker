@@ -16,13 +16,16 @@
                 <td>{{thread.UserTitle}}</td>
                 <td>
                     <a ng-show="thread.LastPosterShortname != null" href="{{thread.LastPostUrl}}">{{thread.LastPosterShortname}}</a>
-                    <span ng-show="thread.LastPosterShortname == null">
+                    <span ng-show="thread.PostId == null">
+                        <span class="error">Awaiting Starter</span>
+                    </span>
+                    <span ng-show="thread.LastPosterShortname == null && thread.PostId != null">
                         <span class="error">Not Found</span>
                         (<a target="_blank" href="http://tblrthreadtracker.tumblr.com/post/84787503106/fix-in-place-for-not-found-error-please-read" id="notFoundExplanation">Why am I seeing this?</a>)
                     </span>
                 </td>
                 <td><span ng-show="thread.LastPostDate != null">{{thread.LastPostDate * 1000 | date:'medium'}}</span></td>
-                <td><a target="_blank" href="{{thread.LastPostUrl}}">View</a></td>
+                <td><a ng-show="thread.LastPostUrl != null" target="_blank" href="{{thread.LastPostUrl}}">View</a></td>
             </tr>
         </table>
     </section>

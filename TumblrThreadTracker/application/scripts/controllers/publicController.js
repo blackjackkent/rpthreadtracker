@@ -6,7 +6,7 @@ rpThreadTracker.controllers.controller('PublicController', [
         $scope.userId = $routeParams.userId;
         $scope.currentBlog = $routeParams.currentBlog;
         $scope.currentOrderBy = $routeParams.currentOrderBy;
-        $scope.sortDescending = $routeParams.sortDescending;
+        $scope.sortDescending = $routeParams.sortDescending == "false" ? false : true;
         $scope.filteredTag = $routeParams.filteredTag;
         console.log($scope.filteredTag);
         $scope.setBodyClass('centered-layout error-page');

@@ -85,7 +85,10 @@
                     <td>{{thread.UserTitle}}</td>
                     <td>
                         <a ng-show="thread.LastPosterShortname != null" href="{{thread.LastPostUrl}}" target="_blank">{{thread.LastPosterShortname}}</a>
-                        <span ng-show="thread.LastPosterShortname == null">
+                        <span ng-show="thread.PostId == null">
+                            <span class="error">Awaiting Starter</span>
+                        </span>
+                        <span ng-show="thread.LastPosterShortname == null && thread.PostId != null">
                             <span class="error">Not Found</span> 
                             (<a target="_blank" href="http://tblrthreadtracker.tumblr.com/post/84787503106/fix-in-place-for-not-found-error-please-read" id="notFoundExplanation">Why am I seeing this?</a>)
                         </span>
@@ -96,7 +99,7 @@
                         <span ng-show="thread.WatchedShortname != null">{{thread.WatchedShortname}}</span>
                     </td>
                     <td>
-                        <a target="_blank" href="{{thread.LastPostUrl}}">View</a>
+                        <a ng-show="thread.PostId != null && thread.LastPostUrl != null" target="_blank" href="{{thread.LastPostUrl}}">View</a>
                     </td>
                     <td>
                         <a href="/edit-thread/{{thread.UserThreadId}}">Edit</a>
