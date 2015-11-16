@@ -19,7 +19,7 @@ namespace TumblrThreadTrackerTests.TestBuilders.Domain
                 LastPostDate = 1234567,
                 LastPostUrl = "http://alpha-of-omega.tumblr.com/post/12345",
                 LastPosterShortname = "alpha-of-omega",
-                PostId = 12345,
+                PostId = "12345",
                 Type = "post",
                 UserBlogId = 15,
                 UserThreadId = 20,
@@ -53,7 +53,7 @@ namespace TumblrThreadTrackerTests.TestBuilders.Domain
             Dto.LastPosterShortname = lastPosterShortname;
             return this;
         }
-        public ThreadBuilder WithPostId(int postId) {
+        public ThreadBuilder WithPostId(string postId) {
             Dto.PostId = postId;
             return this;
         }

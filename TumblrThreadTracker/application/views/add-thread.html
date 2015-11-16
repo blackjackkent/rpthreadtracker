@@ -35,9 +35,12 @@
                     <div class="control-group">
                         <label class="control-label" for="postId">Post ID:</label>
                         <div class="controls">
-                            <input type="text" id="postId" name="postId" ng-pattern="/^\-?\d+$/" required ng-model="postId" placeholder="Post ID">
-                            <span class="help-block alert alert-info">This can be the ID of any post in the thread FROM YOUR BLOG.<br />
-                                Found in the URL as follows: http://blogshortname.tumblr.com/post/<strong>123456</strong>/posttitle</span>
+                            <input type="text" id="postId" name="postId" ng-pattern="/^\-?\d+$/" ng-model="postId" placeholder="Post ID">
+                            <span class="help-block alert alert-info">
+                                This can be the ID of any post in the thread FROM YOUR BLOG.<br />
+                                Found in the URL as follows: http://blogshortname.tumblr.com/post/<strong>123456</strong>/posttitle<br />
+                                You can leave this blank if you want to add it later.
+                            </span>
                         </div>
                     </div>
                     <div class="control-group">
@@ -58,7 +61,7 @@
                                 <span ng-show="threadTags.length == 0"><em>No tags added.</em></span>
                                 <span class="thread-tag-data-item" ng-repeat="tag in threadTags" ng-click="removeThreadTag(tag)">{{tag}}</span>
                             </div>
-                            <input type="text" name="threadTags" ng-model="threadTagAddition" ng-keypress="handleThreadTagKeypress($event)" placeholder="Add new tag..."> <button ng-click="handleThreadTagClick($event)">Add Tag &rarr;</button>
+                            <input type="text" name="threadTags" ng-model="threadTagAddition" ng-keypress="handleThreadTagKeypress($event)" placeholder="Add new tag..."> <button ng-click="handleThreadTagClick($event)" type='button'>Add Tag &rarr;</button>
                         </div>
                     </div>
                     <div class="control-group">

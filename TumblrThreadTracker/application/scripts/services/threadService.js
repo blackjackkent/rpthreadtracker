@@ -112,7 +112,7 @@ rpThreadTracker.services.service('threadService', [
                     url: '/api/Thread',
                     method: "POST",
                     data: {
-                        PostId: postId,
+                        PostId: postId ? postId : null,
                         BlogShortname: blogShortname,
                         UserTitle: userTitle,
                         WatchedShortname: watchedShortname,
@@ -152,7 +152,7 @@ rpThreadTracker.services.service('threadService', [
                     method: "PUT",
                     data: {
                         UserThreadId: userThreadId,
-                        PostId: postId,
+                        PostId: postId ? postId : null,
                         BlogShortname: blogShortname,
                         UserTitle: userTitle,
                         WatchedShortname: watchedShortname,

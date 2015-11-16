@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Web.Configuration;
+using Microsoft.Ajax.Utilities;
 using RestSharp;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.ServiceModels;
@@ -20,6 +21,8 @@ namespace TumblrThreadTracker.Infrastructure.Services
 
         public IPost GetPost(string postId, string blogShortname)
         {
+            if (string.IsNullOrWhiteSpace(postId))
+                return null;
             var serviceObject = RetrieveApiData(postId, blogShortname);
             if (serviceObject != null && serviceObject.response != null)
                 return serviceObject.response.posts.FirstOrDefault();

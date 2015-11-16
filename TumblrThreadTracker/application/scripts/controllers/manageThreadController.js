@@ -39,7 +39,8 @@ rpThreadTracker.controllers.controller('ManageThreadController', [
 
         // ********* functions **********
         $scope.submitThread = function() {
-            if (!$scope.currentBlog || !$scope.postId || !$scope.userTitle) {
+            if (!$scope.currentBlog || !$scope.userTitle) {
+                $scope.genericError = "You must select a blog and enter a title in order to save your thread.";
                 return;
             }
             threadService.flushThreads();
