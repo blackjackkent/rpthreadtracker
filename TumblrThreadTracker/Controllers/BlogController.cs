@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Web.Http;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.DomainModels.Blogs;
@@ -29,7 +30,8 @@ namespace TumblrThreadTracker.Controllers
 
         public IEnumerable<BlogDto> Get()
         {
-            var userId = _webSecurityService.GetUserId(User.Identity.Name);
+            var userId = 0;
+            var test = ((ClaimsIdentity)User.Identity);
             var blogs = _blogService.GetBlogsByUserId(userId, _blogRepository);
             return blogs;
         }

@@ -10,3 +10,4 @@
 *.DotSettings*
 TumblrThreadTracker/App_Data/TumblrThreadTracker.mdf
 TumblrThreadTracker/App_Data/TumblrThreadTracker_log.ldf
+packages/*
