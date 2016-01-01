@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Linq;
+using System.Security.Claims;
 using System.Web.Security;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.DomainModels.Users;
@@ -9,6 +11,13 @@ namespace TumblrThreadTracker.Infrastructure.Services
 {
     public class WebSecurityService : IWebSecurityService
     {
+        private readonly IRepository<User> _userProfileRepository;
+
+        public WebSecurityService(IRepository<User> userProfileRepository)
+        {
+            _userProfileRepository = userProfileRepository;
+        }
+
         public void CreateAccount(string username, string password, string email, IRepository<User> userProfileRepository)
         {
             WebSecurity.CreateUserAndAccount(username, password);
@@ -22,16 +31,6 @@ namespace TumblrThreadTracker.Infrastructure.Services
             userProfileRepository.Update(profile.UserId, profile);
         }
 
-        public bool Login(string username, string password, bool rememberMe = true)
-        {
-            return WebSecurity.Login(username, password, rememberMe);
-        }
-
-        public int GetUserId(string username)
-        {
-            return WebSecurity.GetUserId(username);
-        }
-
         public int? GetUserIdByUsernameAndPassword(string username, string password)
         {
             var userExists = Membership.Provider.ValidateUser(username, password);
@@ -42,6 +41,17 @@ namespace TumblrThreadTracker.Infrastructure.Services
             return WebSecurity.GetUserId(username);
         }
 
+        public User GetCurrentUserFromIdentity(ClaimsIdentity claimsIdentity)
+        {
+            if (claimsIdentity == null)
+                return null;
+            var claim = claimsIdentity.Claims.FirstOrDefault(c => c.Type == "userId");
+            if (claim == null)
+                return null;
+            var userId = Int64.Parse(claim.Value);
+            return _userProfileRepository.GetSingle(u => u.UserId == userId);
+        }
+
         public void ChangePassword(string username, string oldPassword, string newPassword)
         {
             WebSecurity.ChangePassword(username, oldPassword, newPassword);
@@ -50,11 +60,6 @@ namespace TumblrThreadTracker.Infrastructure.Services
         public string GeneratePasswordResetToken(string username)
         {
             return WebSecurity.GeneratePasswordResetToken(username);
-        }
-
-        public void Logout()
-        {
-            WebSecurity.Logout();
         }
 
         public bool ResetPassword(string resetToken, string newPassword)

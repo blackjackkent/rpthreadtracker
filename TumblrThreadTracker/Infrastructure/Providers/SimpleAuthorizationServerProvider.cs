@@ -21,20 +21,19 @@ namespace TumblrThreadTracker.Infrastructure.Providers
 
         public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
         {
-
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
 
-            var webSecurityService = new WebSecurityService();
-            var userId = webSecurityService.GetUserIdByUsernameAndPassword(context.UserName, context.Password);
-            if (userId == null)
-            {
-                context.SetError("invalid_grant", "The user name or password is incorrect.");
-                return;
-            }
             //@TODO inject?
             using (var trackerContext = new RPThreadTrackerEntities())
             {
                 var userRepository = new UserProfileRepository(trackerContext);
+                var webSecurityService = new WebSecurityService(userRepository);
+                var userId = webSecurityService.GetUserIdByUsernameAndPassword(context.UserName, context.Password);
+                if (userId == null)
+                {
+                    context.SetError("invalid_grant", "The user name or password is incorrect.");
+                    return;
+                }
                 var user = userRepository.GetSingle(u => u.UserId == userId);
                 var identity = new ClaimsIdentity(context.Options.AuthenticationType);
                 identity.AddClaim(new Claim("sub", context.UserName));

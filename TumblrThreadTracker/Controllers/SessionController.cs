@@ -24,24 +24,25 @@ namespace TumblrThreadTracker.Controllers
         [HttpPost]
         public HttpResponseMessage Post(LoginRequest model)
         {
-            if (model == null)
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
-            var isLoggedIn = _webSecurityService.Login(model.UserName, model.Password);
-            if (isLoggedIn)
-            {
-                var userId = _webSecurityService.GetUserId(model.UserName);
-                var account = _userProfileRepository.GetSingle(u => u.UserId == userId);
-                account.SetLastLogin(DateTime.Now, _userProfileRepository);
-            }
-            return isLoggedIn 
-                ? new HttpResponseMessage(HttpStatusCode.OK)
-                : new HttpResponseMessage(HttpStatusCode.Unauthorized);
+//            if (model == null)
+//                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+//            var isLoggedIn = _webSecurityService.Login(model.UserName, model.Password);
+//            if (isLoggedIn)
+//            {
+//                var userId = _webSecurityService.GetUserId(model.UserName);
+//                var account = _userProfileRepository.GetSingle(u => u.UserId == userId);
+//                account.SetLastLogin(DateTime.Now, _userProfileRepository);
+//            }
+//            return isLoggedIn 
+//                ? new HttpResponseMessage(HttpStatusCode.OK)
+//                : new HttpResponseMessage(HttpStatusCode.Unauthorized);
+            throw new NotImplementedException();
         }
 
         [HttpDelete]
         public void Delete()
         {
-            _webSecurityService.Logout();
+            throw new NotImplementedException();
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Web.Http;
+﻿using System.Security.Claims;
+using System.Web.Http;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.DomainModels.Users;
 using WebMatrix.WebData;
@@ -19,8 +20,8 @@ namespace TumblrThreadTracker.Controllers
 
         public UserDto Get()
         {
-            var userId = _webSecurityService.GetUserId(User.Identity.Name);
-            return _userProfileRepository.GetSingle(u => u.UserId == userId).ToDto();
+            var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity);
+            return _userProfileRepository.GetSingle(u => u.UserId == user.UserId).ToDto();
         }
     }
 }
