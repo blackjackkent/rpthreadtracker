@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web.Security;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.DomainModels.Users;
 using TumblrThreadTracker.Models.RequestModels;
@@ -28,6 +29,16 @@ namespace TumblrThreadTracker.Infrastructure.Services
 
         public int GetUserId(string username)
         {
+            return WebSecurity.GetUserId(username);
+        }
+
+        public int? GetUserIdByUsernameAndPassword(string username, string password)
+        {
+            var userExists = Membership.Provider.ValidateUser(username, password);
+            if (!userExists)
+            {
+                return null;
+            }
             return WebSecurity.GetUserId(username);
         }
 
