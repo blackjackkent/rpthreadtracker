@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Web.Http;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.DomainModels.Users;
@@ -21,7 +22,8 @@ namespace TumblrThreadTracker.Controllers
 
         public int GetUserId()
         {
-            return _webSecurityService.GetUserId(User.Identity.Name);
+            var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity);
+            return user.UserId;
         }
 
         [HttpPost]
@@ -35,7 +37,6 @@ namespace TumblrThreadTracker.Controllers
                 return new HttpResponseMessage(HttpStatusCode.BadRequest);
 
             _webSecurityService.CreateAccount(request.Username, request.Password, request.Email, _userProfileRepository);
-            _webSecurityService.Login(request.Username, request.Password);
             return new HttpResponseMessage(HttpStatusCode.Created);
         }
     }

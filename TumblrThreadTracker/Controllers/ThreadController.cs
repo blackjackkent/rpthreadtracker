@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Web.Http;
 using TumblrThreadTracker.Infrastructure.Services;
 using TumblrThreadTracker.Interfaces;
@@ -38,9 +39,9 @@ namespace TumblrThreadTracker.Controllers
 
         public IEnumerable<int?> Get([FromUri] bool isArchived = false)
         {
-            var userId = _webSecurityService.GetUserId(User.Identity.Name);
+            var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity);
             var ids = new List<int?>();
-            var blogs = _blogService.GetBlogsByUserId(userId, _blogRepository);
+            var blogs = _blogService.GetBlogsByUserId(user.UserId, _blogRepository);
             foreach (var blog in blogs)
                 ids.AddRange(_threadService.GetThreadIdsByBlogId(blog.UserBlogId, _threadRepository, isArchived));
             return ids;
@@ -50,8 +51,8 @@ namespace TumblrThreadTracker.Controllers
         {
             if (request == null)
                 throw new ArgumentNullException();
-            var userId = _webSecurityService.GetUserId(User.Identity.Name);
-            var blog = _blogService.GetBlogByShortname(request.BlogShortname, userId, _blogRepository);
+            var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity);
+            var blog = _blogService.GetBlogByShortname(request.BlogShortname, user.UserId, _blogRepository);
             var dto = new ThreadDto
             {
                 UserThreadId = null,
@@ -69,8 +70,8 @@ namespace TumblrThreadTracker.Controllers
         {
             if (request == null || request.UserThreadId == null)
                 throw new ArgumentNullException();
-            var userId = _webSecurityService.GetUserId(User.Identity.Name);
-            var blog = _blogService.GetBlogByShortname(request.BlogShortname, userId, _blogRepository);
+            var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity);
+            var blog = _blogService.GetBlogByShortname(request.BlogShortname, user.UserId, _blogRepository);
             var dto = new ThreadDto
             {
                 UserThreadId = request.UserThreadId,
@@ -87,12 +88,12 @@ namespace TumblrThreadTracker.Controllers
 
         public void Delete([FromUri] int[] userThreadIds)
         {
-            var userId = _webSecurityService.GetUserId(User.Identity.Name);
+            var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity);
             foreach (var id in userThreadIds)
             {
                 var thread = _threadService.GetById(id, _blogRepository, _threadRepository, _tumblrClient);
                 var blog = _blogService.GetBlogById(thread.UserBlogId, _blogRepository);
-                if (blog.UserId != userId)
+                if (blog.UserId != user.UserId)
                     return;
                 _threadService.DeleteThread(id, _threadRepository);
             }
