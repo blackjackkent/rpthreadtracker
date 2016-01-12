@@ -28,9 +28,9 @@ namespace TumblrThreadTracker.Controllers
         }
         public IEnumerable<TagCollectionResponse> Get()
         {
-            var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity) User.Identity);
+            var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity) User.Identity);
             var tagCollections = new List<TagCollectionResponse>();
-            var blogs = _blogService.GetBlogsByUserId(user.UserId, _blogRepository);
+            var blogs = _blogService.GetBlogsByUserId(userId, _blogRepository);
             foreach (var blog in blogs)
             {
                 var tags = _threadService.GetAllTagsByBlog(blog.UserBlogId, _threadRepository);

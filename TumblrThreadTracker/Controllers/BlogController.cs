@@ -31,20 +31,19 @@ namespace TumblrThreadTracker.Controllers
 
         public IEnumerable<BlogDto> Get()
         {
-            //@TODO we should have blogs associated with the returned user object
-            var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity) User.Identity);
-            var blogs = _blogService.GetBlogsByUserId(user.UserId, _blogRepository);
+            var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity) User.Identity);
+            var blogs = _blogService.GetBlogsByUserId(userId, _blogRepository);
             return blogs;
         }
 
         public void Post(BlogUpdateRequest request)
         {
-            var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity);
-            if (request == null)
+            var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
+            if (request == null || userId == null)
                 throw new ArgumentNullException();
             var dto = new BlogDto
             {
-                UserId = user.UserId,
+                UserId = userId.GetValueOrDefault(),
                 BlogShortname = request.BlogShortname,
             };
             _blogService.AddNewBlog(dto, _blogRepository);
@@ -52,23 +51,23 @@ namespace TumblrThreadTracker.Controllers
 
         public void Put(BlogUpdateRequest request)
         {
-            var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity);
-            if (request == null || request.UserBlogId == null)
+            var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
+            if (request == null || request.UserBlogId == null || userId == null)
                 throw new ArgumentNullException();
             var dto = new BlogDto
             {
                 BlogShortname = request.BlogShortname,
                 UserBlogId = request.UserBlogId,
-                UserId = user.UserId
+                UserId = userId.GetValueOrDefault()
             };
             _blogService.UpdateBlog(dto, _blogRepository);
         }
 
         public void Delete(int userBlogId)
         {
-            var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity);
+            var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
             var blog = _blogService.GetBlogById(userBlogId, _blogRepository);
-            if (blog.UserId != user.UserId)
+            if (blog.UserId != userId)
                 return;
             _blogService.DeleteBlog(blog, _blogRepository);
         }
