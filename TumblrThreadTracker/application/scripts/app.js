@@ -219,6 +219,18 @@ rpThreadTracker.app.config([
                 };
             }
         ]);
+        $httpProvider.interceptors.push([
+            '$q', '$location', '$window', function($q, $location, $window) {
+                return {
+                    request: function(httpConfig) {
+                        var token = $window.localStorage["TrackerBearerToken"];
+                        if (token) {
+                            httpConfig.headers.Authorization = 'Bearer ' + token;
+                        }
+                        return httpConfig;
+                    }
+                };
+            }
+        ]);
     }
-
-    ]);
+]);

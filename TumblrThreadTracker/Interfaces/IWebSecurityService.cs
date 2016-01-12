@@ -10,5 +10,7 @@ namespace TumblrThreadTracker.Interfaces
         string GeneratePasswordResetToken(string username);
         bool ResetPassword(string resetToken, string newPassword);
         User GetCurrentUserFromIdentity(ClaimsIdentity claimsIdentity);
+        int? GetCurrentUserIdFromIdentity(ClaimsIdentity identity);
+        string GetCurrentUsernameFromIdentity(ClaimsIdentity userIdentity);
     }
 }

@@ -36,7 +36,7 @@ namespace TumblrThreadTracker.Infrastructure.Providers
                 }
                 var user = userRepository.GetSingle(u => u.UserId == userId);
                 var identity = new ClaimsIdentity(context.Options.AuthenticationType);
-                identity.AddClaim(new Claim("sub", context.UserName));
+                identity.AddClaim(new Claim("username", context.UserName));
                 identity.AddClaim(new Claim("userId", user.UserId.ToString()));
                 identity.AddClaim(new Claim("role", "user"));
                 context.Validated(identity);

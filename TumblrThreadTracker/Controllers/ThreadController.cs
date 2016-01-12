@@ -39,9 +39,9 @@ namespace TumblrThreadTracker.Controllers
 
         public IEnumerable<int?> Get([FromUri] bool isArchived = false)
         {
-            var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity);
+            var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
             var ids = new List<int?>();
-            var blogs = _blogService.GetBlogsByUserId(user.UserId, _blogRepository);
+            var blogs = _blogService.GetBlogsByUserId(userId, _blogRepository);
             foreach (var blog in blogs)
                 ids.AddRange(_threadService.GetThreadIdsByBlogId(blog.UserBlogId, _threadRepository, isArchived));
             return ids;
@@ -49,16 +49,16 @@ namespace TumblrThreadTracker.Controllers
 
         public void Post(ThreadUpdateRequest request)
         {
-            if (request == null)
+            var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
+            if (request == null || userId == null)
                 throw new ArgumentNullException();
-            var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity);
-            var blog = _blogService.GetBlogByShortname(request.BlogShortname, user.UserId, _blogRepository);
+            var blog = _blogService.GetBlogByShortname(request.BlogShortname, userId.GetValueOrDefault(), _blogRepository);
             var dto = new ThreadDto
             {
                 UserThreadId = null,
                 PostId = request.PostId,
                 BlogShortname = request.BlogShortname,
-                UserBlogId = blog.UserBlogId != null ? blog.UserBlogId.Value : -1,
+                UserBlogId = blog.UserBlogId ?? -1,
                 UserTitle = request.UserTitle,
                 WatchedShortname = request.WatchedShortname,
                 ThreadTags = request.ThreadTags
@@ -68,10 +68,10 @@ namespace TumblrThreadTracker.Controllers
 
         public void Put(ThreadUpdateRequest request)
         {
-            if (request == null || request.UserThreadId == null)
+            var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
+            if (request == null || request.UserThreadId == null || userId == null)
                 throw new ArgumentNullException();
-            var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity);
-            var blog = _blogService.GetBlogByShortname(request.BlogShortname, user.UserId, _blogRepository);
+            var blog = _blogService.GetBlogByShortname(request.BlogShortname, userId.GetValueOrDefault(), _blogRepository);
             var dto = new ThreadDto
             {
                 UserThreadId = request.UserThreadId,
