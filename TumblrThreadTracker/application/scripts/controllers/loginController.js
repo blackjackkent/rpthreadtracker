@@ -2,10 +2,12 @@
 var rpThreadTracker = rpThreadTracker || {};
 rpThreadTracker.controllers.controller('LoginController', [
     '$scope', '$location', 'sessionService', function($scope, $location, sessionService) {
-        var success = function() {
+        var success = function () {
+                $scope.loading = false;
                 $location.path('/');
             },
-            fail = function() {
+            fail = function () {
+                $scope.loading = false;
                 $scope.error = "Incorrect username or password.";
             };
         sessionService.isLoggedIn().then(function(isLoggedIn) {
@@ -16,6 +18,7 @@ rpThreadTracker.controllers.controller('LoginController', [
         $scope.setBodyClass('signin-page');
 
         $scope.login = function ($element) {
+            $scope.loading = true;
             if ($scope.loginForm != undefined) {
                 $scope.username = loginForm.username.value;
                 $scope.password = loginForm.password.value;
