@@ -32,7 +32,8 @@ namespace TumblrThreadTracker.Controllers
             var existingEmail = _userProfileRepository.Get(u => u.Email == request.Email).Any();
 
             if (existingUsername || existingEmail)
-                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+                return Request.CreateResponse(HttpStatusCode.BadRequest,
+                    "An account with some or all of this information already exists.");
 
             _webSecurityService.CreateAccount(request.Username, request.Password, request.Email, _userProfileRepository);
             _webSecurityService.Login(request.Username, request.Password);
