@@ -5,33 +5,89 @@
  value "popup.html".
  -->
 <html>
-  <head>
+
+<head>
     <title>RPThreadTracker QuickAdd</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
     <style>
-      body {
+    body {
         font-family: "Segoe UI", "Lucida Grande", Tahoma, sans-serif;
         font-size: 100%;
-      }
-      #status {
+        height: 500px;
+        width: 400px;
+        padding: 10px;
+    }
+    
+    #status {
         /* avoid an excessively wide status text */
         white-space: pre;
         text-overflow: ellipsis;
         overflow: hidden;
         max-width: 400px;
-      }
+    }
     </style>
-
     <!--
       - JavaScript and HTML must be in separate files: see our Content Security
       - Policy documentation[1] for details and explanation.
       -
       - [1]: https://developer.chrome.com/extensions/contentSecurityPolicy
      -->
+    <script src="scripts/jquery.js"></script>
     <script src="popup.js"></script>
-  </head>
-  <body>
-    <div id="status">Test</div>
-    <img id="image-result" hidden>
-  </body>
-</html>
+</head>
 
+<body class="container">
+    <h2>Add thread to RPThreadTracker</h2>
+    <form id="RPThreadTrackerFormSubmit">
+        <div class="row">
+            <div class="col-xs-12">
+                <p>
+                    <label for="UserTitle">Title:</label>
+                    <input type="text" name="UserTitle" class="form-control" />
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <p>
+                    <label for="PostId">Post ID:</label>
+                    <input type="text" name="PostID" class="form-control" disabled />
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <p>
+                    <label for="UserBlogId">Blog:</label>
+                    <select name="UserBlogId" class="form-control">
+                        <option value="1">ostwickjoker</option>
+                        <option value="2">somniari-hawke</option>
+                    </select>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <p>
+                    <label for="WatchedShortname">Watched Shortname:</label>
+                    <input type="text" name="WatchedShortname" class="form-control" />
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <p>
+                    <label for="Tags">Tags (comma-separated):</label>
+                    <input type="text" name="Tags" class="form-control" />
+                </p>
+            </div>
+        </div>
+        <div class="row">
+        <div class="col-xs-3 col-xs-offset-9">
+        <input type="submit" value="Submit" class="form-control" />
+        </div>
+        </div>
+    </form>
+</body>
+
+</html>
