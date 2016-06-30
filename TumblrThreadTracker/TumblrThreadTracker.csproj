@@ -508,6 +508,7 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\PublishProfiles\dev publish.pubxml" />
+    <None Include="Properties\PublishProfiles\hostgator.pubxml" />
     <None Include="Properties\PublishProfiles\tumblrthreadtracker.pubxml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
