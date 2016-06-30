@@ -116,3 +116,5 @@ label.inline-control-label {
     content: " \00D7 ";
     position: absolute;right: 5px;
 }
+
+#signin-container .loading-icon {float: right}

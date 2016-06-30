@@ -2,15 +2,23 @@
 var rpThreadTracker = rpThreadTracker || {};
 rpThreadTracker.controllers.controller('RegisterController', [
     '$scope', '$location', 'sessionService', function($scope, $location, sessionService) {
-        var success = function() {
+        var success = function () {
+                $scope.loading = false;
                 $location.path('/');
             },
-            fail = function() {
-                $scope.genericError = "Error registering account. Please try again later.";
+            fail = function (response) {
+                console.log(response);
+                $scope.loading = false;
+                if (response && response.data) {
+                    $scope.genericError = response.data;
+                } else {
+                    $scope.genericError = "Error registering account. Please try again later.";
+                }
             };
         $scope.setBodyClass('signin-page');
 
-        $scope.register = function() {
+        $scope.register = function () {
+            $scope.loading = true;
             $scope.error = "";
             if (!$scope.registerForm.$valid || $scope.confirmPassword != $scope.Password) {
                 return;
