@@ -469,6 +469,7 @@
     <Content Include="application\views\add-thread.html" />
     <Content Include="application\views\about.html" />
     <Content Include="application\views\contact.html" />
+    <Content Include="application\views\maintenance.html" />
     <Content Include="application\views\manage-account.html" />
     <Content Include="application\views\forgot-password.html" />
     <Content Include="application\views\register.html" />
@@ -508,7 +509,6 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\PublishProfiles\dev publish.pubxml" />
-    <None Include="Properties\PublishProfiles\hostgator.pubxml" />
     <None Include="Properties\PublishProfiles\tumblrthreadtracker.pubxml" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
