@@ -20,6 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -241,6 +242,7 @@
     <Compile Include="Infrastructure\Entities\UserThreadTag.cs" />
     <Compile Include="Infrastructure\Entities\webpages_Membership.cs" />
     <Compile Include="Infrastructure\ExtensionMethods.cs" />
+    <Compile Include="Infrastructure\Filters\RedirectOnMaintenance.cs" />
     <Compile Include="Infrastructure\Repositories\BaseRepository.cs" />
     <Compile Include="Infrastructure\Services\BlogService.cs" />
     <Compile Include="Infrastructure\Services\ThreadService.cs" />
@@ -344,6 +346,7 @@
     <Content Include="application\scripts\controllers\manageBlogsController.js" />
     <Content Include="application\scripts\controllers\publicController.js" />
     <Content Include="application\scripts\controllers\registerController.js" />
+    <Content Include="application\scripts\controllers\maintenanceController.js" />
     <Content Include="application\scripts\controllers\staticController.js" />
     <Content Include="application\scripts\directives\footer.js" />
     <Content Include="application\scripts\directives\headerNav.js" />
@@ -420,6 +423,7 @@
     <Content Include="application\views\add-thread.html" />
     <Content Include="application\views\about.html" />
     <Content Include="application\views\contact.html" />
+    <Content Include="application\views\maintenance.html" />
     <Content Include="application\views\manage-account.html" />
     <Content Include="application\views\forgot-password.html" />
     <Content Include="application\views\register.html" />
@@ -460,8 +464,8 @@
       <SubType>Designer</SubType>
     </None>
     <None Include="Properties\PublishProfiles\dev publish.pubxml" />
-    <None Include="Properties\PublishProfiles\hostgator.pubxml" />
     <None Include="Properties\PublishProfiles\tumblrthreadtracker.pubxml" />
+    <Content Include="Views\Home\Maintenance.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

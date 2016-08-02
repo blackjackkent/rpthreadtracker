@@ -3,12 +3,14 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Microsoft.Web.WebPages.OAuth;
+using TumblrThreadTracker.Infrastructure.Filters;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.RequestModels;
 using WebMatrix.WebData;
 
 namespace TumblrThreadTracker.Controllers
 {
+    [RedirectOnMaintenance]
     [Authorize]
     public class ChangePasswordController : ApiController
     {
