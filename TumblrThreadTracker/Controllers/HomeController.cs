@@ -9,5 +9,10 @@ namespace TumblrThreadTracker.Controllers
         {
             return View();
         }
+
+        public ActionResult Maintenance()
+        {
+            return View();
+        }
     }
 }

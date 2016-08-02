@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Web.Http;
+using TumblrThreadTracker.Infrastructure.Filters;
 using TumblrThreadTracker.Infrastructure.Services;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.DomainModels.Blogs;
@@ -12,6 +13,7 @@ using WebMatrix.WebData;
 
 namespace TumblrThreadTracker.Controllers
 {
+    [RedirectOnMaintenance]
     [Authorize]
     public class ThreadController : ApiController
     {

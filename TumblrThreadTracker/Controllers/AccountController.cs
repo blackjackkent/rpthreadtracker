@@ -3,12 +3,14 @@ using System.Net;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Web.Http;
+using TumblrThreadTracker.Infrastructure.Filters;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.DomainModels.Users;
 using TumblrThreadTracker.Models.RequestModels;
 
 namespace TumblrThreadTracker.Controllers
 {
+    [RedirectOnMaintenance]
     public class AccountController : ApiController
     {
         private readonly IRepository<User> _userProfileRepository;

@@ -20,6 +20,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -292,6 +293,7 @@
     <Compile Include="Infrastructure\Entities\webpages_Membership.cs" />
     <Compile Include="Infrastructure\ExtensionMethods.cs" />
     <Compile Include="Infrastructure\Providers\SimpleAuthorizationServerProvider.cs" />
+    <Compile Include="Infrastructure\Filters\RedirectOnMaintenance.cs" />
     <Compile Include="Infrastructure\Repositories\BaseRepository.cs" />
     <Compile Include="Infrastructure\Services\BlogService.cs" />
     <Compile Include="Infrastructure\Services\ThreadService.cs" />
@@ -393,6 +395,7 @@
     <Content Include="application\scripts\controllers\manageBlogsController.js" />
     <Content Include="application\scripts\controllers\publicController.js" />
     <Content Include="application\scripts\controllers\registerController.js" />
+    <Content Include="application\scripts\controllers\maintenanceController.js" />
     <Content Include="application\scripts\controllers\staticController.js" />
     <Content Include="application\scripts\directives\footer.js" />
     <Content Include="application\scripts\directives\headerNav.js" />
@@ -510,6 +513,7 @@
     </None>
     <None Include="Properties\PublishProfiles\dev publish.pubxml" />
     <None Include="Properties\PublishProfiles\tumblrthreadtracker.pubxml" />
+    <Content Include="Views\Home\Maintenance.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
