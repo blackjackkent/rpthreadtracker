@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
+using TumblrThreadTracker.Infrastructure.Filters;
 using TumblrThreadTracker.Infrastructure.Services;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.DomainModels.Blogs;
@@ -8,6 +9,7 @@ using TumblrThreadTracker.Models.DomainModels.Threads;
 
 namespace TumblrThreadTracker.Controllers
 {
+    [RedirectOnMaintenance]
     public class PublicThreadController : ApiController
     {
         private readonly IRepository<Blog> _blogRepository;

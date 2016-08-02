@@ -11,87 +11,93 @@ var cacheBuster = Date.now();
 rpThreadTracker.app.constant("cacheBuster", cacheBuster);
 rpThreadTracker.app.config([
         '$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
-            //initializeStandardRoutes();
-            initializeMaintenanceRoutes();
-
-            function initializeStandardRoutes() {
-                $routeProvider.when('/', { templateUrl: '/application/views/dashboard.html', controller: 'MainController' });
-                $routeProvider.when('/', {
-                    templateUrl: '/application/views/dashboard.html?cacheBuster=' + cacheBuster,
-                    controller: 'MainController',
-                    resolve: {
-                        pageId: function() {
-                            return "dashboard";
-                        }
+            
+            $routeProvider.when('/maintenance', {
+                templateUrl: '/application/views/maintenance.html?cacheBuster=' + cacheBuster,
+                controller: 'StaticController',
+                resolve: {
+                    pageId: function () {
+                        return "maintenance";
                     }
-                });
-                $routeProvider.when('/threads', {
-                    templateUrl: '/application/views/threads.html?cacheBuster=' + cacheBuster,
-                    controller: 'MainController',
-                    resolve: {
-                        pageId: function() {
-                            return "allthreads";
-                        }
+                }
+            });
+            $routeProvider.when('/', { templateUrl: '/application/views/dashboard.html', controller: 'MainController' });
+            $routeProvider.when('/', {
+                templateUrl: '/application/views/dashboard.html?cacheBuster=' + cacheBuster,
+                controller: 'MainController',
+                resolve: {
+                    pageId: function() {
+                        return "dashboard";
                     }
-                });
-                $routeProvider.when('/threads/allthreads', {
-                    templateUrl: '/application/views/threads.html?cacheBuster=' + cacheBuster,
-                    controller: 'MainController',
-                    resolve: {
-                        pageId: function() {
-                            return "allthreads";
-                        }
+                }
+            });
+            $routeProvider.when('/threads', {
+                templateUrl: '/application/views/threads.html?cacheBuster=' + cacheBuster,
+                controller: 'MainController',
+                resolve: {
+                    pageId: function() {
+                        return "allthreads";
                     }
-                });
-                $routeProvider.when('/threads/yourturn', {
-                    templateUrl: '/application/views/threads.html?cacheBuster=' + cacheBuster,
-                    controller: 'MainController',
-                    resolve: {
-                        pageId: function() {
-                            return "yourturn";
-                        }
+                }
+            });
+            $routeProvider.when('/threads/allthreads', {
+                templateUrl: '/application/views/threads.html?cacheBuster=' + cacheBuster,
+                controller: 'MainController',
+                resolve: {
+                    pageId: function () {
+                        return "allthreads";
                     }
-                });
-                $routeProvider.when('/threads/theirturn', {
-                    templateUrl: '/application/views/threads.html?cacheBuster=' + cacheBuster,
-                    controller: 'MainController',
-                    resolve: {
-                        pageId: function() {
-                            return "theirturn";
-                        }
+                }
+            });
+            $routeProvider.when('/threads/yourturn', {
+                templateUrl: '/application/views/threads.html?cacheBuster=' + cacheBuster,
+                controller: 'MainController',
+                resolve: {
+                    pageId: function() {
+                        return "yourturn";
                     }
-                });
-                $routeProvider.when('/threads/archived', {
-                    templateUrl: '/application/views/threads.html',
-                    controller: 'MainController',
-                    resolve: {
-                        pageId: function() {
-                            return "archived";
-                        }
+                }
+            });
+            $routeProvider.when('/threads/theirturn', {
+                templateUrl: '/application/views/threads.html?cacheBuster=' + cacheBuster,
+                controller: 'MainController',
+                resolve: {
+                    pageId: function() {
+                        return "theirturn";
                     }
-                });
-                $routeProvider.when('/public/:pageId', {
-                    templateUrl: '/application/views/public.html?cacheBuster=' + cacheBuster,
-                    controller: 'PublicController'
-                });
-                $routeProvider.when('/login', {
-                    templateUrl: '/application/views/login.html?v=10614',
-                    controller: 'LoginController',
-                    resolve: {
-                        pageId: function() {
-                            return "login";
-                        }
+                }
+            });
+            $routeProvider.when('/threads/archived', {
+                templateUrl: '/application/views/threads.html',
+                controller: 'MainController',
+                resolve: {
+                    pageId: function () {
+                        return "archived";
                     }
-                });
-                $routeProvider.when('/register', {
-                    templateUrl: '/application/views/register.html?cacheBuster=' + cacheBuster,
-                    controller: 'RegisterController',
-                    resolve: {
-                        pageId: function() {
-                            return "register";
-                        }
+                }
+            });
+            $routeProvider.when('/public/:pageId', {
+                templateUrl: '/application/views/public.html?cacheBuster=' + cacheBuster,
+                controller: 'PublicController'
+            });
+            $routeProvider.when('/login', {
+                templateUrl: '/application/views/login.html?v=10614',
+                controller: 'LoginController',
+                resolve: {
+                    pageId: function () {
+                        return "login";
                     }
-                });
+                }
+            });
+            $routeProvider.when('/register', {
+                templateUrl: '/application/views/register.html?cacheBuster=' + cacheBuster,
+                controller: 'RegisterController',
+                resolve: {
+                    pageId: function () {
+                        return "register";
+                    }
+                }
+            });
 
                 $routeProvider.when('/add-thread', {
                     templateUrl: '/application/views/add-thread.html?cacheBuster=' + cacheBuster,
@@ -193,20 +199,7 @@ rpThreadTracker.app.config([
                     }
                 });
                 $routeProvider.otherwise({ redirectTo: '/about' });
-            }
-
-            function initializeMaintenanceRoutes() {
-                $routeProvider.when('/maintenance', {
-                    templateUrl: '/application/views/maintenance.html?cacheBuster=' + cacheBuster,
-                    resolve: {
-                        pageId: function() {
-                            return "maintenance";
-                        }
-                    }
-                });
-                $routeProvider.otherwise({ redirectTo: '/maintenance' });
-            }
-
+            
             // use the HTML5 History API
 
             $locationProvider.html5Mode(true);
@@ -229,6 +222,8 @@ rpThreadTracker.app.config([
                         ];
                         if (response.status == '401' && (whitelist.indexOf($location.path()) == -1)) {
                             $location.path('/about');
+                        } else if (response.status == '503') {
+                            $location.path('/maintenance');
                         } else {
                             return $q.reject(response);
                         }
