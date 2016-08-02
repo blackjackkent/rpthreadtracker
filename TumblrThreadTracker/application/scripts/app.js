@@ -10,7 +10,17 @@ rpThreadTracker.services = angular.module('rpThreadTracker.services', []);
 var cacheBuster = Date.now();
 rpThreadTracker.app.constant("cacheBuster", cacheBuster);
 rpThreadTracker.app.config([
-        '$routeProvider', '$locationProvider', function($routeProvider, $locationProvider) {
+        '$routeProvider', '$locationProvider', function ($routeProvider, $locationProvider) {
+            
+            $routeProvider.when('/maintenance', {
+                templateUrl: '/application/views/maintenance.html?cacheBuster=' + cacheBuster,
+                controller: 'StaticController',
+                resolve: {
+                    pageId: function () {
+                        return "maintenance";
+                    }
+                }
+            });
             $routeProvider.when('/', { templateUrl: '/application/views/dashboard.html', controller: 'MainController' });
             $routeProvider.when('/', {
                 templateUrl: '/application/views/dashboard.html?cacheBuster=' + cacheBuster,
@@ -212,6 +222,8 @@ rpThreadTracker.app.config([
                         ];
                         if (response.status == '401' && (whitelist.indexOf($location.path()) == -1)) {
                             $location.path('/about');
+                        } else if (response.status == '503') {
+                            $location.path('/maintenance');
                         } else {
                             return $q.reject(response);
                         }

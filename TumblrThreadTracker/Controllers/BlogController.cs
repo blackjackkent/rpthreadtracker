@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Web.Http;
+using TumblrThreadTracker.Infrastructure.Filters;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.DomainModels.Blogs;
 using TumblrThreadTracker.Models.RequestModels;
 
 namespace TumblrThreadTracker.Controllers
 {
+    [RedirectOnMaintenance]
     [Authorize]
     public class BlogController : ApiController
     {

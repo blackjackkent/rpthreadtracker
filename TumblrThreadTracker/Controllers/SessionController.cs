@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using TumblrThreadTracker.Infrastructure.Filters;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models;
 using TumblrThreadTracker.Models.DomainModels.Account;
@@ -11,6 +12,7 @@ using WebMatrix.WebData;
 
 namespace TumblrThreadTracker.Controllers
 {
+    [RedirectOnMaintenance]
     public class SessionController : ApiController
     {
         private readonly IWebSecurityService _webSecurityService;
