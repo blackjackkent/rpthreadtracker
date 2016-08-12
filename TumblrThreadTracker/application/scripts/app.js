@@ -99,106 +99,106 @@ rpThreadTracker.app.config([
                 }
             });
 
-                $routeProvider.when('/add-thread', {
-                    templateUrl: '/application/views/add-thread.html?cacheBuster=' + cacheBuster,
-                    controller: 'ManageThreadController',
-                    resolve: {
-                        pageId: function() {
-                            return "add-thread";
-                        }
+            $routeProvider.when('/add-thread', {
+                templateUrl: '/application/views/add-thread.html?cacheBuster=' + cacheBuster,
+                controller: 'ManageThreadController',
+                resolve: {
+                    pageId: function() {
+                        return "add-thread";
                     }
-                });
+                }
+            });
 
-                $routeProvider.when('/edit-thread/:userThreadId', {
-                    templateUrl: '/application/views/add-thread.html?cacheBuster=' + cacheBuster,
-                    controller: 'ManageThreadController',
-                    resolve: {
-                        pageId: function() {
-                            return "edit-thread";
-                        }
+            $routeProvider.when('/edit-thread/:userThreadId', {
+                templateUrl: '/application/views/add-thread.html?cacheBuster=' + cacheBuster,
+                controller: 'ManageThreadController',
+                resolve: {
+                    pageId: function() {
+                        return "edit-thread";
                     }
-                });
+                }
+            });
 
-                $routeProvider.when('/manage-blogs', {
-                    templateUrl: '/application/views/manage-blogs.html?cacheBuster=' + cacheBuster,
-                    controller: 'ManageBlogsController',
-                    resolve: {
-                        pageId: function() {
-                            return "manage-blogs";
-                        }
+            $routeProvider.when('/manage-blogs', {
+                templateUrl: '/application/views/manage-blogs.html?cacheBuster=' + cacheBuster,
+                controller: 'ManageBlogsController',
+                resolve: {
+                    pageId: function() {
+                        return "manage-blogs";
                     }
-                });
+                }
+            });
 
-                $routeProvider.when('/edit-blog/:userBlogId', {
-                    templateUrl: '/application/views/edit-blog.html?cacheBuster=' + cacheBuster,
-                    controller: 'EditBlogController',
-                    resolve: {
-                        pageId: function() {
-                            return "edit-blog";
-                        }
+            $routeProvider.when('/edit-blog/:userBlogId', {
+                templateUrl: '/application/views/edit-blog.html?cacheBuster=' + cacheBuster,
+                controller: 'EditBlogController',
+                resolve: {
+                    pageId: function() {
+                        return "edit-blog";
                     }
-                });
+                }
+            });
 
-                $routeProvider.when('/manage-account', {
-                    templateUrl: '/application/views/manage-account.html?cacheBuster=' + cacheBuster,
-                    controller: 'ManageAccountController',
-                    resolve: {
-                        pageId: function() {
-                            return "manage-account";
-                        }
+            $routeProvider.when('/manage-account', {
+                templateUrl: '/application/views/manage-account.html?cacheBuster=' + cacheBuster,
+                controller: 'ManageAccountController',
+                resolve: {
+                    pageId: function() {
+                        return "manage-account";
                     }
-                });
+                }
+            });
 
-                $routeProvider.when('/about', {
-                    templateUrl: '/application/views/about.html?cacheBuster=' + cacheBuster,
-                    controller: 'StaticController',
-                    resolve: {
-                        pageId: function() {
-                            return "about";
-                        }
+            $routeProvider.when('/about', {
+                templateUrl: '/application/views/about.html?cacheBuster=' + cacheBuster,
+                controller: 'StaticController',
+                resolve: {
+                    pageId: function() {
+                        return "about";
                     }
-                });
+                }
+            });
 
-                $routeProvider.when('/contact', {
-                    templateUrl: '/application/views/contact.html?cacheBuster=' + cacheBuster,
-                    controller: 'StaticController',
-                    resolve: {
-                        pageId: function() {
-                            return "contact";
-                        }
+            $routeProvider.when('/contact', {
+                templateUrl: '/application/views/contact.html?cacheBuster=' + cacheBuster,
+                controller: 'StaticController',
+                resolve: {
+                    pageId: function() {
+                        return "contact";
                     }
-                });
+                }
+            });
 
-                $routeProvider.when('/help', {
-                    templateUrl: '/application/views/help.html?cacheBuster=' + cacheBuster,
-                    controller: 'StaticController',
-                    resolve: {
-                        pageId: function() {
-                            return "help";
-                        }
+            $routeProvider.when('/help', {
+                templateUrl: '/application/views/help.html?cacheBuster=' + cacheBuster,
+                controller: 'StaticController',
+                resolve: {
+                    pageId: function() {
+                        return "help";
                     }
-                });
+                }
+            });
 
-                $routeProvider.when('/logout', {
-                    templateUrl: '/application/views/login.html?cacheBuster=' + cacheBuster,
-                    controller: 'LogoutController',
-                    resolve: {
-                        pageId: function() {
-                            return "logout";
-                        }
+            $routeProvider.when('/logout', {
+                templateUrl: '/application/views/login.html?cacheBuster=' + cacheBuster,
+                controller: 'LogoutController',
+                resolve: {
+                    pageId: function() {
+                        return "logout";
                     }
-                });
+                }
+            });
 
-                $routeProvider.when('/forgot-password', {
-                    templateUrl: '/application/views/forgot-password.html?cacheBuster=' + cacheBuster,
-                    controller: 'ForgotPasswordController',
-                    resolve: {
-                        pageId: function() {
-                            return "forgotpassword";
-                        }
+            $routeProvider.when('/forgot-password', {
+                templateUrl: '/application/views/forgot-password.html?cacheBuster=' + cacheBuster,
+                controller: 'ForgotPasswordController',
+                resolve: {
+                    pageId: function() {
+                        return "forgotpassword";
                     }
-                });
-                $routeProvider.otherwise({ redirectTo: '/about' });
+                }
+            });
+            $routeProvider.otherwise({ redirectTo: '/about' });
             
             // use the HTML5 History API
 
