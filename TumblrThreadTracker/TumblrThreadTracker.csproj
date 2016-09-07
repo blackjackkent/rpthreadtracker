@@ -511,6 +511,7 @@
     <None Include="BundleTransformer.Configuration.xsd">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Properties\PublishProfiles\azure.pubxml" />
     <None Include="Properties\PublishProfiles\dev publish.pubxml" />
     <None Include="Properties\PublishProfiles\tumblrthreadtracker.pubxml" />
     <Content Include="Views\Home\Maintenance.aspx" />
