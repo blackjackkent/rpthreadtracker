@@ -44,7 +44,7 @@ namespace TumblrThreadTracker.Controllers
         {
             var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
             var ids = new List<int?>();
-            var blogs = _blogService.GetBlogsByUserId(userId, _blogRepository);
+            var blogs = _blogService.GetBlogsByUserId(userId, _blogRepository, false);
             foreach (var blog in blogs)
                 ids.AddRange(_threadService.GetThreadIdsByBlogId(blog.UserBlogId, _threadRepository, isArchived));
             return ids;

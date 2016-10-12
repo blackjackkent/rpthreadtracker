@@ -36,8 +36,8 @@ namespace TumblrThreadTracker.Controllers
         {
             var ids = new List<int?>();
             var blogs = !string.IsNullOrEmpty(blogShortname)
-                ? _blogService.GetBlogsByUserId(userId, _blogRepository).Where(b => b.BlogShortname == blogShortname).ToList()
-                : _blogService.GetBlogsByUserId(userId, _blogRepository).ToList();
+                ? _blogService.GetBlogsByUserId(userId, _blogRepository, false).Where(b => b.BlogShortname == blogShortname).ToList()
+                : _blogService.GetBlogsByUserId(userId, _blogRepository, false).ToList();
             foreach (var blog in blogs)
                 ids.AddRange(_threadService.GetThreadIdsByBlogId(blog.UserBlogId, _threadRepository));
             return ids;

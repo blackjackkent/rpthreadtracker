@@ -4,10 +4,10 @@ rpThreadTracker.services.service('blogService', [
     '$q', '$http', function($q, $http) {
         var blogs = [];
 
-        function getBlogs(force) {
+        function getBlogs(force, includeHiatusedBlogs) {
             var deferred = $q.defer(),
                 config = {
-                    url: '/api/Blog',
+                    url: '/api/Blog' + (includeHiatusedBlogs ? "?includeHiatusedBlogs=true" : ""),
                     method: 'GET'
                 },
                 success = function (response) {
