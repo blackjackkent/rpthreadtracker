@@ -24,6 +24,7 @@ namespace TumblrThreadTracker.Infrastructure
         public string Email { get; set; }
         public string Password { get; set; }
         public Nullable<System.DateTime> LastLogin { get; set; }
+        public bool AllowNewsNotificationPopups { get; set; }
     
         public virtual ICollection<UserBlog> UserBlogs { get; set; }
     }

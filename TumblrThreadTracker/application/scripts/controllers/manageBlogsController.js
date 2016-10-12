@@ -4,7 +4,7 @@ rpThreadTracker.controllers.controller('ManageBlogsController', [
     '$scope', '$location', 'sessionService', 'blogService', 'threadService', 'pageId', function($scope, $location, sessionService, blogService, threadService, pageId) {
         $scope.setBodyClass('');
 
-        function success() {
+        function success(showSuccessMessage) {
             $scope.newBlogForm.$setPristine();
             $scope.newBlogShortname = '';
             $scope.showSuccessMessage = true;
@@ -28,6 +28,11 @@ rpThreadTracker.controllers.controller('ManageBlogsController', [
         $scope.untrackBlog = function(userBlogId) {
             blogService.untrackBlog(userBlogId).then(success).catch(failure);
         };
+
+        $scope.toggleHiatus = function(blog) {
+            blog.OnHiatus = !blog.OnHiatus;
+            blogService.editBlog(blog).then(success).catch(failure);
+        }
         $scope.pageId = pageId;
         blogService.getBlogs().then(function(blogs) {
             $scope.blogs = blogs;

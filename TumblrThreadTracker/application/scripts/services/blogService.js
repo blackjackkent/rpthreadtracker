@@ -64,15 +64,12 @@ rpThreadTracker.services.service('blogService', [
             return deferred.promise;
         }
 
-        function editBlog(userBlogId, newBlogShortname) {
+        function editBlog(blog) {
             var deferred = $q.defer(),
                 config = {
                     url: '/api/Blog',
                     method: "PUT",
-                    data: {
-                        UserBlogId: userBlogId,
-                        BlogShortname: newBlogShortname
-                    }
+                    data: blog
                 },
                 success = function(response, status, headers, config) {
                     deferred.resolve(response.data);

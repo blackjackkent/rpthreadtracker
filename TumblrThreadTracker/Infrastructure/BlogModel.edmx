@@ -12,6 +12,7 @@
           <Property Name="UserBlogId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="BlogShortname" Type="nvarchar(max)" />
+          <Property Name="OnHiatus" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="UserProfile">
           <Key>
@@ -22,6 +23,7 @@
           <Property Name="Email" Type="nvarchar(max)" />
           <Property Name="Password" Type="nvarchar(max)" />
           <Property Name="LastLogin" Type="datetime" />
+          <Property Name="AllowNewsNotificationPopups" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="UserThread">
           <Key>
@@ -58,18 +60,6 @@
           <Property Name="PasswordVerificationToken" Type="nvarchar" MaxLength="128" />
           <Property Name="PasswordVerificationTokenExpirationDate" Type="datetime" />
         </EntityType>
-        <Association Name="FK__UserThrea__UserT__1B9317B3">
-          <End Role="UserThread" Type="Self.UserThread" Multiplicity="0..1" />
-          <End Role="UserThreadTag" Type="Self.UserThreadTag" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="UserThread">
-              <PropertyRef Name="UserThreadId" />
-            </Principal>
-            <Dependent Role="UserThreadTag">
-              <PropertyRef Name="UserThreadID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_dbo_UserBlog_dbo_UserProfile_UserId">
           <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -98,16 +88,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_dbo_UserThreadTag_dbo_UserThread_UserThreadId">
+          <End Role="UserThread" Type="Self.UserThread" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserThreadTag" Type="Self.UserThreadTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserThread">
+              <PropertyRef Name="UserThreadId" />
+            </Principal>
+            <Dependent Role="UserThreadTag">
+              <PropertyRef Name="UserThreadID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="RPThreadTrackerModelStoreContainer">
           <EntitySet Name="UserBlog" EntityType="Self.UserBlog" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserThread" EntityType="Self.UserThread" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserThreadTag" EntityType="Self.UserThreadTag" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="webpages_Membership" EntityType="Self.webpages_Membership" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK__UserThrea__UserT__1B9317B3" Association="Self.FK__UserThrea__UserT__1B9317B3">
-            <End Role="UserThread" EntitySet="UserThread" />
-            <End Role="UserThreadTag" EntitySet="UserThreadTag" />
-          </AssociationSet>
           <AssociationSet Name="FK_dbo_UserBlog_dbo_UserProfile_UserId" Association="Self.FK_dbo_UserBlog_dbo_UserProfile_UserId">
             <End Role="UserProfile" EntitySet="UserProfile" />
             <End Role="UserBlog" EntitySet="UserBlog" />
@@ -115,6 +115,10 @@
           <AssociationSet Name="FK_dbo_UserThread_dbo_UserBlog_UserBlogId" Association="Self.FK_dbo_UserThread_dbo_UserBlog_UserBlogId">
             <End Role="UserBlog" EntitySet="UserBlog" />
             <End Role="UserThread" EntitySet="UserThread" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_UserThreadTag_dbo_UserThread_UserThreadId" Association="Self.FK_dbo_UserThreadTag_dbo_UserThread_UserThreadId">
+            <End Role="UserThread" EntitySet="UserThread" />
+            <End Role="UserThreadTag" EntitySet="UserThreadTag" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -130,6 +134,7 @@
           <Property Name="BlogShortname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="UserProfile" Relationship="Self.FK_dbo_UserBlog_dbo_UserProfile_UserId" FromRole="UserBlog" ToRole="UserProfile" />
           <NavigationProperty Name="UserThreads" Relationship="Self.FK_dbo_UserThread_dbo_UserBlog_UserBlogId" FromRole="UserBlog" ToRole="UserThread" />
+          <Property Name="OnHiatus" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="UserProfile">
           <Key>
@@ -141,6 +146,7 @@
           <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="LastLogin" Type="DateTime" Precision="3" />
           <NavigationProperty Name="UserBlogs" Relationship="Self.FK_dbo_UserBlog_dbo_UserProfile_UserId" FromRole="UserProfile" ToRole="UserBlog" />
+          <Property Name="AllowNewsNotificationPopups" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="UserThread">
           <Key>
@@ -248,6 +254,7 @@
           <EntitySetMapping Name="UserBlogs">
             <EntityTypeMapping TypeName="RPThreadTrackerModel.UserBlog">
               <MappingFragment StoreEntitySet="UserBlog">
+                <ScalarProperty Name="OnHiatus" ColumnName="OnHiatus" />
                 <ScalarProperty Name="UserBlogId" ColumnName="UserBlogId" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="BlogShortname" ColumnName="BlogShortname" />
@@ -257,6 +264,7 @@
           <EntitySetMapping Name="UserProfiles">
             <EntityTypeMapping TypeName="RPThreadTrackerModel.UserProfile">
               <MappingFragment StoreEntitySet="UserProfile">
+                <ScalarProperty Name="AllowNewsNotificationPopups" ColumnName="AllowNewsNotificationPopups" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Email" ColumnName="Email" />

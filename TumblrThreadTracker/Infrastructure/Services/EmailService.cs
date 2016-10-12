@@ -1,31 +1,26 @@
-﻿using System.Net;
+﻿using System.Configuration;
+using System.Net;
 using System.Net.Mail;
+using System.Threading.Tasks;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 using TumblrThreadTracker.Interfaces;
 
 namespace TumblrThreadTracker.Infrastructure.Services
 {
     public class EmailService : IEmailService
     {
-        public void SendEmail(string emailid, string subject, string body)
+        public async Task SendEmail(string emailid, string subject, string body)
         {
-            var client = new SmtpClient
-            {
-                DeliveryMethod = SmtpDeliveryMethod.Network,
-                Host = "mail.rpthreadtracker.com",
-                Port = 25,
-                UseDefaultCredentials = false
-            };
-            var credentials = new NetworkCredential("postmaster@rpthreadtracker.com", "***REMOVED***");
-            client.Credentials = credentials;
-            var msg = new MailMessage
-            {
-                From = new MailAddress("postmaster@rpthreadtracker.com")
-            };
-            msg.To.Add(new MailAddress(emailid));
-            msg.Subject = subject;
-            msg.IsBodyHtml = true;
-            msg.Body = body;
-            client.Send(msg);
+            var apiKey = ConfigurationManager.AppSettings["SendGridAPIKey"];
+            var sendGridApiClient = new SendGridAPIClient(apiKey);
+
+            var from = new Email("noreply@rpthreadtracker.com");
+            var to = new Email(emailid);
+            var content = new Content("text/html", body);
+            var mail = new Mail(from, subject, to, content);
+
+            await sendGridApiClient.client.mail.send.post(requestBody: mail.Get());
         }
     }
 }
