@@ -10,7 +10,7 @@ rpThreadTracker.controllers.controller('ManageBlogsController', [
             $scope.showSuccessMessage = true;
             blogService.flushBlogs();
             threadService.flushThreads();
-            blogService.getBlogs().then(function(blogs) {
+            blogService.getBlogs(true, true).then(function(blogs) {
                 $scope.blogs = blogs;
             });
         }
@@ -34,7 +34,7 @@ rpThreadTracker.controllers.controller('ManageBlogsController', [
             blogService.editBlog(blog).then(success).catch(failure);
         }
         $scope.pageId = pageId;
-        blogService.getBlogs().then(function(blogs) {
+        blogService.getBlogs(true, true).then(function(blogs) {
             $scope.blogs = blogs;
         });
         sessionService.getUser().then(function(user) {

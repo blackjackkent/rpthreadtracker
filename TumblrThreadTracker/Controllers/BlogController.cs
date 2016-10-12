@@ -31,10 +31,10 @@ namespace TumblrThreadTracker.Controllers
             return _blogService.GetBlogById(id, _blogRepository);
         }
 
-        public IEnumerable<BlogDto> Get()
+        public IEnumerable<BlogDto> Get(bool includeHiatusedBlogs = false)
         {
             var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity) User.Identity);
-            var blogs = _blogService.GetBlogsByUserId(userId, _blogRepository);
+            var blogs = _blogService.GetBlogsByUserId(userId, _blogRepository, includeHiatusedBlogs);
             return blogs;
         }
 
