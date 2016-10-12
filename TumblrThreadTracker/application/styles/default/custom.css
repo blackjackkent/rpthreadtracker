@@ -1,25 +1,59 @@
-﻿#main-navbar .container {width: 100% !important}
+﻿/************ GENERAL **********/
+#main-navbar .container {width: 100% !important}
 .central-container { width: 95% !important; }
+#main-navbar .logo { color: #fff; display: inline-block; height: 40px; line-height: 40px; margin: 0 15px; padding: 0; }
+#main-navbar .logo:hover { text-decoration: none; }
 
-#left-panel-mobile { display: none;}
-#main-navbar .logo {
-    color: #fff;
-    display: inline-block;
-    height: 40px;
-    line-height: 40px;
-    margin: 0 15px;
-    padding: 0;
+.error-message { color: #f00; }
+.success-message { color: #096; }
+.loading-icon { line-height: 35px; }
+.loading-icon img { width: 30px; }
+
+label.inline-control-label {
+    display: inline;
+    line-height: 30px;
+    vertical-align: top;
 }
 
-#main-navbar .logo:hover { text-decoration: none; }
+/*********** THREAD VIEW ***********/
 .thread-table { min-width: 1080px !important }
+.public-link-alert { font-size: 12px; text-align: center; word-wrap: break-word; margin: 10px auto; width: 90%; }
+.thread-filters .bulk-action-link { display: inline-block;vertical-align: top;}
+.thread-filters label { width: 100px;display: inline-block;}
 
+/************** DASHBOARD ***********/
+.widget-threads .content { margin-left: 0; }
+.widget-threads .content > span { text-align: right; }
+.widget-threads .refresh-link { float: left; }
+#dashboard-filter-selector { float: right; font-size: 12px; padding: 5px; }
+#recent-news .thread a:first-child { font-size: 12px; }
+
+/************ FORGOT PASSWORD/SIGN IN/REGISTER *************/
+#forgot-password-form p { color: #aaa; }
+.signin-page a.header { margin: 0 auto 10px; margin-top: 100px; width: auto; }
+#signin-container .loading-icon {float: right}
+#register-form .fields { border: none; }
+
+/*************** PUBLIC THREAD VIEW **********/
+.error-page header { height: auto; text-align: center; }
+.error-page header a { display: inline; }
+
+/************ MANAGE BLOGS ************/
+.blog-table td { border: none; }
+.blog-table .hiatused-blog td { background-color: #b77 !important; color: #fff !important}
+.blog-table .hiatused-blog td a { color: #fff !important;}
+
+/********** ADD THREAD ************/
+#thread-tag-data { min-height: 30px;}
+.thread-tag-data-item { background-color: #d5eef1;border-color: #c8e0e6;color: #4e7b86;padding: 5px;margin-right: 5px;border-radius: 5px;padding-right: 20px; position:relative}
+.thread-tag-data-item:hover { background-color: #c8e0e6;cursor: pointer;}
+.thread-tag-data-item::after { content: " \00D7 "; position: absolute;right: 5px; }
+
+/****** MOBILE *******/
+#left-panel-mobile { display: none;}
 @media (max-width: 767px) {
     body { padding: 40px 0;}
-    section.container {
-        margin: auto;
-        width: 90%;
-    }
+    section.container { margin: auto; width: 90%; }
     .row-fluid { margin: 0;}
     #left-panel { display: none;}
     #left-panel-mobile { display: block;width: 100%;height: 35px; background: #2b2b2b url("/application/images/left-menu-bg.png");margin-bottom: 20px; }
@@ -33,84 +67,3 @@
     .thread-filters .bulk-action-link { display: inline-block;vertical-align: top;}
     .public-link-alert { display: none;}
 }
-
-.widget-threads .content { margin-left: 0; }
-
-.widget-threads .content > span { text-align: right; }
-
-.widget-threads .refresh-link { float: left; }
-
-#dashboard-filter-selector {
-    float: right;
-    font-size: 12px;
-    padding: 5px;
-}
-
-#forgot-password-form p { color: #aaa; }
-
-.error-message { color: #f00; }
-
-.success-message { color: #096; }
-
-.loading-icon { line-height: 35px; }
-
-.loading-icon img { width: 30px; }
-
-label.inline-control-label {
-    display: inline;
-    line-height: 30px;
-    vertical-align: top;
-}
-
-#recent-news .thread a:first-child { font-size: 12px; }
-
-.signin-page a.header {
-    margin: 0 auto 10px;
-    margin-top: 100px;
-    width: auto;
-}
-
-.public-link-alert {
-    font-size: 12px;
-    text-align: center;
-    word-wrap: break-word;
-    margin: 10px auto;
-    width: 90%;
-}
-
-.error-page header {
-    height: auto;
-    text-align: center;
-}
-
-.error-page header a { display: inline; }
-
-.help-block.alert.alert-info {
-    margin-top: 10px;
-    width: 400px;
-}
-
-
-.help-block.alert.alert-info.inline {
-    display: inline-block;
-    margin-left: 10px;
-    margin-top: -1px;
-    vertical-align: top;
-    width: 200px;
-}
-
-.blog-table td { border: none; }
-
-#register-form .fields { border: none; }
-
-.thread-filters .bulk-action-link { display: inline-block;vertical-align: top;}
-
-#thread-tag-data { min-height: 30px;}
-.thread-tag-data-item { background-color: #d5eef1;border-color: #c8e0e6;color: #4e7b86;padding: 5px;margin-right: 5px;border-radius: 5px;padding-right: 20px; position:relative}
-.thread-tag-data-item:hover { background-color: #c8e0e6;cursor: pointer;}
-.thread-tag-data-item::after {
-    content: " \00D7 ";
-    position: absolute;right: 5px;
-}
-
-#signin-container .loading-icon {float: right}

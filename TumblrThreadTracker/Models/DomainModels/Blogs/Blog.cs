@@ -11,6 +11,7 @@ namespace TumblrThreadTracker.Models.DomainModels.Blogs
         public User User { get; set; }
         public int UserId { get; set; }
         public string BlogShortname { get; set; }
+        public bool OnHiatus { get; set; }
 
         public Blog()
         {
@@ -21,6 +22,7 @@ namespace TumblrThreadTracker.Models.DomainModels.Blogs
             UserBlogId = dto.UserBlogId;
             BlogShortname = dto.BlogShortname;
             UserId = dto.UserId;
+            OnHiatus = dto.OnHiatus;
         }
 
         public BlogDto ToDto()
@@ -29,7 +31,8 @@ namespace TumblrThreadTracker.Models.DomainModels.Blogs
             {
                 BlogShortname = BlogShortname,
                 UserBlogId = UserBlogId,
-                UserId = UserId
+                UserId = UserId,
+                OnHiatus = OnHiatus
             };
         }
     }

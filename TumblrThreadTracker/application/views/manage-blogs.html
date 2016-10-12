@@ -30,17 +30,19 @@
                         </div>
                     </div>
 
-                    <p class="alert alert-success" ng-show="showSuccessMessage">Blogs updated. Type a new shortname to add another blog to track, or click "Track New Thread" to add a thread for one of the blogs below.</p>
+                    <p class="alert alert-success" ng-show="showSuccessMessage">Blogs updated. Click "Track New Thread" to add a thread for one of the blogs below.</p>
                 </fieldset>
             </form>
 
             <fieldset>
                 <legend>Manage Existing Blogs</legend>
                 <table class="table table-striped blog-table">
-                    <tr ng-repeat="blog in blogs | orderBy:'BlogShortname'">
+                    <tr ng-repeat="blog in blogs | orderBy:'BlogShortname'" ng-class="{'hiatused-blog': blog.OnHiatus}">
                         <td>{{blog.BlogShortname}}</td>
                         <td><a href="/edit-blog/{{blog.UserBlogId}}">Edit</a></td>
                         <td><a href="" ng-click="untrackBlog(blog.UserBlogId)">Untrack</a></td>
+                        <td ng-if="blog.OnHiatus"><a href="" ng-click="toggleHiatus(blog)">Set Off Hiatus</a></td>
+                        <td ng-if="!blog.OnHiatus"><a href="" ng-click="toggleHiatus(blog)">Set On Hiatus</a></td>
                     </tr>
                     <tr ng-show="blogs.length == 0">
                         <td>You have not yet added any blogs.</td>

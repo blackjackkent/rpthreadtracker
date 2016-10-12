@@ -47,22 +47,17 @@ namespace TumblrThreadTracker.Controllers
             {
                 UserId = userId.GetValueOrDefault(),
                 BlogShortname = request.BlogShortname,
+                OnHiatus = false
             };
             _blogService.AddNewBlog(dto, _blogRepository);
         }
 
-        public void Put(BlogUpdateRequest request)
+        public void Put(BlogDto request)
         {
             var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
             if (request == null || request.UserBlogId == null || userId == null)
                 throw new ArgumentNullException();
-            var dto = new BlogDto
-            {
-                BlogShortname = request.BlogShortname,
-                UserBlogId = request.UserBlogId,
-                UserId = userId.GetValueOrDefault()
-            };
-            _blogService.UpdateBlog(dto, _blogRepository);
+            _blogService.UpdateBlog(request, _blogRepository);
         }
 
         public void Delete(int userBlogId)

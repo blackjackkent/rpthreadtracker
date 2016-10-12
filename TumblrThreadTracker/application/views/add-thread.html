@@ -21,7 +21,7 @@
                         <label class="control-label" for="currentBlog">Blog:</label>
                         <div class="controls">
                             <select name="currentBlog" ng-model="currentBlog">
-                                <option ng-repeat="blog in blogs | orderBy:'BlogShortname'" ng-value="blog.BlogShortname">{{blog.BlogShortname}}</option>
+                                <option ng-repeat="blog in blogs | filter: {OnHiatus: false} | orderBy:'BlogShortname'" ng-value="blog.BlogShortname">{{blog.BlogShortname}}</option>
                             </select>
                         </div>
                     </div>

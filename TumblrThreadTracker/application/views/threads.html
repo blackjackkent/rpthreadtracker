@@ -7,24 +7,23 @@
 
         <!-- ================================================== -->
         <section class="row-fluid thread-filters">
-            <div class="span8">
-                <form class="form-inline">
-                    <label class="inline-control-label">Order By: </label>
-                    <select ng-model="currentOrderBy" name="currentOrderBy" ng-change="setCurrentOrderBy()">
-                        <option value="UserTitle">Thread Title</option>
-                        <option value="LastPostDate">Last Post Date</option>
-                        <option value="LastPosterShortname">Last Poster</option>
-                        <option value="WatchedShortname">Watched Shortname</option>
-                    </select>
-                    <select ng-model="sortDescending" ng-change="setSortDescending()" ng-options="o.v as o.n for o in [{ n: 'Descending', v: true }, { n: 'Ascending', v: false }]">
-                    </select>
-                </form>
+            <div class="span9">
+                <label class="inline-control-label">Order By: </label>
+                <select ng-model="currentOrderBy" name="currentOrderBy" ng-change="setCurrentOrderBy()">
+                    <option value="UserTitle">Thread Title</option>
+                    <option value="LastPostDate">Last Post Date</option>
+                    <option value="LastPosterShortname">Last Poster</option>
+                    <option value="WatchedShortname">Watched Shortname</option>
+                </select>
+                <select ng-model="sortDescending" ng-change="setSortDescending()" ng-options="o.v as o.n for o in [{ n: 'Descending', v: true }, { n: 'Ascending', v: false }]">
+                </select>
             </div>
 
-            <div class="span3">
+
+            <div class="span2">
                 <select ng-model="currentBlog" ng-change="setCurrentBlog()">
-                    <option value="">All Blogs</option>
-                    <option ng-repeat="blog in blogs | orderBy:'BlogShortname'" ng-value="blog.BlogShortname">{{blog.BlogShortname}}</option>
+                    <option value="">Filter Blogs</option>
+                    <option ng-repeat="blog in blogs | filter:{ OnHiatus: false } | orderBy:'BlogShortname'" ng-value="blog.BlogShortname">{{blog.BlogShortname}}</option>
                 </select>
             </div>
             <div class="span1">
@@ -32,7 +31,7 @@
             </div>
         </section>
         <section class="row-fluid thread-filters">
-            <div class="span3">
+            <div class="span9">
                 <label class="inline-control-label">
                     Bulk Actions:
                 </label>
@@ -43,10 +42,9 @@
                 </select>
                 <a class="btn bulk-action-link" analytics-on="click" analytics-category="Private Thread View" analytics-event="Bulk Action" ng-click="bulkAction()">Go</a>
             </div>
-            <div class="span9">
-                <label class="inline-control-label">Filter By Tag:</label>
+            <div class="span1">
                 <select ng-model="filteredTag" ng-change="setFilteredTag()">
-                    <option value="">No Filter</option>
+                    <option value="">Filter By Tag</option>
                     <option ng-repeat="tag in allTags track by $index | orderBy:'toString()'" ng-value="tag">{{tag}}</option>
                 </select>
             </div>
