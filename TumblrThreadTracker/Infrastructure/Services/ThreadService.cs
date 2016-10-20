@@ -18,10 +18,14 @@ namespace TumblrThreadTracker.Infrastructure.Services
             return threads.Select(t => t.UserThreadId);
         }
 
-        public ThreadDto GetById(int id, IRepository<Blog> blogRepository, IRepository<Thread> threadRepository, ITumblrClient tumblrClient)
+        public ThreadDto GetById(int id, IRepository<Blog> blogRepository, IRepository<Thread> threadRepository, ITumblrClient tumblrClient, bool skipTumblrCall = false)
         {
             var thread = threadRepository.GetSingle(t => t.UserThreadId == id);
             var blog = blogRepository.GetSingle(b => b.UserBlogId == thread.UserBlogId);
+            if (skipTumblrCall)
+            {
+                return thread.ToDto(blog, null);
+            }
             var post = tumblrClient.GetPost(thread.PostId, blog.BlogShortname);
             return thread.ToDto(blog, post);
         }
