@@ -191,6 +191,19 @@ rpThreadTracker.services.service('threadService', [
             return deferred.promise;
         }
 
+        function exportThreads() {
+            var deferred = $q.defer(),
+                config = {
+                    url: '/api/Export',
+                    method: 'GET'
+                },
+                success = function (response) {
+                    deferred.resolve(response.data);
+                };
+            $http(config).then(success);
+            return deferred.promise;
+        }
+
         function subscribe(callback) {
             subscribers.push(callback);
         }
@@ -277,7 +290,8 @@ rpThreadTracker.services.service('threadService', [
             editThreads: editThreads,
             untrackThreads: untrackThreads,
             flushThreads: flushThreads,
-            getTagsByBlog: getTagsByBlog
+            getTagsByBlog: getTagsByBlog,
+            exportThreads: exportThreads
         };
     }
 ]);
