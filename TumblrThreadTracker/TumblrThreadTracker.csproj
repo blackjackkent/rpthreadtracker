@@ -513,6 +513,7 @@
     </None>
     <None Include="Properties\PublishProfiles\azure.pubxml" />
     <None Include="Properties\PublishProfiles\dev publish.pubxml" />
+    <None Include="Properties\PublishProfiles\RPThreadTracker__rpthreadtracker-staging.pubxml" />
     <None Include="Properties\PublishProfiles\tumblrthreadtracker.pubxml" />
     <Content Include="Views\Home\Maintenance.aspx" />
     <Content Include="Web.config">
@@ -550,7 +551,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>55562</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
