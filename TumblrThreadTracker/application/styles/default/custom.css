@@ -56,12 +56,8 @@
 
 .loading-icon img { width: 30px; }
 
-label {
-    display: inline;
-    line-height: 50%;
-}
-
 label.inline-control-label {
+    display: inline;
     line-height: 30px;
     vertical-align: top;
 }
