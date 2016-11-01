@@ -1,0 +1,18 @@
+About Page Loads
+Contact Page Loads
+Help Page Loads
+Can Log In
+Can Log Out
+Invalid login rejected
+Can register
+Invalid registration rejected
+can request password
+can reset password
+Thread page loads
+Can add thread
+Can edit thread
+can untrack thread
+can archive thread
+Can add blog
+Can remove blog
+Can export threads
