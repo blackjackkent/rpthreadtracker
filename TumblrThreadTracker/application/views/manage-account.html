@@ -53,10 +53,14 @@
                     <p class="alert alert-error" ng-show="exportError">{{exportError}}</p>
                     <p>Use the button below to export an Excel file of your current threads in the database.</p>
 
-                    <button type="submit" class="btn" ng-click="exportThreads()">Export</button>  
-                    <label class="checkbox">
+                    <button type="submit" class="btn" ng-click="exportThreads()">Export</button>
+                    <p><label class="checkbox">
                         <input type="checkbox" ng-model="includeArchived"> Include Archived Threads
-                    </label>
+                    </label></p>
+
+                    <p><label class="checkbox">
+                        <input type="checkbox" ng-model="includeHiatused"> Include Hiatused Blogs
+                    </label></p>
                 </fieldset>
             </form>
 

@@ -28,7 +28,7 @@ rpThreadTracker.controllers.controller('ManageAccountController', [
         $scope.exportThreads = function() {
             $scope.exportError = "";
             $scope.exportLoading = true;
-            exportService.exportThreads($scope.includeArchived).then(exportSuccess, exportFailure);
+            exportService.exportThreads($scope.includeArchived, $scope.includeHiatused).then(exportSuccess, exportFailure);
         }
         function exportSuccess() {
             $scope.exportError = "";

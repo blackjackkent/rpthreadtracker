@@ -23,7 +23,6 @@
           <Property Name="Email" Type="nvarchar(max)" />
           <Property Name="Password" Type="nvarchar(max)" />
           <Property Name="LastLogin" Type="datetime" />
-          <Property Name="AllowNewsNotificationPopups" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="UserThread">
           <Key>
@@ -146,7 +145,6 @@
           <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="LastLogin" Type="DateTime" Precision="3" />
           <NavigationProperty Name="UserBlogs" Relationship="Self.FK_dbo_UserBlog_dbo_UserProfile_UserId" FromRole="UserProfile" ToRole="UserBlog" />
-          <Property Name="AllowNewsNotificationPopups" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="UserThread">
           <Key>
@@ -264,7 +262,6 @@
           <EntitySetMapping Name="UserProfiles">
             <EntityTypeMapping TypeName="RPThreadTrackerModel.UserProfile">
               <MappingFragment StoreEntitySet="UserProfile">
-                <ScalarProperty Name="AllowNewsNotificationPopups" ColumnName="AllowNewsNotificationPopups" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
