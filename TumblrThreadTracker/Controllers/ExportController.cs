@@ -39,10 +39,10 @@ namespace TumblrThreadTracker.Controllers
             _tumblrClient = tumblrClient;
         }
 
-        public async Task<HttpResponseMessage> Get([FromUri] bool includeArchived = false)
+        public async Task<HttpResponseMessage> Get([FromUri] bool includeArchived = false, [FromUri] bool includeHiatused = false)
         {
             var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity) User.Identity);
-            var blogs = _blogService.GetBlogsByUserId(userId, _blogRepository).OrderBy(b => b.BlogShortname);
+            var blogs = _blogService.GetBlogsByUserId(userId, _blogRepository, includeHiatused).OrderBy(b => b.BlogShortname);
             var package = new ExcelPackage();
             foreach (var blog in blogs)
             {

@@ -3,10 +3,10 @@ var rpThreadTracker = rpThreadTracker || {};
 rpThreadTracker.services.service('exportService', [
     '$q', '$http', function ($q, $http) {
         
-        var exportThreads = function(includeArchived) {
+        var exportThreads = function(includeArchived, includeHiatused) {
             var deferred = $q.defer();
             //adapted from http://stackoverflow.com/a/24129082
-            var httpPath = '/api/Export?includeArchived=' + includeArchived;
+            var httpPath = '/api/Export?includeArchived=' + includeArchived + "&includeHiatused=" + includeHiatused;
             // Use an arraybuffer
             $http.get(httpPath, { responseType: 'arraybuffer' })
                 .success(function(data, status, headers) {
