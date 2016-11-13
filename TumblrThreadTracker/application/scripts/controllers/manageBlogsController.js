@@ -3,6 +3,7 @@ var rpThreadTracker = rpThreadTracker || {};
 rpThreadTracker.controllers.controller('ManageBlogsController', [
     '$scope', '$location', 'sessionService', 'blogService', 'threadService', 'pageId', function($scope, $location, sessionService, blogService, threadService, pageId) {
         $scope.setBodyClass('');
+        $scope.shortnameRegex = '[A-z|\\d|\\-]+';
 
         function success(showSuccessMessage) {
             $scope.newBlogForm.$setPristine();
@@ -20,7 +21,10 @@ rpThreadTracker.controllers.controller('ManageBlogsController', [
             $scope.showSuccessMessage = false;
         }
 
-        $scope.createBlog = function() {
+        $scope.createBlog = function () {
+            if (!$scope.newBlogForm.$valid) {
+                return;
+            }
             if ($scope.newBlogShortname != '') {
                 blogService.createBlog($scope.newBlogShortname).then(success).catch(failure);
             }
