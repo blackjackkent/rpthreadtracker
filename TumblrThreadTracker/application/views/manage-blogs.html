@@ -16,12 +16,13 @@
                     </p><br />
 
                     <p class="alert alert-error" ng-show="newBlogForm.newBlogShortname.$error.required && newBlogForm.newBlogShortname.$dirty">You must enter a blog shortname.</p>
+                    <p class="alert alert-error" ng-show="!newBlogForm.newBlogShortname.$error.required && newBlogForm.newBlogShortname.$dirty && newBlogForm.newBlogShortname.$error.pattern">Enter only the blog shortname, not the full URL.</p>
                     <p class="alert alert-error" ng-show="genericError">{{genericError}}</p>
 
                     <div class="control-group">
                         <label class="control-label" for="newBlogShortname">Blog shortname:</label>
                         <div class="controls">
-                            <input type="text" id="Text1" name="newBlogShortname" required ng-model="newBlogShortname" placeholder="Shortname">
+                            <input type="text" id="Text1" name="newBlogShortname" required ng-model="newBlogShortname" ng-pattern="shortnameRegex" placeholder="Shortname">
                         </div>
                     </div>
                     <div class="control-group">
