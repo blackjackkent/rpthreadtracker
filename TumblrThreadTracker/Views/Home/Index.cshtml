@@ -124,11 +124,13 @@
     </head>
     <body ng-controller="BodyController" ng-class="bodyClass">
         <div ng-view></div>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular.min.js"></script>
-        <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.7/angular-route.min.js"></script>
-        
+        <script src="/application/scripts/bower/angular/angular.min.js"></script>
+        <script src="/application/scripts/bower/angular-route/angular-route.min.js"></script>
+        <script src="/application/scripts/bower/angulartics/dist/angulartics.min.js"></script>
+        <script src="/application/scripts/bower/angulartics-google-analytics/dist/angulartics-ga.min.js"></script>
+        <script src="/application/scripts/bower/lodash/dist/lodash.min.js"></script>
+
         @Scripts.Render("~/bundles/angular-bootstrap")
-        @Scripts.Render("~/bundles/vendor")
         @Scripts.Render("~/bundles/angular-controllers")
         @Scripts.Render("~/bundles/angular-directives")
         @Scripts.Render("~/bundles/angular-filters")
