@@ -9,7 +9,6 @@ namespace TumblrThreadTracker
         public static void RegisterBundles(BundleCollection bundles)
         {
             bundles.Add(new CustomScriptBundle("~/bundles/angular-bootstrap").Include("~/application/scripts/app.js"));
-            bundles.Add(new CustomScriptBundle("~/bundles/vendor").Include("~/application/scripts/vendor/*.js"));
             bundles.Add(
                 new CustomScriptBundle("~/bundles/angular-controllers").Include("~/application/scripts/controllers/*.js"));
             bundles.Add(
