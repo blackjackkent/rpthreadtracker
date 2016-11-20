@@ -4,11 +4,9 @@
 
 <section class="central-container container">
     <div id="content">
-        <!-- ================================================== -->
         <section class="row-fluid">
 		
-            <!-- Last activity
-                ================================================== -->
+            <!-- Recent activity ================================================== -->
             <div class="span8">
                 <h3 class="box-header">
                     <i class="icon-time"></i>
@@ -72,10 +70,9 @@
                     <!-- / .tabbable -->
                 </div>
             </div>
-            <!-- / Last activity -->
+            <!-- / Recent activity -->
 			
-            <!-- Daily statistics
-                ================================================== -->
+            <!-- Recent News  ================================================== -->
             <div id="recent-news" class="span4">
                 <h3 class="box-header"><i class="icon-fire" style="color: #cd522c"></i> Tracker News</h3>
                 <div class=" box well widget-threads">
@@ -94,12 +91,11 @@
 
 					
             </div>
-            <!-- / Daily statistics -->
+            <!-- / Recent News -->
         </section>
 
-        <!-- Recent News
-            ================================================= -->
         <section class="row-fluid">
+            <!-- At a glance ================================================== -->
             <div class="span8">
                 <h3 class="box-header">
                     <i class="icon-signal"></i>
@@ -126,7 +122,7 @@
                             Threads Tracked
                         </div>
                     </div>
-					
+
                     <div class="rounded-borders">
                         <div class="counter small">
                             <span ng-show="showAtAGlance">
@@ -138,7 +134,7 @@
                             Your Turn
                         </div>
                     </div>
-					
+
                     <div class="rounded-borders">
                         <div class="counter small">
                             <span ng-show="showAtAGlance">
@@ -152,6 +148,9 @@
                     </div>
                 </div>
             </div>
+            <!-- / At a Glance -->
+
+            <!-- Donations ================================================== -->
             <div class="span4">
                 <h3 class="box-header">Like the site? Donate!</h3>
                 <div class="box well text-center">
@@ -165,21 +164,38 @@
                         </form>
                     </div>
                 </div>
-            </div>
+            </div> 
+            <!-- / Donations -->
         </section>
-        <!-- / Why AdminFlare -->
 
-        <!-- Supported browsers
-            ================================================== -->
         <section class="row-fluid">
-                
+            <!-- Random Thread ================================================== -->
+            <div class="span8">
+                <h3 class="box-header">Random Thread Generator</h3>
+                <div class="box well text-center">
+                    <div>
+                        <p>Select a random thread to respond to! <a href="#" class="btn btn-mini" ng-click="generateRandomOwedThread()">Generate</a>
+                        </p>
+                    </div>
+                    <div ng-show="randomlyGeneratedThread">
+                        <div class="content">
+                            <div>
+                                <a target="_blank" href="{{randomlyGeneratedThread.LastPostUrl}}">{{randomlyGeneratedThread.UserTitle}}</a><br>
+                                <span ng-show="randomlyGeneratedThread.LastPostUrl">
+                                    Last Post by <a href="{{randomlyGeneratedThread.LastPostUrl}}">{{randomlyGeneratedThread.LastPosterShortname}}</a>
+                                </span>
+                                <span ng-hide="randomlyGeneratedThread.LastPostUrl">
+                                    Awaiting Starter
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <!-- / Random Thread -->
         </section>
-        <!-- / Supported browsers -->
 		
-        <!-- Page footer
-            ================================================== -->
         <footer></footer>
-        <!-- / Page footer -->
                 
                 
     </div>

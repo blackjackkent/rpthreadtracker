@@ -81,6 +81,17 @@ rpThreadTracker.controllers.controller('MainController', [
             $scope.user.ShowDashboardThreadDistribution = $scope.showAtAGlance;
             sessionService.updateUser($scope.user);
         }
+        $scope.generateRandomOwedThread = function() {
+            if (!$scope.threads) {
+                return;
+            }
+            $scope.randomlyGeneratedThread = null;
+            var options = _.filter($scope.threads,
+                function(thread) {
+                    return thread.IsMyTurn;
+                });
+            $scope.randomlyGeneratedThread = _.sample(options);
+        }
 
         // ******* functions *********
         function updateThreads(data) {
