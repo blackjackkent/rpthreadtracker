@@ -104,13 +104,23 @@
                 <h3 class="box-header">
                     <i class="icon-signal"></i>
                     At a Glance
+                    <input bs-switch
+                           ng-model="showAtAGlance"
+                           type="checkbox"
+                           switch-change="toggleAtAGlanceData()"
+                           switch-size="small"
+                           switch-on-text="Hide"
+                           switch-off-text="Show"
+                           switch-on-color="primary"
+                           switch-wrapper="rptt">
                 </h3>
-                <div class="box no-border no-padding widget-statistics">
+                <div class="box no-border no-padding widget-statistics" ng-class="{'widget-statistics-disabled': !showAtAGlance}">
                     <div class="rounded-borders">
                         <div class="counter small">
-                            <span>
+                            <span ng-show="showAtAGlance">
                                 {{threads.length}}
                             </span>
+                            <span ng-hide="showAtAGlance">-</span>
                         </div>
                         <div class="counter-label">
                             Threads Tracked
@@ -119,9 +129,10 @@
 					
                     <div class="rounded-borders">
                         <div class="counter small">
-                            <span>
+                            <span ng-show="showAtAGlance">
                                 {{myTurnCount}}
                             </span>
+                            <span ng-hide="showAtAGlance">-</span>
                         </div>
                         <div class="counter-label">
                             Your Turn
@@ -130,9 +141,10 @@
 					
                     <div class="rounded-borders">
                         <div class="counter small">
-                            <span>
+                            <span ng-show="showAtAGlance">
                                 {{theirTurnCount}}
                             </span>
+                            <span ng-hide="showAtAGlance">-</span>
                         </div>
                         <div class="counter-label">
                             Their Turn

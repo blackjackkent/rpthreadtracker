@@ -121,6 +121,7 @@ rpThreadTracker.controllers.controller('MainController', [
         $scope.dashboardFilter = 'yourturn';
         $scope.bulkItems = {};
         $scope.bulkItemAction = "UntrackSelected";
+        $scope.showAtAGlance = true;
         if (pageId == "archived") {
             threadService.subscribeOnArchiveUpdate(updateThreads);
             threadService.getArchive();
