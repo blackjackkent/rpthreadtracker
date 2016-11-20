@@ -85,12 +85,14 @@ rpThreadTracker.controllers.controller('MainController', [
             if (!$scope.threads) {
                 return;
             }
+            $scope.loadingRandomThread = true;
             $scope.randomlyGeneratedThread = null;
             var options = _.filter($scope.threads,
                 function(thread) {
                     return thread.IsMyTurn;
                 });
             $scope.randomlyGeneratedThread = _.sample(options);
+            $scope.loadingRandomThread = false;
         }
 
         // ******* functions *********
@@ -140,6 +142,7 @@ rpThreadTracker.controllers.controller('MainController', [
         $scope.bulkItems = {};
         $scope.bulkItemAction = "UntrackSelected";
         $scope.showAtAGlance = false;
+        $scope.loadingRandomThread = false;
         if (pageId == "archived") {
             threadService.subscribeOnArchiveUpdate(updateThreads);
             threadService.getArchive();

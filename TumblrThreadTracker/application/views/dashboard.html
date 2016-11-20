@@ -174,13 +174,14 @@
                 <h3 class="box-header">Random Thread Generator</h3>
                 <div class="box well text-center">
                     <div>
-                        <p>Select a random thread to respond to! <a href="#" class="btn btn-mini" ng-click="generateRandomOwedThread()">Generate</a>
+                        <p>Select a random thread to respond to! <a href="#" class="btn btn-mini" ng-click="generateRandomOwedThread()">Generate</a><span ng-show="loadingRandomThread" class="loading-icon"> <img src="/application/images/loading.gif" /></span>
                         </p>
                     </div>
                     <div ng-show="randomlyGeneratedThread">
                         <div class="content">
                             <div>
-                                <a target="_blank" href="{{randomlyGeneratedThread.LastPostUrl}}">{{randomlyGeneratedThread.UserTitle}}</a><br>
+                                <span ng-hide="randomlyGeneratedThread.LastPostUrl">{{randomlyGeneratedThread.UserTitle}}</span>
+                                <a ng-show="randomlyGeneratedThread.LastPostUrl" target="_blank" href="{{randomlyGeneratedThread.LastPostUrl}}">{{randomlyGeneratedThread.UserTitle}} <span class="icon-external-link"></span></a><br>
                                 <span ng-show="randomlyGeneratedThread.LastPostUrl">
                                     Last Post by <a href="{{randomlyGeneratedThread.LastPostUrl}}">{{randomlyGeneratedThread.LastPosterShortname}}</a>
                                 </span>
