@@ -26,7 +26,8 @@ namespace TumblrThreadTracker.Infrastructure.Services
                 UserId = WebSecurity.GetUserId(username),
                 UserName =username,
                 Email = email,
-                LastLogin = DateTime.Now
+                LastLogin = DateTime.Now,
+                ShowDashboardThreadDistribution = true
             };
             userProfileRepository.Update(profile.UserId, profile);
         }
