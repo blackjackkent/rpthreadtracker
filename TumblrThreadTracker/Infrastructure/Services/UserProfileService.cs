@@ -17,5 +17,10 @@ namespace TumblrThreadTracker.Infrastructure.Services
             var profile = userProfileRepository.Get(u => u.UserName == username).FirstOrDefault();
             return profile == null ? null : profile.ToDto();
         }
+
+        public void Update(UserDto user, IRepository<User> userProfileRepository)
+        {
+            userProfileRepository.Update(user.UserId, user.ToModel());
+        }
     }
 }

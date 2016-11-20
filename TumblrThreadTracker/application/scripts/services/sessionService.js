@@ -26,6 +26,26 @@ rpThreadTracker.services.service('sessionService', [
             return deferred.promise;
         }
 
+        function updateUser(user) {
+            if (!user) {
+                return;
+            }
+            var deferred = $q.defer(),
+                config = {
+                    url: '/api/User',
+                    method: "PUT",
+                    data: user
+                },
+                success = function (response, status, headers, config) {
+                    deferred.resolve(response.data);
+                },
+                error = function (response, status, headers, config) {
+                    deferred.reject(response);
+                };
+            $http(config).then(success).catch(error);
+            return deferred.promise;
+        }
+
         function isLoggedIn() {
             var deferred = $q.defer(),
                 config = {
@@ -148,7 +168,8 @@ rpThreadTracker.services.service('sessionService', [
             submitForgotPassword: submitForgotPassword,
             changePassword: changePassword,
             register: register,
-            getUser: getUser
+            getUser: getUser,
+            updateUser: updateUser
         };
     }
 ]);
