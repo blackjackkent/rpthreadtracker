@@ -38,10 +38,15 @@ label.inline-control-label { display: inline; line-height: 30px; vertical-align:
 .thread-filters label { width: 100px;display: inline-block;}
 
 /************** DASHBOARD ***********/
-.widget-threads .content { margin-left: 0; }
-.widget-threads .content > span { text-align: right; }
-.widget-threads .refresh-link { float: left; }
+.widget-thread-preview { height: 400px; position: relative;}
+.widget-thread-preview .content, .widget-news .content { margin-left: 0; }
+.widget-thread-preview .content > span, .widget-news .content > span { text-align: right; }
+.widget-thread-preview .widget-actions { position: absolute;bottom: 0; width: 100%}
+.widget-thread-preview .refresh-link { float: left; }
 #dashboard-filter-selector { float: right; font-size: 12px; padding: 5px; }
+.widget-news.box { padding-top: 0;}
+.widget-news.widget-threads .thread:first-child { padding-top: 8px}
+.widget-news .thread { height: 60px;line-height: 50px;}
 #recent-news .thread a:first-child { font-size: 12px; }
 .widget-statistics-disabled .counter-label { color: #ccc }
 .widget-statistics .counter.small span { min-width: 50px;} 
@@ -55,6 +60,8 @@ label.inline-control-label { display: inline; line-height: 30px; vertical-align:
     color: #eee;
 }
 .widget-statistics-disabled .counter span:before { background: #aaa}
+.widget-donations.box { height: 105px;}
+.widget-donations .form-container { margin-top: 25px; height: 50px}
 
 /************ FORGOT PASSWORD/SIGN IN/REGISTER *************/
 #forgot-password-form p { color: #aaa; }
