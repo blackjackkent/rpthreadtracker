@@ -14,5 +14,8 @@ Can edit thread
 can untrack thread
 can archive thread
 Can add blog
-Can remove blog
+Can remove blog 
+Can set blog on and off hiatus
 Can export threads
+Can hide dashboard stats
+Can generate random thread
