@@ -4,5 +4,6 @@
     {
         public int? UserBlogId { get; set; }
         public string BlogShortname { get; set; }
+        public bool OnHiatus { get; set; }
     }
 }

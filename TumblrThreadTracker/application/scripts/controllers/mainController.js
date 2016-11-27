@@ -74,6 +74,26 @@ rpThreadTracker.controllers.controller('MainController', [
             $scope.dashboardFilter = filterString;
             $analytics.eventTrack('Set Recent to ' + filterString, { category: 'Dashboard' });
         };
+        $scope.toggleAtAGlanceData = function() {
+            if (!$scope.user) {
+                return;
+            }
+            $scope.user.ShowDashboardThreadDistribution = $scope.showAtAGlance;
+            sessionService.updateUser($scope.user);
+        }
+        $scope.generateRandomOwedThread = function() {
+            if (!$scope.threads) {
+                return;
+            }
+            $scope.loadingRandomThread = true;
+            $scope.randomlyGeneratedThread = null;
+            var options = _.filter($scope.threads,
+                function(thread) {
+                    return thread.IsMyTurn;
+                });
+            $scope.randomlyGeneratedThread = _.sample(options);
+            $scope.loadingRandomThread = false;
+        }
 
         // ******* functions *********
         function updateThreads(data) {
@@ -121,6 +141,8 @@ rpThreadTracker.controllers.controller('MainController', [
         $scope.dashboardFilter = 'yourturn';
         $scope.bulkItems = {};
         $scope.bulkItemAction = "UntrackSelected";
+        $scope.showAtAGlance = false;
+        $scope.loadingRandomThread = false;
         if (pageId == "archived") {
             threadService.subscribeOnArchiveUpdate(updateThreads);
             threadService.getArchive();
@@ -135,6 +157,7 @@ rpThreadTracker.controllers.controller('MainController', [
         sessionService.getUser().then(function(user) {
             $scope.userId = user.UserId;
             $scope.user = user;
+            $scope.showAtAGlance = user.ShowDashboardThreadDistribution;
         });
         blogService.getBlogs().then(function(blogs) {
             $scope.blogs = blogs;

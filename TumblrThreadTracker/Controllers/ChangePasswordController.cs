@@ -3,25 +3,28 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Microsoft.Web.WebPages.OAuth;
+using TumblrThreadTracker.Infrastructure.Filters;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.RequestModels;
 using WebMatrix.WebData;
 
 namespace TumblrThreadTracker.Controllers
 {
+    [RedirectOnMaintenance]
     [Authorize]
-    public class ChangePasswordController : ApiController
+    public class ChangePasswordController : BaseController
     {
         private readonly IWebSecurityService _webSecurityService;
 
-        public ChangePasswordController(IWebSecurityService webSecurityService)
+        public ChangePasswordController(IWebSecurityService webSecurityService) : base(webSecurityService)
         {
             _webSecurityService = webSecurityService;
         }
         [HttpPost]
         public HttpResponseMessage ChangePassword(ChangePasswordRequest model)
         {
-            _webSecurityService.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);
+            var username = _webSecurityService.GetCurrentUsernameFromIdentity(UserIdentity);
+            _webSecurityService.ChangePassword(username, model.OldPassword, model.NewPassword);
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
     }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using TumblrThreadTracker.Infrastructure.Services;
 using TumblrThreadTracker.Models.DomainModels.Blogs;
 using TumblrThreadTracker.Models.DomainModels.Threads;
@@ -8,7 +9,8 @@ namespace TumblrThreadTracker.Interfaces
     public interface IThreadService
     {
         IEnumerable<int?> GetThreadIdsByBlogId(int? blogId, IRepository<Thread> threadRepository, bool isArchived = false);
-        ThreadDto GetById(int id, IRepository<Blog> blogRepository, IRepository<Thread> threadRepository, ITumblrClient tumblrClient);
+        IEnumerable<ThreadDto> GetThreadsByBlog(BlogDto blog, IRepository<Thread> threadRepository, bool isArchived = false);
+        ThreadDto GetById(int id, IRepository<Blog> blogRepository, IRepository<Thread> threadRepository, ITumblrClient tumblrClient, bool skipTumblrCall = false);
         void AddNewThread(ThreadDto threadDto, IRepository<Thread> threadRepository);
         void UpdateThread(ThreadDto dto, IRepository<Thread> threadRepository);
         IEnumerable<ThreadDto> GetNewsThreads(ITumblrClient tumblrClient);

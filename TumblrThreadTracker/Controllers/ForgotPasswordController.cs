@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using TumblrThreadTracker.Infrastructure.Filters;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.DomainModels.Account;
 using TumblrThreadTracker.Models.DomainModels.Users;
@@ -9,6 +10,7 @@ using WebMatrix.WebData;
 
 namespace TumblrThreadTracker.Controllers
 {
+    [RedirectOnMaintenance]
     public class ForgotPasswordController : ApiController
     {
         private readonly IEmailService _emailService;

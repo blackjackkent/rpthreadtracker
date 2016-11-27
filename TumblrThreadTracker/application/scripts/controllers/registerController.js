@@ -3,11 +3,13 @@ var rpThreadTracker = rpThreadTracker || {};
 rpThreadTracker.controllers.controller('RegisterController', [
     '$scope', '$location', 'sessionService', function($scope, $location, sessionService) {
         var success = function () {
-                $scope.loading = false;
-                $location.path('/');
+            sessionService.login($scope.username, $scope.Password)
+                .then(function() {
+                    $scope.loading = false;
+                    $location.path('/');
+                });
             },
             fail = function (response) {
-                console.log(response);
                 $scope.loading = false;
                 if (response && response.data) {
                     $scope.genericError = response.data;

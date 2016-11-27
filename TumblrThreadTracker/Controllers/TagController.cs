@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Security.Claims;
 using System.Web.Http;
+using TumblrThreadTracker.Infrastructure.Filters;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.DomainModels.Blogs;
 using TumblrThreadTracker.Models.DomainModels.Threads;
@@ -7,6 +9,7 @@ using TumblrThreadTracker.Models.RequestModels;
 
 namespace TumblrThreadTracker.Controllers
 {
+    [RedirectOnMaintenance]
     [Authorize]
     public class TagController : ApiController
     {
@@ -27,9 +30,9 @@ namespace TumblrThreadTracker.Controllers
         }
         public IEnumerable<TagCollectionResponse> Get()
         {
-            var userId = _webSecurityService.GetUserId(User.Identity.Name);
+            var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity) User.Identity);
             var tagCollections = new List<TagCollectionResponse>();
-            var blogs = _blogService.GetBlogsByUserId(userId, _blogRepository);
+            var blogs = _blogService.GetBlogsByUserId(userId, _blogRepository, false);
             foreach (var blog in blogs)
             {
                 var tags = _threadService.GetAllTagsByBlog(blog.UserBlogId, _threadRepository);

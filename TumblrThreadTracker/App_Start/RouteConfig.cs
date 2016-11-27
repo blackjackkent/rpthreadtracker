@@ -8,6 +8,7 @@ namespace TumblrThreadTracker
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.IgnoreRoute("token");
             routes.MapRoute("DefaultRoute", "{*url}",
                 new {controller = "Home", action = "Index", id = UrlParameter.Optional});
         }

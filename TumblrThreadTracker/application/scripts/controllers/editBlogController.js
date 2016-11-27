@@ -13,19 +13,18 @@ rpThreadTracker.controllers.controller('EditBlogController', [
         }
 
         $scope.pageId = pageId;
-        $scope.userBlogId = $routeParams.userBlogId;
-        blogService.getStandaloneBlog($scope.userBlogId).then(function(blog) {
+        blogService.getStandaloneBlog($routeParams.userBlogId).then(function(blog) {
             $scope.blogToEdit = blog;
+            $scope.currentBlogShortname = angular.copy($scope.blogToEdit.BlogShortname);
         });
         $scope.submitBlog = function() {
-            if (!$scope.newBlogShortname) {
+            if (!$scope.blogToEdit.BlogShortname) {
                 return;
             }
             blogService.flushBlogs();
-            blogService.editBlog($scope.userBlogId, $scope.newBlogShortname).then(success, failure);
+            blogService.editBlog($scope.blogToEdit).then(success, failure);
         };
         sessionService.getUser().then(function(user) {
-            $scope.userId = user.UserId;
             $scope.user = user;
         });
     }

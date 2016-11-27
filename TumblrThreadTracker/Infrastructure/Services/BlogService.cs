@@ -13,11 +13,15 @@ namespace TumblrThreadTracker.Infrastructure.Services
             return blog.ToDto();
         }
 
-        public IEnumerable<BlogDto> GetBlogsByUserId(int? id, IRepository<Blog> userBlogRepository)
+        public IEnumerable<BlogDto> GetBlogsByUserId(int? id, IRepository<Blog> userBlogRepository, bool includeHiatusedBlogs)
         {
             if (id == null)
                 return null;
             var blogs = userBlogRepository.Get(b => b.UserId == id);
+            if (!includeHiatusedBlogs)
+            {
+                blogs = blogs.Where(b => !b.OnHiatus);
+            }
             return blogs.Select(blog => blog.ToDto()).ToList();
         }
 

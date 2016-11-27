@@ -4,10 +4,10 @@ rpThreadTracker.services.service('blogService', [
     '$q', '$http', function($q, $http) {
         var blogs = [];
 
-        function getBlogs(force) {
+        function getBlogs(force, includeHiatusedBlogs) {
             var deferred = $q.defer(),
                 config = {
-                    url: '/api/Blog',
+                    url: '/api/Blog' + (includeHiatusedBlogs ? "?includeHiatusedBlogs=true" : ""),
                     method: 'GET'
                 },
                 success = function (response) {
@@ -64,15 +64,12 @@ rpThreadTracker.services.service('blogService', [
             return deferred.promise;
         }
 
-        function editBlog(userBlogId, newBlogShortname) {
+        function editBlog(blog) {
             var deferred = $q.defer(),
                 config = {
                     url: '/api/Blog',
                     method: "PUT",
-                    data: {
-                        UserBlogId: userBlogId,
-                        BlogShortname: newBlogShortname
-                    }
+                    data: blog
                 },
                 success = function(response, status, headers, config) {
                     deferred.resolve(response.data);

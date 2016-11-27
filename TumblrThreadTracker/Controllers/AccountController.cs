@@ -1,13 +1,16 @@
 ﻿using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Security.Claims;
 using System.Web.Http;
+using TumblrThreadTracker.Infrastructure.Filters;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.DomainModels.Users;
 using TumblrThreadTracker.Models.RequestModels;
 
 namespace TumblrThreadTracker.Controllers
 {
+    [RedirectOnMaintenance]
     public class AccountController : ApiController
     {
         private readonly IRepository<User> _userProfileRepository;
@@ -19,15 +22,11 @@ namespace TumblrThreadTracker.Controllers
             _webSecurityService = webSecurityService;
         }
 
-        public int GetUserId()
-        {
-            return _webSecurityService.GetUserId(User.Identity.Name);
-        }
-
         [HttpPost]
         [AllowAnonymous]
         public HttpResponseMessage Post(RegisterRequest request)
         {
+            //@TODO fix front-end behavior to clarify between bad request and error
             var existingUsername = _userProfileRepository.Get(u => u.UserName == request.Username).Any();
             var existingEmail = _userProfileRepository.Get(u => u.Email == request.Email).Any();
 
@@ -36,7 +35,6 @@ namespace TumblrThreadTracker.Controllers
                     "An account with some or all of this information already exists.");
 
             _webSecurityService.CreateAccount(request.Username, request.Password, request.Email, _userProfileRepository);
-            _webSecurityService.Login(request.Username, request.Password);
             return new HttpResponseMessage(HttpStatusCode.Created);
         }
     }

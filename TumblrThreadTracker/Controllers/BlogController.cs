@@ -1,12 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Security.Claims;
 using System.Web.Http;
+using TumblrThreadTracker.Infrastructure.Filters;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.DomainModels.Blogs;
 using TumblrThreadTracker.Models.RequestModels;
 
 namespace TumblrThreadTracker.Controllers
 {
+    [RedirectOnMaintenance]
     [Authorize]
     public class BlogController : ApiController
     {
@@ -27,43 +31,38 @@ namespace TumblrThreadTracker.Controllers
             return _blogService.GetBlogById(id, _blogRepository);
         }
 
-        public IEnumerable<BlogDto> Get()
+        public IEnumerable<BlogDto> Get(bool includeHiatusedBlogs = false)
         {
-            var userId = _webSecurityService.GetUserId(User.Identity.Name);
-            var blogs = _blogService.GetBlogsByUserId(userId, _blogRepository);
+            var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity) User.Identity);
+            var blogs = _blogService.GetBlogsByUserId(userId, _blogRepository, includeHiatusedBlogs);
             return blogs;
         }
 
         public void Post(BlogUpdateRequest request)
         {
-            var userId = _webSecurityService.GetUserId(User.Identity.Name);
-            if (request == null)
+            var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
+            if (request == null || userId == null)
                 throw new ArgumentNullException();
             var dto = new BlogDto
             {
-                UserId = userId,
+                UserId = userId.GetValueOrDefault(),
                 BlogShortname = request.BlogShortname,
+                OnHiatus = false
             };
             _blogService.AddNewBlog(dto, _blogRepository);
         }
 
-        public void Put(BlogUpdateRequest request)
+        public void Put(BlogDto request)
         {
-            var userId = _webSecurityService.GetUserId(User.Identity.Name);
-            if (request == null || request.UserBlogId == null)
+            var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
+            if (request == null || request.UserBlogId == null || userId == null)
                 throw new ArgumentNullException();
-            var dto = new BlogDto
-            {
-                BlogShortname = request.BlogShortname,
-                UserBlogId = request.UserBlogId,
-                UserId = userId
-            };
-            _blogService.UpdateBlog(dto, _blogRepository);
+            _blogService.UpdateBlog(request, _blogRepository);
         }
 
         public void Delete(int userBlogId)
         {
-            var userId = _webSecurityService.GetUserId(User.Identity.Name);
+            var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
             var blog = _blogService.GetBlogById(userBlogId, _blogRepository);
             if (blog.UserId != userId)
                 return;

@@ -47,6 +47,33 @@
                     <p class="alert alert-success" ng-show="showSuccessMessage">Account updated.</p>
                 </fieldset>
             </form>
+            <form class="form-inline" name="exportThreadsForm">
+                <fieldset>
+                    <legend>Export Your Threads</legend>
+                    <p class="alert alert-error" ng-show="exportError">{{exportError}}</p>
+                    <p>Use the button below to export an Excel file of your current threads in the database.</p>
+
+                    <button type="submit" class="btn" ng-click="exportThreads()">Export</button>
+                    <p><label class="checkbox">
+                        <input type="checkbox" ng-model="includeArchived"> Include Archived Threads
+                    </label></p>
+
+                    <p><label class="checkbox">
+                        <input type="checkbox" ng-model="includeHiatused"> Include Hiatused Blogs
+                    </label></p>
+                </fieldset>
+            </form>
+
+            <form class="form-horizontal" name="exportThreadsForm">
+                
+                    
+                    <div class="control-group">
+                        <div class='controls'>
+                            
+                            <span ng-show="exportLoading" class="loading-icon"><img src="/application/images/loading.gif" /></span>
+                        </div>
+                    </div>
+            </form>
 
         </section>
 

@@ -16,12 +16,13 @@
                     </p><br />
 
                     <p class="alert alert-error" ng-show="newBlogForm.newBlogShortname.$error.required && newBlogForm.newBlogShortname.$dirty">You must enter a blog shortname.</p>
+                    <p class="alert alert-error" ng-show="!newBlogForm.newBlogShortname.$error.required && newBlogForm.newBlogShortname.$dirty && newBlogForm.newBlogShortname.$error.pattern">Enter only the blog shortname, not the full URL.</p>
                     <p class="alert alert-error" ng-show="genericError">{{genericError}}</p>
 
                     <div class="control-group">
                         <label class="control-label" for="newBlogShortname">Blog shortname:</label>
                         <div class="controls">
-                            <input type="text" id="Text1" name="newBlogShortname" required ng-model="newBlogShortname" placeholder="Shortname">
+                            <input type="text" id="Text1" name="newBlogShortname" required ng-model="newBlogShortname" ng-pattern="shortnameRegex" placeholder="Shortname">
                         </div>
                     </div>
                     <div class="control-group">
@@ -30,17 +31,19 @@
                         </div>
                     </div>
 
-                    <p class="alert alert-success" ng-show="showSuccessMessage">Blogs updated. Type a new shortname to add another blog to track, or click "Track New Thread" to add a thread for one of the blogs below.</p>
+                    <p class="alert alert-success" ng-show="showSuccessMessage">Blogs updated. Click "Track New Thread" to add a thread for one of the blogs below.</p>
                 </fieldset>
             </form>
 
             <fieldset>
                 <legend>Manage Existing Blogs</legend>
                 <table class="table table-striped blog-table">
-                    <tr ng-repeat="blog in blogs | orderBy:'BlogShortname'">
+                    <tr ng-repeat="blog in blogs | orderBy:'BlogShortname'" ng-class="{'hiatused-blog': blog.OnHiatus}">
                         <td>{{blog.BlogShortname}}</td>
                         <td><a href="/edit-blog/{{blog.UserBlogId}}">Edit</a></td>
                         <td><a href="" ng-click="untrackBlog(blog.UserBlogId)">Untrack</a></td>
+                        <td ng-if="blog.OnHiatus"><a href="" ng-click="toggleHiatus(blog)">Set Off Hiatus</a></td>
+                        <td ng-if="!blog.OnHiatus"><a href="" ng-click="toggleHiatus(blog)">Set On Hiatus</a></td>
                     </tr>
                     <tr ng-show="blogs.length == 0">
                         <td>You have not yet added any blogs.</td>

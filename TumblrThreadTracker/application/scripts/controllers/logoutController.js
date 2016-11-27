@@ -7,6 +7,7 @@ rpThreadTracker.controllers.controller('LogoutController', [
         };
         blogService.flushBlogs();
         threadService.flushThreads();
-        sessionService.logout().then(success);
+        sessionService.logout();//.then(success);
+        success();
     }
 ]);

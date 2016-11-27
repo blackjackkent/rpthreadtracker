@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Configuration;
@@ -15,13 +16,25 @@ namespace TumblrThreadTracker.Infrastructure.Services
             if (blogId == null)
                 return new List<int?>();
             var threads = threadRepository.Get(t => t.UserBlogId == blogId && t.IsArchived == isArchived);
-            return threads.Select(t => t.UserThreadId);
+            return threads.Select(t => t.UserThreadId).ToList();
         }
 
-        public ThreadDto GetById(int id, IRepository<Blog> blogRepository, IRepository<Thread> threadRepository, ITumblrClient tumblrClient)
+        public IEnumerable<ThreadDto> GetThreadsByBlog(BlogDto blog, IRepository<Thread> threadRepository, bool isArchived = false)
+        {
+            if (blog?.UserBlogId == null)
+                return new List<ThreadDto>();
+            var threads = threadRepository.Get(t => t.UserBlogId == blog.UserBlogId && t.IsArchived == isArchived);
+            return threads.Select(t => t.ToDto(blog, null)).ToList();
+        }
+
+        public ThreadDto GetById(int id, IRepository<Blog> blogRepository, IRepository<Thread> threadRepository, ITumblrClient tumblrClient, bool skipTumblrCall = false)
         {
             var thread = threadRepository.GetSingle(t => t.UserThreadId == id);
-            var blog = blogRepository.GetSingle(b => b.UserBlogId == thread.UserBlogId);
+            var blog = blogRepository.GetSingle(b => b.UserBlogId == thread.UserBlogId).ToDto();
+            if (skipTumblrCall)
+            {
+                return thread.ToDto(blog, null);
+            }
             var post = tumblrClient.GetPost(thread.PostId, blog.BlogShortname);
             return thread.ToDto(blog, post);
         }
