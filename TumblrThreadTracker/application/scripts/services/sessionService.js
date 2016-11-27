@@ -1,7 +1,7 @@
 ﻿'use strict';
 var rpThreadTracker = rpThreadTracker || {};
 rpThreadTracker.services.service('sessionService', [
-    '$q', '$http', function($q, $http) {
+    '$q', '$http', '$window', function($q, $http, $window) {
         var user = null;
 
         function getUser(force) {
@@ -26,6 +26,26 @@ rpThreadTracker.services.service('sessionService', [
             return deferred.promise;
         }
 
+        function updateUser(user) {
+            if (!user) {
+                return;
+            }
+            var deferred = $q.defer(),
+                config = {
+                    url: '/api/User',
+                    method: "PUT",
+                    data: user
+                },
+                success = function (response, status, headers, config) {
+                    deferred.resolve(response.data);
+                },
+                error = function (response, status, headers, config) {
+                    deferred.reject(response);
+                };
+            $http(config).then(success).catch(error);
+            return deferred.promise;
+        }
+
         function isLoggedIn() {
             var deferred = $q.defer(),
                 config = {
@@ -46,11 +66,15 @@ rpThreadTracker.services.service('sessionService', [
             var deferred = $q.defer(),
                 config = {
                     method: 'POST',
-                    url: '/api/Session',
-                    data: { UserName: username, Password: password }
+                    url: '/token',
+                    data: $.param({ UserName: username, Password: password, grant_type: 'password' }),
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    }
                 },
                 success = function(response, status, headers, config) {
                     deferred.resolve(response.data);
+                    $window.localStorage['TrackerBearerToken'] = response.data.access_token;
                 },
                 error = function(data) {
                     deferred.reject(data);
@@ -60,7 +84,7 @@ rpThreadTracker.services.service('sessionService', [
         }
 
         function logout() {
-            var deferred = $q.defer(),
+            /*var deferred = $q.defer(),
                 config = {
                     method: 'DELETE',
                     url: '/api/Session'
@@ -73,7 +97,9 @@ rpThreadTracker.services.service('sessionService', [
                     deferred.reject(data);
                 };
             $http(config).then(success).catch(error);
-            return deferred.promise;
+            return deferred.promise;*/
+            //@TODO server-side token clearance
+            $window.localStorage["TrackerBearerToken"] = null;
         }
 
         function submitForgotPassword(username) {
@@ -142,7 +168,8 @@ rpThreadTracker.services.service('sessionService', [
             submitForgotPassword: submitForgotPassword,
             changePassword: changePassword,
             register: register,
-            getUser: getUser
+            getUser: getUser,
+            updateUser: updateUser
         };
     }
 ]);

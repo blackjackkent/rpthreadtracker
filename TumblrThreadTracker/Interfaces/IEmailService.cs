@@ -1,7 +1,9 @@
-﻿namespace TumblrThreadTracker.Interfaces
+﻿using System.Threading.Tasks;
+
+namespace TumblrThreadTracker.Interfaces
 {
     public interface IEmailService
     {
-        void SendEmail(string email, string newTemporaryPassword, string body);
+        Task SendEmail(string email, string newTemporaryPassword, string body);
     }
 }

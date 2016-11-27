@@ -24,11 +24,11 @@ namespace TumblrThreadTracker.Infrastructure.Services
             if (string.IsNullOrWhiteSpace(postId))
                 return null;
             var serviceObject = RetrieveApiData(postId, blogShortname);
-            if (serviceObject != null && serviceObject.response != null)
+            if (serviceObject != null && serviceObject.response != null && serviceObject.response.posts != null)
                 return serviceObject.response.posts.FirstOrDefault();
             RefreshApiCache(postId, blogShortname);
             var updatedObject = RetrieveApiData(postId, blogShortname);
-            if (updatedObject != null && updatedObject.response != null)
+            if (updatedObject != null && updatedObject.response != null && updatedObject.response.posts != null)
                 return updatedObject.response.posts.FirstOrDefault();
             return null;
         }

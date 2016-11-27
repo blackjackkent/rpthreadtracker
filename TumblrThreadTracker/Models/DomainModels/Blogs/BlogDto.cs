@@ -7,6 +7,7 @@ namespace TumblrThreadTracker.Models.DomainModels.Blogs
         public int? UserBlogId { get; set; }
         public int UserId { get; set; }
         public string BlogShortname { get; set; }
+        public bool OnHiatus { get; set; }
 
         public Blog ToModel()
         {

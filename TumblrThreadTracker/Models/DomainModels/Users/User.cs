@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using TumblrThreadTracker.Infrastructure.Services;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.DomainModels.Account;
@@ -16,8 +17,8 @@ namespace TumblrThreadTracker.Models.DomainModels.Users
         public int UserId { get; set; }
         public string UserName { get; set; }
         public string Email { get; set; }
-        public string Password { get; set; }
         public DateTime? LastLogin { get; set; }
+        public bool ShowDashboardThreadDistribution { get; set; }
 
         public User()
         {
@@ -29,6 +30,7 @@ namespace TumblrThreadTracker.Models.DomainModels.Users
             UserName = dto.UserName;
             Email = dto.Email;
             LastLogin = dto.LastLogin;
+            ShowDashboardThreadDistribution = dto.ShowDashboardThreadDistribution;
         }
 
         public UserDto ToDto()
@@ -38,18 +40,19 @@ namespace TumblrThreadTracker.Models.DomainModels.Users
                 UserId = UserId,
                 Email = Email,
                 UserName = UserName,
-                LastLogin = LastLogin
+                LastLogin = LastLogin,
+                ShowDashboardThreadDistribution = ShowDashboardThreadDistribution
             };
         }
 
 
-        public void SendForgotPasswordEmail(string token, IRepository<WebpagesMembership> webpagesMembershipRepository, IEmailService emailService, IWebSecurityService securityService)
+        public async Task SendForgotPasswordEmail(string token, IRepository<WebpagesMembership> webpagesMembershipRepository, IEmailService emailService, IWebSecurityService securityService)
         {
             var isValidToken = IsValidToken(token, webpagesMembershipRepository);
             if (!isValidToken)
                 throw new InvalidDataException();
             var newPassword = ResetPassword(token, securityService);
-            SendTemporaryPasswordEmail(newPassword, emailService);
+            await SendTemporaryPasswordEmail(newPassword, emailService);
         }
 
         private bool IsValidToken(string resetToken, IRepository<WebpagesMembership> webpagesMembershipRepository)
@@ -67,7 +70,7 @@ namespace TumblrThreadTracker.Models.DomainModels.Users
             return newPassword;
         }
 
-        private void SendTemporaryPasswordEmail(string newPassword, IEmailService emailService)
+        private async Task SendTemporaryPasswordEmail(string newPassword, IEmailService emailService)
         {
             const string subject = "RPThreadTracker ~ New Temporary Password";
             var bodyBuilder = new StringBuilder();
@@ -79,7 +82,7 @@ namespace TumblrThreadTracker.Models.DomainModels.Users
             bodyBuilder.Append("<p>Thanks, and have a great day!</p>");
             bodyBuilder.Append("<p>~Tracker-mun</p>");
             var body = bodyBuilder.ToString();
-            emailService.SendEmail(Email, subject, body);
+            await emailService.SendEmail(Email, subject, body);
         }
 
         private static string GenerateRandomPassword(int length)

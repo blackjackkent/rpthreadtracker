@@ -10,7 +10,7 @@
             <form class="form-horizontal" name="editBlogForm" ng-submit="submitBlog()">
                 <fieldset>
                     <legend>Edit Blog Shortname</legend>
-                    <p>Update your blog's shortname below. (NOTE: This will also update the blog shortname for all tracked threads currently associated with {{blogToEdit.BlogShortname}})</p><br />
+                    <p>Update your blog's shortname below. (NOTE: This will also update the blog shortname for all tracked threads currently associated with {{currentBlogShortname}})</p><br />
 
                     <p class="alert alert-error" ng-show="editBlogForm.newBlogShortname.$error.required && editBlogForm.newBlogShortname.$dirty">You must enter a blog shortname.</p>
                     <p class="alert alert-error" ng-show="genericError">{{genericError}}</p>
@@ -18,14 +18,14 @@
                     <div class="control-group">
                         <label class="control-label">Current blog shortname:</label>
                         <div class="controls">
-                            {{blogToEdit.BlogShortname}}
+                            {{currentBlogShortname}}
                         </div>
                     </div>
 
                     <div class="control-group">
                         <label class="control-label" for="newBlogShortname">New blog shortname:</label>
                         <div class="controls">
-                            <input type="text" id="Text1" name="newBlogShortname" required ng-model="newBlogShortname" placeholder="Shortname">
+                            <input type="text" id="Text1" name="newBlogShortname" required ng-model="blogToEdit.BlogShortname" placeholder="Shortname">
                         </div>
                     </div>
                     <div class="control-group">

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Web.Http.Dependencies;
 using Microsoft.Practices.Unity;
 
@@ -48,7 +49,14 @@ namespace TumblrThreadTracker.Infrastructure
 
         public void Dispose()
         {
-            Container.Dispose();
+            try
+            {
+                Container.Dispose();
+            }
+            catch (TaskCanceledException e)
+            {
+                var ex = e;
+            }
         }
     }
 }

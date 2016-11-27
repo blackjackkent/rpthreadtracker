@@ -1,15 +1,17 @@
 ﻿using System.Web.Http;
+using System.Web.Optimization;
+using System.Web.Routing;
 using Microsoft.Practices.Unity;
 using RestSharp;
 using TumblrThreadTracker.Infrastructure;
 using TumblrThreadTracker.Infrastructure.Repositories;
 using TumblrThreadTracker.Infrastructure.Services;
 using TumblrThreadTracker.Interfaces;
-using TumblrThreadTracker.Models;
 using TumblrThreadTracker.Models.DomainModels.Account;
 using TumblrThreadTracker.Models.DomainModels.Blogs;
 using TumblrThreadTracker.Models.DomainModels.Threads;
 using TumblrThreadTracker.Models.DomainModels.Users;
+using WebMatrix.WebData;
 
 namespace TumblrThreadTracker
 {
@@ -31,7 +33,11 @@ namespace TumblrThreadTracker
                 .RegisterType<IThreadTrackerContext, RPThreadTrackerEntities>();
             config.DependencyResolver = new UnityResolver(container);
 
-            config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new {id = RouteParameter.Optional});
+            config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new { id = RouteParameter.Optional });
+            RouteConfig.RegisterRoutes(RouteTable.Routes);
+            BundleConfig.RegisterBundles(BundleTable.Bundles);
+            WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
+            AutoMapperConfiguration.Configure();
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Linq;
 using NUnit.Framework;
 using TumblrThreadTracker.Infrastructure;
 using TumblrThreadTracker.Interfaces;
+using TumblrThreadTracker.Models.DomainModels.Blogs;
 using TumblrThreadTracker.Models.ServiceModels;
 using Blog = TumblrThreadTracker.Models.DomainModels.Blogs.Blog;
 
@@ -37,7 +38,7 @@ namespace TumblrThreadTracker.Models.DomainModels.Threads
         public bool IsArchived { get; set; }
         public List<string> ThreadTags { get; set; }
 
-        public ThreadDto ToDto(Blog blog, IPost post)
+        public ThreadDto ToDto(BlogDto blog, IPost post)
         {
             if (post == null)
             {
