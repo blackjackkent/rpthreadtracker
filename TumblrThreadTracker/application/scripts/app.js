@@ -1,7 +1,7 @@
 ﻿'use strict';
 var rpThreadTracker = rpThreadTracker || {};
 rpThreadTracker.app = angular.module('rpThreadTracker', ['ngRoute', 'rpThreadTracker.filters', 'rpThreadTracker.services', 'rpThreadTracker.directives', 'rpThreadTracker.controllers',
-    'angulartics', 'angulartics.google.analytics', 'frapontillo.bootstrap-switch']);
+    'angulartics', 'angulartics.google.analytics', 'frapontillo.bootstrap-switch', 'ui-notification']);
 rpThreadTracker.controllers = angular.module('rpThreadTracker.controllers', ['rpThreadTracker.services']);
 rpThreadTracker.directives = angular.module('rpThreadTracker.directives', []);
 rpThreadTracker.filters = angular.module('rpThreadTracker.filters', []);
@@ -206,11 +206,20 @@ rpThreadTracker.app.config([
             $locationProvider.html5Mode(true);
             $locationProvider.hashPrefix('!');
         }
-    ])
+])
+    .config(['NotificationProvider', function(NotificationProvider) {
+        NotificationProvider.setOptions({
+            delay: 10000,
+            startTop: 50,
+            startRight: 10,
+            verticalSpacing: 20,
+            horizontalSpacing: 20
+        });
+    }])
     .config([
     '$httpProvider', function ($httpProvider) {
         $httpProvider.interceptors.push([
-            '$q', '$location', function ($q, $location) {
+            '$q', '$location', '$window', function ($q, $location, $window) {
                 return {
                     responseError: function (response) {
                         var whitelist = [

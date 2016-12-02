@@ -16,7 +16,8 @@ namespace TumblrThreadTracker
                 "~/application/scripts/bower/angulartics-google-analytics/dist/angulartics-ga.min.js",
                 "~/application/scripts/bower/lodash/dist/lodash.min.js",
                 "~/application/scripts/bower/bootstrap-switch/dist/js/bootstrap-switch.min.js",
-                "~/application/scripts/bower/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js"
+                "~/application/scripts/bower/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js",
+                "~/application/scripts/bower/angular-ui-notification/dist/angular-ui-notification.min.js"
             }));
             bundles.Add(new CustomScriptBundle("~/bundles/angular-bootstrap").Include("~/application/scripts/app.js"));
             bundles.Add(new CustomScriptBundle("~/bundles/angular-controllers").Include("~/application/scripts/controllers/*.js"));
