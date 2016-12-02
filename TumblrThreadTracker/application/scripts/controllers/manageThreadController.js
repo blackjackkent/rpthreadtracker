@@ -1,7 +1,8 @@
 ﻿'use strict';
 var rpThreadTracker = rpThreadTracker || {};
 rpThreadTracker.controllers.controller('ManageThreadController', [
-    '$scope', '$routeParams', '$location', 'sessionService', 'contextService', 'blogService', 'threadService', 'pageId', function($scope, $routeParams, $location, sessionService, contextService, blogService, threadService, pageId) {
+    '$scope', '$routeParams', '$location', 'sessionService', 'contextService', 'blogService', 'threadService', 'pageId', 'Notification', '$window',
+        function ($scope, $routeParams, $location, sessionService, contextService, blogService, threadService, pageId, Notification, $window) {
         $scope.setBodyClass('');
 
         $scope.pageId = pageId;
@@ -26,6 +27,9 @@ rpThreadTracker.controllers.controller('ManageThreadController', [
             $scope.watchedShortname = "";
             $scope.threadTags = [];
         }
+        if ($routeParams.addFromExtension) {
+            $scope.postId = $routeParams.tumblrPostId;
+        }
         sessionService.getUser().then(function (user) {
             $scope.userId = user.UserId;
             $scope.user = user;
@@ -34,6 +38,19 @@ rpThreadTracker.controllers.controller('ManageThreadController', [
             $scope.blogs = blogs;
             if (!$scope.currentBlog) {
                 $scope.currentBlog = blogs[0].BlogShortname;
+            }
+            if ($routeParams.addFromExtension) {
+                var exists = _.find(blogs,
+                    function(blog) {
+                        return blog.BlogShortname == $routeParams.tumblrBlogShortname;
+                    });
+                console.log(blogs);
+                console.log(exists);
+                if (!exists) {
+                    displayTumblrShortnameWarning($routeParams.tumblrBlogShortname);
+                } else {
+                    $scope.currentBlog = exists.BlogShortname;
+                }
             }
         });
 
@@ -79,12 +96,20 @@ rpThreadTracker.controllers.controller('ManageThreadController', [
         };
 
         function success() {
-            $location.path('/threads');
+            if ($routeParams.addFromExtension) {
+                $window.close();
+            } else {
+                $location.path('/threads');
+            }
         }
 
         function failure() {
             $scope.genericError = "There was a problem updating your thread.";
         }
 
+        function displayTumblrShortnameWarning(shortname) {
+            Notification.error('WARNING: You are attempting to add a post ID from a blog not associated with this account (' + shortname + ').'
+                + 'Please use posts from your own blogs, or leave the field blank if you have not posted to the thread yet.');
+        }
     }
 ]);

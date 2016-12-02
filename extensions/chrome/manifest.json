@@ -10,10 +10,10 @@
   },
   "page_action": {
     "default_icon": "icon.png",
-    "default_title": "RPThreadTracker QuickAdd",
-    "default_popup": "popup.html"
+    "default_title": "RPThreadTracker QuickAdd"
   },
   "permissions": [
-    "declarativeContent"
+    "declarativeContent",
+    "tabs"
   ]
 }
