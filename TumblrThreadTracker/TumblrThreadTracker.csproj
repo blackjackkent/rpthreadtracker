@@ -271,7 +271,6 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="App_Start\UnityContainerConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\ExportController.cs" />
@@ -308,10 +307,8 @@
     <Compile Include="Infrastructure\Entities\UserThreadTag.cs" />
     <Compile Include="Infrastructure\Entities\webpages_Membership.cs" />
     <Compile Include="Infrastructure\ExtensionMethods.cs" />
-    <Compile Include="Infrastructure\Filters\LogUserActivity.cs" />
     <Compile Include="Infrastructure\Providers\SimpleAuthorizationServerProvider.cs" />
     <Compile Include="Infrastructure\Filters\RedirectOnMaintenance.cs" />
-    <Compile Include="Infrastructure\Providers\UnityActionFilterProvider.cs" />
     <Compile Include="Infrastructure\Repositories\BaseRepository.cs" />
     <Compile Include="Infrastructure\Services\BlogService.cs" />
     <Compile Include="Infrastructure\Services\ThreadService.cs" />
