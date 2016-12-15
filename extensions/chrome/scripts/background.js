@@ -24,7 +24,6 @@ function openTracker(tab) {
     var postId = a.pathname.split('/')[2];
     var blogShortname = a.hostname.split('.')[0];
     chrome.windows.create({
-        //url: 'http://www.rpthreadtracker.com/add-thread',
         url: 'http://www.rpthreadtracker.com/add-thread?tumblrBlogShortname=' + blogShortname + '&tumblrPostId=' + postId + '&addFromExtension=true',
         left: 50,
         top: 50,
