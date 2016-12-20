@@ -41,9 +41,5 @@ rpThreadTracker.controllers.controller('ManageBlogsController', [
         blogService.getBlogs(true, true).then(function(blogs) {
             $scope.blogs = blogs;
         });
-        sessionService.getUser().then(function(user) {
-            $scope.userId = user.UserId;
-            $scope.user = user;
-        });
     }
 ]);

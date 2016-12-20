@@ -40,9 +40,5 @@ rpThreadTracker.controllers.controller('ManageAccountController', [
             $scope.exportLoading = false;
         }
 
-        sessionService.getUser().then(function(user) {
-            $scope.userId = user.UserId;
-            $scope.user = user;
-        });
     }
 ]);

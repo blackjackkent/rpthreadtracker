@@ -155,8 +155,6 @@ rpThreadTracker.controllers.controller('MainController', [
         $scope.currentOrderBy = contextService.getCurrentOrderBy();
         $scope.filteredTag = contextService.getFilteredTag();
         sessionService.getUser().then(function(user) {
-            $scope.userId = user.UserId;
-            $scope.user = user;
             $scope.showAtAGlance = user.ShowDashboardThreadDistribution;
         });
         blogService.getBlogs().then(function(blogs) {
