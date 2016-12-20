@@ -30,10 +30,6 @@ rpThreadTracker.controllers.controller('ManageThreadController', [
         if ($routeParams.addFromExtension) {
             $scope.postId = $routeParams.tumblrPostId;
         }
-        sessionService.getUser().then(function (user) {
-            $scope.userId = user.UserId;
-            $scope.user = user;
-        });
         blogService.getBlogs().then(function (blogs) {
             $scope.blogs = blogs;
             if (!$scope.currentBlog) {
