@@ -4,6 +4,7 @@ rpThreadTracker.directives.directive('footer', ['cacheBuster', function(cacheBus
     return {
         restrict: 'E',
         replace: 'true',
-        templateUrl: '/application/views/directives/footer.html?cacheBuster=' + cacheBuster
+        templateUrl: '/application/views/directives/footer.html?cacheBuster=' + cacheBuster,
+        controller: 'FooterController'
     };
 }]);

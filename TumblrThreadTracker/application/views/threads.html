@@ -19,9 +19,8 @@
                 </select>
             </div>
 
-
             <div class="span2">
-                <select ng-model="currentBlog" ng-change="setCurrentBlog()">
+                <select ng-model="currentBlog" ng-change="setCurrentBlog()" multiple>
                     <option value="">Filter Blogs</option>
                     <option ng-repeat="blog in blogs | filter:{ OnHiatus: false } | orderBy:'BlogShortname'" ng-value="blog.BlogShortname">{{blog.BlogShortname}}</option>
                 </select>

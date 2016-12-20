@@ -25,6 +25,7 @@ namespace TumblrThreadTracker.Infrastructure
         public string Password { get; set; }
         public Nullable<System.DateTime> LastLogin { get; set; }
         public bool ShowDashboardThreadDistribution { get; set; }
+        public bool UseInvertedTheme { get; set; }
     
         public virtual ICollection<UserBlog> UserBlogs { get; set; }
     }
