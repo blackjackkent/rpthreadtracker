@@ -10,6 +10,7 @@ namespace TumblrThreadTracker.Models.DomainModels.Users
         public string Email { get; set; }
         public DateTime? LastLogin { get; set; }
         public bool ShowDashboardThreadDistribution { get; set; }
+        public bool UseInvertedTheme { get; set; }
 
         public User ToModel()
         {

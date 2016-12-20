@@ -24,6 +24,7 @@
           <Property Name="Password" Type="nvarchar(max)" />
           <Property Name="LastLogin" Type="datetime" />
           <Property Name="ShowDashboardThreadDistribution" Type="bit" Nullable="false" />
+          <Property Name="UseInvertedTheme" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="UserThread">
           <Key>
@@ -41,7 +42,7 @@
             <PropertyRef Name="TagID" />
           </Key>
           <Property Name="TagID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="TagText" Type="varchar" MaxLength="30" Nullable="false" />
+          <Property Name="TagText" Type="varchar" MaxLength="140" Nullable="false" />
           <Property Name="UserThreadID" Type="int" />
         </EntityType>
         <EntityType Name="webpages_Membership">
@@ -147,6 +148,7 @@
           <Property Name="LastLogin" Type="DateTime" Precision="3" />
           <NavigationProperty Name="UserBlogs" Relationship="Self.FK_dbo_UserBlog_dbo_UserProfile_UserId" FromRole="UserProfile" ToRole="UserBlog" />
           <Property Name="ShowDashboardThreadDistribution" Type="Boolean" Nullable="false" />
+          <Property Name="UseInvertedTheme" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="UserThread">
           <Key>
@@ -166,7 +168,7 @@
             <PropertyRef Name="TagID" />
           </Key>
           <Property Name="TagID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="TagText" Type="String" MaxLength="30" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="TagText" Type="String" MaxLength="140" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="UserThreadID" Type="Int32" />
           <NavigationProperty Name="UserThread" Relationship="Self.FK__UserThrea__UserT__1B9317B3" FromRole="UserThreadTag" ToRole="UserThread" />
         </EntityType>
@@ -264,6 +266,7 @@
           <EntitySetMapping Name="UserProfiles">
             <EntityTypeMapping TypeName="RPThreadTrackerModel.UserProfile">
               <MappingFragment StoreEntitySet="UserProfile">
+                <ScalarProperty Name="UseInvertedTheme" ColumnName="UseInvertedTheme" />
                 <ScalarProperty Name="ShowDashboardThreadDistribution" ColumnName="ShowDashboardThreadDistribution" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
                 <ScalarProperty Name="UserName" ColumnName="UserName" />

@@ -19,6 +19,7 @@ namespace TumblrThreadTracker.Models.DomainModels.Users
         public string Email { get; set; }
         public DateTime? LastLogin { get; set; }
         public bool ShowDashboardThreadDistribution { get; set; }
+        public bool UseInvertedTheme { get; set; }
 
         public User()
         {
@@ -31,6 +32,7 @@ namespace TumblrThreadTracker.Models.DomainModels.Users
             Email = dto.Email;
             LastLogin = dto.LastLogin;
             ShowDashboardThreadDistribution = dto.ShowDashboardThreadDistribution;
+            UseInvertedTheme = dto.UseInvertedTheme;
         }
 
         public UserDto ToDto()
@@ -41,7 +43,8 @@ namespace TumblrThreadTracker.Models.DomainModels.Users
                 Email = Email,
                 UserName = UserName,
                 LastLogin = LastLogin,
-                ShowDashboardThreadDistribution = ShowDashboardThreadDistribution
+                ShowDashboardThreadDistribution = ShowDashboardThreadDistribution,
+                UseInvertedTheme = UseInvertedTheme
             };
         }
 
