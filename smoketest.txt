@@ -20,3 +20,6 @@ Can export threads
 Can hide dashboard stats
 Can generate random thread
 Can add thread from extension
+Can invert theme
+
+Dark theme for any new features

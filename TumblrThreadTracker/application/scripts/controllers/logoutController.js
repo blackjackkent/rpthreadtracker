@@ -7,6 +7,8 @@ rpThreadTracker.controllers.controller('LogoutController', [
         };
         blogService.flushBlogs();
         threadService.flushThreads();
+        $scope.user = null;
+        $scope.userId = null;
         sessionService.logout();//.then(success);
         success();
     }
