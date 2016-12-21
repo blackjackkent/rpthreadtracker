@@ -34668,9 +34668,15 @@ rpThreadTracker.services.service('adminflareService', [
 
   
        }
-
+        var initCustom = function() {
+            $('body').tooltip({
+                selector: "[rel=tooltip]",
+                html: true
+            })
+        }
         return {
-            init: init
+            init: init,
+            initCustom: initCustom
         };
     }
 ]);

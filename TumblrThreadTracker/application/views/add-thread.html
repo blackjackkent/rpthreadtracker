@@ -29,19 +29,13 @@
                     <div class="control-group">
                         <label class="control-label" for="userTitle">Thread Title:</label>
                         <div class="controls">
-                            <input type="text" id="userTitle" name="userTitle" required ng-model="userTitle" placeholder="Thread Title">
-                            <span class="help-block alert alert-info inline">This can be anything you like!</span>
+                            <input type="text" id="userTitle" name="userTitle" required ng-model="userTitle" placeholder="Thread Title" rel="tooltip" data-placement="right" data-original-title="This can be anything you like!">
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label" for="postId">Post ID:</label>
                         <div class="controls">
-                            <input type="text" id="postId" name="postId" ng-pattern="/^\-?\d+$/" ng-model="postId" placeholder="Post ID">
-                            <span class="help-block alert alert-info">
-                                This can be the ID of any post in the thread FROM YOUR BLOG.<br />
-                                Found in the URL as follows: http://blogshortname.tumblr.com/post/<strong>123456</strong>/posttitle<br />
-                                You can leave this blank if you want to add it later.
-                            </span>
+                            <input type="text" id="postId" name="postId" ng-pattern="/^\-?\d+$/" ng-model="postId" placeholder="Post ID" rel="tooltip" data-placement="right" data-html="true" title="<span>This can be the ID of any post in the thread FROM YOUR BLOG.<br />Found in the URL as follows: http://blogshortname.tumblr.com/post/<strong>123456</strong>/posttitle<br />You can leave this blank if you want to add it later.</span>">
                         </div>
                     </div>
                     <div class="control-group">
