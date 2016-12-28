@@ -35,18 +35,15 @@
                     <div class="control-group">
                         <label class="control-label" for="postId">Post ID:</label>
                         <div class="controls">
-                            <input type="text" id="postId" name="postId" ng-pattern="/^\-?\d+$/" ng-model="postId" placeholder="Post ID" rel="tooltip" data-placement="right" data-html="true" title="<span>This can be the ID of any post in the thread FROM YOUR BLOG.<br />Found in the URL as follows: http://blogshortname.tumblr.com/post/<strong>123456</strong>/posttitle<br />You can leave this blank if you want to add it later.</span>">
+                            <input type="text" id="postId" name="postId" ng-pattern="/^\-?\d+$/" ng-model="postId" placeholder="Post ID" rel="tooltip" data-placement="right" data-html="true" 
+                                   title="<span>This can be the ID of any post in the thread FROM YOUR BLOG. Found in the URL as follows:<br /> http://blogshortname.tumblr.com/post/<strong style='color: red'>123456</strong>/posttitle<br />You can leave this blank if you want to add it later.</span>">
                         </div>
                     </div>
                     <div class="control-group">
                         <label class="control-label" for="watchedShortname">Watch For:</label>
                         <div class="controls">
-                            <input type="text" name="watchedShortname" ng-model="watchedShortname" placeholder="Partner shortname">
-                            <span class="help-block alert alert-info">This should be the shortname of the user whose posts you are watching for.
-                                (In other words, when this user posts, the thread is marked as your turn.)<br />
-                                If left blank, the thread will be marked as your turn whenever the last poster is not you.<br />
-                                <strong style="color: red">Note that</strong> if you fill in a value here and your partner later changes their blog URL, or if you misspell your partner's shortname, the tracker will no longer detect their replies until you edit this field.
-                            </span>
+                            <input type="text" name="watchedShortname" ng-model="watchedShortname" placeholder="Partner shortname"  rel="tooltip" data-placement="right" data-html="true" 
+                                   title="<span>This should be the shortname of the user whose posts you are watching for. (In other words, when this user posts, the thread is marked as your turn.) If left blank, the thread will be marked as your turn whenever the last poster is not you.<br /><br /> <strong style='color: red'>Note that</strong> if you fill in a value here and your partner later changes their blog URL, or if you misspell your partner's shortname, the tracker will no longer detect their replies until you edit this field.</span>">
                         </div>
                     </div>
                     <div class="control-group">

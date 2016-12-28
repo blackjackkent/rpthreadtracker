@@ -20,13 +20,11 @@
 	
 
         <link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700" rel="stylesheet" type="text/css">
-        <link ng-if="!user || !user.UseInvertedTheme" rel="stylesheet" href="/application/styles/default/bootstrap.css"/>
-        <link ng-if="user.UseInvertedTheme"  rel="stylesheet" href="/application/styles/dark/bootstrap.css" />
-        <link ng-if="!user || !user.UseInvertedTheme" rel="stylesheet" href="/application/styles/default/adminflare.css"/>
-        <link ng-if="user.UseInvertedTheme"  rel="stylesheet" href="/application/styles/dark/adminflare.css" />
+        <link rel="stylesheet" href="/application/styles/default/bootstrap.css"/>
+        <link  rel="stylesheet" href="/application/styles/default/adminflare.css"/>
         <link rel="stylesheet" href="/application/styles/pages.css"/>
-        <link ng-if="!user || !user.UseInvertedTheme" rel="stylesheet" href="/application/styles/default/custom.css?t={{cacheBuster}}" />
-        <link ng-if="user.UseInvertedTheme" rel="stylesheet" href="/application/styles/dark/custom.css?t={{cacheBuster}}" />
+        <link rel="stylesheet" href="/application/styles/default/custom.css?t={{cacheBuster}}" />
+        <link ng-if="user && user.UseInvertedTheme" rel="stylesheet" href="/application/styles/dark/custom.css?t={{cacheBuster}}" />
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="/application/scripts/jquery/bootstrap.js"></script>
 

@@ -3,15 +3,15 @@
 
 
 <section class="central-container container">
-    <div id="content">
-        <section class="row-fluid">
-		
-            <!-- Recent activity ================================================== -->
-            <div class="span8">
-                <h3 class="box-header">
-                    <i class="icon-time"></i>
-                    Recent activity 
-                    <span id="dashboard-filter-selector">
+<div id="content">
+<section class="row-fluid">
+
+    <!-- Recent activity ================================================== -->
+    <div class="span8">
+        <h3 class="box-header">
+            <i class="icon-time"></i>
+            Recent activity
+            <span id="dashboard-filter-selector">
                         <span ng-show="dashboardFilter == 'allthreads'">All Threads</span>
                         <a href="#" ng-show="dashboardFilter != 'allthreads'" ng-click="setDashboardFilter('allthreads')">All Threads</a>
                         | 
@@ -21,62 +21,65 @@
                         <span ng-show="dashboardFilter == 'theirturn'">Their Turn</span>
                         <a href="#" ng-show="dashboardFilter != 'theirturn'" ng-click="setDashboardFilter('theirturn')">Their Turn</a>
                     </span>
-                </h3>
-                <div class="box">
-                    <div>
-					
-                        <!-- Tabs content
-                            ================================================== -->
-                        <div class="box-wide box-no-bottom-padding">
-						
-							
-                            <!-- Recent threads tab content -->
-                            <div class="widget-threads widget-thread-preview" id="Div2">
-                                <div class="thread" ng-show="blogs.length == 0">
-                                    <div class="content">
-                                        You have not yet added any blogs to your account. Click "Manage Blogs" to add a new blog.
-                                    </div>
-                                </div>
-                                <div class="thread" ng-show="blogs.length > 0 && threads.length == 0">
-                                    <div class="content">
-                                        You are not yet tracking any threads.<br/> Click "Track New Thread" to track a thread from one of your current blogs.
-                                    </div>
-                                </div>
-                                <div class="thread" ng-repeat="thread in threads | isCorrectTurn:dashboardFilter:true | orderBy:'LastPostDate':true | limitTo:5 " >
-                                    <div class="content">
-                                        <span>{{thread.LastPostDate * 1000 | date:'medium'}}
+        </h3>
+        <div class="box">
+            <div>
+
+                <!-- Tabs content
+                ================================================== -->
+                <div class="box-wide box-no-bottom-padding">
+
+
+                    <!-- Recent threads tab content -->
+                    <div class="widget-threads widget-thread-preview" id="Div2">
+                        <div class="thread" ng-show="blogs.length == 0">
+                            <div class="content">
+                                You have not yet added any blogs to your account. Click "Manage Blogs" to add a new blog.
+                            </div>
+                        </div>
+                        <div class="thread" ng-show="blogs.length > 0 && threads.length == 0">
+                            <div class="content">
+                                You are not yet tracking any threads.<br/> Click "Track New Thread" to track a thread from one of your current blogs.
+                            </div>
+                        </div>
+                        <div class="thread" ng-repeat="thread in threads | isCorrectTurn:dashboardFilter:true | orderBy:'LastPostDate':true | limitTo:5 ">
+                            <div class="content">
+                                <span>{{thread.LastPostDate * 1000 | date:'medium'}}
                                             <br />
                                             <a href="#" ng-click="archiveThreads([thread.UserThreadId])">Archive</a> 
                                             &bull; 
                                             <a href="#" ng-click="untrackThreads([thread.UserThreadId])">Untrack</a>
                                         </span>
-                                        <div>
-                                            <a target="_blank" href="{{thread.LastPostUrl}}">{{thread.UserTitle}}</a><br>
-                                            Last Post by <a href="{{thread.LastPostUrl}}">{{thread.LastPosterShortname}}</a>
-                                        </div>
-                                    </div>
-                                </div>
-			
-                                <div class="widget-actions">
-                                    <a href="#" class="refresh-link" analytics-on="click" analytics-category="Dashboard" analytics-event="Refresh (Dashboard)" ng-click="refreshThreads()">Refresh</a>
-                                    <a href="/threads/{{dashboardFilter}}" class="btn btn-mini" ng-show="threads.length > 0">Show more</a>
+                                <div>
+                                    <a target="_blank" href="{{thread.LastPostUrl}}">{{thread.UserTitle}}</a><br>
+                                    Last Post by <a href="{{thread.LastPostUrl}}">{{thread.LastPosterShortname}}</a>
                                 </div>
                             </div>
-                            <!-- / Recent threads tab content -->
-							
                         </div>
-                        <!-- / Tabs content -->
+
+                        <div class="widget-actions">
+                            <a href="#" class="refresh-link" analytics-on="click" analytics-category="Dashboard" analytics-event="Refresh (Dashboard)" ng-click="refreshThreads()">Refresh</a>
+                            <a href="/threads/{{dashboardFilter}}" class="btn btn-mini" ng-show="threads.length > 0">Show more</a>
+                        </div>
                     </div>
-                    <!-- / .tabbable -->
+                    <!-- / Recent threads tab content -->
+
                 </div>
+                <!-- / Tabs content -->
             </div>
-            <!-- / Recent activity -->
-			
-            <!-- Recent News  ================================================== -->
-            <div id="recent-news" class="span4">
-                <h3 class="box-header"><i class="icon-fire" style="color: #cd522c"></i> Tracker News</h3>
-                <div class=" box well widget-threads widget-news">
-                    <div class="thread" ng-repeat="thread in news | orderBy:'LastPostDate':true | limitTo:5 " >
+            <!-- / .tabbable -->
+        </div>
+    </div>
+    <!-- / Recent activity -->
+
+    <!-- Recent News ================================================== -->
+    <div id="recent-news" class="span4">
+        <h3 class="box-header"><i class="icon-fire" style="color: #cd522c"></i> Tracker News
+        </h3>
+        <div class="box well widget-threads">
+            <div class="widget-news">
+                <div class="widget-news-list">
+                    <div class="thread" ng-repeat="thread in news | orderBy:'LastPostDate':true | limitTo:5 ">
                         <div class="content">
                             <span>{{thread.LastPostDate * 1000 | date:'MM/dd/yyyy'}}<br /></span>
                             <div>
@@ -84,120 +87,123 @@
                             </div>
                         </div>
                     </div>
-                    <div class="widget-actions">
-                        <a analytics-on="click" analytics-category="Dashboard" analytics-event="Navigate to News Blog" href="http://tblrthreadtracker.tumblr.com" class="btn btn-mini" target="_blank" title="">Follow Our Blog</a>
-                    </div>
                 </div>
-
-					
+                <div class="widget-actions">
+                    <a analytics-on="click" analytics-category="Dashboard" analytics-event="Navigate to News Blog" href="http://tblrthreadtracker.tumblr.com" class="btn btn-mini" target="_blank" title="">Follow Our Blog</a>
+                </div>
             </div>
-            <!-- / Recent News -->
-        </section>
+        </div>
 
-        <section class="row-fluid">
-            <!-- At a glance ================================================== -->
-            <div class="span8">
-                <h3 class="box-header">
-                    <i class="icon-signal"></i>
-                    At a Glance
-                    <input bs-switch
-                           ng-model="showAtAGlance"
-                           type="checkbox"
-                           ng-change="toggleAtAGlanceData()"
-                           switch-size="small"
-                           switch-on-text="Hide"
-                           switch-off-text="Show"
-                           switch-on-color="primary"
-                           switch-wrapper="rptt">
-                </h3>
-                <div class="box no-border no-padding widget-statistics" ng-class="{'widget-statistics-disabled': !showAtAGlance}">
-                    <div class="rounded-borders">
-                        <div class="counter small">
-                            <span ng-show="showAtAGlance">
+
+    </div>
+    <!-- / Recent News -->
+</section>
+
+<section class="row-fluid">
+    <!-- At a glance ================================================== -->
+    <div class="span8">
+        <h3 class="box-header">
+            <i class="icon-signal"></i>
+            At a Glance
+            <input bs-switch
+                   ng-model="showAtAGlance"
+                   type="checkbox"
+                   ng-change="toggleAtAGlanceData()"
+                   switch-size="small"
+                   switch-on-text="Hide"
+                   switch-off-text="Show"
+                   switch-on-color="primary"
+                   switch-wrapper="rptt">
+        </h3>
+        <div class="box no-border no-padding widget-statistics" ng-class="{'widget-statistics-disabled': !showAtAGlance}">
+            <div class="rounded-borders">
+                <div class="counter small">
+                    <span ng-show="showAtAGlance">
                                 {{threads.length}}
                             </span>
-                            <span ng-hide="showAtAGlance">-</span>
-                        </div>
-                        <div class="counter-label">
-                            Threads Tracked
-                        </div>
-                    </div>
+                    <span ng-hide="showAtAGlance">-</span>
+                </div>
+                <div class="counter-label">
+                    Threads Tracked
+                </div>
+            </div>
 
-                    <div class="rounded-borders">
-                        <div class="counter small">
-                            <span ng-show="showAtAGlance">
+            <div class="rounded-borders">
+                <div class="counter small">
+                    <span ng-show="showAtAGlance">
                                 {{myTurnCount}}
                             </span>
-                            <span ng-hide="showAtAGlance">-</span>
-                        </div>
-                        <div class="counter-label">
-                            Your Turn
-                        </div>
-                    </div>
+                    <span ng-hide="showAtAGlance">-</span>
+                </div>
+                <div class="counter-label">
+                    Your Turn
+                </div>
+            </div>
 
-                    <div class="rounded-borders">
-                        <div class="counter small">
-                            <span ng-show="showAtAGlance">
+            <div class="rounded-borders">
+                <div class="counter small">
+                    <span ng-show="showAtAGlance">
                                 {{theirTurnCount}}
                             </span>
-                            <span ng-hide="showAtAGlance">-</span>
-                        </div>
-                        <div class="counter-label">
-                            Their Turn
-                        </div>
+                    <span ng-hide="showAtAGlance">-</span>
+                </div>
+                <div class="counter-label">
+                    Their Turn
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- / At a Glance -->
+
+    <!-- Donations ================================================== -->
+    <div class="span4">
+        <h3 class="box-header">Like the site? Donate!</h3>
+        <div class="box well text-center widget-donations">
+            <div class="form-container">
+                <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
+                    <input type="hidden" name="cmd" value="_s-xclick">
+                    <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----MIIHNwYJKoZIhvcNAQcEoIIHKDCCByQCAQExggEwMIIBLAIBADCBlDCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20CAQAwDQYJKoZIhvcNAQEBBQAEgYCdkCnTXx/RuVx7HBBL10zqmeJH1XcK0sgNZ6sBSkxf/4f5kLNu83TdGQBvKduPgjIKxu8+yrMgaU0O9JN62h2cqh3Ugb3BcpK6S4zf45unmMqtSlmsG3VOCCU5N75uqL+IywgG5edzifA/kc7HVxXLMlQlQ32QMwtGTQCU2LUNvjELMAkGBSsOAwIaBQAwgbQGCSqGSIb3DQEHATAUBggqhkiG9w0DBwQIb6NQDArCsHyAgZBvsH7rtdCN6OGQ4HP0qqeYcJfkgRUCdGOhhnHxvDK9fB8kwclnh9P04M1Ss+kA7epyOvLayZDv5zojOaUhFbzOY4esT/hsq+CMqQSVxNc5g/fQ3LB/sr7LbAlVgBkj6y/fhpLy3hGXK6NKUsSfiHSLhiusBflpuRJZAvONMBbMnZtOSWQ8jznG5Y/H3+EhCwCgggOHMIIDgzCCAuygAwIBAgIBADANBgkqhkiG9w0BAQUFADCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20wHhcNMDQwMjEzMTAxMzE1WhcNMzUwMjEzMTAxMzE1WjCBjjELMAkGA1UEBhMCVVMxCzAJBgNVBAgTAkNBMRYwFAYDVQQHEw1Nb3VudGFpbiBWaWV3MRQwEgYDVQQKEwtQYXlQYWwgSW5jLjETMBEGA1UECxQKbGl2ZV9jZXJ0czERMA8GA1UEAxQIbGl2ZV9hcGkxHDAaBgkqhkiG9w0BCQEWDXJlQHBheXBhbC5jb20wgZ8wDQYJKoZIhvcNAQEBBQADgY0AMIGJAoGBAMFHTt38RMxLXJyO2SmS+Ndl72T7oKJ4u4uw+6awntALWh03PewmIJuzbALScsTS4sZoS1fKciBGoh11gIfHzylvkdNe/hJl66/RGqrj5rFb08sAABNTzDTiqqNpJeBsYs/c2aiGozptX2RlnBktH+SUNpAajW724Nv2Wvhif6sFAgMBAAGjge4wgeswHQYDVR0OBBYEFJaffLvGbxe9WT9S1wob7BDWZJRrMIG7BgNVHSMEgbMwgbCAFJaffLvGbxe9WT9S1wob7BDWZJRroYGUpIGRMIGOMQswCQYDVQQGEwJVUzELMAkGA1UECBMCQ0ExFjAUBgNVBAcTDU1vdW50YWluIFZpZXcxFDASBgNVBAoTC1BheVBhbCBJbmMuMRMwEQYDVQQLFApsaXZlX2NlcnRzMREwDwYDVQQDFAhsaXZlX2FwaTEcMBoGCSqGSIb3DQEJARYNcmVAcGF5cGFsLmNvbYIBADAMBgNVHRMEBTADAQH/MA0GCSqGSIb3DQEBBQUAA4GBAIFfOlaagFrl71+jq6OKidbWFSE+Q4FqROvdgIONth+8kSK//Y/4ihuE4Ymvzn5ceE3S/iBSQQMjyvb+s2TWbQYDwcp129OPIbD9epdr4tJOUNiSojw7BHwYRiPh58S1xGlFgHFXwrEBb3dgNbMUa+u4qectsMAXpVHnD9wIyfmHMYIBmjCCAZYCAQEwgZQwgY4xCzAJBgNVBAYTAlVTMQswCQYDVQQIEwJDQTEWMBQGA1UEBxMNTW91bnRhaW4gVmlldzEUMBIGA1UEChMLUGF5UGFsIEluYy4xEzARBgNVBAsUCmxpdmVfY2VydHMxETAPBgNVBAMUCGxpdmVfYXBpMRwwGgYJKoZIhvcNAQkBFg1yZUBwYXlwYWwuY29tAgEAMAkGBSsOAwIaBQCgXTAYBgkqhkiG9w0BCQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0xNDAzMTcwMTA5MTdaMCMGCSqGSIb3DQEJBDEWBBRJILNAkTVUgXTmWUFAaKaS/nE5xjANBgkqhkiG9w0BAQEFAASBgHF78RgQC/eZaM1pFdxZ350uTLAK8jxPS9x6k4MA9bfK70EitmPQg0Bq6P8WYs0EHdQ63Emlb2TbjyR+SQmNTGrWdvXXKRUdJqoBjyxSFgY2lzh1vAg9LY1fL9ab2CUoQvhNJTlnJUDFnIJVIlsS9cnG4xtRw81KuzZdYx07yFQ7-----END PKCS7-----
+                                ">
+                    <input analytics-on="click" analytics-category="Dashboard" analytics-event="Navigate to PayPal" type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
+                    <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- / Donations -->
+</section>
+
+<section class="row-fluid">
+    <!-- Random Thread ================================================== -->
+    <div class="span8">
+        <h3 class="box-header">Random Thread Generator</h3>
+        <div class="box well text-center">
+            <div>
+                <p>
+                    Select a random thread to respond to! <a href="#" class="btn btn-mini" ng-click="generateRandomOwedThread()">Generate</a><span ng-show="loadingRandomThread" class="loading-icon"> <img src="/application/images/loading.gif" /></span>
+                </p>
+            </div>
+            <div ng-show="randomlyGeneratedThread">
+                <div class="content">
+                    <div>
+                        <span ng-hide="randomlyGeneratedThread.LastPostUrl">{{randomlyGeneratedThread.UserTitle}}</span>
+                        <a ng-show="randomlyGeneratedThread.LastPostUrl" target="_blank" href="{{randomlyGeneratedThread.LastPostUrl}}">{{randomlyGeneratedThread.UserTitle}} <span class="icon-external-link"></span></a><br>
+                        <span ng-show="randomlyGeneratedThread.LastPostUrl">
+                                    Last Post by <a href="{{randomlyGeneratedThread.LastPostUrl}}">{{randomlyGeneratedThread.LastPosterShortname}}</a>
+                                </span>
+                        <span ng-hide="randomlyGeneratedThread.LastPostUrl">
+                                    Awaiting Starter
+                                </span>
                     </div>
                 </div>
             </div>
-            <!-- / At a Glance -->
-
-            <!-- Donations ================================================== -->
-            <div class="span4">
-                <h3 class="box-header">Like the site? Donate!</h3>
-                <div class="box well text-center widget-donations">
-                    <div class="form-container">
-                        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_blank">
-                            <input type="hidden" name="cmd" value="_s-xclick">
-                            <input type="hidden" name="encrypted" value="-----BEGIN PKCS7-----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-----END PKCS7-----
-                                ">
-                            <input analytics-on="click" analytics-category="Dashboard" analytics-event="Navigate to PayPal" type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
-                            <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
-                        </form>
-                    </div>
-                </div>
-            </div> 
-            <!-- / Donations -->
-        </section>
-
-        <section class="row-fluid">
-            <!-- Random Thread ================================================== -->
-            <div class="span8">
-                <h3 class="box-header">Random Thread Generator</h3>
-                <div class="box well text-center">
-                    <div>
-                        <p>Select a random thread to respond to! <a href="#" class="btn btn-mini" ng-click="generateRandomOwedThread()">Generate</a><span ng-show="loadingRandomThread" class="loading-icon"> <img src="/application/images/loading.gif" /></span>
-                        </p>
-                    </div>
-                    <div ng-show="randomlyGeneratedThread">
-                        <div class="content">
-                            <div>
-                                <span ng-hide="randomlyGeneratedThread.LastPostUrl">{{randomlyGeneratedThread.UserTitle}}</span>
-                                <a ng-show="randomlyGeneratedThread.LastPostUrl" target="_blank" href="{{randomlyGeneratedThread.LastPostUrl}}">{{randomlyGeneratedThread.UserTitle}} <span class="icon-external-link"></span></a><br>
-                                <span ng-show="randomlyGeneratedThread.LastPostUrl">
-                                    Last Post by <a href="{{randomlyGeneratedThread.LastPostUrl}}">{{randomlyGeneratedThread.LastPosterShortname}}</a>
-                                </span>
-                                <span ng-hide="randomlyGeneratedThread.LastPostUrl">
-                                    Awaiting Starter
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> 
-            <!-- / Random Thread -->
-        </section>
-		
-        <footer></footer>
-                
-                
+        </div>
     </div>
+    <!-- / Random Thread -->
+</section>
+
+<footer></footer>
+
+
+</div>
 </section>

@@ -228,9 +228,13 @@ rpThreadTracker.app.config([
                             "/contact",
                             "/login",
                             "/register",
-                            "/forgot-password"
+                            "/forgot-password",
+                            "/public/yourturn",
+                            "/public/theirturn",
+                            "/public/allthreads"
                         ];
-                        if (response.status == '401' && (whitelist.indexOf($location.path()) == -1)) {
+                        var isNotInWhitelist = whitelist.indexOf($location.path()) == -1;
+                        if (response.status == '401' && isNotInWhitelist) {
                             $location.path('/about');
                         } else if (response.status == '503') {
                             $location.path('/maintenance');
