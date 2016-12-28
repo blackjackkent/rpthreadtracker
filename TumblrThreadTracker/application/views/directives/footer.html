@@ -1,9 +1,12 @@
 ﻿<div id="main-footer">
-    <p>Copyright © 2014 <a target="_blank" analytics-on="click" analytics-category="Footer" analytics-event="Navigate to BJK Blog" href="http://blackjackkent.tumblr.com">blackjackkent.tumblr.com</a>, all rights reserved.</p>
+    <p>Copyright © {{year}} <a target="_blank" analytics-on="click" analytics-category="Footer" analytics-event="Navigate to BJK Blog" href="http://blackjackkent.tumblr.com">blackjackkent.tumblr.com</a>, all rights reserved.</p>
     <p><a href="/about">About</a> | <a href="/contact">Contact</a> | <a href="/help">Help</a>
     </p>
+    <div ng-show="user">
     <p><a href="#" ng-show="user.UseInvertedTheme" ng-click="toggleTheme()">Switch to default theme</a></p>
-    <p><a href="#" ng-show="!user.UseInvertedTheme" ng-click="toggleTheme()">Switch to dark theme</a></p>
+        <p><a href="#" ng-show="!user.UseInvertedTheme" ng-click="toggleTheme()">Switch to dark theme</a>
+        </p>
+    </div>
     <a href="#" class="pull-right" id="on-top-link">
             Top&nbsp;<i class=" icon-chevron-up"></i></a>
 </div>
