@@ -34,12 +34,19 @@ namespace TumblrThreadTracker.Infrastructure.Services
 
         public int? GetUserIdByUsernameAndPassword(string username, string password)
         {
-            var userExists = Membership.Provider.ValidateUser(username, password);
-            if (!userExists)
+            
+            var userExistsWithUsername = Membership.Provider.ValidateUser(username, password);
+            if (userExistsWithUsername)
+            {
+                return WebSecurity.GetUserId(username);
+            }
+            var userByEmail = _userProfileRepository.GetSingle(u => u.Email == username);
+            if (userByEmail == null)
             {
                 return null;
             }
-            return WebSecurity.GetUserId(username);
+            var usernameFromEmailIsValid = Membership.Provider.ValidateUser(userByEmail.UserName, password);
+            return usernameFromEmailIsValid ? WebSecurity.GetUserId(userByEmail.UserName) : (int?)null;
         }
 
         public int? GetCurrentUserIdFromIdentity(ClaimsIdentity claimsIdentity)
