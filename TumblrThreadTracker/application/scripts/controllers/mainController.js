@@ -1,28 +1,42 @@
 ﻿'use strict';
 var rpThreadTracker = rpThreadTracker || {};
 rpThreadTracker.controllers.controller('MainController', [
-    '$scope', '$location', '$analytics', 'threadService', 'contextService', 'blogService', 'newsService', 'sessionService', 'pageId',
-    function($scope, $location, $analytics, threadService, contextService, blogService, newsService, sessionService, pageId) {
+    '$scope', '$location', '$analytics', 'threadService', 'contextService', 'blogService', 'newsService', 'sessionService', 'pageId', 'TrackerNotification',
+    function($scope, $location, $analytics, threadService, contextService, blogService, newsService, sessionService, pageId, TrackerNotification) {
+        $scope.setCurrentBlog = setCurrentBlog;
+        $scope.setSortDescending = setSortDescending;
+        $scope.setCurrentOrderBy = setCurrentOrderBy;
+        $scope.setFilteredTag = setFilteredTag;
+        $scope.bulkAction = bulkAction;
+        $scope.untrackThreads = untrackThreads;
+        $scope.archiveThreads = archiveThreads;
+        $scope.unarchiveThreads = unarchiveThreads;
+        $scope.refreshThreads = refreshThreads;
+        $scope.setDashboardFilter = setDashboardFilter;
+        $scope.toggleAtAGlanceData = toggleAtAGlanceData;
+        $scope.generateRandomOwedThread = generateRandomOwedThread;
+        $scope.$on("$destroy", destroyView);
+        initView();
 
-        // ******* scope functions *********
-        $scope.setCurrentBlog = function () {
+        // ******* functions *********
+        function setCurrentBlog() {
             contextService.setCurrentBlog($scope.currentBlog);
             populateTagFilter();
             $analytics.eventTrack('Change Current Blog', { category: 'Private Thread View' });
         };
-        $scope.setSortDescending = function () {
+        function setSortDescending() {
             contextService.setSortDescending($scope.sortDescending);
             $analytics.eventTrack('Change Sort Descending', { category: 'Private Thread View' });
         };
-        $scope.setCurrentOrderBy = function () {
+        function setCurrentOrderBy() {
             contextService.setCurrentOrderBy($scope.currentOrderBy);
             $analytics.eventTrack('Change Order By', { category: 'Private Thread View' });
         };
-        $scope.setFilteredTag = function () {
+        function setFilteredTag() {
             contextService.setFilteredTag($scope.filteredTag);
             $analytics.eventTrack('Change Filtered Tag', { category: 'Private Thread View' });
         };
-        $scope.bulkAction = function () {
+        function bulkAction() {
             var bulkAffected = [];
             for (var property in $scope.bulkItems) {
                 if ($scope.bulkItems.hasOwnProperty(property) && $scope.bulkItems[property] == true) {
@@ -37,15 +51,18 @@ rpThreadTracker.controllers.controller('MainController', [
                 $scope.unarchiveThreads(bulkAffected);
             }
         }
-        $scope.untrackThreads = function (userThreadIds) {
+        function untrackThreads(userThreadIds) {
             threadService.flushThreads();
             threadService.untrackThreads(userThreadIds).then(function () {
                 threadService.getThreads();
                 threadService.getArchive();
             });
-            $scope.genericSuccess = "Threads untracked.";
+            new TrackerNotification()
+                .withMessage(userThreadIds.length + " thread(s) untracked.")
+                .withType("success")
+                .show();
         };
-        $scope.archiveThreads = function (userThreadIds) {
+        function archiveThreads(userThreadIds) {
             threadService.flushThreads();
             var threadsToArchive = [];
             angular.forEach(userThreadIds, function (id) {
@@ -55,9 +72,12 @@ rpThreadTracker.controllers.controller('MainController', [
                 threadService.getThreads();
                 threadService.getArchive();
             });
-            $scope.genericSuccess = "Threads archived.";
+            new TrackerNotification()
+                .withMessage(userThreadIds.length + " thread(s) archived.")
+                .withType("success")
+                .show();
         };
-        $scope.unarchiveThreads = function (userThreadIds) {
+        function unarchiveThreads(userThreadIds) {
             threadService.flushThreads();
             var threadsToArchive = [];
             angular.forEach(userThreadIds, function (id) {
@@ -67,21 +87,26 @@ rpThreadTracker.controllers.controller('MainController', [
                 threadService.getThreads();
                 threadService.getArchive();
             });
-            $scope.genericSuccess = "Threads unarchived.";
+            new TrackerNotification()
+                .withMessage(userThreadIds.length + " thread(s) unarchived.")
+                .withType("success")
+                .show();
         };
-        $scope.refreshThreads = function () { threadService.getThreads(true); };
-        $scope.setDashboardFilter = function (filterString) {
+        function refreshThreads() {
+            threadService.getThreads(true);
+        };
+        function setDashboardFilter(filterString) {
             $scope.dashboardFilter = filterString;
             $analytics.eventTrack('Set Recent to ' + filterString, { category: 'Dashboard' });
         };
-        $scope.toggleAtAGlanceData = function() {
+        function toggleAtAGlanceData() {
             if (!$scope.user) {
                 return;
             }
             $scope.user.ShowDashboardThreadDistribution = $scope.showAtAGlance;
             sessionService.updateUser($scope.user);
         }
-        $scope.generateRandomOwedThread = function() {
+        function generateRandomOwedThread() {
             if (!$scope.threads) {
                 return;
             }
@@ -94,8 +119,6 @@ rpThreadTracker.controllers.controller('MainController', [
             $scope.randomlyGeneratedThread = _.sample(options);
             $scope.loadingRandomThread = false;
         }
-
-        // ******* functions *********
         function updateThreads(data) {
             $scope.threads = data;
             $scope.myTurnCount = 0;
@@ -133,54 +156,59 @@ rpThreadTracker.controllers.controller('MainController', [
                 });
             }
         }
-
-        // ******** behavior **********
-        $scope.setBodyClass('');
-        $scope.pageId = pageId;
-        $scope.displayPublicUrl = true;
-        $scope.dashboardFilter = 'yourturn';
-        $scope.bulkItems = {};
-        $scope.bulkItemAction = "UntrackSelected";
-        $scope.showAtAGlance = false;
-        $scope.loadingRandomThread = false;
-        if (pageId == "archived") {
-            threadService.subscribeOnArchiveUpdate(updateThreads);
-            threadService.getArchive();
-        } else {
-            threadService.subscribe(updateThreads);
-            threadService.getThreads();
-        }
-        $scope.currentBlog = contextService.getCurrentBlog();
-        $scope.sortDescending = contextService.getSortDescending();
-        $scope.currentOrderBy = contextService.getCurrentOrderBy();
-        $scope.filteredTag = contextService.getFilteredTag();
-        sessionService.getUser().then(function(user) {
-            $scope.showAtAGlance = user.ShowDashboardThreadDistribution;
-        });
-        blogService.getBlogs().then(function(blogs) {
-            $scope.blogs = blogs;
-        });
-        newsService.getNews().then(function(news) {
-            $scope.news = news;
-        });
-        threadService.getTagsByBlog().then(function (tagCollections) {
-            $scope.tagsByBlog = {};
-            angular.forEach(tagCollections, function(collection) {
-                if (!$scope.tagsByBlog.hasOwnProperty(collection.BlogShortname)) {
-                    $scope.tagsByBlog[collection.BlogShortname] = [];
-                }
-                angular.forEach(collection.TagCollection, function(tag) {
-                    if ($scope.tagsByBlog[collection.BlogShortname].indexOf(tag) == -1) {
-                        $scope.tagsByBlog[collection.BlogShortname].push(tag);
-                    }
+        function initView() {
+            $scope.setBodyClass('');
+            $scope.pageId = pageId;
+            $scope.displayPublicUrl = true;
+            $scope.dashboardFilter = 'yourturn';
+            $scope.bulkItems = {};
+            $scope.bulkItemAction = "UntrackSelected";
+            $scope.showAtAGlance = false;
+            $scope.loadingRandomThread = false;
+            if (pageId == "archived") {
+                threadService.subscribeOnArchiveUpdate(updateThreads);
+                threadService.getArchive();
+            } else {
+                threadService.subscribe(updateThreads);
+                threadService.getThreads();
+            }
+            $scope.currentBlog = contextService.getCurrentBlog();
+            $scope.sortDescending = contextService.getSortDescending();
+            $scope.currentOrderBy = contextService.getCurrentOrderBy();
+            $scope.filteredTag = contextService.getFilteredTag();
+            sessionService.getUser()
+                .then(function(user) {
+                    $scope.showAtAGlance = user.ShowDashboardThreadDistribution;
                 });
-            });
-            populateTagFilter();
-        });
-
-        $scope.$on("$destroy", function() {
+            blogService.getBlogs()
+                .then(function(blogs) {
+                    $scope.blogs = blogs;
+                });
+            newsService.getNews()
+                .then(function(news) {
+                    $scope.news = news;
+                });
+            threadService.getTagsByBlog()
+                .then(function(tagCollections) {
+                    $scope.tagsByBlog = {};
+                    angular.forEach(tagCollections,
+                        function(collection) {
+                            if (!$scope.tagsByBlog.hasOwnProperty(collection.BlogShortname)) {
+                                $scope.tagsByBlog[collection.BlogShortname] = [];
+                            }
+                            angular.forEach(collection.TagCollection,
+                                function(tag) {
+                                    if ($scope.tagsByBlog[collection.BlogShortname].indexOf(tag) == -1) {
+                                        $scope.tagsByBlog[collection.BlogShortname].push(tag);
+                                    }
+                                });
+                        });
+                    populateTagFilter();
+                });
+        }
+        function destroyView() {
             threadService.unsubscribe(updateThreads);
             threadService.unsubscribeOnArchiveUpdate(updateThreads);
-        });
+        }
     }
 ]);

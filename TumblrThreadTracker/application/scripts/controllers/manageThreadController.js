@@ -1,70 +1,111 @@
 ﻿'use strict';
 var rpThreadTracker = rpThreadTracker || {};
 rpThreadTracker.controllers.controller('ManageThreadController', [
-    '$scope', '$routeParams', '$location', 'sessionService', 'contextService', 'blogService', 'threadService', 'pageId', 'Notification', '$window',
-        function ($scope, $routeParams, $location, sessionService, contextService, blogService, threadService, pageId, Notification, $window) {
+    '$scope', '$routeParams', '$location', 'sessionService', 'contextService', 'blogService', 'threadService', 'pageId', 'TrackerNotification', '$window',
+    function ($scope, $routeParams, $location, sessionService, contextService, blogService, threadService, pageId, TrackerNotification, $window) {
         $scope.setBodyClass('');
-
         $scope.pageId = pageId;
-        if (pageId == 'edit-thread') {
-            $scope.userThreadId = $routeParams.userThreadId;
-            threadService.getStandaloneThread($scope.userThreadId).then(function(thread) {
-                $scope.currentBlog = thread.BlogShortname;
-                $scope.userTitle = thread.UserTitle;
-                $scope.postId = thread.PostId;
-                $scope.watchedShortname = thread.WatchedShortname;
-                $scope.isArchived = thread.IsArchived;
-                $scope.threadTags = thread.ThreadTags;
-                return blogService.getBlogs();
-            }).then(function(blogs) {
+        $scope.submitThread = submitThread;
+        $scope.handleThreadTagKeypress = handleThreadTagKeypress;
+        $scope.handleThreadTagClick = handleThreadTagClick;
+        $scope.removeThreadTag = removeThreadTag;
+        $scope.addThreadTag = addThreadTag;
+        initView();
+
+        function initView() {
+            $scope.currentBlog = contextService.getCurrentBlog();
+            $scope.watchedShortname = "";
+            $scope.threadTags = [];
+            if (pageId == 'edit-thread') {
+                initEditThreadView();
+            }
+            if ($routeParams.addFromExtension) {
+            }
+            blogService.getBlogs().then(function(blogs) {
                 $scope.blogs = blogs;
                 if (!$scope.currentBlog) {
                     $scope.currentBlog = blogs[0].BlogShortname;
                 }
-            });
-        } else {
-            $scope.currentBlog = contextService.getCurrentBlog();
-            $scope.watchedShortname = "";
-            $scope.threadTags = [];
-        }
-        if ($routeParams.addFromExtension) {
-            $scope.postId = $routeParams.tumblrPostId;
-        }
-        blogService.getBlogs().then(function (blogs) {
-            $scope.blogs = blogs;
-            if (!$scope.currentBlog) {
-                $scope.currentBlog = blogs[0].BlogShortname;
-            }
-            if ($routeParams.addFromExtension) {
-                var exists = _.find(blogs,
-                    function(blog) {
-                        return blog.BlogShortname == $routeParams.tumblrBlogShortname;
-                    });
-                console.log(blogs);
-                console.log(exists);
-                if (!exists) {
-                    displayTumblrShortnameWarning($routeParams.tumblrBlogShortname);
-                } else {
-                    $scope.currentBlog = exists.BlogShortname;
+                if ($routeParams.addFromExtension) {
+                    initAddFromExtension();
                 }
+            });
+        }
+        function initEditThreadView() {
+            $scope.userThreadId = $routeParams.userThreadId;
+            threadService.getStandaloneThread($scope.userThreadId)
+                .then(function (thread) {
+                    $scope.currentBlog = thread.BlogShortname;
+                    $scope.userTitle = thread.UserTitle;
+                    $scope.postId = thread.PostId;
+                    $scope.watchedShortname = thread.WatchedShortname;
+                    $scope.isArchived = thread.IsArchived;
+                    $scope.threadTags = thread.ThreadTags;
+                    return blogService.getBlogs();
+                })
+                .then(function (blogs) {
+                    $scope.blogs = blogs;
+                    if (!$scope.currentBlog) {
+                        $scope.currentBlog = blogs[0].BlogShortname;
+                    }
+                });
+        }
+        function initAddFromExtension() {
+            $scope.postId = $routeParams.tumblrPostId;
+            var exists = _.find(blogs,
+                function (blog) {
+                    return blog.BlogShortname == $routeParams.tumblrBlogShortname;
+                });
+            if (!exists) {
+                new TrackerNotification()
+                    .withMessage("WARNING: You are attempting to add a post ID from a blog not associated with this account (" + shortname + ")."
+                        + "Please use posts from your own blogs, or leave the field blank if you have not posted to the thread yet.")
+                    .withType('error')
+                    .show();
+            } else {
+                $scope.currentBlog = exists.BlogShortname;
             }
-        });
-
-        // ********* functions **********
-        $scope.submitThread = function() {
-            if (!$scope.currentBlog || !$scope.userTitle) {
-                $scope.genericError = "You must select a blog and enter a title in order to save your thread.";
+        }
+        function submitThread() {
+            var valid = validateThread();
+            if (!valid) {
                 return;
             }
             threadService.flushThreads();
 
             if (pageId == 'edit-thread') {
-                threadService.editThread($scope.userThreadId, $scope.currentBlog, $scope.postId, $scope.userTitle, $scope.watchedShortname, $scope.threadTags, $scope.isArchived).then(success, failure);
+                threadService.editThread($scope.userThreadId, $scope.currentBlog, $scope.postId, $scope.userTitle, $scope.watchedShortname, $scope.threadTags, $scope.isArchived)
+                    .then(success, failure);
             } else {
-                threadService.addNewThread($scope.currentBlog, $scope.postId, $scope.userTitle, $scope.watchedShortname, $scope.threadTags).then(success, failure);
+                threadService.addNewThread($scope.currentBlog, $scope.postId, $scope.userTitle, $scope.watchedShortname, $scope.threadTags)
+                    .then(success, failure);
             }
         };
-        $scope.handleThreadTagKeypress = function (e) {
+        function validateThread() {
+            if (!$scope.currentBlog) {
+                new TrackerNotification()
+                    .withMessage("ERROR: You must select a blog in order to save your thread.")
+                    .withType("error")
+                    .show();
+                return false;
+            }
+            if ($scope.newThreadForm.postId.$error.pattern) {
+                new TrackerNotification()
+                    .withMessage("ERROR: Post IDs must contain only numbers.")
+                    .withType("error")
+                    .show();
+                return false;
+            }
+            if ($scope.newThreadForm.userTitle.$error.required) {
+                new TrackerNotification()
+                    .withMessage("ERROR: You must enter a thread title for tracking purposes. (This does not have to match a title on the actual Tumblr thread.)")
+                    .withType("error")
+                    .show();
+                return false;
+            }
+            return true;
+        }
+        function handleThreadTagKeypress(e) {
             if (e.keyCode == 13 /** enter **/ || e.keyCode == 44 /** comma **/) {
                 e.originalEvent.preventDefault();
                 if ($scope.threadTagAddition != "" && $scope.threadTagAddition != null) {
@@ -72,40 +113,41 @@ rpThreadTracker.controllers.controller('ManageThreadController', [
                 }
             }
         };
-        $scope.handleThreadTagClick = function (e) {
+        function handleThreadTagClick(e) {
             e.originalEvent.preventDefault();
             if ($scope.threadTagAddition != "" && $scope.threadTagAddition != null) {
                 $scope.addThreadTag($scope.threadTagAddition);
             }
         };
-        $scope.removeThreadTag = function(tag) {
+        function removeThreadTag(tag) {
             var index = $scope.threadTags.indexOf(tag);
             if (index > -1) {
                 $scope.threadTags.splice(index, 1);
             }
         };
-        $scope.addThreadTag = function (tagText) {
-            if ($scope.threadTags.indexOf(tagText) == -1) {
-                $scope.threadTags.push(tagText);
-            }
-            $scope.threadTagAddition = "";
-        };
-
+        function addThreadTag(tagText) {
+        if ($scope.threadTags.indexOf(tagText) == -1) {
+            $scope.threadTags.push(tagText);
+        }
+        $scope.threadTagAddition = "";
+    };
         function success() {
             if ($routeParams.addFromExtension) {
                 $window.close();
             } else {
+                var action = pageId == 'edit-thread' ? 'updated' : 'created';
+                new TrackerNotification()
+                    .withMessage("Thread '<em>" + $scope.userTitle + "</em>' " + action + ".")
+                    .withType('success')
+                    .show();
                 $location.path('/threads');
             }
         }
-
         function failure() {
-            $scope.genericError = "There was a problem updating your thread.";
-        }
-
-        function displayTumblrShortnameWarning(shortname) {
-            Notification.error('WARNING: You are attempting to add a post ID from a blog not associated with this account (' + shortname + ').'
-                + 'Please use posts from your own blogs, or leave the field blank if you have not posted to the thread yet.');
+            new TrackerNotification()
+                    .withMessage("ERROR: There was a problem updating your thread.")
+                    .withType('error')
+                    .show();
         }
     }
 ]);

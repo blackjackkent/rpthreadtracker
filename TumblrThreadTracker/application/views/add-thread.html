@@ -13,11 +13,6 @@
                     <p>Enter information for your thread below.<br/>Be sure to select the appropriate blog with which to associate this thread.<br/>
                     </p><br/>
 
-                    <p class="alert alert-error" ng-show="newThreadForm.postId.$error.pattern">Enter only the post ID, not the full URL.</p>
-                    <p class="alert alert-error" ng-show="newThreadForm.userTitle.$error.required && newThreadForm.userTitle.$dirty">You must enter a thread title for tracking purposes. (This does not have to match a title on the actual Tumblr thread.)</p>
-                    <p class="alert alert-error" ng-show="newThreadForm.postId.$error.required && newThreadForm.postId.$dirty">You must enter a post ID in order to track a thread.</p>
-                    <p class="alert alert-error" ng-show="genericError">{{genericError}}</p>
-
                     <div class="control-group">
                         <label class="control-label" for="currentBlog">Blog:</label>
                         <div class="controls">
@@ -29,7 +24,7 @@
                     <div class="control-group">
                         <label class="control-label" for="userTitle">Thread Title:</label>
                         <div class="controls">
-                            <input type="text" id="userTitle" name="userTitle" required ng-model="userTitle" placeholder="Thread Title" rel="tooltip" data-placement="right" data-original-title="This can be anything you like!">
+                            <input type="text" id="userTitle" name="userTitle" required ng-model="userTitle" placeholder="Thread Title" rel="tooltip" data-placement="right" data-original-title="This can be anything you like! It does not have to correspond to a title on the actual Tumblr thread.">
                         </div>
                     </div>
                     <div class="control-group">
