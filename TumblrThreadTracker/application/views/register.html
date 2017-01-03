@@ -6,21 +6,8 @@
         </span>
         <span ng-show="loading" class="loading-icon"><img src="/application/images/loading.gif" /></span>
     </a>
-    <form method="get" accept-charset="utf-8" name="registerForm" ng-submit="register()">
+    <form method="get" accept-charset="utf-8" name="registerForm" ng-submit="register()" novalidate>
         <fieldset>
-            <p class="alert alert-error" ng-show="genericError">{{genericError}}</p>
-                    
-            <p class="alert alert-error" ng-show="(registerForm.username.$dirty || registerForm.submitted) 
-                                    && (!(registerForm.username.$focused) && registerForm.username.$error.required)">You must enter a valid username.</p>
-            <p class="alert alert-error" ng-show="(registerForm.email.$dirty || registerForm.submitted) 
-                                    && (registerForm.email.$error.email 
-                                    && !(registerForm.email.$focused) || registerForm.email.$error.required)">You must enter a valid email.</p>
-            <p class="alert alert-error" ng-show="(registerForm.Password.$dirty || registerForm.submitted) 
-                                    && (!(registerForm.Password.$focused) && registerForm.Password.$error.required)">You must enter a password.</p>
-            <p class="alert alert-error" ng-show="(registerForm.confirmPassword.$dirty || registerForm.submitted) 
-                                    && (!(registerForm.confirmPassword.$focused) && registerForm.confirmPassword.$error.required)">You must confirm your password.</p>
-            <p class="alert alert-error" ng-show="((registerForm.confirmPassword.$dirty && registerForm.Password.$dirty) || registerForm.submitted) 
-                                    && (!(registerForm.confirmPassword.$focused) && !(registerForm.Password.$focused) && confirmPassword != Password)">Your passwords must match.</p>
             <div class="control-group">
                 <div class="controls">
                     <input type="text" id="username" name="username" required ng-model="username" placeholder="Username" ng-focus>

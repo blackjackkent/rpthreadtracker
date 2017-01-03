@@ -1,44 +1,47 @@
 ﻿'use strict';
 var rpThreadTracker = rpThreadTracker || {};
 rpThreadTracker.controllers.controller('ManageAccountController', [
-    '$scope', '$http', '$location', 'sessionService', 'exportService', 'pageId', function ($scope, $http, $location, sessionService, exportService, pageId) {
+    '$scope', '$http', '$location', 'sessionService', 'exportService', 'pageId', 'TrackerNotification', function ($scope, $http, $location, sessionService, exportService, pageId, TrackerNotification) {
         $scope.setBodyClass('');
+        $scope.pageId = pageId;
+        $scope.changePassword = changePassword;
+        $scope.exportThreads = exportThreads;
 
         function passwordSuccess() {
             $scope.changePasswordForm.$setPristine();
             $scope.oldPassword = '';
             $scope.newPassword = '';
             $scope.confirmNewPassword = '';
-            $scope.showSuccessMessage = true;
-            $scope.genericError = '';
+            new TrackerNotification()
+                .withMessage("Account updated.")
+                .withType("success")
+                .show();
         }
-
         function passwordFailure() {
-            $scope.genericError = "There was a problem updating your account.";
-            $scope.showSuccessMessage = false;
+            new TrackerNotification()
+                .withMessage("There was a problem updating your account.")
+                .withType("error")
+                .show();
         }
-
-        $scope.pageId = pageId;
-        $scope.changePassword = function() {
+        function changePassword() {
             if (!$scope.changePasswordForm.$valid) {
                 return;
             }
             sessionService.changePassword($scope.oldPassword, $scope.newPassword, $scope.confirmNewPassword).then(passwordSuccess, passwordFailure);
         };
-        $scope.exportThreads = function() {
-            $scope.exportError = "";
+        function exportThreads() {
             $scope.exportLoading = true;
             exportService.exportThreads($scope.includeArchived, $scope.includeHiatused).then(exportSuccess, exportFailure);
         }
         function exportSuccess() {
-            $scope.exportError = "";
             $scope.exportLoading = false;
         }
-
         function exportFailure() {
-            $scope.exportError = "There was a problem exporting your threads.";
+            new TrackerNotification()
+                .withMessage("There was a problem exporting your threads.")
+                .withType("error")
+                .show();
             $scope.exportLoading = false;
         }
-
     }
 ]);

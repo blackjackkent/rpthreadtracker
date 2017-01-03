@@ -2,15 +2,20 @@
 var rpThreadTracker = rpThreadTracker || {};
 rpThreadTracker.controllers.controller('PublicController', [
     '$scope', '$routeParams', '$filter', 'publicThreadService', function($scope, $routeParams, $filter, publicThreadService) {
+        $scope.setBodyClass('centered-layout error-page');
         $scope.pageId = $routeParams.pageId;
         $scope.userId = $routeParams.userId;
         $scope.currentBlog = $routeParams.currentBlog;
         $scope.currentOrderBy = $routeParams.currentOrderBy;
         $scope.sortDescending = $routeParams.sortDescending == "false" ? false : true;
         $scope.filteredTag = $routeParams.filteredTag;
-        console.log($scope.filteredTag);
-        $scope.setBodyClass('centered-layout error-page');
-        $scope.publicTitleString = buildPublicTitleString();
+        initView();
+
+        function initView() {
+            $scope.publicTitleString = buildPublicTitleString();
+            publicThreadService.subscribe(updateThreads);
+            publicThreadService.getThreads($scope.userId, $scope.currentBlog);
+        }
 
         function updateThreads(data) {
             $scope.threads = data;
@@ -38,7 +43,5 @@ rpThreadTracker.controllers.controller('PublicController', [
             return result;
         }
 
-        publicThreadService.subscribe(updateThreads);
-        publicThreadService.getThreads($scope.userId, $scope.currentBlog);
     }
 ]);

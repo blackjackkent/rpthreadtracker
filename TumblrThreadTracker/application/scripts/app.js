@@ -209,11 +209,12 @@ rpThreadTracker.app.config([
 ])
     .config(['NotificationProvider', function(NotificationProvider) {
         NotificationProvider.setOptions({
-            delay: 10000,
-            startTop: 50,
-            startRight: 10,
+            delay: 5000,
+            positionX: "center",
+            positionY: "top",
             verticalSpacing: 20,
-            horizontalSpacing: 20
+            horizontalSpacing: 20,
+            startTop: 50
         });
     }])
     .config([

@@ -1,22 +1,31 @@
 ﻿'use strict';
 var rpThreadTracker = rpThreadTracker || {};
 rpThreadTracker.controllers.controller('ForgotPasswordController', [
-    '$scope', '$location', 'sessionService', function($scope, $location, sessionService) {
-        var success = function () {
-                $scope.loading = false;
-                $scope.success = "Success. Check your email box for a temporary password.";
-            },
-            fail = function () {
-                $scope.loading = false;
-                $scope.error = "Unknown error. Please try again later.";
-            };
+    '$scope', '$location', 'sessionService', 'TrackerNotification', function($scope, $location, sessionService, TrackerNotification) {
         $scope.setBodyClass('signin-page');
+        $scope.submitForgotPassword = submitForgotPassword;
 
-        $scope.submitForgotPassword = function() {
+        function submitForgotPassword() {
             $scope.error = "";
             $scope.success = "";
             $scope.loading = true;
             sessionService.submitForgotPassword($scope.username).then(success, fail);
+        };
+
+        function success() {
+            $scope.loading = false;
+            new TrackerNotification()
+                .withMessage("Success. Check your email box for a temporary password.")
+                .withType("success")
+                .show();
+        }
+
+        function fail() {
+            $scope.loading = false;
+            new TrackerNotification()
+                .withMessage("Unknown error. Please try again later.")
+                .withType("error")
+                .show();
         };
     }
 ]);

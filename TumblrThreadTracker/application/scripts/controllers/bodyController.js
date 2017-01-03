@@ -2,7 +2,9 @@
 var rpThreadTracker = rpThreadTracker || {};
 rpThreadTracker.controllers.controller('BodyController', [
     '$scope', function($scope) {
-        $scope.setBodyClass = function(_bodyClass) {
+        $scope.setBodyClass = setBodyClass;
+
+        function setBodyClass(_bodyClass) {
             $scope.bodyClass = _bodyClass;
         };
     }

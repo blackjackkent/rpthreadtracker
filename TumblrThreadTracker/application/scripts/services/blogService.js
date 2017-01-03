@@ -25,7 +25,7 @@ rpThreadTracker.services.service('blogService', [
             return deferred.promise;
         }
 
-        function getStandaloneBlog(id) {
+        function getBlog(id) {
             var deferred = $q.defer(),
                 config = {
                     url: '/api/Blog/' + id,
@@ -99,7 +99,7 @@ rpThreadTracker.services.service('blogService', [
 
         return {
             getBlogs: getBlogs,
-            getStandaloneBlog: getStandaloneBlog,
+            getBlog: getBlog,
             flushBlogs: flushBlogs,
             createBlog: createBlog,
             editBlog: editBlog,
