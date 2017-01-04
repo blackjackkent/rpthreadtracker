@@ -1,18 +1,13 @@
 <header-nav></header-nav>
 <side-nav></side-nav>
 
-
 <section class="central-container container">
     <div id="content">
-
-        <!-- ================================================== -->
         <section class="row-fluid">
             <form class="form-horizontal" name="editBlogForm" ng-submit="submitBlog()">
                 <fieldset>
                     <legend>Edit Blog Shortname</legend>
-                    <p>Update your blog's shortname below. (NOTE: This will also update the blog shortname for all tracked threads currently associated with {{currentBlogShortname}})</p><br />
-
-                    <p class="alert alert-error" ng-show="editBlogForm.newBlogShortname.$error.required && editBlogForm.newBlogShortname.$dirty">You must enter a blog shortname.</p>
+                    <p>Update your blog's shortname below. (NOTE: This will also update the blog shortname for all tracked threads currently associated with {{currentBlogShortname}})</p><br/>
 
                     <div class="control-group">
                         <label class="control-label">Current blog shortname:</label>
@@ -28,20 +23,13 @@
                         </div>
                     </div>
                     <div class="control-group">
-                        <div class='controls'>
+                        <div class="controls">
                             <button type="submit" class="btn">Edit Blog</button>
                         </div>
                     </div>
                 </fieldset>
             </form>
         </section>
-
-        <!-- / Supported browsers -->
-        <!-- Page footer
-            ================================================== -->
         <footer></footer>
-        <!-- / Page footer -->
-
-
     </div>
 </section>

@@ -10,6 +10,7 @@ rpThreadTracker.controllers.controller('EditBlogController', [
 
         function submitBlog() {
             if (!$scope.blogToEdit.BlogShortname) {
+                $scope.missingValueNotification.show();
                 return;
             }
             var shortnameExists = _.findIndex($scope.allBlogs, function (blog) { return blog.BlogShortname == $scope.blogToEdit.BlogShortname; }) !== -1;
@@ -32,6 +33,9 @@ rpThreadTracker.controllers.controller('EditBlogController', [
                 .withType("error");
             $scope.generalErrorMessage = new TrackerNotification()
                 .withMessage("ERROR: There was a problem editing your blog.")
+                .withType("error");
+            $scope.missingValueNotification = new TrackerNotification()
+                .withMessage("ERROR: You must enter a blog shortname.")
                 .withType("error");
         }
 
