@@ -1,11 +1,8 @@
 <header-nav></header-nav>
 <side-nav></side-nav>
 
-
 <section class="central-container container">
     <div id="content">
-
-        <!-- ================================================== -->
         <section class="row-fluid">
             <form class="form-horizontal" name="newBlogForm" ng-submit="createBlog()">
                 <fieldset>
@@ -13,8 +10,7 @@
                     <p>
                         Enter the shortname of your blog below to connect it to your account. The shortname is the part of the URL before "tumblr.com",
                         i.e. http://<strong>shortname</strong>.tumblr.com.
-                    </p><br />
-
+                    </p><br/>
                     <div class="control-group">
                         <label class="control-label" for="newBlogShortname">Blog shortname:</label>
                         <div class="controls">
@@ -22,24 +18,30 @@
                         </div>
                     </div>
                     <div class="control-group">
-                        <div class='controls'>
+                        <div class="controls">
                             <button type="submit" class="btn">Add Blog</button>
                         </div>
                     </div>
-
                     <p class="alert alert-success" ng-show="showSuccessMessage">Blogs updated. Click "Track New Thread" to add a thread for one of the blogs below.</p>
                 </fieldset>
             </form>
-
             <fieldset>
                 <legend>Manage Existing Blogs</legend>
                 <table class="table table-striped blog-table">
                     <tr ng-repeat="blog in blogs | orderBy:'BlogShortname'" ng-class="{'hiatused-blog': blog.OnHiatus}">
                         <td>{{blog.BlogShortname}}</td>
-                        <td><a href="/edit-blog/{{blog.UserBlogId}}">Edit</a></td>
-                        <td><a href="" ng-click="untrackBlog(blog.UserBlogId)">Untrack</a></td>
-                        <td ng-if="blog.OnHiatus"><a href="" ng-click="toggleHiatus(blog)">Set Off Hiatus</a></td>
-                        <td ng-if="!blog.OnHiatus"><a href="" ng-click="toggleHiatus(blog)">Set On Hiatus</a></td>
+                        <td>
+                            <a href="/edit-blog/{{blog.UserBlogId}}">Edit</a>
+                        </td>
+                        <td>
+                            <a href="" ng-click="untrackBlog(blog.UserBlogId)">Untrack</a>
+                        </td>
+                        <td ng-if="blog.OnHiatus">
+                            <a href="" ng-click="toggleHiatus(blog)">Set Off Hiatus</a>
+                        </td>
+                        <td ng-if="!blog.OnHiatus">
+                            <a href="" ng-click="toggleHiatus(blog)">Set On Hiatus</a>
+                        </td>
                     </tr>
                     <tr ng-show="blogs.length == 0">
                         <td>You have not yet added any blogs.</td>
@@ -47,13 +49,6 @@
                 </table>
             </fieldset>
         </section>
-
-        <!-- / Supported browsers -->
-        <!-- Page footer
-            ================================================== -->
         <footer></footer>
-        <!-- / Page footer -->
-
-
     </div>
 </section>

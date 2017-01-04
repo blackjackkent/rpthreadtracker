@@ -1,24 +1,13 @@
 <header-nav></header-nav>
 <side-nav></side-nav>
 
-
 <section class="central-container container">
     <div id="content">
-
-        <!-- ================================================== -->
         <section class="row-fluid">
             <h3>Manage Your Account</h3>
             <form class="form-horizontal" name="changePasswordForm" ng-submit="changePassword()">
                 <fieldset>
                     <legend>Change Your Password</legend>
-
-                    <p class="alert alert-error" ng-show="changePasswordForm.oldPassword.$error.required && changePasswordForm.oldPassword.$dirty">You must enter your current password.</p>
-                    <p class="alert alert-error" ng-show="changePasswordForm.newPassword.$error.required && changePasswordForm.newPassword.$dirty">You must enter your new password.</p>
-                    <p class="alert alert-error" ng-show="changePasswordForm.confirmNewPassword.$error.required && changePasswordForm.confirmNewPassword.$dirty">You must confirm your new password.</p>
-                    <p class="alert alert-error" ng-show="changePasswordForm.confirmNewPassword.$error.match && changePasswordForm.newPassword.$dirty && changePasswordForm.confirmNewPassword.$dirty">
-                        Your new passwords must match.
-                    </p>
-
                     <div class="control-group">
                         <label class="control-label" for="oldPassword">Current Password:</label>
                         <div class="controls">
@@ -48,14 +37,12 @@
                 <fieldset>
                     <legend>Export Your Threads</legend>
                     <p>Use the button below to export an Excel file of your current threads in the database.</p>
-
                     <button type="submit" class="btn" ng-click="exportThreads()">Export</button>
                     <p>
                         <label class="checkbox">
                             <input type="checkbox" ng-model="includeArchived"> Include Archived Threads
                         </label>
                     </p>
-
                     <p>
                         <label class="checkbox">
                             <input type="checkbox" ng-model="includeHiatused"> Include Hiatused Blogs
@@ -63,26 +50,14 @@
                     </p>
                 </fieldset>
             </form>
-
             <form class="form-horizontal" name="exportThreadsForm">
-
-
                 <div class="control-group">
                     <div class="controls">
-
                         <span ng-show="exportLoading" class="loading-icon"><img src="/application/images/loading.gif" /></span>
                     </div>
                 </div>
             </form>
-
         </section>
-
-        <!-- / Supported browsers -->
-        <!-- Page footer
-        ================================================== -->
         <footer></footer>
-        <!-- / Page footer -->
-
-
     </div>
 </section>

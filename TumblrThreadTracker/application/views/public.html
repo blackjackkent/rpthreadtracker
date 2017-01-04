@@ -3,7 +3,7 @@
 </header>
 <div class="container">
     <section class="row-fluid">
-		<h4>Thread Count: {{threadCount}}</h4>
+        <h4>Thread Count: {{threadCount}}</h4>
         <table class="table table-striped thread-table">
             <tr>
                 <th>Thread Title</th>
@@ -11,7 +11,7 @@
                 <th>Last Post Date</th>
                 <th>&nbsp;</th>
                 <th>&nbsp;</th>
-            </tr>   
+            </tr>
             <tr ng-repeat="thread in threads | isCurrentBlog:currentBlog | isCorrectTurn:pageId | containsFilteredTag:filteredTag |  orderBy:currentOrderBy:sortDescending">
                 <td>{{thread.UserTitle}}</td>
                 <td>
@@ -24,8 +24,11 @@
                         (<a target="_blank" href="http://tblrthreadtracker.tumblr.com/post/84787503106/fix-in-place-for-not-found-error-please-read" id="notFoundExplanation">Why am I seeing this?</a>)
                     </span>
                 </td>
-                <td><span ng-show="thread.LastPostDate != null">{{thread.LastPostDate * 1000 | date:'medium'}}</span></td>
-                <td><a ng-show="thread.LastPostUrl != null" target="_blank" href="{{thread.LastPostUrl}}">View</a></td>
+                <td>
+                    <span ng-show="thread.LastPostDate != null">{{thread.LastPostDate * 1000 | date:'medium'}}</span></td>
+                <td>
+                    <a ng-show="thread.LastPostUrl != null" target="_blank" href="{{thread.LastPostUrl}}">View</a>
+                </td>
             </tr>
         </table>
     </section>

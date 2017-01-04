@@ -6,14 +6,13 @@
         </span>
         <span ng-show="loading" class="loading-icon"><img src="/application/images/loading.gif" /></span>
     </a>
-    <form method="get" accept-charset="utf-8" name="registerForm" ng-submit="register()" novalidate>
+    <form method="get" accept-charset="utf-8" name="registerForm" ng-submit="register()">
         <fieldset>
             <div class="control-group">
                 <div class="controls">
                     <input type="text" id="username" name="username" required ng-model="username" placeholder="Username" ng-focus>
                 </div>
             </div>
-
             <div class="control-group">
                 <div class="controls">
                     <input type="email" id="email" name="email" required ng-model="email" placeholder="Email" ng-focus>
@@ -30,14 +29,13 @@
                 </div>
             </div>
             <div class="control-group">
-                <div class='controls'>
+                <div class="controls">
                     <button type="submit" class="btn btn-primary btn-block" tabindex="4">Sign Up</button>
                 </div>
             </div>
-                    
             <p class="alert alert-success" ng-show="showSuccessMessage">Account updated.</p>
         </fieldset>
-            
-        <p>Already have an account? <a href="/login" title="">Login</a></p>
+        <p>Already have an account? <a href="/login" title="">Login</a>
+        </p>
     </form>
 </section>

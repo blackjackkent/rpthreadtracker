@@ -1,11 +1,9 @@
 <header-nav></header-nav>
 <side-nav></side-nav>
 
-
 <section class="central-container container">
     <div id="content">
-
-        <!-- ================================================== -->
+        <!-- #region CONTROLS -->
         <section class="row-fluid thread-filters">
             <div class="span9">
                 <label class="inline-control-label">Order By: </label>
@@ -54,6 +52,8 @@
                 http://www.rpthreadtracker.com/public/{{pageId}}?userId={{userId}}&amp;currentBlog={{currentBlog}}&amp;sortDescending={{sortDescending}}&amp;currentOrderBy={{currentOrderBy}}&amp;filteredTag={{filteredTag | escape}}
             </a>
         </section>
+        <!-- #endregion -->
+        <!-- #region TABLE -->
         <section class="row-fluid">
             <table class="table table-condensed table-striped thread-table">
                 <tr>
@@ -107,15 +107,8 @@
                     </td>
                 </tr>
             </table>
-
         </section>
-        <!-- / Supported browsers -->
-
-        <!-- Page footer
-        ================================================== -->
+        <!-- #endregion -->
         <footer></footer>
-        <!-- / Page footer -->
-
-
     </div>
 </section>
