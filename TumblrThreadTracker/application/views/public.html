@@ -9,11 +9,14 @@
                 <th>Thread Title</th>
                 <th>Last Poster</th>
                 <th>Last Post Date</th>
+                <th>Watched User</th>
                 <th>&nbsp;</th>
-                <th>&nbsp;</th>
+                <th>Tags</th>
             </tr>
             <tr ng-repeat="thread in threads | isCurrentBlog:currentBlog | isCorrectTurn:pageId | containsFilteredTag:filteredTag |  orderBy:currentOrderBy:sortDescending">
-                <td>{{thread.UserTitle}}</td>
+                <td>
+                    {{thread.UserTitle}}
+                </td>
                 <td>
                     <a ng-show="thread.LastPosterShortname != null" href="{{thread.LastPostUrl}}">{{thread.LastPosterShortname}}</a>
                     <span ng-show="thread.PostId == null">
@@ -25,9 +28,16 @@
                     </span>
                 </td>
                 <td>
-                    <span ng-show="thread.LastPostDate != null">{{thread.LastPostDate * 1000 | date:'medium'}}</span></td>
+                    <span ng-show="thread.LastPostDate != null">{{thread.LastPostDate * 1000 | date:'medium'}}</span>
+                </td>
+                <td>
+                    <span ng-show="thread.WatchedShortname">{{thread.WatchedShortname}}</span>
+                </td>
                 <td>
                     <a ng-show="thread.LastPostUrl != null" target="_blank" href="{{thread.LastPostUrl}}">View</a>
+                </td>
+                <td>
+                    <span ng-show="thread.ThreadTags"><span ng-repeat="tag in thread.ThreadTags">{{tag}}<br /></span></span>
                 </td>
             </tr>
         </table>

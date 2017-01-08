@@ -62,6 +62,7 @@
                     <th>Last Poster</th>
                     <th>Last Post Date</th>
                     <th>Watched Shortname</th>
+                    <th>Tags</th>
                     <th>&nbsp;</th>
                     <th>&nbsp;</th>
                     <th>&nbsp;</th>
@@ -91,6 +92,9 @@
                         <span ng-show="thread.LastPostDate != null">{{thread.LastPostDate * 1000 | date:'medium'}}</span></td>
                     <td>
                         <span ng-show="thread.WatchedShortname != null">{{thread.WatchedShortname}}</span>
+                    </td>
+                    <td>
+                        <span ng-show="thread.ThreadTags"><span ng-repeat="tag in thread.ThreadTags">{{tag}}<br /></span></span>
                     </td>
                     <td>
                         <a ng-show="thread.PostId != null && thread.LastPostUrl != null" target="_blank" href="{{thread.LastPostUrl}}">View</a>
