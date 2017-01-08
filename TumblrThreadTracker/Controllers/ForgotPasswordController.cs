@@ -1,11 +1,13 @@
 ﻿using System.Data.Entity.Core;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using TumblrThreadTracker.Infrastructure.Filters;
 using TumblrThreadTracker.Interfaces;
 using TumblrThreadTracker.Models.DomainModels.Account;
 using TumblrThreadTracker.Models.DomainModels.Users;
+using TumblrThreadTracker.Models.RequestModels;
 using WebMatrix.WebData;
 
 namespace TumblrThreadTracker.Controllers
@@ -32,13 +34,15 @@ namespace TumblrThreadTracker.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public HttpResponseMessage Post(string username)
+        public async Task<HttpResponseMessage> Post(ForgotPasswordRequest request)
         {
-            var user = _userProfileService.GetByUsername(username, _userProfileRepository);
+            var username = request.UsernameOrEmail;
+            var user = _userProfileRepository.GetSingle(u => u.UserName == username) ??
+                       _userProfileRepository.GetSingle(u => u.Email == username);
             if (user == null)
                 throw new ObjectNotFoundException();
-            var token = _webSecurityService.GeneratePasswordResetToken(username);
-            user.ToModel().SendForgotPasswordEmail(token, _webpagesMembershipRepository, _emailService, _webSecurityService);
+            var token = _webSecurityService.GeneratePasswordResetToken(user);
+            await user.SendForgotPasswordEmail(token, _webpagesMembershipRepository, _emailService, _webSecurityService);
             return new HttpResponseMessage(HttpStatusCode.OK);
         }
     }

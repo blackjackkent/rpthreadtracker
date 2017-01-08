@@ -327,6 +327,7 @@
     <Compile Include="Models\DomainModels\Account\WebpagesMembershipDto.cs" />
     <Compile Include="Models\DomainModels\DomainModel.cs" />
     <Compile Include="Models\Model.cs" />
+    <Compile Include="Models\RequestModels\ForgotPasswordRequest.cs" />
     <Compile Include="Models\RequestModels\LoginRequest.cs" />
     <Compile Include="Models\DomainModels\Blogs\Blog.cs" />
     <Compile Include="Models\DomainModels\Blogs\BlogDto.cs" />

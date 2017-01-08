@@ -89,21 +89,6 @@ rpThreadTracker.services.constant("SESSION_EVENTS",
             }
 
             function logout() {
-                /*var deferred = $q.defer(),
-                    config = {
-                        method: 'DELETE',
-                        url: '/api/Session'
-                    },
-                    success = function(response, status, headers, config) {
-                        deferred.resolve(response.data);
-                        user = null;
-                    },
-                    error = function(data) {
-                        deferred.reject(data);
-                    };
-                $http(config).then(success).catch(error);
-                return deferred.promise;*/
-                //@TODO server-side token clearance
                 user = null;
                 $window.localStorage["TrackerBearerToken"] = null;
                 broadcast(SESSION_EVENTS.LOGOUT);
@@ -113,7 +98,10 @@ rpThreadTracker.services.constant("SESSION_EVENTS",
                 var deferred = $q.defer(),
                     config = {
                         method: "POST",
-                        url: "/api/ForgotPassword?username=" + username
+                        url: "/api/ForgotPassword",
+                        data: {
+                            UsernameOrEmail: username
+                        }
                     },
                     success = function(response, status, headers, config) {
                         deferred.resolve(response.data);
