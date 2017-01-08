@@ -7,7 +7,7 @@ namespace TumblrThreadTracker.Interfaces
     {
         void CreateAccount(string username, string password, string email, IRepository<User> userProfileRepository);
         void ChangePassword(string name, string oldPassword, string newPassword);
-        string GeneratePasswordResetToken(string username);
+        string GeneratePasswordResetToken(User username);
         bool ResetPassword(string resetToken, string newPassword);
         User GetCurrentUserFromIdentity(ClaimsIdentity claimsIdentity);
         int? GetCurrentUserIdFromIdentity(ClaimsIdentity identity);
