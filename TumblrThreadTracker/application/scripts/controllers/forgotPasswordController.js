@@ -1,31 +1,37 @@
-﻿'use strict';
-var rpThreadTracker = rpThreadTracker || {};
-rpThreadTracker.controllers.controller('ForgotPasswordController', [
-    '$scope', '$location', 'sessionService', 'TrackerNotification', function($scope, $location, sessionService, TrackerNotification) {
-        $scope.setBodyClass('signin-page');
-        $scope.submitForgotPassword = submitForgotPassword;
+﻿(function() {
+	"use strict";
+	angular.module("rpthreadtracker")
+		.controller("ForgotPasswordController",
+		[
+			"$scope", "$location", "sessionService", "TrackerNotification",
+			forgotPasswordController
+		]);
 
-        function submitForgotPassword() {
-            $scope.error = "";
-            $scope.success = "";
-            $scope.loading = true;
-            sessionService.submitForgotPassword($scope.username).then(success, fail);
-        };
+	function forgotPasswordController($scope, $location, sessionService, TrackerNotification) {
+		$scope.setBodyClass("signin-page");
+		$scope.submitForgotPassword = submitForgotPassword;
 
-        function success() {
-            $scope.loading = false;
-            new TrackerNotification()
-                .withMessage("Success. Check your email box for a temporary password.")
-                .withType("success")
-                .show();
-        }
+		function submitForgotPassword() {
+			$scope.error = "";
+			$scope.success = "";
+			$scope.loading = true;
+			sessionService.submitForgotPassword($scope.username).then(success, fail);
+		}
 
-        function fail() {
-            $scope.loading = false;
-            new TrackerNotification()
-                .withMessage("Unknown error. Please try again later.")
-                .withType("error")
-                .show();
-        };
-    }
-]);
+		function success() {
+			$scope.loading = false;
+			new TrackerNotification()
+				.withMessage("Success. Check your email box for a temporary password.")
+				.withType("success")
+				.show();
+		}
+
+		function fail() {
+			$scope.loading = false;
+			new TrackerNotification()
+				.withMessage("Unknown error. Please try again later.")
+				.withType("error")
+				.show();
+		}
+	}
+})();

@@ -1,14 +1,14 @@
 <section id="signin-container">
     <a href="#" class="header">
         <span>Sign in to<br><strong>RP Thread Tracker</strong></span>
-        <span ng-show="loading" class="loading-icon"><img src="/application/images/loading.gif" /></span>
+        <span ng-show="vm.loading" class="loading-icon"><img src="/application/images/loading.gif" /></span>
     </a>
-    <form method="get" accept-charset="utf-8" ng-submit="login()" name="loginForm">
+    <form method="get" accept-charset="utf-8" ng-submit="vm.login()" name="loginForm">
         <fieldset>
             <div class="fields">
-                <input type="text" name="username" ng-model="username" placeholder="Username/Email" id="id_username" tabindex="1">
+                <input type="text" name="username" ng-model="vm.username" placeholder="Username/Email" id="id_username" tabindex="1">
 
-                <input type="password" name="password" ng-model="password" placeholder="Password" id="id_password" tabindex="2">
+                <input type="password" name="password" ng-model="vm.password" placeholder="Password" id="id_password" tabindex="2">
             </div>
             <a href="/forgot-password" title="" tabindex="3" class="forgot-password">Forgot?</a>
             <button type="submit" class="btn btn-primary btn-block" tabindex="4">Sign In</button>

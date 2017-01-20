@@ -750,7 +750,6 @@
     <Content Include="application\scripts\controllers\baseController.js" />
     <Content Include="application\scripts\controllers\footerController.js" />
     <Content Include="application\scripts\controllers\manageThreadController.js" />
-    <Content Include="application\scripts\controllers\bodyController.js" />
     <Content Include="application\scripts\controllers\editBlogController.js" />
     <Content Include="application\scripts\controllers\forgotPasswordController.js" />
     <Content Include="application\scripts\controllers\headerController.js" />
@@ -779,6 +778,7 @@
     <Content Include="application\scripts\jquery\fuelux-datagrid-example.min.js" />
     <Content Include="application\scripts\jquery\modernizr-jquery.min.js" />
     <Content Include="application\scripts\services\adminflareService.js" />
+    <Content Include="application\scripts\services\bodyClassFactory.js" />
     <Content Include="application\scripts\services\notificationFactory.js" />
     <Content Include="application\scripts\services\blogService.js" />
     <Content Include="application\scripts\services\contextService.js" />
@@ -1066,6 +1066,7 @@
     <Content Include="application\scripts\bower\angular-ui-notification\README.md" />
     <Content Include="application\scripts\bower\angular-ui-notification\src\angular-ui-notification.less" />
     <Content Include="application\scripts\bower\angular-ui-notification\src\build.less" />
+    <Content Include="application\.eslintrc.json" />
     <None Include="BundleTransformer.Configuration.xsd">
       <SubType>Designer</SubType>
     </None>

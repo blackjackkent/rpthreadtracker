@@ -1,11 +1,16 @@
-﻿'use strict';
-var rpThreadTracker = rpThreadTracker || {};
-rpThreadTracker.services.service('contextService', [
-    '$q', '$http', function($q, $http) {
+﻿(function() {
+    "use strict";
+    angular.module("rpthreadtracker")
+        .service("contextService",
+        [
+            "$q", "$http", contextService
+        ]);
+
+    function contextService($q, $http) {
         var sortDescending = false,
-            currentBlog = '',
-            filteredTag = '',
-            currentOrderBy = 'LastPostDate';
+            currentBlog = "",
+            filteredTag = "",
+            currentOrderBy = "LastPostDate";
 
         function getSortDescending() {
             return sortDescending;
@@ -40,7 +45,16 @@ rpThreadTracker.services.service('contextService', [
         }
 
         function getPublicUrl(pageId, userId) {
-            return "http://www.rpthreadtracker.com/public/" + pageId + "?userId=" + userId + "&currentBlog=" + currentBlog + "&sortDescending=" + sortDescending + "&currentOrderBy=" + currentOrderBy;
+            return "http://www.rpthreadtracker.com/public/" +
+                pageId +
+                "?userId=" +
+                userId +
+                "&currentBlog=" +
+                currentBlog +
+                "&sortDescending=" +
+                sortDescending +
+                "&currentOrderBy=" +
+                currentOrderBy;
         }
 
         return {
@@ -55,4 +69,4 @@ rpThreadTracker.services.service('contextService', [
             getPublicUrl: getPublicUrl
         };
     }
-]);
+})();
