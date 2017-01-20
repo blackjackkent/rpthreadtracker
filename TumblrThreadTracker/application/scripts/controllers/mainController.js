@@ -1,10 +1,10 @@
 ﻿(function() {
-	"use strict";
-	angular.module("rpthreadtracker")
-		.controller("MainController",
+	'use strict';
+	angular.module('rpthreadtracker')
+		.controller('MainController',
 		[
-			"$scope", "$controller", "$location", "$analytics", "threadService", "contextService", "blogService", "newsService",
-			"sessionService", "pageId", "TrackerNotification", "BodyClass",
+			'$scope', '$controller', '$location', '$analytics', 'threadService', 'contextService', 'blogService', 'newsService',
+			'sessionService', 'pageId', 'TrackerNotification', 'BodyClass',
 			mainController
 		]);
 
@@ -25,29 +25,29 @@
 		vm.setDashboardFilter = setDashboardFilter;
 		vm.toggleAtAGlanceData = toggleAtAGlanceData;
 		vm.generateRandomOwedThread = generateRandomOwedThread;
-		vm.$on("$destroy", destroyView);
+		vm.$on('$destroy', destroyView);
 		initView();
 
 		// ******* functions *********
 		function setCurrentBlog() {
 			contextService.setCurrentBlog(vm.currentBlog);
 			populateTagFilter();
-			$analytics.eventTrack("Change Current Blog", { category: "Private Thread View" });
+			$analytics.eventTrack('Change Current Blog', { category: 'Private Thread View' });
 		}
 
 		function setSortDescending() {
 			contextService.setSortDescending(vm.sortDescending);
-			$analytics.eventTrack("Change Sort Descending", { category: "Private Thread View" });
+			$analytics.eventTrack('Change Sort Descending', { category: 'Private Thread View' });
 		}
 
 		function setCurrentOrderBy() {
 			contextService.setCurrentOrderBy(vm.currentOrderBy);
-			$analytics.eventTrack("Change Order By", { category: "Private Thread View" });
+			$analytics.eventTrack('Change Order By', { category: 'Private Thread View' });
 		}
 
 		function setFilteredTag() {
 			contextService.setFilteredTag(vm.filteredTag);
-			$analytics.eventTrack("Change Filtered Tag", { category: "Private Thread View" });
+			$analytics.eventTrack('Change Filtered Tag', { category: 'Private Thread View' });
 		}
 
 		function bulkAction() {
@@ -57,11 +57,11 @@
 					bulkAffected.push(property);
 				}
 			}
-			if (vm.bulkItemAction == "UntrackSelected") {
+			if (vm.bulkItemAction == 'UntrackSelected') {
 				vm.untrackThreads(bulkAffected);
-			} else if (vm.bulkItemAction == "ArchiveSelected") {
+			} else if (vm.bulkItemAction == 'ArchiveSelected') {
 				vm.archiveThreads(bulkAffected);
-			} else if (vm.bulkItemAction == "UnarchiveSelected") {
+			} else if (vm.bulkItemAction == 'UnarchiveSelected') {
 				vm.unarchiveThreads(bulkAffected);
 			}
 		}
@@ -74,8 +74,8 @@
 					threadService.getArchive();
 				});
 			new TrackerNotification()
-				.withMessage(userThreadIds.length + " thread(s) untracked.")
-				.withType("success")
+				.withMessage(userThreadIds.length + ' thread(s) untracked.')
+				.withType('success')
 				.show();
 		}
 
@@ -92,8 +92,8 @@
 					threadService.getArchive();
 				});
 			new TrackerNotification()
-				.withMessage(userThreadIds.length + " thread(s) archived.")
-				.withType("success")
+				.withMessage(userThreadIds.length + ' thread(s) archived.')
+				.withType('success')
 				.show();
 		}
 
@@ -110,13 +110,13 @@
 					threadService.getArchive();
 				});
 			new TrackerNotification()
-				.withMessage(userThreadIds.length + " thread(s) unarchived.")
-				.withType("success")
+				.withMessage(userThreadIds.length + ' thread(s) unarchived.')
+				.withType('success')
 				.show();
 		}
 
 		function refreshThreads() {
-			if (pageId == "archived") {
+			if (pageId == 'archived') {
 				threadService.getArchive(true);
 			} else {
 				threadService.getThreads(true);
@@ -125,7 +125,7 @@
 
 		function setDashboardFilter(filterString) {
 			vm.dashboardFilter = filterString;
-			$analytics.eventTrack("Set Recent to " + filterString, { category: "Dashboard" });
+			$analytics.eventTrack('Set Recent to ' + filterString, { category: 'Dashboard' });
 		}
 
 		function toggleAtAGlanceData() {
@@ -175,7 +175,7 @@
 
 		function populateTagFilter() {
 			vm.allTags = [];
-			if (vm.currentBlog == "") {
+			if (vm.currentBlog == '') {
 				angular.forEach(vm.tagsByBlog,
 					function(value) {
 						angular.forEach(value,
@@ -200,12 +200,12 @@
 			BodyClass.set('');
 			vm.pageId = pageId;
 			vm.displayPublicUrl = true;
-			vm.dashboardFilter = "yourturn";
+			vm.dashboardFilter = 'yourturn';
 			vm.bulkItems = {};
-			vm.bulkItemAction = "UntrackSelected";
+			vm.bulkItemAction = 'UntrackSelected';
 			vm.showAtAGlance = false;
 			vm.loadingRandomThread = false;
-			if (pageId == "archived") {
+			if (pageId == 'archived') {
 				threadService.subscribeOnArchiveUpdate(updateThreads);
 				threadService.getArchive();
 			} else {

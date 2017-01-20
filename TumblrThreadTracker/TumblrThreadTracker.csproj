@@ -748,6 +748,7 @@
     <Content Include="application\scripts\bower\lodash\vendor\underscore\underscore.js" />
     <Content Include="application\scripts\bower\SHA-1\sha1.js" />
     <Content Include="application\scripts\controllers\baseController.js" />
+    <Content Include="application\scripts\controllers\dashboardController.js" />
     <Content Include="application\scripts\controllers\footerController.js" />
     <Content Include="application\scripts\controllers\manageThreadController.js" />
     <Content Include="application\scripts\controllers\editBlogController.js" />

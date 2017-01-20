@@ -1,5 +1,5 @@
-<header-nav public-view="vm.publicView" page-id="vm.pageId" user="vm.user"></header-nav>
-<side-nav public-view="vm.publicView" page-id="vm.pageId"></side-nav>
+<header-nav public-view="{{vm.publicView}}" page-id="{{vm.pageId}}" user="vm.user"></header-nav>
+<side-nav public-view="{{vm.publicView}}" page-id="{{vm.pageId}}"></side-nav>
 
 <section class="central-container container">
     <div id="content">
@@ -38,6 +38,6 @@
                 <img alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1">
             </form>
         </section>
-        <footer></footer>
+        <footer user="vm.user"></footer>
     </div>
 </section>

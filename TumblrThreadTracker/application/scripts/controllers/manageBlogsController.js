@@ -1,16 +1,16 @@
 ﻿(function() {
-	"use strict";
-	angular.module("rpthreadtracker")
-		.controller("ManageBlogsController",
+	'use strict';
+	angular.module('rpthreadtracker')
+		.controller('ManageBlogsController',
 		[
-			"$scope", "$location", "sessionService", "blogService", "threadService", "pageId", "TrackerNotification",
+			'$scope', '$location', 'sessionService', 'blogService', 'threadService', 'pageId', 'TrackerNotification',
 			manageBlogsController
 		]);
 
 	function manageBlogsController($scope, $location, sessionService, blogService, threadService, pageId, TrackerNotification) {
-		$scope.setBodyClass("");
+		$scope.setBodyClass('');
 		$scope.pageId = pageId;
-		$scope.shortnameRegex = "[A-z|\\d|\\-]+";
+		$scope.shortnameRegex = '[A-z|\\d|\\-]+';
 		$scope.createBlog = createBlog;
 		$scope.untrackBlog = untrackBlog;
 		$scope.toggleHiatus = toggleHiatus;
@@ -22,19 +22,19 @@
 					$scope.blogs = blogs;
 				});
 			$scope.emptyBlogShortnameError = new TrackerNotification()
-				.withMessage("ERROR: You must enter a blog shortname.")
-				.withType("error");
+				.withMessage('ERROR: You must enter a blog shortname.')
+				.withType('error');
 			$scope.invalidBlogShortnameError = new TrackerNotification()
-				.withMessage("ERROR: You must enter only the blog shortname, not the full URL.")
-				.withType("error");
+				.withMessage('ERROR: You must enter only the blog shortname, not the full URL.')
+				.withType('error');
 		}
 
 		function success() {
 			$scope.newBlogForm.$setPristine();
-			$scope.newBlogShortname = "";
+			$scope.newBlogShortname = '';
 			new TrackerNotification()
 				.withMessage("Blogs updated. Click 'Track New Thread' to add a thread for one of the blogs below.")
-				.withType("success")
+				.withType('success')
 				.show();
 			blogService.flushBlogs();
 			threadService.flushThreads();
@@ -46,8 +46,8 @@
 
 		function failure() {
 			new TrackerNotification()
-				.withMessage("ERROR: There was a problem updating your blogs.")
-				.withType("error")
+				.withMessage('ERROR: There was a problem updating your blogs.')
+				.withType('error')
 				.show();
 		}
 
@@ -70,11 +70,11 @@
 					.withMessage("ERROR: A blog with the shortname '<em>" +
 						$scope.newBlogShortname +
 						"</em>' is already associated with your account.")
-					.withType("error")
+					.withType('error')
 					.show();
 				return;
 			}
-			if ($scope.newBlogShortname != "") {
+			if ($scope.newBlogShortname != '') {
 				blogService.createBlog($scope.newBlogShortname).then(success).catch(failure);
 			}
 		}

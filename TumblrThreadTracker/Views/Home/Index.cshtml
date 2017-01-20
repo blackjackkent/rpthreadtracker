@@ -23,8 +23,8 @@
         <link rel="stylesheet" href="/application/styles/default/bootstrap.css"/>
         <link  rel="stylesheet" href="/application/styles/default/adminflare.css"/>
         <link rel="stylesheet" href="/application/styles/pages.css"/>
-        <link rel="stylesheet" href="/application/styles/default/custom.css?t={{cacheBuster}}" />
-        <link ng-if="user && user.UseInvertedTheme" rel="stylesheet" href="/application/styles/dark/custom.css?t={{cacheBuster}}" />
+        <link rel="stylesheet" href="/application/styles/default/custom.css?t={{vm.cacheBuster}}" />
+        <link ng-if="vm.user && vm.user.UseInvertedTheme" rel="stylesheet" href="/application/styles/dark/custom.css?t={{vm.cacheBuster}}" />
         <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
         <script src="/application/scripts/jquery/bootstrap.js"></script>
 

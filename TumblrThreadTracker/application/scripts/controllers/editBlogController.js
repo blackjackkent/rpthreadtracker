@@ -1,15 +1,15 @@
 ﻿(function() {
-	"use strict";
-	angular.module("rpthreadtracker")
-		.controller("EditBlogController",
+	'use strict';
+	angular.module('rpthreadtracker')
+		.controller('EditBlogController',
 		[
-			"$scope", "$routeParams", "$location", "sessionService", "contextService", "blogService", "threadService",
-			"TrackerNotification", "pageId",
+			'$scope', '$routeParams', '$location', 'sessionService', 'contextService', 'blogService', 'threadService',
+			'TrackerNotification', 'pageId',
 			editBlogController
 		]);
 
 	function editBlogController($scope, $routeParams, $location, sessionService, contextService, blogService, threadService, TrackerNotification, pageId) {
-		$scope.setBodyClass("");
+		$scope.setBodyClass('');
 		$scope.pageId = pageId;
 		$scope.submitBlog = submitBlog;
 		initView($routeParams.userBlogId);
@@ -39,22 +39,22 @@
 					$scope.currentBlogShortname = angular.copy($scope.blogToEdit.BlogShortname);
 				});
 			$scope.duplicateErrorNotification = new TrackerNotification()
-				.withMessage("ERROR: A blog with this shortname is already associated with your account.")
-				.withType("error");
+				.withMessage('ERROR: A blog with this shortname is already associated with your account.')
+				.withType('error');
 			$scope.generalErrorMessage = new TrackerNotification()
-				.withMessage("ERROR: There was a problem editing your blog.")
-				.withType("error");
+				.withMessage('ERROR: There was a problem editing your blog.')
+				.withType('error');
 			$scope.missingValueNotification = new TrackerNotification()
-				.withMessage("ERROR: You must enter a blog shortname.")
-				.withType("error");
+				.withMessage('ERROR: You must enter a blog shortname.')
+				.withType('error');
 		}
 
 		function success() {
 			new TrackerNotification()
-				.withMessage($scope.currentBlogShortname + " renamed to " + $scope.blogToEdit.BlogShortname + ".")
-				.withType("success")
+				.withMessage($scope.currentBlogShortname + ' renamed to ' + $scope.blogToEdit.BlogShortname + '.')
+				.withType('success')
 				.show();
-			$location.path("/manage-blogs");
+			$location.path('/manage-blogs');
 		}
 
 		function failure() {

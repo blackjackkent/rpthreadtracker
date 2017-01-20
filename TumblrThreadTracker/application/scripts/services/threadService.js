@@ -16,10 +16,9 @@
 
 		function untrackThreads(userThreadIds) {
 			var queryString = "";
-			angular.forEach(userThreadIds,
-				function(id) {
-					queryString += "userThreadIds=" + id + "&";
-				});
+			angular.forEach(userThreadIds, function(id) {
+				queryString += "userThreadIds=" + id + "&";
+			});
 			queryString.slice(1, queryString.length - 2);
 			var deferred = $q.defer(),
 				config = {
@@ -45,17 +44,14 @@
 			broadcast(threads);
 			threads = [];
 			var queue = [];
-			getThreadIds(false)
-				.then(function(ids) {
-					angular.forEach(ids,
-						function(value) {
-							queue.push(getThread(value));
-						});
-					$q.all(queue)
-						.then(function() {
-							broadcastOnComplete();
-						});
+			getThreadIds(false).then(function(ids) {
+				angular.forEach(ids, function(value) {
+					queue.push(getThread(value));
 				});
+				$q.all(queue).then(function() {
+					broadcastOnComplete();
+				});
+			});
 		};
 
 		function getThreadIds(isArchived) {

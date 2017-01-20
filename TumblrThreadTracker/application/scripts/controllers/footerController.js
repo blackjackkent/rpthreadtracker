@@ -1,19 +1,22 @@
-﻿(function() {
-	angular.module("rpthreadtracker")
-		.controller("FooterController",
+﻿'use strict';
+(function() {
+	angular.module('rpthreadtracker')
+		.controller('FooterController',
 		[
-			"$scope", "sessionService",
-			footerController
+			'$scope', 'sessionService', footerController
 		]);
 
+	/** @this footerController */
+	// eslint-disable-next-line valid-jsdoc, max-params, max-len
 	function footerController($scope, sessionService) {
-		$scope.toggleTheme = function() {
-			if (!$scope.user) {
+		var vm = this;
+		vm.toggleTheme = function() {
+			if (!vm.user) {
 				return;
 			}
-			$scope.user.UseInvertedTheme = !$scope.user.UseInvertedTheme;
-			sessionService.updateUser($scope.user);
+			vm.user.UseInvertedTheme = !vm.user.UseInvertedTheme;
+			sessionService.updateUser(vm.user);
 		};
-		$scope.year = new Date().getFullYear();
+		vm.year = new Date().getFullYear();
 	}
-})();
+}());
