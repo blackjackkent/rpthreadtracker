@@ -1,15 +1,20 @@
-﻿'use strict';
-var rpThreadTracker = rpThreadTracker || {};
-rpThreadTracker.services.service('publicThreadService', [
-    '$q', '$http', function($q, $http) {
+﻿(function() {
+    "use strict";
+    angular.module("rpthreadtracker")
+        .service("publicThreadService",
+        [
+            "$q", "$http", publicThreadService
+        ]);
+
+    function publicThreadService($q, $http) {
         var subscribers = [],
             threads = [];
 
         function getThreadIds(userId, blogShortname) {
             var deferred = $q.defer(),
                 config = {
-                    url: '/api/PublicThread?userId=' + userId + "&blogShortname=" + blogShortname,
-                    method: 'GET'
+                    url: "/api/PublicThread?userId=" + userId + "&blogShortname=" + blogShortname,
+                    method: "GET"
                 },
                 success = function(response) {
                     deferred.resolve(response.data);
@@ -27,18 +32,20 @@ rpThreadTracker.services.service('publicThreadService', [
                 return;
             }
             threads = [];
-            getThreadIds(userId, blogShortname).then(function(ids) {
-                angular.forEach(ids, function(value, key) {
-                    getThread(value);
+            getThreadIds(userId, blogShortname)
+                .then(function(ids) {
+                    angular.forEach(ids,
+                        function(value, key) {
+                            getThread(value);
+                        });
                 });
-            });
         };
 
         function getThread(id) {
             var deferred = $q.defer(),
                 config = {
-                    url: '/api/PublicThread/' + id,
-                    method: 'GET'
+                    url: "/api/PublicThread/" + id,
+                    method: "GET"
                 },
                 success = function(response) {
                     threads.push(response.data);
@@ -59,9 +66,10 @@ rpThreadTracker.services.service('publicThreadService', [
         }
 
         function broadcast(data) {
-            angular.forEach(subscribers, function(callback, key) {
-                callback(data);
-            });
+            angular.forEach(subscribers,
+                function(callback, key) {
+                    callback(data);
+                });
         }
 
         return {
@@ -70,4 +78,4 @@ rpThreadTracker.services.service('publicThreadService', [
             getThreads: getThreads
         };
     }
-]);
+})();

@@ -1,9 +1,19 @@
-﻿'use strict';
-var rpThreadTracker = rpThreadTracker || {};
-rpThreadTracker.directives.directive('sideNav', ['cacheBuster', function(cacheBuster) {
-    return {
-        restrict: 'E',
-        replace: 'true',
-        templateUrl: '/application/views/directives/side-nav.html?cacheBuster=' + cacheBuster
-    };
-}]);
+﻿(function() {
+    'use strict';
+    angular.module('rpthreadtracker')
+        .directive('sideNav',
+        [
+            'cacheBuster', sideNav
+        ]);
+    function sideNav(cacheBuster) {
+            return {
+                restrict: 'E',
+                replace: 'true',
+                scope: {
+                	publicView: '@',
+					pageId: '@'
+                },
+                templateUrl: '/application/views/directives/side-nav.html?cacheBuster=' + cacheBuster
+            };
+        }
+})();

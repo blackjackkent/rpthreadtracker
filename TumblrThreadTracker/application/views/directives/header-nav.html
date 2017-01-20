@@ -8,30 +8,30 @@
 
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li ng-class="{active: pageId=='about'}"><a href="/about">About</a></li>
-                    <li ng-class="{active: pageId=='contact'}"><a href="/contact">Contact</a></li>
-                    <li ng-class="{active: pageId=='help'}"><a href="/help">Help</a></li>
+                    <li ng-class="{active: vm.pageId=='about'}"><a href="/about">About</a></li>
+                    <li ng-class="{active: vm.pageId=='contact'}"><a href="/contact">Contact</a></li>
+                    <li ng-class="{active: vm.pageId=='help'}"><a href="/help">Help</a></li>
                     <li class="divider-vertical"></li>
-                    <li ng-hide="publicView || blogs.length == 0"><a href="/add-thread">Track New Thread</a></li>
-                    <li ng-hide="publicView"><a href="/manage-blogs">Manage Blogs</a></li>
-                    <li ng-show="loading" class="loading-icon"><img src="/application/images/loading.gif"/></li>
+                    <li ng-hide="vm.publicView || vm.blogs.length == 0"><a href="/add-thread">Track New Thread</a></li>
+                    <li ng-hide="vm.publicView"><a href="/manage-blogs">Manage Blogs</a></li>
+                    <li ng-show="vm.loading" class="loading-icon"><img src="/application/images/loading.gif"/></li>
                 </ul>
                 <ul class="nav pull-right">
-                    <li class="dropdown" ng-show="user">
+                    <li class="dropdown" ng-show="vm.user">
                         <a href="/manage-account" class="dropdown-toggle usermenu" data-toggle="dropdown">
                             <img alt="Avatar" src="/application/images/avatar.png">
-                            <span>&nbsp;&nbsp;{{user.UserName}}</span>
+                            <span>&nbsp;&nbsp;{{vm.user.UserName}}</span>
                         </a>
                     </li>
                     <li class="separator"></li>
-                    <li ng-show="user">
+                    <li ng-show="vm.user">
                         <a href="/logout">Log Out</a>
                     </li>
-                    <li ng-hide="user">
+                    <li ng-hide="vm.user">
                         <a href="/login">Log In</a>
                     </li>
-                    <li class="separator" ng-hide="user"></li>
-                    <li ng-hide="user">
+                    <li class="separator" ng-hide="vm.user"></li>
+                    <li ng-hide="vm.user">
                         <a href="/register">Register</a>
                     </li>
                 </ul>

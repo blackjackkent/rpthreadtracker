@@ -1,16 +1,21 @@
-﻿'use strict';
-var rpThreadTracker = rpThreadTracker || {};
-rpThreadTracker.services.service('blogService', [
-    '$q', '$http', function($q, $http) {
+﻿(function() {
+    "use strict";
+    angular.module("rpthreadtracker")
+        .service("blogService",
+        [
+            "$q", "$http", blogService
+        ]);
+
+    function blogService($q, $http) {
         var blogs = [];
 
         function getBlogs(force, includeHiatusedBlogs) {
             var deferred = $q.defer(),
                 config = {
-                    url: '/api/Blog' + (includeHiatusedBlogs ? "?includeHiatusedBlogs=true" : ""),
-                    method: 'GET'
+                    url: "/api/Blog" + (includeHiatusedBlogs ? "?includeHiatusedBlogs=true" : ""),
+                    method: "GET"
                 },
-                success = function (response) {
+                success = function(response) {
                     if (!response) {
                         deferred.resolve(null);
                     } else {
@@ -28,8 +33,8 @@ rpThreadTracker.services.service('blogService', [
         function getBlog(id) {
             var deferred = $q.defer(),
                 config = {
-                    url: '/api/Blog/' + id,
-                    method: 'GET'
+                    url: "/api/Blog/" + id,
+                    method: "GET"
                 },
                 success = function(response) {
                     deferred.resolve(response.data);
@@ -48,7 +53,7 @@ rpThreadTracker.services.service('blogService', [
         function createBlog(blogShortname) {
             var deferred = $q.defer(),
                 config = {
-                    url: '/api/Blog',
+                    url: "/api/Blog",
                     method: "POST",
                     data: {
                         BlogShortname: blogShortname
@@ -67,7 +72,7 @@ rpThreadTracker.services.service('blogService', [
         function editBlog(blog) {
             var deferred = $q.defer(),
                 config = {
-                    url: '/api/Blog',
+                    url: "/api/Blog",
                     method: "PUT",
                     data: blog
                 },
@@ -84,7 +89,7 @@ rpThreadTracker.services.service('blogService', [
         function untrackBlog(userBlogId) {
             var deferred = $q.defer(),
                 config = {
-                    url: '/api/Blog?userBlogId=' + userBlogId,
+                    url: "/api/Blog?userBlogId=" + userBlogId,
                     method: "DELETE"
                 },
                 success = function(response, status, headers, config) {
@@ -106,4 +111,4 @@ rpThreadTracker.services.service('blogService', [
             untrackBlog: untrackBlog
         };
     }
-]);
+})();

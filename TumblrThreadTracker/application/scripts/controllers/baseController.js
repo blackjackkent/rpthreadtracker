@@ -1,25 +1,36 @@
-﻿'use strict';
-var rpThreadTracker = rpThreadTracker || {};
-rpThreadTracker.controllers.controller('BaseController', [
-    '$scope', 'sessionService', 'SESSION_EVENTS', 'cacheBuster', function ($scope, sessionService, SESSION_EVENTS, cacheBuster) {
-        $scope.cacheBuster = cacheBuster;
+﻿(function() {
+    "use strict";
+    angular.module("rpthreadtracker")
+        .controller("BaseController",
+        [
+            "sessionService", "SESSION_EVENTS", "cacheBuster", 'BodyClass',
+            baseController
+        ]);
+
+    function baseController(sessionService, SESSION_EVENTS, cacheBuster, BodyClass) {
+	    var vm = this;
+	    vm.cacheBuster = cacheBuster;
+	    vm.bodyClass = BodyClass;
+
         sessionService.subscribe(handleSessionEvent);
         registerSession();
 
         function registerSession() {
-            sessionService.isLoggedIn().then(function(isLoggedIn) {
-                if (isLoggedIn) {
-                    sessionService.getUser().then(function(user) {
-                        $scope.userId = user.UserId;
-                        $scope.user = user;
-                    });
-                }
-            });
+            sessionService.isLoggedIn()
+                .then(function(isLoggedIn) {
+                    if (isLoggedIn) {
+                        sessionService.getUser()
+                            .then(function(user) {
+                                vm.userId = user.UserId;
+                                vm.user = user;
+                            });
+                    }
+                });
         }
 
         function clearSession() {
-            $scope.userId = null;
-            $scope.user = null;
+            vm.userId = null;
+            vm.user = null;
         }
 
         function handleSessionEvent(eventType) {
@@ -30,5 +41,9 @@ rpThreadTracker.controllers.controller('BaseController', [
                 clearSession();
             }
         }
+
+        function setBodyClass(_bodyClass) {
+        	vm.bodyClass = _bodyClass;
+        }
     }
-]);
+})();

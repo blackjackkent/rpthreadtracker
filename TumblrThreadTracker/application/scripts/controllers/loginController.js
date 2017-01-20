@@ -1,39 +1,48 @@
-﻿'use strict';
-var rpThreadTracker = rpThreadTracker || {};
-rpThreadTracker.controllers.controller('LoginController', [
-    '$scope', '$location', 'sessionService', 'TrackerNotification', function ($scope, $location, sessionService, TrackerNotification) {
-        $scope.login = login;
-        redirectIfLoggedIn();
-        $scope.setBodyClass('signin-page');
+﻿(function() {
+	"use strict";
+	angular.module("rpthreadtracker")
+		.controller("LoginController",
+		[
+			"$controller", "$scope", "$location", "sessionService", "TrackerNotification", 'BodyClass',
+			loginController
+		]);
 
-        function redirectIfLoggedIn() {
-            sessionService.isLoggedIn().then(function (isLoggedIn) {
-                if (isLoggedIn) {
-                    $location.path('/');
-                }
-            });
-        };
+	function loginController($controller, $scope, $location, sessionService, TrackerNotification, BodyClass) {
+		angular.extend(this, $controller('BaseController as base', { $scope: $scope }));
+		var vm = this;
+		vm.login = login;
+		redirectIfLoggedIn();
+		BodyClass.set('signin-page');
 
-        function login() {
-            $scope.loading = true;
-            if ($scope.loginForm != undefined) {
-                $scope.username = loginForm.username.value;
-                $scope.password = loginForm.password.value;
-            }
-            sessionService.login($scope.username, $scope.password).then(success, fail);
-        };
+		function redirectIfLoggedIn() {
+			sessionService.isLoggedIn()
+				.then(function(isLoggedIn) {
+					if (isLoggedIn) {
+						$location.path("/");
+					}
+				});
+		}
 
-        function success() {
-            $scope.loading = false;
-            $location.path('/');
-        }
+		function login() {
+			vm.loading = true;
+			if (vm.loginForm != undefined) {
+				vm.username = vm.loginForm.username.value;
+				vm.password = vm.loginForm.password.value;
+			}
+			sessionService.login(vm.username, vm.password).then(success, fail);
+		}
 
-        function fail() {
-            $scope.loading = false;
-            new TrackerNotification()
-                .withMessage("Incorrect username or password.")
-                .withType("error")
-                .show();
-        }
-    }
-]);
+		function success() {
+			vm.loading = false;
+			$location.path("/");
+		}
+
+		function fail() {
+			vm.loading = false;
+			new TrackerNotification()
+				.withMessage("Incorrect username or password.")
+				.withType("error")
+				.show();
+		}
+	}
+})();

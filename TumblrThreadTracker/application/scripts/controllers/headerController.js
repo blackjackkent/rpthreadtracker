@@ -1,18 +1,25 @@
-﻿var rpThreadTracker = rpThreadTracker || {};
-rpThreadTracker.controllers.controller('HeaderController', [
-    '$scope', '$timeout', 'threadService', 'adminflareService', function ($scope, $timeout, threadService, adminflareService) {
-        $timeout(adminflareService.init);
-        $timeout(adminflareService.initCustom);
-        threadService.subscribe(showLoadingIcon);
-        threadService.subscribeOnComplete(hideLoadingIcon);
-        $scope.loading = false;
+﻿(function() {
+	angular.module("rpthreadtracker")
+		.controller("HeaderController",
+		[
+			"$timeout", "threadService", "adminflareService",
+			headerController
+		]);
 
-        function showLoadingIcon() {
-            $scope.loading = true;
-        }
+	function headerController($timeout, threadService, adminflareService) {
+		var vm = this;
+		$timeout(adminflareService.init);
+		$timeout(adminflareService.initCustom);
+		threadService.subscribe(showLoadingIcon);
+		threadService.subscribeOnComplete(hideLoadingIcon);
+		vm.loading = false;
 
-        function hideLoadingIcon() {
-            $scope.loading = false;
-        }
-    }
-]);
+		function showLoadingIcon() {
+			vm.loading = true;
+		}
+
+		function hideLoadingIcon() {
+			vm.loading = false;
+		}
+	}
+})();

@@ -1,7 +1,12 @@
-﻿'use strict';
-var rpThreadTracker = rpThreadTracker || {};
-rpThreadTracker.services.service('threadService', [
-    '$q', '$http', function($q, $http) {
+﻿(function() {
+    "use strict";
+    angular.module("rpthreadtracker")
+        .service("threadService",
+        [
+            "$q", "$http", threadService
+        ]);
+
+    function threadService($q, $http) {
         var subscribers = [],
             subscribersOnComplete = [],
             subscribersOnArchiveUpdate = [],
@@ -11,10 +16,10 @@ rpThreadTracker.services.service('threadService', [
         function getThreadIds(isArchived) {
             var deferred = $q.defer(),
                 config = {
-                    url: '/api/Thread?isArchived=' + isArchived,
-                    method: 'GET'
+                    url: "/api/Thread?isArchived=" + isArchived,
+                    method: "GET"
                 },
-                success = function (response) {
+                success = function(response) {
                     if (response) {
                         deferred.resolve(response.data);
                     } else {
@@ -37,14 +42,17 @@ rpThreadTracker.services.service('threadService', [
             broadcast(threads);
             threads = [];
             var queue = [];
-            getThreadIds(false).then(function(ids) {
-                angular.forEach(ids, function(value, key) {
-                    queue.push(getThread(value));
+            getThreadIds(false)
+                .then(function(ids) {
+                    angular.forEach(ids,
+                        function(value, key) {
+                            queue.push(getThread(value));
+                        });
+                    $q.all(queue)
+                        .then(function(results) {
+                            broadcastOnComplete();
+                        });
                 });
-                $q.all(queue).then(function(results) {
-                    broadcastOnComplete();
-                });
-            });
         };
 
         function getArchive(force) {
@@ -55,23 +63,26 @@ rpThreadTracker.services.service('threadService', [
             broadcastOnArchiveUpdate(archivedThreads);
             archivedThreads = [];
             var queue = [];
-            getThreadIds(true).then(function (ids) {
-                angular.forEach(ids, function (value, key) {
-                    queue.push(getThread(value));
+            getThreadIds(true)
+                .then(function(ids) {
+                    angular.forEach(ids,
+                        function(value, key) {
+                            queue.push(getThread(value));
+                        });
+                    $q.all(queue)
+                        .then(function(results) {
+                            broadcastOnComplete();
+                        });
                 });
-                $q.all(queue).then(function (results) {
-                    broadcastOnComplete();
-                });
-            });
         }
 
         function getThread(id) {
             var deferred = $q.defer(),
                 config = {
-                    url: '/api/Thread/' + id,
-                    method: 'GET'
+                    url: "/api/Thread/" + id,
+                    method: "GET"
                 },
-                success = function (response) {
+                success = function(response) {
                     if (response.data.IsArchived == false) {
                         threads.push(response.data);
                         broadcast(threads);
@@ -88,8 +99,8 @@ rpThreadTracker.services.service('threadService', [
         function getStandaloneThread(id) {
             var deferred = $q.defer(),
                 config = {
-                    url: '/api/Thread/' + id,
-                    method: 'GET'
+                    url: "/api/Thread/" + id,
+                    method: "GET"
                 },
                 success = function(response) {
                     deferred.resolve(response.data);
@@ -109,7 +120,7 @@ rpThreadTracker.services.service('threadService', [
         function addNewThread(blogShortname, postId, userTitle, watchedShortname, threadTags) {
             var deferred = $q.defer(),
                 config = {
-                    url: '/api/Thread',
+                    url: "/api/Thread",
                     method: "POST",
                     data: {
                         PostId: postId ? postId : null,
@@ -132,23 +143,36 @@ rpThreadTracker.services.service('threadService', [
         function editThreads(threadsToEdit, archiveValue) {
             var deferred = $q.defer();
             var queue = [],
-            success = function (response, status, headers, config) {
-                deferred.resolve(response.data);
-            },
-               error = function (response, status, headers, config) {
-                   deferred.reject(response);
-               };
-            angular.forEach(threadsToEdit, function (value, key) {
-                queue.push(editThread(value.UserThreadId, value.BlogShortname, value.PostId, value.UserTitle, value.WatchedShortname, value.ThreadTags, archiveValue));
-            });
+                success = function(response, status, headers, config) {
+                    deferred.resolve(response.data);
+                },
+                error = function(response, status, headers, config) {
+                    deferred.reject(response);
+                };
+            angular.forEach(threadsToEdit,
+                function(value, key) {
+                    queue.push(editThread(value.UserThreadId,
+                        value.BlogShortname,
+                        value.PostId,
+                        value.UserTitle,
+                        value.WatchedShortname,
+                        value.ThreadTags,
+                        archiveValue));
+                });
             $q.all(queue).then(success).catch(error);
             return deferred.promise;
         }
 
-        function editThread(userThreadId, blogShortname, postId, userTitle, watchedShortname, threadTags, isArchived) {
+        function editThread(userThreadId,
+            blogShortname,
+            postId,
+            userTitle,
+            watchedShortname,
+            threadTags,
+            isArchived) {
             var deferred = $q.defer(),
                 config = {
-                    url: '/api/Thread',
+                    url: "/api/Thread",
                     method: "PUT",
                     data: {
                         UserThreadId: userThreadId,
@@ -172,13 +196,14 @@ rpThreadTracker.services.service('threadService', [
 
         function untrackThreads(userThreadIds) {
             var queryString = "";
-            angular.forEach(userThreadIds, function (id) {
-                queryString += "userThreadIds=" + id + "&";
-            });
-            queryString.slice(1,queryString.length - 2);
+            angular.forEach(userThreadIds,
+                function(id) {
+                    queryString += "userThreadIds=" + id + "&";
+                });
+            queryString.slice(1, queryString.length - 2);
             var deferred = $q.defer(),
                 config = {
-                    url: '/api/Thread?' + queryString,
+                    url: "/api/Thread?" + queryString,
                     method: "DELETE"
                 },
                 success = function(response, status, headers, config) {
@@ -194,10 +219,10 @@ rpThreadTracker.services.service('threadService', [
         function exportThreads() {
             var deferred = $q.defer(),
                 config = {
-                    url: '/api/Export',
-                    method: 'GET'
+                    url: "/api/Export",
+                    method: "GET"
                 },
-                success = function (response) {
+                success = function(response) {
                     deferred.resolve(response.data);
                 };
             $http(config).then(success);
@@ -238,37 +263,40 @@ rpThreadTracker.services.service('threadService', [
         }
 
         function broadcast(data) {
-            angular.forEach(subscribers, function(callback, key) {
-                callback(data);
-            });
+            angular.forEach(subscribers,
+                function(callback, key) {
+                    callback(data);
+                });
         }
 
         function broadcastOnComplete() {
-            angular.forEach(subscribersOnComplete, function(callback, key) {
-                callback();
-            });
+            angular.forEach(subscribersOnComplete,
+                function(callback, key) {
+                    callback();
+                });
         }
 
         function broadcastOnArchiveUpdate(data) {
-            angular.forEach(subscribersOnArchiveUpdate, function (callback, key) {
-                callback(data);
-            });
+            angular.forEach(subscribersOnArchiveUpdate,
+                function(callback, key) {
+                    callback(data);
+                });
         }
 
         function getTagsByBlog() {
             var deferred = $q.defer(),
                 config = {
-                    url: '/api/Tag',
-                    method: 'GET'
+                    url: "/api/Tag",
+                    method: "GET"
                 },
-                success = function (response) {
+                success = function(response) {
                     if (response) {
                         deferred.resolve(response.data);
                     } else {
                         deferred.resolve(null);
                     }
                 },
-                error = function (data) {
+                error = function(data) {
                     deferred.reject(data);
                 };
             $http(config).then(success).catch(error);
@@ -294,4 +322,4 @@ rpThreadTracker.services.service('threadService', [
             exportThreads: exportThreads
         };
     }
-]);
+})();

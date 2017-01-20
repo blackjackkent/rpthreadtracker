@@ -1,5 +1,8 @@
-﻿'use strict';
-var rpThreadTracker = rpThreadTracker || {};
-rpThreadTracker.filters.filter('escape', function () {
-    return window.encodeURIComponent;
-});
+﻿(function() {
+    "use strict";
+    angular.module("rpthreadtracker").filter("escape", escape);
+
+    function escape() {
+        return window.encodeURIComponent;
+    }
+})();
