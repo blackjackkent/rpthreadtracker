@@ -93,7 +93,11 @@ rpThreadTracker.controllers.controller('MainController', [
                 .show();
         };
         function refreshThreads() {
-            threadService.getThreads(true);
+            if (pageId == "archived") {
+                threadService.getArchive(true);
+            } else {
+                threadService.getThreads(true);
+            }
         };
         function setDashboardFilter(filterString) {
             $scope.dashboardFilter = filterString;

@@ -81,9 +81,9 @@ namespace TumblrThreadTracker.Infrastructure.Services
             return _userProfileRepository.GetSingle(u => u.UserId == userId);
         }
 
-        public void ChangePassword(string username, string oldPassword, string newPassword)
+        public bool ChangePassword(string username, string oldPassword, string newPassword)
         {
-            WebSecurity.ChangePassword(username, oldPassword, newPassword);
+            return WebSecurity.ChangePassword(username, oldPassword, newPassword);
         }
 
         public string GeneratePasswordResetToken(User user)

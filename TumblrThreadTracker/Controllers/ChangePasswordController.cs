@@ -24,8 +24,10 @@ namespace TumblrThreadTracker.Controllers
         public HttpResponseMessage ChangePassword(ChangePasswordRequest model)
         {
             var username = _webSecurityService.GetCurrentUsernameFromIdentity(UserIdentity);
-            _webSecurityService.ChangePassword(username, model.OldPassword, model.NewPassword);
-            return new HttpResponseMessage(HttpStatusCode.OK);
+            var success = _webSecurityService.ChangePassword(username, model.OldPassword, model.NewPassword);
+            if (success)
+                return new HttpResponseMessage(HttpStatusCode.OK);
+            return new HttpResponseMessage(HttpStatusCode.BadRequest);
         }
     }
 }
