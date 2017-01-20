@@ -1,8 +1,9 @@
-﻿(function() {
-	angular.module("rpthreadtracker")
-		.controller("HeaderController",
+﻿'use strict';
+(function () {
+	angular.module('rpthreadtracker')
+		.controller('HeaderController',
 		[
-			"$timeout", "threadService", "adminflareService",
+			'$timeout', 'threadService', 'adminflareService',
 			headerController
 		]);
 
@@ -22,4 +23,4 @@
 			vm.loading = false;
 		}
 	}
-})();
+}());

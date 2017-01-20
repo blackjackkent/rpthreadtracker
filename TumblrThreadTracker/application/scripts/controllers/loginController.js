@@ -1,31 +1,32 @@
-﻿(function() {
-	"use strict";
-	angular.module("rpthreadtracker")
-		.controller("LoginController",
+﻿'use strict';
+(function() {
+	angular.module('rpthreadtracker')
+		.controller('LoginController',
 		[
-			"$controller", "$scope", "$location", "sessionService", "TrackerNotification", 'BodyClass',
-			loginController
+			'$controller', '$scope', '$location', 'sessionService', 'TrackerNotification',
+			'BodyClass', loginController
 		]);
 
+	/** @this loginController */
+	// eslint-disable-next-line valid-jsdoc, max-params, max-len
 	function loginController($controller, $scope, $location, sessionService, TrackerNotification, BodyClass) {
-		angular.extend(this, $controller('BaseController as base', { $scope: $scope }));
 		var vm = this;
+		angular.extend(vm, $controller('BaseController as base', {'$scope': $scope}));
 		vm.login = login;
 		redirectIfLoggedIn();
 		BodyClass.set('signin-page');
 
 		function redirectIfLoggedIn() {
-			sessionService.isLoggedIn()
-				.then(function(isLoggedIn) {
-					if (isLoggedIn) {
-						$location.path("/");
-					}
-				});
+			sessionService.isLoggedIn().then(function(isLoggedIn) {
+				if (isLoggedIn) {
+					$location.path('/');
+				}
+			});
 		}
 
 		function login() {
 			vm.loading = true;
-			if (vm.loginForm != undefined) {
+			if (angular.isDefined(vm.loginForm)) {
 				vm.username = vm.loginForm.username.value;
 				vm.password = vm.loginForm.password.value;
 			}
@@ -34,15 +35,15 @@
 
 		function success() {
 			vm.loading = false;
-			$location.path("/");
+			$location.path('/');
 		}
 
 		function fail() {
 			vm.loading = false;
 			new TrackerNotification()
-				.withMessage("Incorrect username or password.")
-				.withType("error")
+				.withMessage('Incorrect username or password.')
+				.withType('error')
 				.show();
 		}
 	}
-})();
+}());

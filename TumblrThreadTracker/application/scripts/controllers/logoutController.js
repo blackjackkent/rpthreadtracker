@@ -1,18 +1,22 @@
-﻿(function() {
-	"use strict";
-	angular.module("rpthreadtracker")
-		.controller("LogoutController",
+﻿'use strict';
+(function() {
+	angular.module('rpthreadtracker')
+		.controller('LogoutController',
 		[
-			"$scope", "$location", "blogService", "threadService", "sessionService",
+			'$scope', '$controller', '$location', 'blogService', 'threadService', 'sessionService',
 			logoutController
 		]);
 
-	function logoutController($scope, $location, blogService, threadService, sessionService) {
+	/** @this logoutController */
+	// eslint-disable-next-line valid-jsdoc, max-params, max-len
+	function logoutController($scope, $controller, $location, blogService, threadService, sessionService) {
+		var vm = this;
+		angular.extend(vm, $controller('BaseController as base', {'$scope': $scope}));
 		blogService.flushBlogs();
 		threadService.flushThreads();
-		$scope.user = null;
-		$scope.userId = null;
+		vm.user = null;
+		vm.userId = null;
 		sessionService.logout();
-		$location.path("/");
+		$location.path('/');
 	}
-})();
+}());
