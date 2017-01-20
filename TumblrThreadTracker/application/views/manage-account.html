@@ -23,7 +23,7 @@
                     <div class="control-group">
                         <label class="control-label" for="confirmNewPassword">Confirm New Password:</label>
                         <div class="controls">
-                            <input type="password" id="Text2" name="confirmNewPassword" required ng-model="confirmNewPassword" ng-match="newPassword" placeholder="Confirm New Password">
+                            <input type="password" id="Text2" name="confirmNewPassword" required ng-model="confirmNewPassword" ng-pattern="(newPassword)" placeholder="Confirm New Password">
                         </div>
                     </div>
                     <div class="control-group">
