@@ -19,6 +19,7 @@
 			{
 				templateUrl: "/application/views/maintenance.html?cacheBuster=" + cacheBuster,
 				controller: "StaticController",
+				controllerAs: "vm",
 				resolve: {
 					pageId: function() {
 						return "maintenance";
@@ -28,14 +29,10 @@
 		$routeProvider.when("/",
 			{
 				templateUrl: "/application/views/dashboard.html",
-				controller: "MainController"
-			});
-		$routeProvider.when("/",
-			{
-				templateUrl: "/application/views/dashboard.html?cacheBuster=" + cacheBuster,
-				controller: "MainController",
+				controller: "DashboardController",
+				controllerAs: "vm",
 				resolve: {
-					pageId: function() {
+					pageId: function () {
 						return "dashboard";
 					}
 				}

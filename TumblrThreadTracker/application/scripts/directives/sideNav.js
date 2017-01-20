@@ -13,7 +13,10 @@
                 	publicView: '@',
 					pageId: '@'
                 },
-                templateUrl: '/application/views/directives/side-nav.html?cacheBuster=' + cacheBuster
+                templateUrl: '/application/views/directives/side-nav.html?cacheBuster=' + cacheBuster,
+                controller: "SideNavController",
+                controllerAs: "vm",
+                bindToController: true
             };
         }
 })();

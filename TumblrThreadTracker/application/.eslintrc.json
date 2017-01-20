@@ -3,6 +3,9 @@
 		"eslint:recommended",
 		"angular"
 	],
+	"globals": {
+		"_": true 
+	},
 	"rules": {
 		"no-extra-parens": "error",
 		"valid-jsdoc": "error",
@@ -63,7 +66,10 @@
 		"max-lines": "error",
 		"max-params": "error",
 		"max-statements-per-line": "error",
-		"max-statements": "error",
+		"max-statements": [
+			"error", 10,
+			{ "ignoreTopLevelFunctions": true }
+		],
 		"newline-per-chained-call": "error",
 		"no-inline-comments": "error",
 		"no-lonely-if": "error",

@@ -1,5 +1,5 @@
-<header-nav></header-nav>
-<side-nav></side-nav>
+<header-nav public-view="{{vm.publicView}}" page-id="{{vm.pageId}}" user="vm.user"></header-nav>
+<side-nav public-view="{{vm.publicView}}" page-id="{{vm.pageId}}"></side-nav>
 
 <section class="central-container container">
     <div id="content">
@@ -14,6 +14,6 @@
             <h3>Got a question or issue?</h3>
             <p>Send me an ask on the tracker news blog at <a href="http://tblrthreadtracker.tumblr.com">http://tblrthreadtracker.tumblr.com</a>.</p>
         </section>
-        <footer></footer>
+        <footer user="vm.user"></footer>
     </div>
 </section>

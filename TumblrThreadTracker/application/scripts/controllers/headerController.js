@@ -1,16 +1,16 @@
 ﻿'use strict';
-(function () {
+(function() {
 	angular.module('rpthreadtracker')
 		.controller('HeaderController',
 		[
-			'$timeout', 'threadService', 'adminflareService',
+			'threadService',
 			headerController
 		]);
 
-	function headerController($timeout, threadService, adminflareService) {
+	/** @this headerController */
+	// eslint-disable-next-line valid-jsdoc, max-params, max-len
+	function headerController(threadService) {
 		var vm = this;
-		$timeout(adminflareService.init);
-		$timeout(adminflareService.initCustom);
 		threadService.subscribe(showLoadingIcon);
 		threadService.subscribeOnComplete(hideLoadingIcon);
 		vm.loading = false;

@@ -1,5 +1,5 @@
-<header-nav></header-nav>
-<side-nav></side-nav>
+<header-nav public-view="{{vm.publicView}}" page-id="{{vm.pageId}}" user="vm.user"></header-nav>
+<side-nav public-view="{{vm.publicView}}" page-id="{{vm.pageId}}"></side-nav>
 
 <section class="central-container container">
     <div id="content">
@@ -58,6 +58,6 @@
                 </div>
             </form>
         </section>
-        <footer></footer>
+        <footer user="vm.user"></footer>
     </div>
 </section>
