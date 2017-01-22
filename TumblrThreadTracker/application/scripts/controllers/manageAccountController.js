@@ -1,23 +1,30 @@
-﻿(function() {
-	'use strict';
+﻿'use strict';
+(function() {
 	angular.module('rpthreadtracker')
 		.controller('ManageAccountController',
 		[
-			'$scope', '$http', '$location', 'sessionService', 'exportService', 'pageId', 'TrackerNotification',
-			manageAccountController
+			'$scope', '$controller', '$location', 'sessionService', 'exportService', 'pageId',
+			'TrackerNotification', 'BodyClass', manageAccountController
 		]);
 
-	function manageAccountController($scope, $http, $location, sessionService, exportService, pageId, TrackerNotification) {
-		$scope.setBodyClass('');
-		$scope.pageId = pageId;
-		$scope.changePassword = changePassword;
-		$scope.exportThreads = exportThreads;
+	/** @this manageAccountController */
+	// eslint-disable-next-line valid-jsdoc, max-params, max-len, max-statements
+	function manageAccountController($scope, $controller, $location, sessionService, exportService, pageId, TrackerNotification, BodyClass) {
+		var vm = this;
+		angular.extend(vm, $controller('BaseController as base', {'$scope': $scope}));
+		sessionService.loadUser(vm);
+		BodyClass.set('');
+		vm.pageId = pageId;
+		vm.changePassword = changePassword;
+		vm.exportThreads = exportThreads;
+		vm.includeHiatused = false;
+		vm.includeArchived = false;
 
 		function passwordSuccess() {
-			$scope.changePasswordForm.$setPristine();
-			$scope.oldPassword = '';
-			$scope.newPassword = '';
-			$scope.confirmNewPassword = '';
+			vm.changePasswordForm.$setPristine();
+			vm.oldPassword = '';
+			vm.newPassword = '';
+			vm.confirmNewPassword = '';
 			new TrackerNotification()
 				.withMessage('Account updated.')
 				.withType('success')
@@ -32,11 +39,11 @@
 		}
 
 		function changePassword() {
-			if (!$scope.changePasswordForm.$valid) {
+			if (!vm.changePasswordForm.$valid) {
 				showChangePasswordValidationError();
 				return;
 			}
-			sessionService.changePassword($scope.oldPassword, $scope.newPassword, $scope.confirmNewPassword)
+			sessionService.changePassword(vm.oldPassword, vm.newPassword, vm.confirmNewPassword)
 				.then(passwordSuccess, passwordFailure);
 		}
 
@@ -44,29 +51,29 @@
 			var notification = new TrackerNotification()
 				.withType('error')
 				.withMessage('');
-			if ($scope.changePasswordForm.oldPassword.$error.required) {
+			if (vm.changePasswordForm.oldPassword.$error.required) {
 				notification.appendMessage('You must enter your current password.');
 			}
-			if ($scope.changePasswordForm.newPassword.$error.required) {
+			if (vm.changePasswordForm.newPassword.$error.required) {
 				notification.appendMessage('You must enter your new password.');
 			}
-			if ($scope.changePasswordForm.confirmNewPassword.$error.required) {
+			if (vm.changePasswordForm.confirmNewPassword.$error.required) {
 				notification.appendMessage('You must confirm your new password.');
 			}
-			if ($scope.newPassword != $scope.confirmNewPassword) {
+			if (vm.newPassword !== vm.confirmNewPassword) {
 				notification.appendMessage('Your new passwords must match.');
 			}
 			notification.show();
 		}
 
 		function exportThreads() {
-			$scope.exportLoading = true;
-			exportService.exportThreads($scope.includeArchived, $scope.includeHiatused)
+			vm.exportLoading = true;
+			exportService.exportThreads(vm.includeArchived, vm.includeHiatused)
 				.then(exportSuccess, exportFailure);
 		}
 
 		function exportSuccess() {
-			$scope.exportLoading = false;
+			vm.exportLoading = false;
 		}
 
 		function exportFailure() {
@@ -74,7 +81,7 @@
 				.withMessage('There was a problem exporting your threads.')
 				.withType('error')
 				.show();
-			$scope.exportLoading = false;
+			vm.exportLoading = false;
 		}
 	}
 }());
