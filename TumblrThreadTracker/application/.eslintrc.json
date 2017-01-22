@@ -86,7 +86,6 @@
 		"no-whitespace-before-property": "error",
 		"object-curly-newline": "error",
 		"object-curly-spacing": "error",
-		"one-var": "error",
 		"operator-assignment": "error",
 		"padded-blocks": [ "error", "never" ],
 		"quote-props": "error",

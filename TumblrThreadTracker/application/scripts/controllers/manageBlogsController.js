@@ -63,7 +63,9 @@
 				return;
 			}
 			var shortnameExists = _.findIndex($scope.blogs,
-					function(blog) { return blog.BlogShortname == $scope.newBlogShortname; }) !==
+					function(blog) {
+						return blog.BlogShortname == $scope.newBlogShortname;
+					}) !==
 				-1;
 			if (shortnameExists) {
 				$scope.duplicateErrorNotification = new TrackerNotification()
@@ -88,4 +90,4 @@
 			blogService.editBlog(blog).then(success).catch(failure);
 		}
 	}
-})();
+}());
