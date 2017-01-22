@@ -11,7 +11,7 @@
 	function mainController($scope, $controller, $location, $analytics, threadService, contextService, blogService,
 		newsService, sessionService, pageId, TrackerNotification, BodyClass) {
 		var vm = this;
-		angular.extend(vm, $controller('BaseController as base', { $scope: $scope }));
+		angular.extend(vm, $controller('BaseController as base', {'$scope': $scope}));
 
 		vm.setCurrentBlog = setCurrentBlog;
 		vm.setSortDescending = setSortDescending;
@@ -28,26 +28,26 @@
 		vm.$on('$destroy', destroyView);
 		initView();
 
-		// ******* functions *********
+		// ******* Functions *********
 		function setCurrentBlog() {
 			contextService.setCurrentBlog(vm.currentBlog);
 			populateTagFilter();
-			$analytics.eventTrack('Change Current Blog', { category: 'Private Thread View' });
+			$analytics.eventTrack('Change Current Blog', {'category': 'Private Thread View'});
 		}
 
 		function setSortDescending() {
 			contextService.setSortDescending(vm.sortDescending);
-			$analytics.eventTrack('Change Sort Descending', { category: 'Private Thread View' });
+			$analytics.eventTrack('Change Sort Descending', {'category': 'Private Thread View'});
 		}
 
 		function setCurrentOrderBy() {
 			contextService.setCurrentOrderBy(vm.currentOrderBy);
-			$analytics.eventTrack('Change Order By', { category: 'Private Thread View' });
+			$analytics.eventTrack('Change Order By', {'category': 'Private Thread View'});
 		}
 
 		function setFilteredTag() {
 			contextService.setFilteredTag(vm.filteredTag);
-			$analytics.eventTrack('Change Filtered Tag', { category: 'Private Thread View' });
+			$analytics.eventTrack('Change Filtered Tag', {'category': 'Private Thread View'});
 		}
 
 		function bulkAction() {
@@ -125,7 +125,7 @@
 
 		function setDashboardFilter(filterString) {
 			vm.dashboardFilter = filterString;
-			$analytics.eventTrack('Set Recent to ' + filterString, { category: 'Dashboard' });
+			$analytics.eventTrack('Set Recent to ' + filterString, {'category': 'Dashboard'});
 		}
 
 		function toggleAtAGlanceData() {
@@ -167,7 +167,6 @@
 				function(thread) {
 					if (thread.UserThreadId == id) {
 						result = thread;
-						return;
 					}
 				});
 			return result;
@@ -252,4 +251,4 @@
 			threadService.unsubscribeOnArchiveUpdate(updateThreads);
 		}
 	}
-})();
+}());

@@ -1,13 +1,13 @@
 ﻿(function() {
-	"use strict";
-	angular.module("rpthreadtracker")
-		.controller("RegisterController",
+	'use strict';
+	angular.module('rpthreadtracker')
+		.controller('RegisterController',
 		[
-			"$scope", "$location", "sessionService", "TrackerNotification", registerController
+			'$scope', '$location', 'sessionService', 'TrackerNotification', registerController
 		]);
 
 	function registerController($scope, $location, sessionService, TrackerNotification) {
-		$scope.setBodyClass("signin-page");
+		$scope.setBodyClass('signin-page');
 		$scope.register = register;
 
 		function register() {
@@ -23,22 +23,22 @@
 
 		function showValidationError() {
 			var notification = new TrackerNotification()
-				.withType("error")
-				.withMessage("");
+				.withType('error')
+				.withMessage('');
 			if ($scope.registerForm.username.$error.required) {
-				notification.appendMessage("You must enter a valid username.");
+				notification.appendMessage('You must enter a valid username.');
 			}
 			if ($scope.registerForm.email.$error.email || $scope.registerForm.email.$error.required) {
-				notification.appendMessage("You must enter a valid email.");
+				notification.appendMessage('You must enter a valid email.');
 			}
 			if ($scope.registerForm.Password.$error.required) {
-				notification.appendMessage("You must enter a password.");
+				notification.appendMessage('You must enter a password.');
 			}
 			if ($scope.registerForm.confirmPassword.$error.required) {
-				notification.appendMessage("You must confirm your password.");
+				notification.appendMessage('You must confirm your password.');
 			}
 			if ($scope.confirmPassword != $scope.Password) {
-				notification.appendMessage("Your passwords must match.");
+				notification.appendMessage('Your passwords must match.');
 			}
 			notification.show();
 		}
@@ -47,7 +47,7 @@
 			sessionService.login($scope.username, $scope.Password)
 				.then(function() {
 					$scope.loading = false;
-					$location.path("/");
+					$location.path('/');
 				});
 		}
 
@@ -55,15 +55,15 @@
 			$scope.loading = false;
 			if (response && response.data) {
 				new TrackerNotification()
-					.withMessage("ERROR: " + response.data)
-					.withType("error")
+					.withMessage('ERROR: ' + response.data)
+					.withType('error')
 					.show();
 			} else {
 				new TrackerNotification()
-					.withMessage("Error registering account. Please try again later.")
-					.withType("error")
+					.withMessage('Error registering account. Please try again later.')
+					.withType('error')
 					.show();
 			}
 		}
 	}
-})();
+}());

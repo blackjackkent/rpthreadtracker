@@ -761,6 +761,7 @@
     <Content Include="application\scripts\controllers\manageBlogsController.js" />
     <Content Include="application\scripts\controllers\publicController.js" />
     <Content Include="application\scripts\controllers\registerController.js" />
+    <Content Include="application\scripts\controllers\sideNavController.js" />
     <Content Include="application\scripts\controllers\staticController.js" />
     <Content Include="application\scripts\directives\footer.js" />
     <Content Include="application\scripts\directives\headerNav.js" />

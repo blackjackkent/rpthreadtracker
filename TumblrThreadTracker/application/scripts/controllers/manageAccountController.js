@@ -77,4 +77,4 @@
 			$scope.exportLoading = false;
 		}
 	}
-})();
+}());

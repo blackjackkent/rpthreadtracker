@@ -6,7 +6,8 @@
   "scripts": {
     "test": "test",
     "eslint": "eslint",
-    "eslint:controllers": "eslint scripts/controllers/**"
+    "eslint:app": "eslint scripts/app.js --fix",
+    "eslint:controllers": "eslint scripts/controllers/** --fix"
   },
   "author": "",
   "license": "ISC",

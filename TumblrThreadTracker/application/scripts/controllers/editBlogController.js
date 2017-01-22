@@ -20,7 +20,9 @@
 				return;
 			}
 			var shortnameExists = _.findIndex($scope.allBlogs,
-					function(blog) { return blog.BlogShortname == $scope.blogToEdit.BlogShortname; }) !==
+					function(blog) {
+						return blog.BlogShortname == $scope.blogToEdit.BlogShortname;
+					}) !==
 				-1;
 			if (shortnameExists) {
 				$scope.duplicateErrorNotification.show();
@@ -35,7 +37,9 @@
 				.then(function(blogs) {
 					$scope.allBlogs = blogs;
 					$scope.blogToEdit = angular.copy(_.find(blogs,
-						function(blog) { return blog.UserBlogId == userBlogId; }));
+						function(blog) {
+							return blog.UserBlogId == userBlogId;
+						}));
 					$scope.currentBlogShortname = angular.copy($scope.blogToEdit.BlogShortname);
 				});
 			$scope.duplicateErrorNotification = new TrackerNotification()
@@ -61,4 +65,4 @@
 			$scope.generalErrorMessage.show();
 		}
 	}
-})();
+}());
