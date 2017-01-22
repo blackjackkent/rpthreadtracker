@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using OfficeOpenXml;
 using TumblrThreadTracker.Models.DomainModels.Blogs;
 using TumblrThreadTracker.Models.DomainModels.Threads;
 
@@ -9,6 +10,6 @@ namespace TumblrThreadTracker.Interfaces
 {
     public interface IExporterService
     {
-        byte[] GetWorkbookBytes(bool includeArchived, int? userId, IEnumerable<BlogDto> blogs, IThreadService threadService, IRepository<Thread> threadRepository, IRepository<Blog> blogRepository);
+	    ExcelPackage GetPackage(IEnumerable<BlogDto> blogs, Dictionary<int, IEnumerable<ThreadDto>> threadDistribution, Dictionary<int, IEnumerable<ThreadDto>> archivedThreadDistribution, bool includeArchived);
     }
 }

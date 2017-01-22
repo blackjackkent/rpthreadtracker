@@ -311,6 +311,7 @@
     <Compile Include="Infrastructure\Filters\RedirectOnMaintenance.cs" />
     <Compile Include="Infrastructure\Repositories\BaseRepository.cs" />
     <Compile Include="Infrastructure\Services\BlogService.cs" />
+    <Compile Include="Infrastructure\Services\ExporterService.cs" />
     <Compile Include="Infrastructure\Services\ThreadService.cs" />
     <Compile Include="Infrastructure\Services\UserProfileService.cs" />
     <Compile Include="Infrastructure\Services\WebSecurityService.cs" />
@@ -320,6 +321,7 @@
     <Compile Include="Interfaces\IBlogService.cs" />
     <Compile Include="Interfaces\IDto.cs" />
     <Compile Include="Interfaces\IEmailService.cs" />
+    <Compile Include="Interfaces\IExporterService.cs" />
     <Compile Include="Interfaces\IThreadService.cs" />
     <Compile Include="Interfaces\ITumblrClient.cs" />
     <Compile Include="Interfaces\IUserProfileService.cs" />
@@ -1069,6 +1071,7 @@
     <Content Include="application\scripts\bower\angular-ui-notification\src\angular-ui-notification.less" />
     <Content Include="application\scripts\bower\angular-ui-notification\src\build.less" />
     <Content Include="application\.eslintrc.json" />
+    <Content Include="application\package.json" />
     <None Include="BundleTransformer.Configuration.xsd">
       <SubType>Designer</SubType>
     </None>

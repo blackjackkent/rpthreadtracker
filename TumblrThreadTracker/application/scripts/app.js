@@ -158,6 +158,7 @@
 			{
 				'templateUrl': '/application/views/manage-account.html?cacheBuster=' + cacheBuster,
 				'controller': 'ManageAccountController',
+				'controllerAs': 'vm',
 				'resolve': {
 					'pageId': function() {
 						return 'manage-account';
