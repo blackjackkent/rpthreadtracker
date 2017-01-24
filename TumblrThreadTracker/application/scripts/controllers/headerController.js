@@ -11,8 +11,8 @@
 	// eslint-disable-next-line valid-jsdoc, max-params, max-len
 	function headerController(threadService) {
 		var vm = this;
-		threadService.subscribe(showLoadingIcon);
-		threadService.subscribeOnComplete(hideLoadingIcon);
+		threadService.subscribeLoadedThreadEvent(showLoadingIcon);
+		threadService.subscribeAllThreadsLoaded(hideLoadingIcon);
 		vm.loading = false;
 
 		function showLoadingIcon() {

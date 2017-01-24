@@ -25,7 +25,7 @@ namespace TumblrThreadTracker.Controllers
 
         public UserDto Get()
         {
-            var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity);
+			var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity);
             return user.ToDto();
         }
 

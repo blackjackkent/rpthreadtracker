@@ -37,7 +37,7 @@ namespace TumblrThreadTracker.Controllers
 
         public ThreadDto Get(int id)
         {
-            return _threadService.GetById(id, _blogRepository, _threadRepository, _tumblrClient);
+			return _threadService.GetById(id, _blogRepository, _threadRepository, _tumblrClient);
         }
 
         public IEnumerable<int?> Get([FromUri] bool isArchived = false)
