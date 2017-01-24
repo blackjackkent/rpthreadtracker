@@ -108,6 +108,7 @@
 			{
 				'templateUrl': '/application/views/register.html?cacheBuster=' + cacheBuster,
 				'controller': 'RegisterController',
+				'controllerAs': 'vm',
 				'resolve': {
 					'pageId': function() {
 						return 'register';

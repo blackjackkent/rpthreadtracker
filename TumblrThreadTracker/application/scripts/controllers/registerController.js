@@ -1,58 +1,41 @@
-﻿(function() {
-	'use strict';
+﻿'use strict';
+(function() {
 	angular.module('rpthreadtracker')
 		.controller('RegisterController',
 		[
-			'$scope', '$location', 'sessionService', 'TrackerNotification', registerController
+			'$scope', '$controller', '$location', 'sessionService', 'TrackerNotification',
+			'BodyClass', registerController
 		]);
 
-	function registerController($scope, $location, sessionService, TrackerNotification) {
-		$scope.setBodyClass('signin-page');
-		$scope.register = register;
+	/** @this registerController */
+	// eslint-disable-next-line valid-jsdoc, max-params, max-len
+	function registerController($scope, $controller, $location, sessionService, TrackerNotification, BodyClass) {
+		var vm = this;
+		angular.extend(vm, $controller('BaseController as base', {'$scope': $scope}));
+		vm.register = register;
+		BodyClass.set('signin-page');
 
 		function register() {
-			$scope.loading = true;
-			if (!$scope.registerForm.$valid || $scope.confirmPassword != $scope.Password) {
+			vm.loading = true;
+			if (!vm.registerForm.$valid || vm.confirmPassword !== vm.Password) {
 				showValidationError();
-				$scope.loading = false;
+				vm.loading = false;
 				return;
 			}
-			sessionService.register($scope.username, $scope.email, $scope.Password, $scope.confirmPassword)
+			sessionService.register(vm.username, vm.email, vm.Password, vm.confirmPassword)
 				.then(success, fail);
 		}
 
-		function showValidationError() {
-			var notification = new TrackerNotification()
-				.withType('error')
-				.withMessage('');
-			if ($scope.registerForm.username.$error.required) {
-				notification.appendMessage('You must enter a valid username.');
-			}
-			if ($scope.registerForm.email.$error.email || $scope.registerForm.email.$error.required) {
-				notification.appendMessage('You must enter a valid email.');
-			}
-			if ($scope.registerForm.Password.$error.required) {
-				notification.appendMessage('You must enter a password.');
-			}
-			if ($scope.registerForm.confirmPassword.$error.required) {
-				notification.appendMessage('You must confirm your password.');
-			}
-			if ($scope.confirmPassword != $scope.Password) {
-				notification.appendMessage('Your passwords must match.');
-			}
-			notification.show();
-		}
-
 		function success() {
-			sessionService.login($scope.username, $scope.Password)
+			sessionService.login(vm.username, vm.Password)
 				.then(function() {
-					$scope.loading = false;
+					vm.loading = false;
 					$location.path('/');
 				});
 		}
 
 		function fail(response) {
-			$scope.loading = false;
+			vm.loading = false;
 			if (response && response.data) {
 				new TrackerNotification()
 					.withMessage('ERROR: ' + response.data)
@@ -64,6 +47,29 @@
 					.withType('error')
 					.show();
 			}
+		}
+
+		// eslint-disable-next-line max-statements
+		function showValidationError() {
+			var notification = new TrackerNotification()
+				.withType('error')
+				.withMessage('');
+			if (vm.registerForm.username.$error.required) {
+				notification.appendMessage('You must enter a valid username.');
+			}
+			if (vm.registerForm.email.$error.email || vm.registerForm.email.$error.required) {
+				notification.appendMessage('You must enter a valid email.');
+			}
+			if (vm.registerForm.Password.$error.required) {
+				notification.appendMessage('You must enter a password.');
+			}
+			if (vm.registerForm.confirmPassword.$error.required) {
+				notification.appendMessage('You must confirm your password.');
+			}
+			if (vm.confirmPassword !== vm.Password) {
+				notification.appendMessage('Your passwords must match.');
+			}
+			notification.show();
 		}
 	}
 }());
