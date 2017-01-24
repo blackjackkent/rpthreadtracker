@@ -253,6 +253,10 @@
     <Reference Include="System.Net.Http.WebRequest">
     </Reference>
     <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
@@ -790,6 +794,7 @@
     <Content Include="application\scripts\services\newsService.js" />
     <Content Include="application\scripts\services\publicThreadService.js" />
     <Content Include="application\scripts\services\sessionService.js" />
+    <Content Include="application\scripts\services\oldThreadService.js" />
     <Content Include="application\scripts\services\threadService.js" />
     <Content Include="application\styles\dark\adminflare.css" />
     <Content Include="application\styles\dark\adminflare.min.css" />

@@ -16,21 +16,53 @@
 		sessionService.loadUser(vm);
 		BodyClass.set('');
 
+		initSubscriptions();
 		initScopeValues();
 		initScopeFunctions();
-		initSubscriptions();
 		$scope.$on('$destroy', destroyView);
+
+		function initScopeValues() {
+			vm.pageId = pageId;
+			vm.dashboardFilter = 'yourturn';
+			vm.showAtAGlance = false;
+			vm.loadingRandomThread = false;
+			sessionService.getUser().then(function(user) {
+				vm.showAtAGlance = user.ShowDashboardThreadDistribution;
+			});
+			newsService.getNews().then(function(news) {
+				vm.news = news;
+			});
+		}
+
+		function initScopeFunctions() {
+			vm.untrackThreads = untrackThreads;
+			vm.archiveThreads = archiveThreads;
+			vm.loadThreads = loadThreads;
+			vm.setDashboardFilter = setDashboardFilter;
+			vm.toggleAtAGlanceData = toggleAtAGlanceData;
+			vm.generateRandomOwedThread = generateRandomOwedThread;
+		}
+
+		function initSubscriptions() {
+			threadService.subscribeLoadedThreadEvent(loadThreads);
+			threadService.loadThreads();
+		}
+
+		function loadThreads(data) {
+			vm.threads = data;
+			vm.myTurnCount = _.filter(vm.threads, function(thread) { return thread.IsMyTurn; }).length;
+			vm.theirTurnCount = _.filter(vm.threads, function(thread) { return !thread.IsMyTurn; }).length;
+		}
 
 		function untrackThreads(userThreadIds) {
 			threadService.untrackThreads(userThreadIds)
-				.then(function() {
-					threadService.getThreads(true);
-				});
+				.then(loadThreads);
 			new TrackerNotification()
 				.withMessage(userThreadIds.length + ' thread(s) untracked.')
 				.withType('success')
 				.show();
 		}
+		
 
 		function archiveThreads(userThreadIds) {
 			threadService.archiveThreads(userThreadIds)
@@ -41,10 +73,6 @@
 				.withMessage(userThreadIds.length + ' thread(s) archived.')
 				.withType('success')
 				.show();
-		}
-
-		function refreshThreads() {
-			threadService.getThreads(true);
 		}
 
 		function setDashboardFilter(filterString) {
@@ -72,52 +100,9 @@
 			vm.loadingRandomThread = false;
 		}
 
-		function updateThreads(data) {
-			vm.threads = data;
-			vm.myTurnCount = 0;
-			vm.theirTurnCount = 0;
-			angular.forEach(vm.threads, function(thread) {
-				vm.myTurnCount += thread.IsMyTurn ? 1 : 0;
-				vm.theirTurnCount += thread.IsMyTurn ? 0 : 1;
-			});
-		}
-
-		function initScopeValues() {
-			vm.pageId = pageId;
-			vm.displayPublicUrl = true;
-			vm.dashboardFilter = 'yourturn';
-			vm.bulkItems = {};
-			vm.bulkItemAction = 'UntrackSelected';
-			vm.showAtAGlance = false;
-			vm.loadingRandomThread = false;
-			sessionService.getUser().then(function(user) {
-				vm.showAtAGlance = user.ShowDashboardThreadDistribution;
-			});
-			blogService.getBlogs().then(function(blogs) {
-				vm.blogs = blogs;
-			});
-			newsService.getNews().then(function(news) {
-				vm.news = news;
-			});
-		}
-
-		function initScopeFunctions() {
-			vm.untrackThreads = untrackThreads;
-			vm.archiveThreads = archiveThreads;
-			vm.refreshThreads = refreshThreads;
-			vm.setDashboardFilter = setDashboardFilter;
-			vm.toggleAtAGlanceData = toggleAtAGlanceData;
-			vm.generateRandomOwedThread = generateRandomOwedThread;
-		}
-
-		function initSubscriptions() {
-			threadService.subscribe(updateThreads);
-			threadService.getThreads();
-		}
-
 		function destroyView() {
-			threadService.unsubscribe(updateThreads);
-			threadService.unsubscribeOnArchiveUpdate(updateThreads);
+			threadService.unsubscribeLoadedThreads(loadThreads);
 		}
+
 	}
 }());

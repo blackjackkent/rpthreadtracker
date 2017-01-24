@@ -18,7 +18,7 @@
 
 		function initView() {
 			$scope.publicTitleString = buildPublicTitleString();
-			publicThreadService.subscribe(updateThreads);
+			publicThreadService.subscribeLoadedThreadEvent(updateThreads);
 			publicThreadService.getThreads($scope.userId, $scope.currentBlog);
 		}
 

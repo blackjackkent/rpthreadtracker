@@ -20,7 +20,7 @@ namespace TumblrThreadTracker
             ConfigureOAuth(app);
             HttpConfiguration config = new HttpConfiguration();
             WebApiConfig.Register(config);
-            app.UseWebApi(config);
+			app.UseWebApi(config);
         }
 
         public void ConfigureOAuth(IAppBuilder app)

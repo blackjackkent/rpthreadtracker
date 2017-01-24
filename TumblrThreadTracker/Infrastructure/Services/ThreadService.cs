@@ -27,7 +27,7 @@ namespace TumblrThreadTracker.Infrastructure.Services
             return threads.Select(t => t.ToDto(blog, null)).ToList();
         }
 
-        public ThreadDto GetById(int id, IRepository<Blog> blogRepository, IRepository<Thread> threadRepository, ITumblrClient tumblrClient, bool skipTumblrCall = false)
+	    public ThreadDto GetById(int id, IRepository<Blog> blogRepository, IRepository<Thread> threadRepository, ITumblrClient tumblrClient, bool skipTumblrCall = false)
         {
             var thread = threadRepository.GetSingle(t => t.UserThreadId == id);
             var blog = blogRepository.GetSingle(b => b.UserBlogId == thread.UserBlogId).ToDto();
