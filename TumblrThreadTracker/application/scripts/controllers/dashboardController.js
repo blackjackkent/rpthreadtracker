@@ -29,6 +29,9 @@
 			sessionService.getUser().then(function(user) {
 				vm.showAtAGlance = user.ShowDashboardThreadDistribution;
 			});
+			blogService.getBlogs().then(function(blogs) {
+				vm.blogs = blogs;
+			});
 			newsService.getNews().then(function(news) {
 				vm.news = news;
 			});
@@ -50,8 +53,12 @@
 
 		function loadThreads(data) {
 			vm.threads = data;
-			vm.myTurnCount = _.filter(vm.threads, function(thread) { return thread.IsMyTurn; }).length;
-			vm.theirTurnCount = _.filter(vm.threads, function(thread) { return !thread.IsMyTurn; }).length;
+			vm.myTurnCount = _.filter(vm.threads, function(thread) {
+				return thread.IsMyTurn;
+			}).length;
+			vm.theirTurnCount = _.filter(vm.threads, function(thread) {
+				return !thread.IsMyTurn;
+			}).length;
 		}
 
 		function untrackThreads(userThreadIds) {
@@ -62,7 +69,6 @@
 				.withType('success')
 				.show();
 		}
-		
 
 		function archiveThreads(userThreadIds) {
 			threadService.archiveThreads(userThreadIds)
@@ -103,6 +109,5 @@
 		function destroyView() {
 			threadService.unsubscribeLoadedThreads(loadThreads);
 		}
-
 	}
 }());

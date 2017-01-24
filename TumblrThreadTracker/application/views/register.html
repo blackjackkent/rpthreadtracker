@@ -4,28 +4,28 @@
             Register for<br>
             <strong>RP Thread Tracker</strong>
         </span>
-        <span ng-show="loading" class="loading-icon"><img src="/application/images/loading.gif" /></span>
+        <span ng-show="vm.loading" class="loading-icon"><img src="/application/images/loading.gif" /></span>
     </a>
-    <form method="get" accept-charset="utf-8" name="registerForm" ng-submit="register()">
+    <form method="get" accept-charset="utf-8" name="vm.registerForm" ng-submit="vm.register()" novalidate>
         <fieldset>
             <div class="control-group">
                 <div class="controls">
-                    <input type="text" id="username" name="username" required ng-model="username" placeholder="Username" ng-focus>
+                    <input type="text" id="username" name="username" required ng-model="vm.username" placeholder="Username" ng-focus>
                 </div>
             </div>
             <div class="control-group">
                 <div class="controls">
-                    <input type="email" id="email" name="email" required ng-model="email" placeholder="Email" ng-focus>
+                    <input type="email" id="email" name="email" required ng-model="vm.email" placeholder="Email" ng-focus>
                 </div>
             </div>
             <div class="control-group">
                 <div class="controls">
-                    <input type="password" id="Text1" name="Password" required ng-model="Password" placeholder="Password" ng-focus>
+                    <input type="password" id="Text1" name="Password" required ng-model="vm.Password" placeholder="Password" ng-focus>
                 </div>
             </div>
             <div class="control-group">
                 <div class="controls">
-                    <input type="password" id="Text2" name="confirmPassword" required ng-model="confirmPassword" ng-match="Password" placeholder="Confirm Password" ng-focus>
+                    <input type="password" id="Text2" name="confirmPassword" required ng-model="vm.confirmPassword" ng-match="vm.Password" placeholder="Confirm Password" ng-focus>
                 </div>
             </div>
             <div class="control-group">
@@ -33,7 +33,7 @@
                     <button type="submit" class="btn btn-primary btn-block" tabindex="4">Sign Up</button>
                 </div>
             </div>
-            <p class="alert alert-success" ng-show="showSuccessMessage">Account updated.</p>
+            <p class="alert alert-success" ng-show="vm.showSuccessMessage">Account updated.</p>
         </fieldset>
         <p>Already have an account? <a href="/login" title="">Login</a>
         </p>
