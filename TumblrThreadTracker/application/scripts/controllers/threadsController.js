@@ -62,6 +62,7 @@
 		}
 
 		function refreshThreads() {
+			threadService.flushThreads();
 			if (vm.pageId === 'archived') {
 				threadService.loadArchivedThreads(true);
 			} else {
@@ -69,13 +70,13 @@
 			}
 		}
 
-		function untrackThreads(userThreadIds) {
+		function untrackThreads(threads) {
 			vm.loading = true;
-			threadService.untrackThreads(userThreadIds).then(function() {
+			threadService.untrackThreads(threads).then(function() {
 				vm.loading = false;
-				threadService.loadThreads(true);
+				refreshThreads();
 				new TrackerNotification()
-					.withMessage(userThreadIds.length + ' thread(s) untracked.')
+					.withMessage(threads.length + ' thread(s) untracked.')
 					.withType('success')
 					.show();
 			}, function() {
@@ -87,19 +88,40 @@
 			});
 		}
 
-		function archiveThreads(userThreadIds) {
-			threadService.archiveThreads(userThreadIds)
-				.then(function() {
-					threadService.getThreads(true);
-				});
-			new TrackerNotification()
-				.withMessage(userThreadIds.length + ' thread(s) archived.')
-				.withType('success')
-				.show();
+		function archiveThreads(threads) {
+			vm.loading = true;
+			threadService.archiveThreads(threads).then(function() {
+				vm.loading = false;
+				refreshThreads();
+				new TrackerNotification()
+					.withMessage(threads.length + ' thread(s) archived.')
+					.withType('success')
+					.show();
+			}, function() {
+				vm.loading = false;
+				new TrackerNotification()
+					.withMessage("There was an error archiving your threads.")
+					.withType('error')
+					.show();
+			});
 		}
 
-		function unarchiveThreads(userThreadIds) {
-	
+		function unarchiveThreads(threads) {
+			vm.loading = true;
+			threadService.unarchiveThreads(threads).then(function() {
+				vm.loading = false;
+				refreshThreads();
+				new TrackerNotification()
+					.withMessage(threads.length + ' thread(s) unarchived.')
+					.withType('success')
+					.show();
+			}, function() {
+				vm.loading = false;
+				new TrackerNotification()
+					.withMessage("There was an error unarchiving your threads.")
+					.withType('error')
+					.show();
+			});
 		}
 
 		function setCurrentBlog() {

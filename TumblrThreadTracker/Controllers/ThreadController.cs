@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Web.Http;
 using TumblrThreadTracker.Infrastructure.Filters;
@@ -69,24 +71,18 @@ namespace TumblrThreadTracker.Controllers
             _threadService.AddNewThread(dto, _threadRepository);
         }
 
-        public void Put(ThreadUpdateRequest request)
+        public HttpResponseMessage Put(ThreadDto thread)
         {
-            var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
-            if (request == null || request.UserThreadId == null || userId == null)
-                throw new ArgumentNullException();
-            var blog = _blogService.GetBlogByShortname(request.BlogShortname, userId.GetValueOrDefault(), _blogRepository);
-            var dto = new ThreadDto
-            {
-                UserThreadId = request.UserThreadId,
-                PostId = request.PostId,
-                BlogShortname = request.BlogShortname,
-                UserBlogId = blog.UserBlogId ?? -1,
-                UserTitle = request.UserTitle,
-                WatchedShortname = request.WatchedShortname,
-                ThreadTags = request.ThreadTags,
-                IsArchived = request.IsArchived
-            };
-            _threadService.UpdateThread(dto, _threadRepository);
+            var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity);
+            if (thread == null || thread.UserThreadId == null || user == null)
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
+			bool userOwnsThread = _threadService.UserOwnsThread(user.UserId, thread.UserThreadId.GetValueOrDefault(), _threadRepository);
+	        if (!userOwnsThread)
+	        {
+		        return new HttpResponseMessage(HttpStatusCode.BadRequest);
+	        }
+			_threadService.UpdateThread(thread, _threadRepository);
+			return new HttpResponseMessage(HttpStatusCode.OK);
         }
 
 		[Route("api/Thread/Delete")]
