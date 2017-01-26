@@ -33,9 +33,9 @@
                     Bulk Actions:
                 </label>
                 <select ng-model="vm.bulkItemAction" name="bulkItemAction">
-                    <option value="UntrackSelected">Untrack Selected</option>
-                    <option ng-show="vm.pageId != 'archived'" value="ArchiveSelected">Archive Selected</option>
-                    <option ng-show="vm.pageId == 'archived'" value="UnarchiveSelected">Unarchive Selected</option>
+                    <option value="1">Untrack Selected</option>
+                    <option ng-show="vm.pageId != 'archived'" value="2">Archive Selected</option>
+                    <option ng-show="vm.pageId == 'archived'" value="3">Unarchive Selected</option>
                 </select>
                 <a class="btn bulk-action-link" ng-click="vm.bulkAction()">Go</a>
             </div>
@@ -75,7 +75,7 @@
                 </tr>
                 <tr ng-repeat="thread in vm.threads | isCurrentBlog:vm.currentBlog | isCorrectTurn:vm.pageId | containsFilteredTag:vm.filteredTag | orderBy:vm.currentOrderBy:vm.sortDescending">
                     <td>
-                        <input type="checkbox" value="{{thread.UserThreadId}}" ng-model="bulkItems[thread.UserThreadId]">
+                        <input type="checkbox" ng-value="thread" ng-model="bulkItems[thread.UserThreadId]">
                     </td>
                     <td>{{thread.UserTitle}}</td>
                     <td>
@@ -103,7 +103,7 @@
                         <a href="/edit-thread/{{thread.UserThreadId}}">Edit</a>
                     </td>
                     <td>
-                        <a href="#" ng-click="vm.untrackThreads([thread.UserThreadId])">Untrack</a>
+                        <a href="#" ng-click="vm.untrackThreads([thread])">Untrack</a>
                     </td>
                     <td>
                         <a ng-show="vm.pageId != 'archived'" href="#" ng-click="vm.archiveThreads([thread.UserThreadId])">Archive</a>

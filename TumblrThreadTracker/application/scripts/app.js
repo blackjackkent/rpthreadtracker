@@ -14,6 +14,7 @@
 		.config(['$routeProvider', '$locationProvider', routeConfig])
 		.config(['NotificationProvider', notificationConfig])
 		.config(['$httpProvider', interceptorConfig]);
+	configureConstants(angular.module('rpthreadtracker'));
 
 	// eslint-disable-next-line max-statements
 	function routeConfig($routeProvider, $locationProvider) {
@@ -284,5 +285,14 @@
 				}
 			}
 		};
+	}
+
+	function configureConstants(app) {
+		app.constant('THREAD_BULK_ACTIONS',
+		{
+			'UNTRACK': 1,
+			'ARCHIVE': 2,
+			'UNARCHIVE': 3
+		});
 	}
 }());

@@ -78,5 +78,11 @@ namespace TumblrThreadTracker.Infrastructure.Services
             var threads = threadRepository.Get(t => t.UserBlogId == userBlogId);
             return threads.SelectMany(t => t.ThreadTags);
         }
+
+	    public bool UserOwnsThread(int userId, int threadId, IRepository<Thread> threadRepository)
+	    {
+		    var userOwnsThread = threadRepository.Get(t => t.UserThreadId == threadId && t.UserBlog != null && t.UserBlog.UserId == userId).FirstOrDefault();
+		    return userOwnsThread != null;
+	    }
     }
 }
