@@ -12,6 +12,7 @@
 	function headerController(threadService) {
 		var vm = this;
 		threadService.subscribeLoadedThreadEvent(showLoadingIcon);
+		threadService.subscribeLoadedArchiveThreadEvent(showLoadingIcon);
 		threadService.subscribeAllThreadsLoaded(hideLoadingIcon);
 		vm.loading = false;
 

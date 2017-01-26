@@ -7,24 +7,24 @@
         <section class="row-fluid thread-filters">
             <div class="span9">
                 <label class="inline-control-label">Order By: </label>
-                <select ng-model="currentOrderBy" name="currentOrderBy" ng-change="setCurrentOrderBy()">
+                <select ng-model="vm.currentOrderBy" name="currentOrderBy" ng-change="vm.setCurrentOrderBy()">
                     <option value="UserTitle">Thread Title</option>
                     <option value="LastPostDate">Last Post Date</option>
                     <option value="LastPosterShortname">Last Poster</option>
                     <option value="WatchedShortname">Watched Shortname</option>
                 </select>
-                <select ng-model="sortDescending" ng-change="setSortDescending()" ng-options="o.v as o.n for o in [{ n: 'Descending', v: true }, { n: 'Ascending', v: false }]">
+                <select ng-model="vm.sortDescending" ng-change="vm.setSortDescending()" ng-options="o.v as o.n for o in [{ n: 'Descending', v: true }, { n: 'Ascending', v: false }]">
                 </select>
             </div>
 
             <div class="span2">
-                <select ng-model="currentBlog" ng-change="setCurrentBlog()">
+                <select ng-model="vm.currentBlog" ng-change="vm.setCurrentBlog()">
                     <option value="">Filter Blogs</option>
-                    <option ng-repeat="blog in blogs | filter:{ OnHiatus: false } | orderBy:'BlogShortname'" ng-value="blog.BlogShortname">{{blog.BlogShortname}}</option>
+                    <option ng-repeat="blog in vm.blogs | filter:{ OnHiatus: false } | orderBy:'BlogShortname'" ng-value="blog.BlogShortname">{{blog.BlogShortname}}</option>
                 </select>
             </div>
             <div class="span1">
-                <a href="#" class="btn refresh-link" analytics-on="click" analytics-category="Private Thread View" analytics-event="Refresh (Private)" ng-click="refreshThreads()">Refresh</a>
+                <a href="#" class="btn refresh-link" ng-click="vm.refreshThreads()">Refresh</a>
             </div>
         </section>
         <section class="row-fluid thread-filters">
@@ -32,24 +32,24 @@
                 <label class="inline-control-label">
                     Bulk Actions:
                 </label>
-                <select ng-model="bulkItemAction" name="bulkItemAction">
+                <select ng-model="vm.bulkItemAction" name="bulkItemAction">
                     <option value="UntrackSelected">Untrack Selected</option>
-                    <option ng-show="pageId != 'archived'" value="ArchiveSelected">Archive Selected</option>
-                    <option ng-show="pageId == 'archived'" value="UnarchiveSelected">Unarchive Selected</option>
+                    <option ng-show="vm.pageId != 'archived'" value="ArchiveSelected">Archive Selected</option>
+                    <option ng-show="vm.pageId == 'archived'" value="UnarchiveSelected">Unarchive Selected</option>
                 </select>
-                <a class="btn bulk-action-link" analytics-on="click" analytics-category="Private Thread View" analytics-event="Bulk Action" ng-click="bulkAction()">Go</a>
+                <a class="btn bulk-action-link" ng-click="vm.bulkAction()">Go</a>
             </div>
             <div class="span1">
-                <select ng-model="filteredTag" ng-change="setFilteredTag()">
+                <select ng-model="vm.filteredTag" ng-change="vm.setFilteredTag()">
                     <option value="">Filter By Tag</option>
-                    <option ng-repeat="tag in allTags | orderBy:'toString()'" ng-value="tag">{{tag}}</option>
+                    <option ng-repeat="tag in vm.allTags | orderBy:'toString()'" ng-value="tag">{{tag}}</option>
                 </select>
             </div>
         </section>
         <section ng-show="pageId != 'archived'" class="row-fluid alert alert-info public-link-alert">
             Share this view publically:
-            <a href="http://www.rpthreadtracker.com/public/{{pageId}}?userId={{userId}}&currentBlog={{currentBlog}}&sortDescending={{sortDescending}}&currentOrderBy={{currentOrderBy}}&filteredTag={{filteredTag | escape}}">
-                http://www.rpthreadtracker.com/public/{{pageId}}?userId={{userId}}&amp;currentBlog={{currentBlog}}&amp;sortDescending={{sortDescending}}&amp;currentOrderBy={{currentOrderBy}}&amp;filteredTag={{filteredTag | escape}}
+            <a href="{{vm.buildPublicLink()}}">
+                {{vm.buildPublicLink()}}
             </a>
         </section>
         <!-- #endregion -->
@@ -73,7 +73,7 @@
                     <td ng-show="blogs.length == 0"colspan="6" class="alert public-link-alert">You have not yet added any blogs on which to track threads. Click "Manage Blogs" to get started.</td>
                     <td ng-show="blogs.length > 0 && threads.length == 0" colspan="6" class="alert alert-info public-link-alert">You are not yet tracking any threads. Click "Track New Thread" to track a thread from one of your current blogs.</td>
                 </tr>
-                <tr ng-repeat="thread in threads | isCurrentBlog:currentBlog | isCorrectTurn:pageId | containsFilteredTag:filteredTag | orderBy:currentOrderBy:sortDescending">
+                <tr ng-repeat="thread in vm.threads | isCurrentBlog:vm.currentBlog | isCorrectTurn:vm.pageId | containsFilteredTag:vm.filteredTag | orderBy:vm.currentOrderBy:vm.sortDescending">
                     <td>
                         <input type="checkbox" value="{{thread.UserThreadId}}" ng-model="bulkItems[thread.UserThreadId]">
                     </td>
@@ -103,11 +103,11 @@
                         <a href="/edit-thread/{{thread.UserThreadId}}">Edit</a>
                     </td>
                     <td>
-                        <a href="#" analytics-on="click" analytics-category="Private Thread View" analytics-event="Untrack Thread" ng-click="untrackThreads([thread.UserThreadId])">Untrack</a>
+                        <a href="#" ng-click="vm.untrackThreads([thread.UserThreadId])">Untrack</a>
                     </td>
                     <td>
-                        <a ng-show="pageId != 'archived'" href="#" analytics-on="click" analytics-category="Private Thread View" analytics-event="Archive Thread" ng-click="archiveThreads([thread.UserThreadId])">Archive</a>
-                        <a ng-show="pageId == 'archived'" href="#" analytics-on="click" analytics-category="Private Thread View" analytics-event="Unarchive Thread" ng-click="unarchiveThreads([thread.UserThreadId])">Unarchive</a>
+                        <a ng-show="vm.pageId != 'archived'" href="#" ng-click="vm.archiveThreads([thread.UserThreadId])">Archive</a>
+                        <a ng-show="vm.pageId == 'archived'" href="#" ng-click="vm.unarchiveThreads([thread.UserThreadId])">Unarchive</a>
                     </td>
                 </tr>
             </table>

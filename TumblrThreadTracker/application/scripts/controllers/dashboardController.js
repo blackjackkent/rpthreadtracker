@@ -16,8 +16,8 @@
 		sessionService.loadUser(vm);
 		BodyClass.set('');
 
-		initSubscriptions();
 		initScopeValues();
+		initSubscriptions();
 		initScopeFunctions();
 		$scope.$on('$destroy', destroyView);
 
@@ -63,7 +63,7 @@
 
 		function untrackThreads(userThreadIds) {
 			threadService.untrackThreads(userThreadIds)
-				.then(loadThreads);
+				.then(threadService.loadThreads);
 			new TrackerNotification()
 				.withMessage(userThreadIds.length + ' thread(s) untracked.')
 				.withType('success')
@@ -107,7 +107,7 @@
 		}
 
 		function destroyView() {
-			threadService.unsubscribeLoadedThreads(loadThreads);
+			threadService.unsubscribeLoadedThreadEvent(loadThreads);
 		}
 	}
 }());

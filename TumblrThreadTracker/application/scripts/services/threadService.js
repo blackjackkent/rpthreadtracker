@@ -20,18 +20,33 @@
 		}
 
 		function loadThreads(force) {
-			if (threads.length === 0 || force) {
+			if (threads.length !== 0 && !force) {
 				broadcastLoadedThreadEvent(threads);
 				broadcastAllThreadsLoaded();
+				return;
 			}
 			threads = [];
-			getThreadIds().then(loadThreadIdsSuccess, loadThreadIdsFailure);
+			getThreadIds().then(function(data) {
+				loadThreadIdsSuccess(data, threads);
+			}, loadThreadIdsFailure);
 		}
 
-		function loadThreadIdsSuccess(ids) {
+		function loadArchivedThreads(force) {
+			if (archivedThreads.length !== 0 && !force) {
+				broadcastLoadedArchiveThreadEvent(archivedThreads);
+				broadcastAllThreadsLoaded();
+				return;
+			}
+			archivedThreads = [];
+			getThreadIds(true).then(function(data) {
+				loadThreadIdsSuccess(data, archivedThreads);
+			}, loadThreadIdsFailure);
+		}
+
+		function loadThreadIdsSuccess(ids, threadArray) {
 			var queue = [];
 			angular.forEach(ids, function(value) {
-				queue.push(getThread(value));
+				queue.push(getThread(value, threadArray));
 			});
 			$q.all(queue).then(function() {
 				broadcastAllThreadsLoaded();
@@ -58,18 +73,25 @@
 			return deferred.promise;
 		}
 		
-		function getThread(id) {
+		function getThread(id, threadArray, isArchived) {
 			var deferred = $q.defer(),
 				config = {
 					url: "/api/Thread/" + id,
 					method: "GET"
 				},
 				success = function(response) {
-					threads.push(response.data);
-					broadcastLoadedThreadEvent(threads);
+					threadArray.push(response.data);
+					if (isArchived) {
+						broadcastLoadedArchiveThreadEvent(threadArray);
+					} else {
+						broadcastLoadedThreadEvent(threadArray);
+					}
 					deferred.resolve(true);
+				},
+				error = function(response) {
+					console.log(response);
 				};
-			$http(config).then(success);
+			$http(config).then(success, error);
 			return deferred.promise;
 		}
 
@@ -113,14 +135,14 @@
 			}
 		}
 
-		function unsubscribeOnComplete(callback) {
+		function unsubscribeAllThreadsLoaded(callback) {
 			var index = allThreadsLoadedSubscribers.indexOf(callback);
 			if (index > -1) {
 				allThreadsLoadedSubscribers.splice(index, 1);
 			}
 		}
 
-		function unsubscribeOnArchiveUpdate(callback) {
+		function unsubscribeLoadedArchiveThreadEvent(callback) {
 			var index = loadedArchiveThreadEventSubscribers.indexOf(callback);
 			if (index > -1) {
 				loadedArchiveThreadEventSubscribers.splice(index, 1);
@@ -130,12 +152,13 @@
 		return {
 			flushThreads: flushThreads,
 			loadThreads: loadThreads,
+			loadArchivedThreads: loadArchivedThreads,
 			subscribeLoadedThreadEvent: subscribeLoadedThreadEvent,
 			subscribeAllThreadsLoaded: subscribeAllThreadsLoaded,
 			subscribeLoadedArchiveThreadEvent: subscribeLoadedArchiveThreadEvent,
 			unsubscribeLoadedThreadEvent: unsubscribeLoadedThreadEvent,
-			unsubscribeOnComplete: unsubscribeOnComplete,
-			unsubscribeOnArchiveUpdate: unsubscribeOnArchiveUpdate
+			unsubscribeAllThreadsLoaded: unsubscribeAllThreadsLoaded,
+			unsubscribeLoadedArchiveThreadEvent: unsubscribeLoadedArchiveThreadEvent
 		};
 	}
 })();

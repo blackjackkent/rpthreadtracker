@@ -41,7 +41,8 @@
 		$routeProvider.when('/threads',
 			{
 				'templateUrl': '/application/views/threads.html?cacheBuster=' + cacheBuster,
-				'controller': 'MainController',
+				'controller': 'ThreadsController',
+				'controllerAs': 'vm',
 				'resolve': {
 					'pageId': function() {
 						return 'allthreads';
@@ -51,7 +52,8 @@
 		$routeProvider.when('/threads/allthreads',
 			{
 				'templateUrl': '/application/views/threads.html?cacheBuster=' + cacheBuster,
-				'controller': 'MainController',
+				'controller': 'ThreadsController',
+				'controllerAs': 'vm',
 				'resolve': {
 					'pageId': function() {
 						return 'allthreads';
@@ -61,7 +63,8 @@
 		$routeProvider.when('/threads/yourturn',
 			{
 				'templateUrl': '/application/views/threads.html?cacheBuster=' + cacheBuster,
-				'controller': 'MainController',
+				'controller': 'ThreadsController',
+				'controllerAs': 'vm',
 				'resolve': {
 					'pageId': function() {
 						return 'yourturn';
@@ -71,7 +74,8 @@
 		$routeProvider.when('/threads/theirturn',
 			{
 				'templateUrl': '/application/views/threads.html?cacheBuster=' + cacheBuster,
-				'controller': 'MainController',
+				'controller': 'ThreadsController',
+				'controllerAs': 'vm',
 				'resolve': {
 					'pageId': function() {
 						return 'theirturn';
@@ -81,7 +85,8 @@
 		$routeProvider.when('/threads/archived',
 			{
 				'templateUrl': '/application/views/threads.html',
-				'controller': 'MainController',
+				'controller': 'ThreadsController',
+				'controllerAs': 'vm',
 				'resolve': {
 					'pageId': function() {
 						return 'archived';
