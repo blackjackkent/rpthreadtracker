@@ -106,8 +106,8 @@
                         <a href="#" ng-click="vm.untrackThreads([thread])">Untrack</a>
                     </td>
                     <td>
-                        <a ng-show="vm.pageId != 'archived'" href="#" ng-click="vm.archiveThreads([thread.UserThreadId])">Archive</a>
-                        <a ng-show="vm.pageId == 'archived'" href="#" ng-click="vm.unarchiveThreads([thread.UserThreadId])">Unarchive</a>
+                        <a ng-show="vm.pageId != 'archived'" href="#" ng-click="vm.archiveThreads([thread])">Archive</a>
+                        <a ng-show="vm.pageId == 'archived'" href="#" ng-click="vm.unarchiveThreads([thread])">Unarchive</a>
                     </td>
                 </tr>
             </table>

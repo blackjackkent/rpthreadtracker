@@ -95,6 +95,23 @@
 			return deferred.promise;
 		}
 
+		function editThread(thread) {
+			var deferred = $q.defer(),
+				config = {
+					url: "/api/Thread",
+					data: thread,
+					method: "PUT"
+				},
+				success = function() {
+					deferred.resolve(true);
+				},
+				error = function() {
+					deferred.reject(false);
+				};
+			$http(config).then(success, error);
+			return deferred.promise;
+		}
+
 		function untrackThreads(threads) {
 			var deferred = $q.defer(),
 				config = {
@@ -109,6 +126,32 @@
 					deferred.reject(false);
 				};
 			$http(config).then(success, error);
+			return deferred.promise;
+		}
+
+		function archiveThreads(threads) {
+			var deferred = $q.defer();
+			var queue = [];
+			angular.forEach(threads, function(thread) {
+				thread.IsArchived = true;
+				queue.push(editThread(thread));
+			});
+			$q.all(queue).then(function() {
+				deferred.resolve(true);
+			});
+			return deferred.promise;
+		}
+
+		function unarchiveThreads(threads) {
+			var deferred = $q.defer();
+			var queue = [];
+			angular.forEach(threads, function(thread) {
+				thread.IsArchived = false;
+				queue.push(editThread(thread));
+			});
+			$q.all(queue).then(function() {
+				deferred.resolve(true);
+			});
 			return deferred.promise;
 		}
 
@@ -171,6 +214,8 @@
 			loadThreads: loadThreads,
 			loadArchivedThreads: loadArchivedThreads,
 			untrackThreads: untrackThreads,
+			archiveThreads: archiveThreads,
+			unarchiveThreads: unarchiveThreads,
 			subscribeLoadedThreadEvent: subscribeLoadedThreadEvent,
 			subscribeAllThreadsLoaded: subscribeAllThreadsLoaded,
 			subscribeLoadedArchiveThreadEvent: subscribeLoadedArchiveThreadEvent,
