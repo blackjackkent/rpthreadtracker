@@ -5,12 +5,12 @@
 		[
 			'$scope', '$controller', '$window', 'threadService', 'contextService',
 			'blogService', 'newsService', 'sessionService', 'pageId', 'TrackerNotification',
-			'BodyClass', threadsController
+			'BodyClass', 'THREAD_BULK_ACTIONS', threadsController
 		]);
 
 	/** @this dashboardController */
 	// eslint-disable-next-line valid-jsdoc, max-params, max-len, max-statements
-	function threadsController($scope, $controller, $window, threadService, contextService, blogService, newsService, sessionService, pageId, TrackerNotification, BodyClass) {
+	function threadsController($scope, $controller, $window, threadService, contextService, blogService, newsService, sessionService, pageId, TrackerNotification, BodyClass, THREAD_BULK_ACTIONS) {
 		var vm = this;
 		angular.extend(vm, $controller('BaseController as base', {'$scope': $scope}));
 		sessionService.loadUser(vm);
@@ -40,6 +40,7 @@
 			vm.setFilteredTag = setFilteredTag;
 			vm.untrackThreads = untrackThreads;
 			vm.archiveThreads = archiveThreads;
+			vm.unarchiveThreads = unarchiveThreads;
 			vm.refreshThreads = refreshThreads;
 			vm.bulkAction = bulkAction;
 			vm.buildPublicLink = buildPublicLink;
@@ -69,12 +70,18 @@
 		}
 
 		function untrackThreads(userThreadIds) {
-			threadService.untrackThreads(userThreadIds)
-				.then(threadService.loadThreads);
-			new TrackerNotification()
-				.withMessage(userThreadIds.length + ' thread(s) untracked.')
-				.withType('success')
-				.show();
+			threadService.untrackThreads(userThreadIds).then(function() {
+				threadService.loadThreads();
+				new TrackerNotification()
+					.withMessage(userThreadIds.length + ' thread(s) untracked.')
+					.withType('success')
+					.show();
+			}, function() {
+				new TrackerNotification()
+					.withMessage("There was an error untracking your threads.")
+					.withType('error')
+					.show();
+			});
 		}
 
 		function archiveThreads(userThreadIds) {
@@ -86,6 +93,10 @@
 				.withMessage(userThreadIds.length + ' thread(s) archived.')
 				.withType('success')
 				.show();
+		}
+
+		function unarchiveThreads(userThreadIds) {
+	
 		}
 
 		function setCurrentBlog() {
@@ -112,10 +123,12 @@
 					bulkAffected.push(property);
 				}
 			}
-			if (vm.bulkItemAction === 'UntrackSelected') {
+			if (vm.bulkItemAction === THREAD_BULK_ACTIONS.UNTRACK) {
 				vm.untrackThreads(bulkAffected);
-			} else if (vm.bulkItemAction === 'ArchiveSelected') {
+			} else if (vm.bulkItemAction === THREAD_BULK_ACTIONS.ARCHIVE) {
 				vm.archiveThreads(bulkAffected);
+			} else if (vm.bulkItemAction === THREAD_BULK_ACTIONS.UNARCHIVE) {
+				vm.unarchiveThreads(bulkAffected);
 			}
 		}
 

@@ -95,6 +95,23 @@
 			return deferred.promise;
 		}
 
+		function untrackThreads(threads) {
+			var deferred = $q.defer(),
+				config = {
+					url: "/api/Thread/Delete",
+					data: threads,
+					method: "PUT"
+				},
+				success = function() {
+					deferred.resolve(true);
+				},
+				error = function() {
+					deferred.reject(false);
+				};
+			$http(config).then(success, error);
+			return deferred.promise;
+		}
+
 		function broadcastLoadedThreadEvent(data) {
 			angular.forEach(loadedThreadEventSubscribers,
 				function(callback) {
@@ -153,6 +170,7 @@
 			flushThreads: flushThreads,
 			loadThreads: loadThreads,
 			loadArchivedThreads: loadArchivedThreads,
+			untrackThreads: untrackThreads,
 			subscribeLoadedThreadEvent: subscribeLoadedThreadEvent,
 			subscribeAllThreadsLoaded: subscribeAllThreadsLoaded,
 			subscribeLoadedArchiveThreadEvent: subscribeLoadedArchiveThreadEvent,
