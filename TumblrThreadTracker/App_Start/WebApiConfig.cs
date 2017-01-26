@@ -1,6 +1,8 @@
 ﻿using System.Web.Http;
+using System.Web.Http.ExceptionHandling;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Elmah.Contrib.WebApi;
 using Microsoft.Practices.Unity;
 using RestSharp;
 using TumblrThreadTracker.Infrastructure;
@@ -34,11 +36,13 @@ namespace TumblrThreadTracker
 				.RegisterType<IThreadTrackerContext, RPThreadTrackerEntities>();
             config.DependencyResolver = new UnityResolver(container);
 
-            config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new { id = RouteParameter.Optional });
+			config.MapHttpAttributeRoutes();
+			config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new { id = RouteParameter.Optional });
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", autoCreateTables: true);
             AutoMapperConfiguration.Configure();
-        }
+			config.Services.Add(typeof(IExceptionLogger), new ElmahExceptionLogger());
+		}
     }
 }

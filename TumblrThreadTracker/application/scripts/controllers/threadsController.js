@@ -70,13 +70,16 @@
 		}
 
 		function untrackThreads(userThreadIds) {
+			vm.loading = true;
 			threadService.untrackThreads(userThreadIds).then(function() {
-				threadService.loadThreads();
+				vm.loading = false;
+				threadService.loadThreads(true);
 				new TrackerNotification()
 					.withMessage(userThreadIds.length + ' thread(s) untracked.')
 					.withType('success')
 					.show();
 			}, function() {
+				vm.loading = false;
 				new TrackerNotification()
 					.withMessage("There was an error untracking your threads.")
 					.withType('error')
