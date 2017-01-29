@@ -1,49 +1,59 @@
-﻿(function() {
-	'use strict';
+﻿'use strict';
+(function() {
 	angular.module('rpthreadtracker')
 		.controller('PublicController',
 		[
-			'$scope', '$routeParams', '$filter', 'publicThreadService', publicController
+			'$scope', '$controller', '$routeParams', '$filter', 'publicThreadService',
+			'BodyClass', publicController
 		]);
 
-	function publicController($scope, $routeParams, $filter, publicThreadService) {
-		$scope.setBodyClass('centered-layout error-page');
-		$scope.pageId = $routeParams.pageId;
-		$scope.userId = $routeParams.userId;
-		$scope.currentBlog = $routeParams.currentBlog;
-		$scope.currentOrderBy = $routeParams.currentOrderBy;
-		$scope.sortDescending = $routeParams.sortDescending != 'false';
-		$scope.filteredTag = $routeParams.filteredTag;
+	/** @this publicController */
+	// eslint-disable-next-line valid-jsdoc, max-params, max-len, max-statements
+	function publicController($scope, $controller, $routeParams, $filter, publicThreadService, BodyClass) {
+		var vm = this;
+		angular.extend(vm, $controller('BaseController as base', {'$scope': $scope}));
+		BodyClass.set('centered-layout error-page');
+
+		initScopeValues();
 		initView();
 
+		function initScopeValues() {
+			vm.pageId = $routeParams.pageId;
+			vm.userId = $routeParams.userId;
+			vm.currentBlog = $routeParams.currentBlog;
+			vm.currentOrderBy = $routeParams.currentOrderBy;
+			vm.sortDescending = $routeParams.sortDescending !== 'false';
+			vm.filteredTag = $routeParams.filteredTag;
+		}
+
 		function initView() {
-			$scope.publicTitleString = buildPublicTitleString();
+			vm.publicTitleString = buildPublicTitleString();
 			publicThreadService.subscribeLoadedThreadEvent(updateThreads);
-			publicThreadService.getThreads($scope.userId, $scope.currentBlog);
+			publicThreadService.loadThreads(vm.userId, vm.currentBlog);
 		}
 
 		function updateThreads(data) {
-			$scope.threads = data;
-			var filtered = $filter('isCurrentBlog')(data, $scope.currentBlog);
-			filtered = $filter('isCorrectTurn')(filtered, $scope.pageId);
-			filtered = $filter('containsFilteredTag')(filtered, decodeURIComponent($scope.filteredTag));
-			$scope.threadCount = filtered.length;
+			vm.threads = data;
+			var filtered = $filter('isCurrentBlog')(data, vm.currentBlog);
+			filtered = $filter('isCorrectTurn')(filtered, vm.pageId);
+			filtered = $filter('containsFilteredTag')(filtered, decodeURIComponent(vm.filteredTag));
+			vm.threadCount = filtered.length;
 		}
 
 		function buildPublicTitleString() {
 			var result = '';
-			if ($scope.pageId == 'yourturn') {
+			if (vm.pageId === 'yourturn') {
 				result += 'Threads I Owe';
-			} else if ($scope.pageId == 'theirturn') {
+			} else if (vm.pageId === 'theirturn') {
 				result += 'Threads Awaiting Reply';
 			} else {
 				result += 'All Threads';
 			}
-			if ($scope.currentBlog != '') {
-				result += ' on ' + $scope.currentBlog;
+			if (vm.currentBlog !== '') {
+				result += ' on ' + vm.currentBlog;
 			}
-			if ($scope.filteredTag != '') {
-				result += " tagged '" + $scope.filteredTag + "'";
+			if (vm.filteredTag !== '') {
+				result += " tagged '" + vm.filteredTag + "'";
 			}
 			return result;
 		}

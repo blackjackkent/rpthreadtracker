@@ -85,7 +85,7 @@
 			});
 		$routeProvider.when('/threads/archived',
 			{
-				'templateUrl': '/application/views/threads.html',
+				'templateUrl': '/application/views/threads.html?cacheBuster=' + cacheBuster,
 				'controller': 'ThreadsController',
 				'controllerAs': 'vm',
 				'resolve': {
@@ -97,7 +97,8 @@
 		$routeProvider.when('/public/:pageId',
 			{
 				'templateUrl': '/application/views/public.html?cacheBuster=' + cacheBuster,
-				'controller': 'PublicController'
+				'controller': 'PublicController',
+				'controllerAs': 'vm'
 			});
 		$routeProvider.when('/login',
 			{

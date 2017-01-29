@@ -48,7 +48,7 @@
         </section>
         <section ng-show="pageId != 'archived'" class="row-fluid alert alert-info public-link-alert">
             Share this view publically:
-            <a href="{{vm.buildPublicLink()}}">
+            <a href="{{vm.buildPublicLink()}}" target="_blank">
                 {{vm.buildPublicLink()}}
             </a>
         </section>
@@ -94,7 +94,7 @@
                         <span ng-show="thread.WatchedShortname != null">{{thread.WatchedShortname}}</span>
                     </td>
                     <td>
-                        <span ng-show="thread.ThreadTags"><span ng-repeat="tag in thread.ThreadTags">{{tag}}<br /></span></span>
+						<span ng-show="thread.ThreadTags"><span ng-repeat="tag in thread.ThreadTags" title="{{tag}}">{{tag.substring(0, 20)}}<span ng-show="tag.length > 20">...</span><br /></span></span>
                     </td>
                     <td>
                         <a ng-show="thread.PostId != null && thread.LastPostUrl != null" target="_blank" href="{{thread.LastPostUrl}}">View</a>
