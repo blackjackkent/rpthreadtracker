@@ -7,8 +7,21 @@
         ]);
 
     function publicThreadService($q, $http) {
-        var subscribers = [],
+        var loadedThreadEventSubscribers = [],
             threads = [];
+
+		function loadThreads(userId, blogShortname) {
+			threads = [];
+			getThreadIds(userId, blogShortname).then(function(data) {
+				loadThreadIdsSuccess(data, threads);
+			});
+		}
+
+		function loadThreadIdsSuccess(ids) {
+			angular.forEach(ids, function(value) {
+                getThread(value);
+            });
+		}
 
         function getThreadIds(userId, blogShortname) {
             var deferred = $q.defer(),
@@ -42,40 +55,39 @@
         };
 
         function getThread(id) {
-            var deferred = $q.defer(),
-                config = {
+            var config = {
                     url: "/api/PublicThread/" + id,
                     method: "GET"
                 },
                 success = function(response) {
                     threads.push(response.data);
-                    broadcast(threads);
+                    broadcastLoadedThreadEvent(threads);
                 };
             $http(config).then(success);
         };
 
-        function subscribe(callback) {
-            subscribers.push(callback);
+        function subscribeLoadedThreadEvent(callback) {
+            loadedThreadEventSubscribers.push(callback);
         }
 
-        function unsubscribe(callback) {
-            var index = subscribers.indexOf(callback);
+        function unsubscribeLoadedThreadEvent(callback) {
+            var index = loadedThreadEventSubscribers.indexOf(callback);
             if (index > -1) {
-                subscribers.splice(index, 1);
+                loadedThreadEventSubscribers.splice(index, 1);
             }
         }
 
-        function broadcast(data) {
-            angular.forEach(subscribers,
-                function(callback, key) {
+        function broadcastLoadedThreadEvent(data) {
+            angular.forEach(loadedThreadEventSubscribers,
+                function(callback) {
                     callback(data);
                 });
         }
 
         return {
-            subscribe: subscribe,
-            unsubscribe: unsubscribe,
-            getThreads: getThreads
+            subscribeLoadedThreadEvent: subscribeLoadedThreadEvent,
+            unsubscribeLoadedThreadEvent: unsubscribeLoadedThreadEvent,
+            loadThreads: loadThreads
         };
     }
 })();

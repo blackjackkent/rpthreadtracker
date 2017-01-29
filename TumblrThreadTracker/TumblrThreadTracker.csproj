@@ -1248,7 +1248,6 @@
     <Content Include="application\scripts\controllers\headerController.js" />
     <Content Include="application\scripts\controllers\loginController.js" />
     <Content Include="application\scripts\controllers\logoutController.js" />
-    <Content Include="application\scripts\controllers\mainController.js" />
     <Content Include="application\scripts\controllers\manageAccountController.js" />
     <Content Include="application\scripts\controllers\manageBlogsController.js" />
     <Content Include="application\scripts\controllers\publicController.js" />

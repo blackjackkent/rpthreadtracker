@@ -9,5 +9,6 @@
 	/** @this sideNavController */
 	// eslint-disable-next-line valid-jsdoc, max-params, max-len, no-empty-function
 	function sideNavController() {
+		// This space intentionally left blank
 	}
 }());

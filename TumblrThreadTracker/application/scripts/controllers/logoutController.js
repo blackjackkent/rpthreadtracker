@@ -12,11 +12,15 @@
 	function logoutController($scope, $controller, $location, blogService, threadService, sessionService) {
 		var vm = this;
 		angular.extend(vm, $controller('BaseController as base', {'$scope': $scope}));
-		blogService.flushBlogs();
-		threadService.flushThreads();
-		vm.user = null;
-		vm.userId = null;
-		sessionService.logout();
-		$location.path('/');
+		logout();
+
+		function logout() {
+			blogService.flushBlogs();
+			threadService.flushThreads();
+			vm.user = null;
+			vm.userId = null;
+			sessionService.logout();
+			$location.path('/');
+		}
 	}
 }());

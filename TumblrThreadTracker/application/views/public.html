@@ -1,19 +1,19 @@
 ﻿<header>
-    <h3><a href="/">RPThreadTracker</a> | {{publicTitleString}}</h3>
+    <h3><a href="/">RPThreadTracker</a> | {{vm.publicTitleString}}</h3>
 </header>
 <div class="container">
     <section class="row-fluid">
-        <h4>Thread Count: {{threadCount}}</h4>
+        <h4>Thread Count: {{vm.threadCount}}</h4>
         <table class="table table-striped thread-table">
             <tr>
                 <th>Thread Title</th>
                 <th>Last Poster</th>
                 <th>Last Post Date</th>
                 <th>Watched User</th>
+				<th>Tags</th>
                 <th>&nbsp;</th>
-                <th>Tags</th>
             </tr>
-            <tr ng-repeat="thread in threads | isCurrentBlog:currentBlog | isCorrectTurn:pageId | containsFilteredTag:filteredTag |  orderBy:currentOrderBy:sortDescending">
+            <tr ng-repeat="thread in vm.threads | isCurrentBlog:vm.currentBlog | isCorrectTurn:vm.pageId | containsFilteredTag:vm.filteredTag |  orderBy:vm.currentOrderBy:vm.sortDescending">
                 <td>
                     {{thread.UserTitle}}
                 </td>
@@ -30,14 +30,14 @@
                 <td>
                     <span ng-show="thread.LastPostDate != null">{{thread.LastPostDate * 1000 | date:'medium'}}</span>
                 </td>
-                <td>
-                    <span ng-show="thread.WatchedShortname">{{thread.WatchedShortname}}</span>
-                </td>
+	            <td>
+		            <span ng-show="thread.WatchedShortname">{{thread.WatchedShortname}}</span>
+	            </td>
+				<td>
+					<span ng-show="thread.ThreadTags"><span ng-repeat="tag in thread.ThreadTags" title="{{tag}}">{{tag.substring(0, 20)}}<span ng-show="tag.length > 20">...</span><br /></span></span>
+				</td>
                 <td>
                     <a ng-show="thread.LastPostUrl != null" target="_blank" href="{{thread.LastPostUrl}}">View</a>
-                </td>
-                <td>
-                    <span ng-show="thread.ThreadTags"><span ng-repeat="tag in thread.ThreadTags">{{tag}}<br /></span></span>
                 </td>
             </tr>
         </table>
