@@ -3,7 +3,7 @@
 	angular.module('rpthreadtracker',
 		[
 			'ngRoute', 'angulartics', 'angulartics.google.analytics',
-			'frapontillo.bootstrap-switch', 'ui-notification'
+			'frapontillo.bootstrap-switch', 'ui-notification', 'ngMaterial'
 		]);
 
 	var cacheBuster = Date.now();

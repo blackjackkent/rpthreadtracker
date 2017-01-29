@@ -69,8 +69,8 @@
                             i;
 
                         that.wrapper = typeof el == "object" ? el : doc.getElementById(el);
-                        that.wrapper.style.overflow = "hidden";
-                        that.scroller = that.wrapper.children[0];
+		                that.wrapper.style.overflow = "hidden";
+						that.scroller = that.wrapper.children[0];
 
                         // Default options
                         that.options = {

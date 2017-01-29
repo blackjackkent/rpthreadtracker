@@ -37,9 +37,9 @@
                                     <div class="content">
                                         <span>{{thread.LastPostDate * 1000 | date:'medium'}}
                                             <br />
-                                            <a href="#" ng-click="vm.archiveThreads([thread.UserThreadId])">Archive</a> 
+                                            <a href="#" ng-click="vm.archiveThreads([thread])">Archive</a> 
                                             &bull; 
-                                            <a href="#" ng-click="vm.untrackThreads([thread.UserThreadId])">Untrack</a>
+                                            <a href="#" ng-click="vm.untrackThreads([thread])">Untrack</a>
                                         </span>
                                         <div>
                                             <a target="_blank" href="{{thread.LastPostUrl}}">{{thread.UserTitle}}</a><br>
@@ -49,7 +49,7 @@
                                 </div>
 
                                 <div class="widget-actions">
-                                    <a href="#" class="refresh-link" analytics-on="click" analytics-category="Dashboard" analytics-event="Refresh (Dashboard)" ng-click="vm.loadThreads()">Refresh</a>
+                                    <a href="#" class="refresh-link" analytics-on="click" analytics-category="Dashboard" analytics-event="Refresh (Dashboard)" ng-click="vm.refreshThreads()">Refresh</a>
                                     <a href="/threads/{{vm.dashboardFilter}}" class="btn btn-mini" ng-show="vm.threads.length > 0">Show more</a>
                                 </div>
                             </div>

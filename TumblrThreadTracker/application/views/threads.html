@@ -75,7 +75,7 @@
                 </tr>
                 <tr ng-repeat="thread in vm.threads | isCurrentBlog:vm.currentBlog | isCorrectTurn:vm.pageId | containsFilteredTag:vm.filteredTag | orderBy:vm.currentOrderBy:vm.sortDescending">
                     <td>
-                        <input type="checkbox" ng-value="thread" ng-model="bulkItems[thread.UserThreadId]">
+                        <input type="checkbox" ng-value="thread" ng-model="thread.SelectedForBulk">
                     </td>
                     <td>{{thread.UserTitle}}</td>
                     <td>

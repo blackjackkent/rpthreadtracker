@@ -1,5 +1,5 @@
 ﻿/*#region Bootstrap/AdminFlare overrides */
-body { background-image: url("/application/images/body-bg-dark.png"); color: #ccc; }
+body { background-image: url("/application/images/body-bg-dark.png");background-repeat: repeat;height: auto; color: #ccc; }
 .box { background-color: #222; border: 1px solid #333; }
 .box-header { color: #cccccc; }
 .box-expand { -moz-text-shadow: none; -o-text-shadow: none; -webkit-text-shadow: none; color: #ccc; text-shadow: none; }
