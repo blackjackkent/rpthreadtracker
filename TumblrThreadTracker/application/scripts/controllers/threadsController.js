@@ -5,12 +5,12 @@
 		[
 			'$scope', '$controller', '$window', 'threadService', 'contextService',
 			'blogService', 'newsService', 'sessionService', 'pageId', 'TrackerNotification',
-			'BodyClass', 'THREAD_BULK_ACTIONS', threadsController
+			'BodyClass', 'THREAD_BULK_ACTIONS', '$mdDialog', threadsController
 		]);
 
 	/** @this dashboardController */
 	// eslint-disable-next-line valid-jsdoc, max-params, max-len, max-statements
-	function threadsController($scope, $controller, $window, threadService, contextService, blogService, newsService, sessionService, pageId, TrackerNotification, BodyClass, THREAD_BULK_ACTIONS) {
+	function threadsController($scope, $controller, $window, threadService, contextService, blogService, newsService, sessionService, pageId, TrackerNotification, BodyClass, THREAD_BULK_ACTIONS, $mdDialog) {
 		var vm = this;
 		angular.extend(vm, $controller('BaseController as base', {'$scope': $scope}));
 		sessionService.loadUser(vm);
@@ -27,7 +27,7 @@
 			vm.sortDescending = contextService.getSortDescending();
 			vm.currentOrderBy = contextService.getCurrentOrderBy();
 			vm.filteredTag = contextService.getFilteredTag();
-			vm.bulkItemAction = 'UntrackSelected';
+			vm.bulkItemAction = THREAD_BULK_ACTIONS.UNTRACK.toString();
 			blogService.getBlogs().then(function(blogs) {
 				vm.blogs = blogs;
 			});
@@ -71,20 +71,31 @@
 		}
 
 		function untrackThreads(threads) {
-			vm.loading = true;
-			threadService.untrackThreads(threads).then(function() {
-				vm.loading = false;
-				refreshThreads();
-				new TrackerNotification()
-					.withMessage(threads.length + ' thread(s) untracked.')
-					.withType('success')
-					.show();
-			}, function() {
-				vm.loading = false;
-				new TrackerNotification()
-					.withMessage("There was an error untracking your threads.")
-					.withType('error')
-					.show();
+			var message = 'This will untrack ';
+			message += threads.length;
+			message += ' thread(s) from your account. Continue?';
+			var confirm = $mdDialog.confirm()
+				.title('Untrack Thread(s)')
+				.textContent(message)
+				.ok('Yes')
+				.cancel('Cancel');
+			$mdDialog.show(confirm).then(function() {
+				vm.loading = true;
+				threadService.untrackThreads(threads).then(function() {
+					vm.loading = false;
+					refreshThreads();
+					new TrackerNotification()
+						.withMessage(threads.length + ' thread(s) untracked.')
+						.withType('success')
+						.show();
+				},
+				function() {
+					vm.loading = false;
+					new TrackerNotification()
+						.withMessage('There was an error untracking your threads.')
+						.withType('error')
+						.show();
+				});
 			});
 		}
 
@@ -100,7 +111,7 @@
 			}, function() {
 				vm.loading = false;
 				new TrackerNotification()
-					.withMessage("There was an error archiving your threads.")
+					.withMessage('There was an error archiving your threads.')
 					.withType('error')
 					.show();
 			});
@@ -118,7 +129,7 @@
 			}, function() {
 				vm.loading = false;
 				new TrackerNotification()
-					.withMessage("There was an error unarchiving your threads.")
+					.withMessage('There was an error unarchiving your threads.')
 					.withType('error')
 					.show();
 			});
@@ -142,12 +153,9 @@
 		}
 
 		function bulkAction() {
-			var bulkAffected = [];
-			for (var property in vm.bulkItems) {
-				if (vm.bulkItems.hasOwnProperty(property) && vm.bulkItems[property] === true) {
-					bulkAffected.push(property);
-				}
-			}
+			var bulkAffected = _.filter(vm.threads, function(thread) {
+				return thread.SelectedForBulk;
+			});
 			if (vm.bulkItemAction === THREAD_BULK_ACTIONS.UNTRACK) {
 				vm.untrackThreads(bulkAffected);
 			} else if (vm.bulkItemAction === THREAD_BULK_ACTIONS.ARCHIVE) {

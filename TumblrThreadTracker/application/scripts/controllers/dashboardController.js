@@ -5,12 +5,12 @@
 		[
 			'$scope', '$controller', '$location', 'threadService', 'contextService',
 			'blogService', 'newsService', 'sessionService', 'pageId', 'TrackerNotification',
-			'BodyClass', dashboardController
+			'BodyClass', '$mdDialog', dashboardController
 		]);
 
 	/** @this dashboardController */
 	// eslint-disable-next-line valid-jsdoc, max-params, max-len, max-statements
-	function dashboardController($scope, $controller, $location, threadService, contextService, blogService, newsService, sessionService, pageId, TrackerNotification, BodyClass) {
+	function dashboardController($scope, $controller, $location, threadService, contextService, blogService, newsService, sessionService, pageId, TrackerNotification, BodyClass, $mdDialog) {
 		var vm = this;
 		angular.extend(vm, $controller('BaseController as base', {'$scope': $scope}));
 		sessionService.loadUser(vm);
@@ -41,6 +41,7 @@
 			vm.untrackThreads = untrackThreads;
 			vm.archiveThreads = archiveThreads;
 			vm.loadThreads = loadThreads;
+			vm.refreshThreads = refreshThreads;
 			vm.setDashboardFilter = setDashboardFilter;
 			vm.toggleAtAGlanceData = toggleAtAGlanceData;
 			vm.generateRandomOwedThread = generateRandomOwedThread;
@@ -61,24 +62,56 @@
 			}).length;
 		}
 
-		function untrackThreads(userThreadIds) {
-			threadService.untrackThreads(userThreadIds)
-				.then(threadService.loadThreads);
-			new TrackerNotification()
-				.withMessage(userThreadIds.length + ' thread(s) untracked.')
-				.withType('success')
-				.show();
+		function refreshThreads() {
+			threadService.flushThreads();
+			threadService.loadThreads();
 		}
 
-		function archiveThreads(userThreadIds) {
-			threadService.archiveThreads(userThreadIds)
-				.then(function() {
-					threadService.getThreads(true);
+		function untrackThreads(threads) {
+			var message = 'This will untrack ';
+			message += threads.length;
+			message += ' thread(s) from your account. Continue?';
+			var confirm = $mdDialog.confirm()
+				.title('Untrack Thread(s)')
+				.textContent(message)
+				.ok('Yes')
+				.cancel('Cancel');
+			$mdDialog.show(confirm).then(function() {
+				vm.loading = true;
+				threadService.untrackThreads(threads).then(function() {
+					vm.loading = false;
+					refreshThreads();
+					new TrackerNotification()
+						.withMessage(threads.length + ' thread(s) untracked.')
+						.withType('success')
+						.show();
+				},
+				function() {
+					vm.loading = false;
+					new TrackerNotification()
+						.withMessage('There was an error untracking your threads.')
+						.withType('error')
+						.show();
 				});
-			new TrackerNotification()
-				.withMessage(userThreadIds.length + ' thread(s) archived.')
-				.withType('success')
-				.show();
+			});
+		}
+
+		function archiveThreads(threads) {
+			vm.loading = true;
+			threadService.archiveThreads(threads).then(function() {
+				vm.loading = false;
+				refreshThreads();
+				new TrackerNotification()
+					.withMessage(threads.length + ' thread(s) archived.')
+					.withType('success')
+					.show();
+			}, function() {
+				vm.loading = false;
+				new TrackerNotification()
+					.withMessage('There was an error archiving your threads.')
+					.withType('error')
+					.show();
+			});
 		}
 
 		function setDashboardFilter(filterString) {
