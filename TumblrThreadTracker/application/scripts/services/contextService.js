@@ -8,7 +8,7 @@
 
     function contextService($q, $http) {
         var sortDescending = false,
-            currentBlog = "",
+            currentBlog = null,
             filteredTag = "",
             currentOrderBy = "LastPostDate";
 
@@ -32,8 +32,8 @@
             sortDescending = sort;
         }
 
-        function setCurrentBlog(blogShortname) {
-            currentBlog = blogShortname;
+        function setCurrentBlog(blog) {
+            currentBlog = blog;
         }
 
         function setCurrentOrderBy(orderBy) {

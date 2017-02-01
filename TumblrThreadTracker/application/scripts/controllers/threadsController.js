@@ -174,7 +174,7 @@
 			var url = $window.location.origin;
 			url += '/public/' + vm.pageId;
 			url += '?userId=' + (vm.user ? vm.user.UserId : '');
-			url += '&currentBlog=' + vm.currentBlog;
+			url += '&currentBlog=' + (vm.currentBlog ? vm.currentBlog.BlogShortname : '');
 			url += '&sortDescending=' + vm.sortDescending;
 			url += '&currentOrderBy=' + vm.currentOrderBy;
 			url += '&filteredTag=' + vm.filteredTag;

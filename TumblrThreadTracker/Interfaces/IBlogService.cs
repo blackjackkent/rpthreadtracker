@@ -11,5 +11,6 @@ namespace TumblrThreadTracker.Interfaces
         void AddNewBlog(BlogDto dto, IRepository<Blog> blogRepository);
         void UpdateBlog(BlogDto dto, IRepository<Blog> blogRepository);
         void DeleteBlog(BlogDto blog, IRepository<Blog> blogRepository);
+	    bool UserOwnsBlog(int userBlogId, int getValueOrDefault, IRepository<Blog> blogRepository);
     }
 }

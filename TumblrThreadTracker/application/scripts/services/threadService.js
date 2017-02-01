@@ -95,6 +95,39 @@
 			return deferred.promise;
 		}
 
+		function getStandaloneThread(id) {
+			var deferred = $q.defer(),
+				config = {
+					url: "/api/Thread/" + id,
+					method: "GET"
+				},
+				success = function(response) {
+					deferred.resolve(response.data);
+				},
+				error = function() {
+					deferred.reject(false);
+				};
+			$http(config).then(success, error);
+			return deferred.promise;
+		}
+
+		function addNewThread(thread, tags) {
+			var deferred = $q.defer(),
+				config = {
+					url: "/api/Thread",
+					data: thread,
+					method: "POST"
+				},
+				success = function() {
+					deferred.resolve(true);
+				},
+				error = function() {
+					deferred.reject(false);
+				};
+			$http(config).then(success, error);
+			return deferred.promise;
+		}
+
 		function editThread(thread) {
 			var deferred = $q.defer(),
 				config = {
@@ -216,6 +249,9 @@
 			untrackThreads: untrackThreads,
 			archiveThreads: archiveThreads,
 			unarchiveThreads: unarchiveThreads,
+			addNewThread: addNewThread,
+			editThread: editThread,
+			getStandaloneThread: getStandaloneThread,
 			subscribeLoadedThreadEvent: subscribeLoadedThreadEvent,
 			subscribeAllThreadsLoaded: subscribeAllThreadsLoaded,
 			subscribeLoadedArchiveThreadEvent: subscribeLoadedArchiveThreadEvent,
