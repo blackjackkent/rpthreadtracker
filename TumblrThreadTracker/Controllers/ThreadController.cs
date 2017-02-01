@@ -52,24 +52,28 @@ namespace TumblrThreadTracker.Controllers
             return ids;
         }
 
-        public void Post(ThreadUpdateRequest request)
+        public HttpResponseMessage Post(ThreadDto thread)
         {
             var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
-            if (request == null || userId == null)
+            if (thread == null || userId == null)
                 throw new ArgumentNullException();
-            var blog = _blogService.GetBlogByShortname(request.BlogShortname, userId.GetValueOrDefault(), _blogRepository);
+            var userOwnsBlog = _blogService.UserOwnsBlog(thread.UserBlogId, userId.GetValueOrDefault(), _blogRepository);
+	        if (!userOwnsBlog)
+	        {
+		        return new HttpResponseMessage(HttpStatusCode.BadRequest);
+	        }
             var dto = new ThreadDto
             {
                 UserThreadId = null,
-                PostId = request.PostId,
-                BlogShortname = request.BlogShortname,
-                UserBlogId = blog.UserBlogId ?? -1,
-                UserTitle = request.UserTitle,
-                WatchedShortname = request.WatchedShortname,
-                ThreadTags = request.ThreadTags
+                PostId = thread.PostId,
+                UserBlogId = thread.UserBlogId,
+                UserTitle = thread.UserTitle,
+                WatchedShortname = thread.WatchedShortname,
+                ThreadTags = thread.ThreadTags
             };
             _threadService.AddNewThread(dto, _threadRepository);
-        }
+			return new HttpResponseMessage(HttpStatusCode.Created);
+		}
 
         public HttpResponseMessage Put(ThreadDto thread)
         {

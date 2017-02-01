@@ -126,6 +126,7 @@
 			{
 				'templateUrl': '/application/views/add-thread.html?cacheBuster=' + cacheBuster,
 				'controller': 'ManageThreadController',
+				'controllerAs': 'vm',
 				'resolve': {
 					'pageId': function() {
 						return 'add-thread';
@@ -136,6 +137,7 @@
 			{
 				'templateUrl': '/application/views/add-thread.html?cacheBuster=' + cacheBuster,
 				'controller': 'ManageThreadController',
+				'controllerAs': 'vm',
 				'resolve': {
 					'pageId': function() {
 						return 'edit-thread';

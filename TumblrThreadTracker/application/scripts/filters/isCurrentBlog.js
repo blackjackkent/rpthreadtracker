@@ -3,8 +3,8 @@
     angular.module("rpthreadtracker").filter("isCurrentBlog", isCorrectBlog);
 
     function isCorrectBlog() {
-        return function(threads, blogShortname) {
-            if (blogShortname === null || blogShortname === "") {
+        return function(threads, blog) {
+            if (!blog || !blog.UserBlogId) {
                 return threads;
             }
             var out = [];
@@ -12,7 +12,7 @@
                 return out;
             }
             for (var i = 0; i < threads.length; i++) {
-                if (threads[i].BlogShortname == blogShortname) {
+                if (threads[i].UserBlogId === blog.UserBlogId) {
                     out.push(threads[i]);
                 }
             }

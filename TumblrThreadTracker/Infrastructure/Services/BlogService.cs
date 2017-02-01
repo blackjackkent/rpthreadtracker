@@ -47,5 +47,11 @@ namespace TumblrThreadTracker.Infrastructure.Services
         {
             blogRepository.Delete(blog.UserBlogId);
         }
+
+	    public bool UserOwnsBlog(int userBlogId, int userId, IRepository<Blog> blogRepository)
+	    {
+			var userOwnsBlog = blogRepository.Get(t => t.UserBlogId == userBlogId && t.UserId == userId).FirstOrDefault();
+			return userOwnsBlog != null;
+		}
     }
 }

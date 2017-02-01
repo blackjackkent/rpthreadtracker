@@ -70,7 +70,6 @@
 			"error", 10,
 			{ "ignoreTopLevelFunctions": true }
 		],
-		"newline-per-chained-call": "error",
 		"no-inline-comments": "error",
 		"no-lonely-if": "error",
 		"no-mixed-operators": "error",

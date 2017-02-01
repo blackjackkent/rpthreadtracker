@@ -1280,7 +1280,6 @@
     <Content Include="application\scripts\services\newsService.js" />
     <Content Include="application\scripts\services\publicThreadService.js" />
     <Content Include="application\scripts\services\sessionService.js" />
-    <Content Include="application\scripts\services\oldThreadService.js" />
     <Content Include="application\scripts\services\threadService.js" />
     <Content Include="application\styles\dark\adminflare.css" />
     <Content Include="application\styles\dark\adminflare.min.css" />
