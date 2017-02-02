@@ -148,6 +148,7 @@
 			{
 				'templateUrl': '/application/views/manage-blogs.html?cacheBuster=' + cacheBuster,
 				'controller': 'ManageBlogsController',
+				'controllerAs': 'vm',
 				'resolve': {
 					'pageId': function() {
 						return 'manage-blogs';
