@@ -4,7 +4,7 @@
 <section class="central-container container">
     <div id="content">
         <section class="row-fluid">
-            <form class="form-horizontal" name="newBlogForm" ng-submit="createBlog()">
+            <form class="form-horizontal" name="vm.newBlogForm" ng-submit="vm.createBlog()">
                 <fieldset>
                     <legend>Add a New Blog</legend>
                     <p>
@@ -14,7 +14,7 @@
                     <div class="control-group">
                         <label class="control-label" for="newBlogShortname">Blog shortname:</label>
                         <div class="controls">
-                            <input type="text" id="Text1" name="newBlogShortname" required ng-model="newBlogShortname" ng-pattern="shortnameRegex" placeholder="Shortname">
+                            <input type="text" id="Text1" name="newBlogShortname" required ng-model="vm.newBlogShortname" ng-pattern="vm.shortnameRegex" placeholder="Shortname">
                         </div>
                     </div>
                     <div class="control-group">
@@ -22,28 +22,27 @@
                             <button type="submit" class="btn">Add Blog</button>
                         </div>
                     </div>
-                    <p class="alert alert-success" ng-show="showSuccessMessage">Blogs updated. Click "Track New Thread" to add a thread for one of the blogs below.</p>
                 </fieldset>
             </form>
             <fieldset>
                 <legend>Manage Existing Blogs</legend>
                 <table class="table table-striped blog-table">
-                    <tr ng-repeat="blog in blogs | orderBy:'BlogShortname'" ng-class="{'hiatused-blog': blog.OnHiatus}">
+                    <tr ng-repeat="blog in vm.blogs | orderBy:'BlogShortname'" ng-class="{'hiatused-blog': blog.OnHiatus}">
                         <td>{{blog.BlogShortname}}</td>
                         <td>
                             <a href="/edit-blog/{{blog.UserBlogId}}">Edit</a>
                         </td>
                         <td>
-                            <a href="" ng-click="untrackBlog(blog.UserBlogId)">Untrack</a>
+                            <a href="" ng-click="vm.untrackBlog(blog)">Untrack</a>
                         </td>
                         <td ng-if="blog.OnHiatus">
-                            <a href="" ng-click="toggleHiatus(blog)">Set Off Hiatus</a>
+                            <a href="" ng-click="vm.toggleHiatus(blog)">Set Off Hiatus</a>
                         </td>
                         <td ng-if="!blog.OnHiatus">
-                            <a href="" ng-click="toggleHiatus(blog)">Set On Hiatus</a>
+                            <a href="" ng-click="vm.toggleHiatus(blog)">Set On Hiatus</a>
                         </td>
                     </tr>
-                    <tr ng-show="blogs.length == 0">
+                    <tr ng-show="vm.blogs.length == 0">
                         <td>You have not yet added any blogs.</td>
                     </tr>
                 </table>
