@@ -4,12 +4,12 @@
 		.controller('ManageAccountController',
 		[
 			'$scope', '$controller', '$location', 'sessionService', 'exportService', 'pageId',
-			'TrackerNotification', 'BodyClass', manageAccountController
+			'notificationService', 'NOTIFICATION_TYPES', 'BodyClass', manageAccountController
 		]);
 
 	/** @this manageAccountController */
 	// eslint-disable-next-line valid-jsdoc, max-params, max-len, max-statements
-	function manageAccountController($scope, $controller, $location, sessionService, exportService, pageId, TrackerNotification, BodyClass) {
+	function manageAccountController($scope, $controller, $location, sessionService, exportService, pageId, notificationService, NOTIFICATION_TYPES, BodyClass) {
 		var vm = this;
 		angular.extend(vm, $controller('BaseController as base', {'$scope': $scope}));
 		sessionService.loadUser(vm);
@@ -25,17 +25,13 @@
 			vm.oldPassword = '';
 			vm.newPassword = '';
 			vm.confirmNewPassword = '';
-			new TrackerNotification()
-				.withMessage('Account updated.')
-				.withType('success')
-				.show();
+			var type = NOTIFICATION_TYPES.UPDATE_ACCOUNT_SUCCESS;
+			notificationService.show(type);
 		}
 
 		function passwordFailure() {
-			new TrackerNotification()
-				.withMessage('There was a problem updating your account.')
-				.withType('error')
-				.show();
+			var type = NOTIFICATION_TYPES.UPDATE_ACCOUNT_FAILURE;
+			notificationService.show(type);
 		}
 
 		function changePassword() {
@@ -48,22 +44,14 @@
 		}
 
 		function showChangePasswordValidationError() {
-			var notification = new TrackerNotification()
-				.withType('error')
-				.withMessage('');
-			if (vm.changePasswordForm.oldPassword.$error.required) {
-				notification.appendMessage('You must enter your current password.');
-			}
-			if (vm.changePasswordForm.newPassword.$error.required) {
-				notification.appendMessage('You must enter your new password.');
-			}
-			if (vm.changePasswordForm.confirmNewPassword.$error.required) {
-				notification.appendMessage('You must confirm your new password.');
-			}
-			if (vm.newPassword !== vm.confirmNewPassword) {
-				notification.appendMessage('Your new passwords must match.');
-			}
-			notification.show();
+			var type = NOTIFICATION_TYPES.CHANGE_PASSWORD_VALIDATION_ERROR;
+			var extraData = {
+				'oldPasswordRequired': vm.changePasswordForm.oldPassword.$error.required,
+				'newPasswordRequired': vm.changePasswordForm.newPassword.$error.required,
+				'confirmRequired': vm.changePasswordForm.confirmNewPassword.$error.required,
+				'confirmMatch': vm.newPassword !== vm.confirmNewPassword
+			};
+			notificationService.show(type, extraData);
 		}
 
 		function exportThreads() {
@@ -77,10 +65,8 @@
 		}
 
 		function exportFailure() {
-			new TrackerNotification()
-				.withMessage('There was a problem exporting your threads.')
-				.withType('error')
-				.show();
+			var type = NOTIFICATION_TYPES.EXPORT_FAILURE;
+			notificationService.show(type);
 			vm.exportLoading = false;
 		}
 	}

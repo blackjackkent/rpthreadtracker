@@ -1278,6 +1278,7 @@
     <Content Include="application\scripts\services\contextService.js" />
     <Content Include="application\scripts\services\exportService.js" />
     <Content Include="application\scripts\services\newsService.js" />
+    <Content Include="application\scripts\services\notificationService.js" />
     <Content Include="application\scripts\services\publicThreadService.js" />
     <Content Include="application\scripts\services\sessionService.js" />
     <Content Include="application\scripts\services\threadService.js" />

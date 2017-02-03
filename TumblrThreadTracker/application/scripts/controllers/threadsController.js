@@ -4,13 +4,13 @@
 		.controller('ThreadsController',
 		[
 			'$scope', '$controller', '$window', 'threadService', 'contextService',
-			'blogService', 'newsService', 'sessionService', 'pageId', 'TrackerNotification',
-			'BodyClass', 'THREAD_BULK_ACTIONS', '$mdDialog', threadsController
+			'blogService', 'newsService', 'sessionService', 'pageId', 'notificationService',
+			'NOTIFICATION_TYPES', 'BodyClass', 'THREAD_BULK_ACTIONS', '$mdDialog', threadsController
 		]);
 
 	/** @this dashboardController */
 	// eslint-disable-next-line valid-jsdoc, max-params, max-len, max-statements
-	function threadsController($scope, $controller, $window, threadService, contextService, blogService, newsService, sessionService, pageId, TrackerNotification, BodyClass, THREAD_BULK_ACTIONS, $mdDialog) {
+	function threadsController($scope, $controller, $window, threadService, contextService, blogService, newsService, sessionService, pageId, notificationService, NOTIFICATION_TYPES, BodyClass, THREAD_BULK_ACTIONS, $mdDialog) {
 		var vm = this;
 		angular.extend(vm, $controller('BaseController as base', {'$scope': $scope}));
 		sessionService.loadUser(vm);
@@ -27,7 +27,7 @@
 			vm.sortDescending = contextService.getSortDescending();
 			vm.currentOrderBy = contextService.getCurrentOrderBy();
 			vm.filteredTag = contextService.getFilteredTag();
-			vm.bulkItemAction = THREAD_BULK_ACTIONS.UNTRACK.toString();
+			vm.bulkItemAction = THREAD_BULK_ACTIONS.UNTRACK;
 			blogService.getBlogs().then(function(blogs) {
 				vm.blogs = blogs;
 			});
@@ -84,17 +84,13 @@
 				threadService.untrackThreads(threads).then(function() {
 					vm.loading = false;
 					refreshThreads();
-					new TrackerNotification()
-						.withMessage(threads.length + ' thread(s) untracked.')
-						.withType('success')
-						.show();
+					var type = NOTIFICATION_TYPES.UNTRACK_THREAD_SUCCESS;
+					notificationService.show(type, {'threads': threads});
 				},
 				function() {
 					vm.loading = false;
-					new TrackerNotification()
-						.withMessage('There was an error untracking your threads.')
-						.withType('error')
-						.show();
+					var type = NOTIFICATION_TYPES.UNTRACK_THREAD_FAILURE;
+					notificationService.show(type);
 				});
 			});
 		}
@@ -104,16 +100,12 @@
 			threadService.archiveThreads(threads).then(function() {
 				vm.loading = false;
 				refreshThreads();
-				new TrackerNotification()
-					.withMessage(threads.length + ' thread(s) archived.')
-					.withType('success')
-					.show();
+				var type = NOTIFICATION_TYPES.ARCHIVE_THREAD_SUCCESS;
+				notificationService.show(type, {'threads': threads});
 			}, function() {
 				vm.loading = false;
-				new TrackerNotification()
-					.withMessage('There was an error archiving your threads.')
-					.withType('error')
-					.show();
+				var type = NOTIFICATION_TYPES.ARCHIVE_THREAD_FAILURE;
+				notificationService.show(type);
 			});
 		}
 
@@ -122,16 +114,12 @@
 			threadService.unarchiveThreads(threads).then(function() {
 				vm.loading = false;
 				refreshThreads();
-				new TrackerNotification()
-					.withMessage(threads.length + ' thread(s) unarchived.')
-					.withType('success')
-					.show();
+				var type = NOTIFICATION_TYPES.UNARCHIVE_THREAD_SUCCESS;
+				notificationService.show(type, {'threads': threads});
 			}, function() {
 				vm.loading = false;
-				new TrackerNotification()
-					.withMessage('There was an error unarchiving your threads.')
-					.withType('error')
-					.show();
+				var type = NOTIFICATION_TYPES.UNARCHIVE_THREAD_FAILURE;
+				notificationService.show(type);
 			});
 		}
 

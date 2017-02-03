@@ -4,11 +4,11 @@
 		.controller('EditBlogController',
 		[
 			'$scope', '$routeParams', '$location', 'sessionService', 'contextService', 'blogService', 'threadService',
-			'TrackerNotification', 'pageId',
+			'notificationService', 'NOTIFICATION_TYPES', 'pageId',
 			editBlogController
 		]);
 
-	function editBlogController($scope, $routeParams, $location, sessionService, contextService, blogService, threadService, TrackerNotification, pageId) {
+	function editBlogController($scope, $routeParams, $location, sessionService, contextService, blogService, threadService, notificationService, NOTIFICATION_TYPES, pageId) {
 		$scope.setBodyClass('');
 		$scope.pageId = pageId;
 		$scope.submitBlog = submitBlog;

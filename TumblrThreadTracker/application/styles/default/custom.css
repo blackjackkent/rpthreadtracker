@@ -63,7 +63,7 @@ label.inline-control-label { display: inline; line-height: 30px; vertical-align:
 
 /*#region Forgot Password/Signin/Register */
 #forgot-password-form p { color: #aaa; }
-.signin-page a.header { margin: 0 auto 10px; margin-top: 100px; width: auto; }
+.signin-page a.header { margin: 0 auto 10px; padding-top: 100px; width: auto; }
 #signin-container .loading-icon {float: right}
 #register-form .fields { border: none; }
 /*#endregion*/

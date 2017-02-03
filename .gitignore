@@ -13,3 +13,4 @@ TumblrThreadTracker/App_Data/TumblrThreadTracker.mdf
 TumblrThreadTracker/App_Data/TumblrThreadTracker_log.ldf
 packages/*
 TumblrThreadTracker/application/node_modules/*
+npm-debug.log

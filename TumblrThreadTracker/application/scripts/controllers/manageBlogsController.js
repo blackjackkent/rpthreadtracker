@@ -4,20 +4,19 @@
 		.controller('ManageBlogsController',
 		[
 			'$scope', '$controller', '$location', 'sessionService', 'blogService',
-			'threadService', 'pageId', 'TrackerNotification', 'BodyClass', '$mdDialog',
-			manageBlogsController
+			'threadService', 'pageId', 'notificationService', 'NOTIFICATION_TYPES',
+			'BodyClass', '$mdDialog', manageBlogsController
 		]);
 
 	/** @this manageBlogsController */
 	// eslint-disable-next-line valid-jsdoc, max-params, max-len, max-statements
-	function manageBlogsController($scope, $controller, $location, sessionService, blogService, threadService, pageId, TrackerNotification, BodyClass, $mdDialog) {
+	function manageBlogsController($scope, $controller, $location, sessionService, blogService, threadService, pageId, notificationService, NOTIFICATION_TYPES, BodyClass, $mdDialog) {
 		var vm = this;
 		angular.extend(vm, $controller('BaseController as base', {'$scope': $scope}));
 		sessionService.loadUser(vm);
 		BodyClass.set('');
 
 		initScopeValues();
-		initView();
 
 		function initScopeValues() {
 			vm.pageId = pageId;
@@ -25,37 +24,16 @@
 			vm.createBlog = createBlog;
 			vm.untrackBlog = untrackBlog;
 			vm.toggleHiatus = toggleHiatus;
-		}
-
-		function initView() {
 			blogService.getBlogs(true, true).then(function(blogs) {
 				vm.blogs = blogs;
 			});
-			vm.emptyBlogShortnameError = new TrackerNotification()
-				.withMessage('ERROR: You must enter a blog shortname.')
-				.withType('error');
-			vm.invalidBlogShortnameError = new TrackerNotification()
-				.withMessage('ERROR: You must enter only the blog shortname, not the full URL.')
-				.withType('error');
-			var successMessage = "Blogs updated. Click 'Track New Thread' ";
-			successMessage += 'to add a thread for one of the blogs below.';
-			vm.successMessage = new TrackerNotification()
-				.withMessage(successMessage)
-				.withType('success');
-			vm.failureMessage = new TrackerNotification()
-				.withMessage('ERROR: There was a problem updating your blogs.')
-				.withType('error');
-			vm.duplicateErrorNotification = new TrackerNotification()
-				.withMessage("ERROR: A blog with the shortname '<em>" +
-					vm.newBlogShortname +
-					"</em>' is already associated with your account.")
-				.withType('error');
 		}
 
 		function success() {
 			vm.newBlogForm.$setPristine();
 			vm.newBlogShortname = '';
-			vm.successMessage.show();
+			var type = NOTIFICATION_TYPES.UPDATE_BLOGS_SUCCESS;
+			notificationService.show(type);
 			blogService.flushBlogs();
 			threadService.flushThreads();
 			blogService.getBlogs(true, true).then(function(blogs) {
@@ -64,18 +42,12 @@
 		}
 
 		function failure() {
-			vm.failureMessage.show();
+			var type = NOTIFICATION_TYPES.UPDATE_BLOGS_FAILURE;
+			notificationService.show(type);
 		}
 
 		function createBlog() {
 			if (!validateNewBlog()) {
-				return;
-			}
-			var shortnameExists = _.some(vm.blogs, function(blog) {
-				return blog.BlogShortname === vm.newBlogShortname;
-			});
-			if (shortnameExists) {
-				vm.duplicateErrorNotification.show();
 				return;
 			}
 			if (vm.newBlogShortname !== '') {
@@ -84,14 +56,21 @@
 		}
 
 		function validateNewBlog() {
+			var shortnameExists = _.some(vm.blogs, function(blog) {
+				return blog.BlogShortname === vm.newBlogShortname;
+			});
 			if (!vm.newBlogForm.$valid) {
-				if (vm.newBlogForm.newBlogShortname.$error.required) {
-					vm.emptyBlogShortnameError.show();
-				}
-				if (!vm.newBlogForm.newBlogShortname.$error.required &&
-					vm.newBlogForm.newBlogShortname.$error.pattern) {
-					vm.invalidBlogShortnameError.show();
-				}
+				var emptyShortname = vm.newBlogForm.newBlogShortname.$error.required;
+				var invalidShortname = !vm.newBlogForm.newBlogShortname.$error.required &&
+					vm.newBlogForm.newBlogShortname.$error.pattern;
+				var errorData = {
+					'newBlogShortname': vm.newBlogShortname,
+					'shortnameExists': shortnameExists,
+					'emptyShortname': emptyShortname,
+					'invalidShortname': invalidShortname
+				};
+				var type = NOTIFICATION_TYPES.CREATE_BLOG_VALIDATION_ERROR;
+				notificationService.show(type, errorData);
 				return false;
 			}
 			return true;
@@ -99,7 +78,7 @@
 
 		function untrackBlog(blog) {
 			var message = 'This will untrack all thread(s) ';
-			message += 'associated with ' + blog.BlogShortname + ' from your account. Continue?';
+			message += 'associated with this blog from your account. Continue?';
 			var confirm = $mdDialog.confirm()
 				.title('Untrack Thread(s)')
 				.textContent(message)

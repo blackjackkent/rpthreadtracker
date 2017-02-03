@@ -33,9 +33,9 @@
                     Bulk Actions:
                 </label>
                 <select ng-model="vm.bulkItemAction" name="bulkItemAction">
-                    <option value="1">Untrack Selected</option>
-                    <option ng-show="vm.pageId != 'archived'" value="2">Archive Selected</option>
-                    <option ng-show="vm.pageId == 'archived'" value="3">Unarchive Selected</option>
+                    <option ng-value="1">Untrack Selected</option>
+                    <option ng-show="vm.pageId != 'archived'" ng-value="2">Archive Selected</option>
+                    <option ng-show="vm.pageId == 'archived'" ng-value="3">Unarchive Selected</option>
                 </select>
                 <a class="btn bulk-action-link" ng-click="vm.bulkAction()">Go</a>
             </div>
