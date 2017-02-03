@@ -3,13 +3,13 @@
 	angular.module('rpthreadtracker')
 		.controller('ForgotPasswordController',
 		[
-			'$scope', '$controller', '$location', 'sessionService', 'TrackerNotification',
-			'BodyClass', forgotPasswordController
+			'$scope', '$controller', '$location', 'sessionService', 'notificationService',
+			'NOTIFICATION_TYPES', 'BodyClass', forgotPasswordController
 		]);
 
 	/** @this forgotPasswordController */
 	// eslint-disable-next-line valid-jsdoc, max-params, max-len, max-statements
-	function forgotPasswordController($scope, $controller, $location, sessionService, TrackerNotification, BodyClass) {
+	function forgotPasswordController($scope, $controller, $location, sessionService, notificationService, NOTIFICATION_TYPES, BodyClass) {
 		var vm = this;
 		angular.extend(vm, $controller('BaseController as base', {'$scope': $scope}));
 		BodyClass.set('signin-page');
@@ -24,18 +24,14 @@
 
 		function success() {
 			vm.loading = false;
-			new TrackerNotification()
-				.withMessage('Success. Check your email box for a temporary password.')
-				.withType('success')
-				.show();
+			var type = NOTIFICATION_TYPES.FORGOT_PASSWORD_SUCCESS;
+			notificationService.show(type);
 		}
 
 		function fail() {
 			vm.loading = false;
-			new TrackerNotification()
-				.withMessage('Unknown error. Please try again later.')
-				.withType('error')
-				.show();
+			var type = NOTIFICATION_TYPES.FORGOT_PASSWORD_FAILURE;
+			notificationService.show(type);
 		}
 	}
 }());

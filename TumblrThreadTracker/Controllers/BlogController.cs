@@ -61,8 +61,8 @@ namespace TumblrThreadTracker.Controllers
         }
 
         public void Delete(int userBlogId)
-        {
-            var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
+		{
+			var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
             var blog = _blogService.GetBlogById(userBlogId, _blogRepository);
             if (blog.UserId != userId)
                 return;

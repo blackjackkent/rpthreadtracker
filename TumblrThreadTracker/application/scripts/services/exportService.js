@@ -14,12 +14,12 @@
             var httpPath = "/api/Export?includeArchived=" + includeArchived + "&includeHiatused=" + includeHiatused;
             // Use an arraybuffer
             $http.get(httpPath, { responseType: "arraybuffer" })
-                .success(function(data, status, headers) {
+                .then(function(response) {
                     var octetStreamMime = "application/octet-stream";
                     var success = false;
 
                     // Get the headers
-                    headers = headers();
+                    var headers = response.headers();
                     // Get the filename from the x-filename header or default to "download.bin"
                     var filename = headers["x-filename"] || "download.bin";
                     // Determine the content type from the header or default to "application/octet-stream"
@@ -27,7 +27,7 @@
 
                     try {
                         // Try using msSaveBlob if supported
-                        var blob = new Blob([data], { type: contentType });
+                        var blob = new Blob([response.data], { type: contentType });
                         if (navigator.msSaveBlob)
                             navigator.msSaveBlob(blob, filename);
                         else {
@@ -52,7 +52,7 @@
                                 // Try to simulate a click
                                 try {
                                     // Prepare a blob URL
-                                    var blob = new Blob([data], { type: contentType });
+                                    var blob = new Blob([response.data], { type: contentType });
                                     var url = urlCreator.createObjectURL(blob);
                                     link.setAttribute("href", url);
 
@@ -91,7 +91,7 @@
                                 try {
                                     // Prepare a blob URL
                                     // Use application/octet-stream when using window.location to force download
-                                    var blob = new Blob([data], { type: octetStreamMime });
+                                    var blob = new Blob([response.data], { type: octetStreamMime });
                                     var url = urlCreator.createObjectURL(blob);
                                     window.location = url;
                                     success = true;
@@ -111,8 +111,7 @@
                         window.open(httpPath, "_blank", "");
                     }
                     deferred.resolve();
-                })
-                .error(function(data, status) {
+                }, function(data, status) {
                     deferred.reject();
                 });
             return deferred.promise;

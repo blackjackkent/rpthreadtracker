@@ -3,13 +3,13 @@
 	angular.module('rpthreadtracker')
 		.controller('LoginController',
 		[
-			'$controller', '$scope', '$location', 'sessionService', 'TrackerNotification',
-			'BodyClass', loginController
+			'$controller', '$scope', '$location', 'sessionService', 'notificationService',
+			'NOTIFICATION_TYPES', 'BodyClass', loginController
 		]);
 
 	/** @this loginController */
 	// eslint-disable-next-line valid-jsdoc, max-params, max-len
-	function loginController($controller, $scope, $location, sessionService, TrackerNotification, BodyClass) {
+	function loginController($controller, $scope, $location, sessionService, notificationService, NOTIFICATION_TYPES, BodyClass) {
 		var vm = this;
 		angular.extend(vm, $controller('BaseController as base', {'$scope': $scope}));
 		vm.login = login;
@@ -40,10 +40,8 @@
 
 		function fail() {
 			vm.loading = false;
-			new TrackerNotification()
-				.withMessage('Incorrect username or password.')
-				.withType('error')
-				.show();
+			var type = NOTIFICATION_TYPES.LOGIN_FAILURE;
+			notificationService.show(type);
 		}
 	}
 }());

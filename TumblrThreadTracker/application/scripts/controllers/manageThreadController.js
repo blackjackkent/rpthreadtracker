@@ -5,12 +5,13 @@
 		[
 			'$scope', '$controller', '$routeParams', '$location', 'sessionService',
 			'contextService', 'blogService', 'threadService', 'pageId',
-			'TrackerNotification', '$window', 'BodyClass', manageThreadController
+			'notificationService', 'NOTIFICATION_TYPES', '$window',
+			'BodyClass', manageThreadController
 		]);
 
 	/** @this manageThreadController */
 	// eslint-disable-next-line valid-jsdoc, max-params, max-len, max-statements
-	function manageThreadController($scope, $controller, $routeParams, $location, sessionService, contextService, blogService, threadService, pageId, TrackerNotification, $window, BodyClass) {
+	function manageThreadController($scope, $controller, $routeParams, $location, sessionService, contextService, blogService, threadService, pageId, notificationService, NOTIFICATION_TYPES, $window, BodyClass) {
 		var vm = this;
 		angular.extend(vm, $controller('BaseController as base', {'$scope': $scope}));
 		sessionService.loadUser(vm);
@@ -71,15 +72,9 @@
 			if (exists) {
 				vm.thread.UserBlogId = exists.UserBlogId;
 			} else {
-				var message = 'WARNING: You are attempting to add a post ID from a blog ';
-				message += 'not associated with this account (';
-				message += $routeParams.tumblrBlogShortname;
-				message += '). Please use posts from your own blogs, or leave the';
-				message += 'field blank if you have not posted to the thread yet.';
-				new TrackerNotification()
-					.withMessage(message)
-					.withType('error')
-					.show();
+				var type = NOTIFICATION_TYPES.CREATE_THREAD_EXT_BLOG_DNE;
+				var extraData = {'tumblrBlogShortname': $routeParams.tumblrBlogShortname};
+				notificationService.show(type, extraData);
 			}
 		}
 
@@ -134,37 +129,32 @@
 				$window.close();
 			} else {
 				var action = vm.isEditPage ? 'updated' : 'created';
-				new TrackerNotification()
-					.withMessage("Thread '<em>" + vm.thread.UserTitle + "</em>' " + action + '.')
-					.withType('success')
-					.show();
+				var type = NOTIFICATION_TYPES.CREATE_THREAD_SUCCESS;
+				var extraData = {
+					'action': action,
+					'userTitle': vm.thread.UserTitle
+				};
+				notificationService.show(type, extraData);
 				$location.path('/threads');
 			}
 		}
 
 		function failure() {
-			new TrackerNotification()
-				.withMessage('ERROR: There was a problem updating your thread.')
-				.withType('error')
-				.show();
+			var type = NOTIFICATION_TYPES.CREATE_THREAD_FAILURE;
+			notificationService.show(type);
 		}
 
-		// eslint-disable-next-line max-statements
 		function validateThread() {
+			var extraData = {};
 			if (vm.newThreadForm.postId.$error.pattern) {
-				new TrackerNotification()
-					.withMessage('ERROR: Post IDs must contain only numbers.')
-					.withType('error')
-					.show();
-				return false;
+				extraData.errorPattern = true;
 			}
 			if (vm.newThreadForm.userTitle.$error.required) {
-				var message = 'ERROR: You must enter a thread title for tracking purposes.';
-				message += ' (This does not have to match a title on the actual Tumblr thread.)';
-				new TrackerNotification()
-					.withMessage(message)
-					.withType('error')
-					.show();
+				extraData.errorRequired = true;
+			}
+			if (extraData.errorPattern || extraData.errorRequired) {
+				var type = NOTIFICATION_TYPES.CREATE_THREAD_VALIDATION_ERROR;
+				notificationService.show(type, extraData);
 				return false;
 			}
 			return true;

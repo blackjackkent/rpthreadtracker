@@ -3,13 +3,13 @@
 	angular.module('rpthreadtracker')
 		.controller('RegisterController',
 		[
-			'$scope', '$controller', '$location', 'sessionService', 'TrackerNotification',
-			'BodyClass', registerController
+			'$scope', '$controller', '$location', 'sessionService',
+			'notificationService', 'NOTIFICATION_TYPES', 'BodyClass', registerController
 		]);
 
 	/** @this registerController */
 	// eslint-disable-next-line valid-jsdoc, max-params, max-len
-	function registerController($scope, $controller, $location, sessionService, TrackerNotification, BodyClass) {
+	function registerController($scope, $controller, $location, sessionService, notificationService, NOTIFICATION_TYPES, BodyClass) {
 		var vm = this;
 		angular.extend(vm, $controller('BaseController as base', {'$scope': $scope}));
 		vm.register = register;
@@ -36,40 +36,27 @@
 
 		function fail(response) {
 			vm.loading = false;
-			if (response && response.data) {
-				new TrackerNotification()
-					.withMessage('ERROR: ' + response.data)
-					.withType('error')
-					.show();
-			} else {
-				new TrackerNotification()
-					.withMessage('Error registering account. Please try again later.')
-					.withType('error')
-					.show();
+			var specificErrorMessage = '';
+			if (response.status === 400) {
+				specificErrorMessage = response.data;
 			}
+			var type = NOTIFICATION_TYPES.REGISTER_FAILURE;
+			var extraData = {'specificErrorMessage': specificErrorMessage};
+			notificationService.show(type, extraData);
 		}
 
 		// eslint-disable-next-line max-statements
 		function showValidationError() {
-			var notification = new TrackerNotification()
-				.withType('error')
-				.withMessage('');
-			if (vm.registerForm.username.$error.required) {
-				notification.appendMessage('You must enter a valid username.');
-			}
-			if (vm.registerForm.email.$error.email || vm.registerForm.email.$error.required) {
-				notification.appendMessage('You must enter a valid email.');
-			}
-			if (vm.registerForm.Password.$error.required) {
-				notification.appendMessage('You must enter a password.');
-			}
-			if (vm.registerForm.confirmPassword.$error.required) {
-				notification.appendMessage('You must confirm your password.');
-			}
-			if (vm.confirmPassword !== vm.Password) {
-				notification.appendMessage('Your passwords must match.');
-			}
-			notification.show();
+			var extraData = {
+				'usernameRequired': vm.registerForm.username.$error.required,
+				'emailRequired': vm.registerForm.email.$error.email
+					|| vm.registerForm.email.$error.required,
+				'passwordRequired': vm.registerForm.Password.$error.required,
+				'confirmPasswordRequired': vm.registerForm.confirmPassword.$error.required,
+				'passwordMatch': vm.confirmPassword !== vm.Password
+			};
+			var type = NOTIFICATION_TYPES.REGISTER_VALIDATION_ERROR;
+			notificationService.show(type, extraData);
 		}
 	}
 }());

@@ -26,7 +26,6 @@ namespace TumblrThreadTracker.Controllers
         [AllowAnonymous]
         public HttpResponseMessage Post(RegisterRequest request)
         {
-            //@TODO fix front-end behavior to clarify between bad request and error
             var existingUsername = _userProfileRepository.Get(u => u.UserName == request.Username).Any();
             var existingEmail = _userProfileRepository.Get(u => u.Email == request.Email).Any();
 
