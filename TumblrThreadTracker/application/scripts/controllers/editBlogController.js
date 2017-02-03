@@ -1,68 +1,73 @@
-﻿(function() {
-	'use strict';
+﻿'use strict';
+(function() {
 	angular.module('rpthreadtracker')
 		.controller('EditBlogController',
 		[
-			'$scope', '$routeParams', '$location', 'sessionService', 'contextService', 'blogService', 'threadService',
+			'$scope', '$controller', '$routeParams', '$location', 'sessionService',
+			'contextService', 'blogService', 'threadService', 'BodyClass',
 			'notificationService', 'NOTIFICATION_TYPES', 'pageId',
 			editBlogController
 		]);
 
-	function editBlogController($scope, $routeParams, $location, sessionService, contextService, blogService, threadService, notificationService, NOTIFICATION_TYPES, pageId) {
-		$scope.setBodyClass('');
-		$scope.pageId = pageId;
-		$scope.submitBlog = submitBlog;
-		initView($routeParams.userBlogId);
+	/** @this editBlogController */
+	// eslint-disable-next-line valid-jsdoc, max-params, max-len, max-statements
+	function editBlogController($scope, $controller, $routeParams, $location, sessionService, contextService, blogService, threadService, BodyClass, notificationService, NOTIFICATION_TYPES, pageId) {
+		var vm = this;
+		angular.extend(vm, $controller('BaseController as base', {'$scope': $scope}));
+		sessionService.loadUser(vm);
+		BodyClass.set('');
+		initView(parseInt($routeParams.userBlogId));
 
 		function submitBlog() {
-			if (!$scope.blogToEdit.BlogShortname) {
-				$scope.missingValueNotification.show();
+			if (!validateEditedBlog()) {
 				return;
 			}
-			var shortnameExists = _.findIndex($scope.allBlogs,
-					function(blog) {
-						return blog.BlogShortname == $scope.blogToEdit.BlogShortname;
-					}) !==
-				-1;
-			if (shortnameExists) {
-				$scope.duplicateErrorNotification.show();
-				return;
+			blogService.editBlog(vm.blogToEdit).then(success, failure);
+		}
+
+		function validateEditedBlog() {
+			var shortnameExists = _.some(vm.allBlogs, function(blog) {
+				return blog.BlogShortname === vm.blogToEdit.BlogShortname;
+			});
+			if (!vm.editBlogForm.$valid || shortnameExists) {
+				var emptyShortname = vm.editBlogForm.newBlogShortname.$error.required;
+				var invalidShortname = !vm.editBlogForm.newBlogShortname.$error.required &&
+					vm.editBlogForm.newBlogShortname.$error.pattern;
+				var errorData = {
+					'newBlogShortname': vm.blogToEdit.BlogShortname,
+					'shortnameExists': shortnameExists,
+					'emptyShortname': emptyShortname,
+					'invalidShortname': invalidShortname
+				};
+				var type = NOTIFICATION_TYPES.CREATE_BLOG_VALIDATION_ERROR;
+				notificationService.show(type, errorData);
+				return false;
 			}
-			blogService.flushBlogs();
-			blogService.editBlog($scope.blogToEdit).then(success, failure);
+			return true;
 		}
 
 		function initView(userBlogId) {
-			blogService.getBlogs(true, true)
-				.then(function(blogs) {
-					$scope.allBlogs = blogs;
-					$scope.blogToEdit = angular.copy(_.find(blogs,
-						function(blog) {
-							return blog.UserBlogId == userBlogId;
-						}));
-					$scope.currentBlogShortname = angular.copy($scope.blogToEdit.BlogShortname);
-				});
-			$scope.duplicateErrorNotification = new TrackerNotification()
-				.withMessage('ERROR: A blog with this shortname is already associated with your account.')
-				.withType('error');
-			$scope.generalErrorMessage = new TrackerNotification()
-				.withMessage('ERROR: There was a problem editing your blog.')
-				.withType('error');
-			$scope.missingValueNotification = new TrackerNotification()
-				.withMessage('ERROR: You must enter a blog shortname.')
-				.withType('error');
+			vm.pageId = pageId;
+			vm.submitBlog = submitBlog;
+			vm.shortnameRegex = '[A-z|\\d|\\-]+';
+			blogService.getBlogs(true, true).then(function(blogs) {
+				vm.allBlogs = blogs;
+				vm.blogToEdit = angular.copy(_.find(blogs, function(blog) {
+					return blog.UserBlogId === userBlogId;
+				}));
+				vm.currentBlogShortname = angular.copy(vm.blogToEdit.BlogShortname);
+			});
 		}
 
 		function success() {
-			new TrackerNotification()
-				.withMessage($scope.currentBlogShortname + ' renamed to ' + $scope.blogToEdit.BlogShortname + '.')
-				.withType('success')
-				.show();
+			blogService.flushBlogs();
+			var type = NOTIFICATION_TYPES.UPDATE_BLOGS_SUCCESS;
+			notificationService.show(type);
 			$location.path('/manage-blogs');
 		}
 
 		function failure() {
-			$scope.generalErrorMessage.show();
+			vm.generalErrorMessage.show();
 		}
 	}
 }());

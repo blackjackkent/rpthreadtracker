@@ -59,7 +59,7 @@
 			var shortnameExists = _.some(vm.blogs, function(blog) {
 				return blog.BlogShortname === vm.newBlogShortname;
 			});
-			if (!vm.newBlogForm.$valid) {
+			if (!vm.newBlogForm.$valid || shortnameExists) {
 				var emptyShortname = vm.newBlogForm.newBlogShortname.$error.required;
 				var invalidShortname = !vm.newBlogForm.newBlogShortname.$error.required &&
 					vm.newBlogForm.newBlogShortname.$error.pattern;

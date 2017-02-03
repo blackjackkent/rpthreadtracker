@@ -4,22 +4,22 @@
 <section class="central-container container">
     <div id="content">
         <section class="row-fluid">
-            <form class="form-horizontal" name="editBlogForm" ng-submit="submitBlog()">
+            <form class="form-horizontal" name="vm.editBlogForm" ng-submit="vm.submitBlog()" novalidate>
                 <fieldset>
                     <legend>Edit Blog Shortname</legend>
-                    <p>Update your blog's shortname below. (NOTE: This will also update the blog shortname for all tracked threads currently associated with {{currentBlogShortname}})</p><br/>
+                    <p>Update your blog's shortname below.</p><br/>
 
                     <div class="control-group">
                         <label class="control-label">Current blog shortname:</label>
                         <div class="controls">
-                            {{currentBlogShortname}}
+                            {{vm.currentBlogShortname}}
                         </div>
                     </div>
 
                     <div class="control-group">
                         <label class="control-label" for="newBlogShortname">New blog shortname:</label>
                         <div class="controls">
-                            <input type="text" id="Text1" name="newBlogShortname" required ng-model="blogToEdit.BlogShortname" placeholder="Shortname">
+                            <input type="text" id="Text1" name="newBlogShortname" required ng-model="vm.blogToEdit.BlogShortname" ng-pattern="vm.shortnameRegex" placeholder="Shortname">
                         </div>
                     </div>
                     <div class="control-group">

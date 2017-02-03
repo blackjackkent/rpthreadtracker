@@ -159,6 +159,7 @@
 			{
 				'templateUrl': '/application/views/edit-blog.html?cacheBuster=' + cacheBuster,
 				'controller': 'EditBlogController',
+				'controllerAs': 'vm',
 				'resolve': {
 					'pageId': function() {
 						return 'edit-blog';
@@ -191,6 +192,7 @@
 			{
 				'templateUrl': '/application/views/contact.html?cacheBuster=' + cacheBuster,
 				'controller': 'StaticController',
+				'controllerAs': 'vm',
 				'resolve': {
 					'pageId': function() {
 						return 'contact';
@@ -201,6 +203,7 @@
 			{
 				'templateUrl': '/application/views/help.html?cacheBuster=' + cacheBuster,
 				'controller': 'StaticController',
+				'controllerAs': 'vm',
 				'resolve': {
 					'pageId': function() {
 						return 'help';
