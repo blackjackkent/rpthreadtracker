@@ -1,8 +1,8 @@
-﻿using TumblrThreadTracker.Infrastructure.Entities;
-
-namespace TumblrThreadTracker.Infrastructure
+﻿namespace TumblrThreadTracker.Infrastructure
 {
-    public partial class UserProfile : IEntity
-    {
-    }
+	using TumblrThreadTracker.Infrastructure.Entities;
+
+	public partial class UserProfile : IEntity
+	{
+	}
 }

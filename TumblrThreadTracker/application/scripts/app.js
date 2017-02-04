@@ -20,6 +20,7 @@
 	function routeConfig($routeProvider, $locationProvider) {
 		$routeProvider.when('/maintenance',
 			{
+				'templateUrl': '/application/views/maintenance.html',
 				'controller': 'StaticController',
 				'controllerAs': 'vm',
 				'resolve': {

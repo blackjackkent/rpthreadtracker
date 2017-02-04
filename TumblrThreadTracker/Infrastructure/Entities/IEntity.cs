@@ -1,6 +1,9 @@
 ﻿namespace TumblrThreadTracker.Infrastructure.Entities
 {
-    public interface IEntity
-    {
-    }
+	/// <summary>
+	/// Interface for data-level entities
+	/// </summary>
+	public interface IEntity
+	{
+	}
 }

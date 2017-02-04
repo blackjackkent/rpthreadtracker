@@ -1,27 +1,36 @@
-﻿using System.Data.Entity;
-using TumblrThreadTracker.Interfaces;
-using TumblrThreadTracker.Models.DomainModels.Users;
-
-namespace TumblrThreadTracker.Infrastructure.Repositories
+﻿namespace TumblrThreadTracker.Infrastructure.Repositories
 {
-    public class UserProfileRepository : BaseRepository<User, UserDto, UserProfile>
-    {
-        private readonly IThreadTrackerContext _context;
-        private readonly IDbSet<UserProfile> _dbSet; 
-        protected override IThreadTrackerContext Context
-        {
-            get { return _context; }
-        }
+	using System.Data.Entity;
 
-        protected override IDbSet<UserProfile> DbSet
-        {
-            get { return _dbSet; }
-        }
+	using Interfaces;
+	using Models.DomainModels.Users;
 
-        public UserProfileRepository(IThreadTrackerContext context)
-        {
-            _context = context;
-            _dbSet = context.UserProfiles;
-        }
-    }
+	public class UserProfileRepository : BaseRepository<User, UserProfile>
+	{
+		private readonly IThreadTrackerContext _context;
+
+		private readonly IDbSet<UserProfile> _dbSet;
+
+		public UserProfileRepository(IThreadTrackerContext context)
+		{
+			_context = context;
+			_dbSet = context.UserProfiles;
+		}
+
+		protected override IThreadTrackerContext Context
+		{
+			get
+			{
+				return _context;
+			}
+		}
+
+		protected override IDbSet<UserProfile> DbSet
+		{
+			get
+			{
+				return _dbSet;
+			}
+		}
+	}
 }

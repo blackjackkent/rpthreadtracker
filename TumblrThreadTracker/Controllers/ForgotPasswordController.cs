@@ -1,49 +1,71 @@
-﻿using System.Data.Entity.Core;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using System.Web.Http;
-using TumblrThreadTracker.Infrastructure.Filters;
-using TumblrThreadTracker.Interfaces;
-using TumblrThreadTracker.Models.DomainModels.Account;
-using TumblrThreadTracker.Models.DomainModels.Users;
-using TumblrThreadTracker.Models.RequestModels;
-using WebMatrix.WebData;
-
-namespace TumblrThreadTracker.Controllers
+﻿namespace TumblrThreadTracker.Controllers
 {
-    [RedirectOnMaintenance]
-    public class ForgotPasswordController : ApiController
-    {
-        private readonly IEmailService _emailService;
-        private readonly IRepository<User> _userProfileRepository;
-        private readonly IRepository<WebpagesMembership> _webpagesMembershipRepository;
-        private readonly IWebSecurityService _webSecurityService;
-        private readonly IUserProfileService _userProfileService;
+	using System.Data.Entity.Core;
+	using System.Net;
+	using System.Net.Http;
+	using System.Threading.Tasks;
+	using System.Web.Http;
+	using Infrastructure.Filters;
+	using Interfaces;
+	using Models.DomainModels.Account;
+	using Models.DomainModels.Users;
+	using Models.RequestModels;
 
-        public ForgotPasswordController(IRepository<User> userProfileRepository,
-            IRepository<WebpagesMembership> webpagesMembershipRepository, IWebSecurityService webSecurityService, 
-            IUserProfileService userProfileService, IEmailService emailService)
-        {
-            _userProfileRepository = userProfileRepository;
-            _webpagesMembershipRepository = webpagesMembershipRepository;
-            _webSecurityService = webSecurityService;
-            _userProfileService = userProfileService;
-            _emailService = emailService;
-        }
+	/// <summary>
+	/// Controller class for handling forgot password flow
+	/// </summary>
+	[RedirectOnMaintenance]
+	public class ForgotPasswordController : ApiController
+	{
+		private readonly IEmailService _emailService;
+		private readonly IRepository<User> _userProfileRepository;
+		private readonly IRepository<WebpagesMembership> _webpagesMembershipRepository;
+		private readonly IWebSecurityService _webSecurityService;
 
-        [HttpPost]
-        [AllowAnonymous]
-        public async Task<HttpResponseMessage> Post(ForgotPasswordRequest request)
-        {
-            var username = request.UsernameOrEmail;
-            var user = _userProfileRepository.GetSingle(u => u.UserName == username) ??
-                       _userProfileRepository.GetSingle(u => u.Email == username);
-            if (user == null)
-                throw new ObjectNotFoundException();
-            var token = _webSecurityService.GeneratePasswordResetToken(user);
-            await user.SendForgotPasswordEmail(token, _webpagesMembershipRepository, _emailService, _webSecurityService);
-            return new HttpResponseMessage(HttpStatusCode.OK);
-        }
-    }
+		/// <summary>
+		/// Initializes a new instance of the <see cref="ForgotPasswordController"/> class
+		/// </summary>
+		/// <param name="userProfileRepository">Unity-injected user profile repository</param>
+		/// <param name="webpagesMembershipRepository">Unity-injected WebpagesMembership repository</param>
+		/// <param name="webSecurityService">Unity-injected web security service</param>
+		/// <param name="emailService">Unity-injected email service</param>
+		public ForgotPasswordController(
+			IRepository<User> userProfileRepository,
+			IRepository<WebpagesMembership> webpagesMembershipRepository,
+			IWebSecurityService webSecurityService,
+			IEmailService emailService)
+		{
+			_userProfileRepository = userProfileRepository;
+			_webpagesMembershipRepository = webpagesMembershipRepository;
+			_webSecurityService = webSecurityService;
+			_emailService = emailService;
+		}
+
+		/// <summary>
+		/// Controller endpoing requesting a new password be assigned to account
+		/// </summary>
+		/// <param name="usernameOrEmail">
+		/// Identifier used to find account to be reset
+		/// </param>
+		/// <returns>HttpResponseMessage indicating success of request</returns>
+		[HttpPost]
+		[AllowAnonymous]
+		public async Task<HttpResponseMessage> Post([FromBody] string usernameOrEmail)
+		{
+			var username = usernameOrEmail;
+			var user = _userProfileRepository.GetSingle(u => u.UserName == username)
+			           ?? _userProfileRepository.GetSingle(u => u.Email == username);
+			if (user == null || username == null)
+			{
+				throw new ObjectNotFoundException();
+			}
+			var token = _webSecurityService.GeneratePasswordResetToken(user);
+			await user.SendForgotPasswordEmail(
+				token,
+				_webpagesMembershipRepository,
+				_emailService,
+				_webSecurityService);
+			return new HttpResponseMessage(HttpStatusCode.OK);
+		}
+	}
 }

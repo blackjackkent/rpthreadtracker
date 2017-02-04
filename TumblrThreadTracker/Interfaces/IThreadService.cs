@@ -1,21 +1,33 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using TumblrThreadTracker.Infrastructure.Services;
-using TumblrThreadTracker.Models.DomainModels.Blogs;
-using TumblrThreadTracker.Models.DomainModels.Threads;
-
-namespace TumblrThreadTracker.Interfaces
+﻿namespace TumblrThreadTracker.Interfaces
 {
-    public interface IThreadService
-    {
-        IEnumerable<int?> GetThreadIdsByBlogId(int? blogId, IRepository<Thread> threadRepository, bool isArchived = false);
-        IEnumerable<ThreadDto> GetThreadsByBlog(BlogDto blog, IRepository<Thread> threadRepository, bool isArchived = false);
-        ThreadDto GetById(int id, IRepository<Blog> blogRepository, IRepository<Thread> threadRepository, ITumblrClient tumblrClient, bool skipTumblrCall = false);
-        void AddNewThread(ThreadDto threadDto, IRepository<Thread> threadRepository);
-        void UpdateThread(ThreadDto dto, IRepository<Thread> threadRepository);
-        IEnumerable<ThreadDto> GetNewsThreads(ITumblrClient tumblrClient);
-        void DeleteThread(int userThreadId, IRepository<Thread> threadRepository);
-        IEnumerable<string> GetAllTagsByBlog(int? userBlogId, IRepository<Thread> threadRepository);
-	    bool UserOwnsThread(int userId, int threadId, IRepository<Thread> threadRepository);
-    }
+	using System.Collections.Generic;
+
+	using TumblrThreadTracker.Models.DomainModels.Blogs;
+	using TumblrThreadTracker.Models.DomainModels.Threads;
+
+	public interface IThreadService
+	{
+		void AddNewThread(ThreadDto threadDto, IRepository<Thread> threadRepository);
+
+		void DeleteThread(int userThreadId, IRepository<Thread> threadRepository);
+
+		IEnumerable<string> GetAllTagsByBlog(int? userBlogId, IRepository<Thread> threadRepository);
+
+		ThreadDto GetById(
+			int id,
+			IRepository<Blog> blogRepository,
+			IRepository<Thread> threadRepository,
+			ITumblrClient tumblrClient,
+			bool skipTumblrCall = false);
+
+		IEnumerable<ThreadDto> GetNewsThreads(ITumblrClient tumblrClient);
+
+		IEnumerable<int?> GetThreadIdsByBlogId(int? blogId, IRepository<Thread> threadRepository, bool isArchived = false);
+
+		IEnumerable<ThreadDto> GetThreadsByBlog(BlogDto blog, IRepository<Thread> threadRepository, bool isArchived = false);
+
+		void UpdateThread(ThreadDto dto, IRepository<Thread> threadRepository);
+
+		bool UserOwnsThread(int userId, int threadId, IRepository<Thread> threadRepository);
+	}
 }

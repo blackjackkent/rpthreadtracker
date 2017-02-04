@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace TumblrThreadTracker.Models.RequestModels
+﻿namespace TumblrThreadTracker.Models.RequestModels
 {
-    public class TagCollectionResponse
-    {
-        public int? UserBlogId { get; set; }
-        public string BlogShortname { get; set; }
-        public IEnumerable<string> TagCollection { get; set; }
-    }
+	using System.Collections.Generic;
+
+	public class TagCollectionResponse
+	{
+		public string BlogShortname { get; set; }
+
+		public IEnumerable<string> TagCollection { get; set; }
+
+		public int? UserBlogId { get; set; }
+	}
 }

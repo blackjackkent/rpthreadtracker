@@ -1,8 +1,9 @@
-﻿using TumblrThreadTracker.Infrastructure.Entities;
-
-namespace TumblrThreadTracker.Models.DomainModels
+﻿namespace TumblrThreadTracker.Models.DomainModels
 {
-    public abstract class DomainModel : Model
-    {
-    }
+	/// <summary>
+	/// Abstract class to be used for all domain-level object models
+	/// </summary>
+	public abstract class DomainModel : Model
+	{
+	}
 }

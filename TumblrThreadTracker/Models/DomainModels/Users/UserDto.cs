@@ -1,20 +1,26 @@
-﻿using System;
-using TumblrThreadTracker.Interfaces;
-
-namespace TumblrThreadTracker.Models.DomainModels.Users
+﻿namespace TumblrThreadTracker.Models.DomainModels.Users
 {
-    public class UserDto : IDto<User>
-    {
-        public int UserId { get; set; }
-        public string UserName { get; set; }
-        public string Email { get; set; }
-        public DateTime? LastLogin { get; set; }
-        public bool ShowDashboardThreadDistribution { get; set; }
-        public bool UseInvertedTheme { get; set; }
+	using System;
 
-        public User ToModel()
-        {
-            return new User(this);
-        }
-    }
+	using Interfaces;
+
+	public class UserDto : IDto<User>
+	{
+		public string Email { get; set; }
+
+		public DateTime? LastLogin { get; set; }
+
+		public bool ShowDashboardThreadDistribution { get; set; }
+
+		public bool UseInvertedTheme { get; set; }
+
+		public int UserId { get; set; }
+
+		public string UserName { get; set; }
+
+		public User ToModel()
+		{
+			return new User(this);
+		}
+	}
 }

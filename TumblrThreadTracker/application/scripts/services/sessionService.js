@@ -117,9 +117,9 @@
 		function submitForgotPassword(username) {
 			var deferred = $q.defer(),
 				config = {
-					'method': 'POST',
 					'url': '/api/ForgotPassword',
-					'data': {'UsernameOrEmail': username}
+					'method': 'POST',
+					'data': '"' + username + '"'
 				};
 			function success(response) {
 				deferred.resolve(response.data);

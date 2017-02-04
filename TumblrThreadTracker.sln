@@ -5,8 +5,6 @@ VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TumblrThreadTracker", "TumblrThreadTracker\TumblrThreadTracker.csproj", "{1B09B342-72D7-4D2F-A532-130F11BF546D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TumblrThreadTrackerTests", "TumblrThreadTrackerTests\TumblrThreadTrackerTests.csproj", "{80B41775-0A0C-4576-8B8C-540A06D1802B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,12 +18,6 @@ Global
 		{1B09B342-72D7-4D2F-A532-130F11BF546D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{1B09B342-72D7-4D2F-A532-130F11BF546D}.Staging|Any CPU.ActiveCfg = Staging|Any CPU
 		{1B09B342-72D7-4D2F-A532-130F11BF546D}.Staging|Any CPU.Build.0 = Staging|Any CPU
-		{80B41775-0A0C-4576-8B8C-540A06D1802B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{80B41775-0A0C-4576-8B8C-540A06D1802B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{80B41775-0A0C-4576-8B8C-540A06D1802B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{80B41775-0A0C-4576-8B8C-540A06D1802B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{80B41775-0A0C-4576-8B8C-540A06D1802B}.Staging|Any CPU.ActiveCfg = Staging|Any CPU
-		{80B41775-0A0C-4576-8B8C-540A06D1802B}.Staging|Any CPU.Build.0 = Staging|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

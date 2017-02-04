@@ -1,8 +1,9 @@
 ﻿namespace TumblrThreadTracker.Models.ServiceModels
 {
-    public class ServiceObject
-    {
-        public ServiceMeta meta { get; set; }
-        public ServiceResponse response { get; set; }
-    }
+	public class ServiceObject
+	{
+		public ServiceMeta Meta { get; set; }
+
+		public ServiceResponse Response { get; set; }
+	}
 }

@@ -1,9 +1,9 @@
-﻿using TumblrThreadTracker.Models.DomainModels.Users;
-
-namespace TumblrThreadTracker.Interfaces
+﻿namespace TumblrThreadTracker.Interfaces
 {
-    public interface IUserProfileService
-    {
-        void Update(UserDto user, IRepository<User> userProfileRepository);
-    }
+	using TumblrThreadTracker.Models.DomainModels.Users;
+
+	public interface IUserProfileService
+	{
+		void Update(UserDto user, IRepository<User> userProfileRepository);
+	}
 }
