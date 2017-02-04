@@ -1,29 +1,22 @@
-﻿(function() {
-    "use strict";
-    angular.module("rpthreadtracker").filter("isCorrectTurn", isCorrectTurn);
+﻿'use strict';
+(function() {
+	angular.module('rpthreadtracker').filter('isCorrectTurn', isCorrectTurn);
 
-    function isCorrectTurn() {
-        return function(threads, pageId, filterNulls) {
-            var isMyTurnValue = null;
-            if (pageId == "yourturn")
-                isMyTurnValue = true;
-            if (pageId == "theirturn")
-                isMyTurnValue = false;
-            if (isMyTurnValue == null)
-                return threads;
+	// eslint-disable-next-line valid-jsdoc, max-params, max-len, max-statements
+	function isCorrectTurn() {
+		return function(threads, pageId, filterNulls) {
+			if (!threads) {
+				return [];
+			}
+			if (pageId !== 'yourturn' && pageId !== 'theirturn') {
+				return threads;
+			}
+			var isMyTurnValue = pageId === 'yourturn';
 
-            var out = [];
-
-            if (!threads) {
-                return out;
-            }
-            for (var i = 0; i < threads.length; i++) {
-                var isNullFilteredThread = filterNulls && (threads[i].LastPostDate == null);
-                if (threads[i].IsMyTurn == isMyTurnValue && !isNullFilteredThread) {
-                    out.push(threads[i]);
-                }
-            }
-            return out;
-        };
-    };
-})();
+			return _.filter(threads, function(thread) {
+				var isNullFilteredThread = filterNulls && thread.LastPostDate === null;
+				return thread.IsMyTurn === isMyTurnValue && !isNullFilteredThread;
+			});
+		};
+	}
+}());

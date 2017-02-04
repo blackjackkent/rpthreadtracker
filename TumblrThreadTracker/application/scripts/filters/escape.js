@@ -1,8 +1,9 @@
-﻿(function() {
-    "use strict";
-    angular.module("rpthreadtracker").filter("escape", escape);
+﻿'use strict';
+(function() {
+	angular.module('rpthreadtracker').filter('escape', ['$window', escape]);
 
-    function escape() {
-        return window.encodeURIComponent;
-    }
-})();
+	// eslint-disable-next-line valid-jsdoc, max-params, max-len, max-statements
+	function escape($window) {
+		return $window.encodeURIComponent;
+	}
+}());

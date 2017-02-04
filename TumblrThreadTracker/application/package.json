@@ -5,9 +5,12 @@
   "main": "app.js",
   "scripts": {
     "test": "test",
-    "eslint": "eslint",
+    "eslint": "eslint scripts/app.js scripts/controllers/** scripts/directives/** scripts/services/** scripts/filters/** --fix",
     "eslint:app": "eslint scripts/app.js --fix",
-    "eslint:controllers": "eslint scripts/controllers/** --fix"
+    "eslint:controllers": "eslint scripts/controllers/** --fix",
+    "eslint:directives": "eslint scripts/directives/** --fix",
+    "eslint:filters": "eslint scripts/filters/** --fix",
+    "eslint:services": "eslint scripts/services/** --fix"
   },
   "author": "",
   "license": "ISC",

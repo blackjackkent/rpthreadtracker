@@ -22,7 +22,13 @@
 				vm.loading = false;
 				return;
 			}
-			sessionService.register(vm.username, vm.email, vm.Password, vm.confirmPassword)
+			var registerData = {
+				'Username': vm.username,
+				'Email': vm.email,
+				'Password': vm.password,
+				'ConfirmPassword': vm.confirmPassword
+			};
+			sessionService.register(registerData)
 				.then(success, fail);
 		}
 

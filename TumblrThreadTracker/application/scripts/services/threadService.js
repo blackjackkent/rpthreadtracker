@@ -1,13 +1,12 @@
-﻿(function() {
-	"use strict";
-	angular.module("rpthreadtracker")
-		.service("threadService",
+﻿'use strict';
+(function() {
+	angular.module('rpthreadtracker')
+		.factory('threadService',
 		[
-			"$q", "$http", threadService
+			'$q', '$http', threadService
 		]);
-
+	// eslint-disable-next-line valid-jsdoc, max-params, max-len, max-statements
 	function threadService($q, $http) {
-
 		var loadedThreadEventSubscribers = [],
 			allThreadsLoadedSubscribers = [],
 			loadedArchiveThreadEventSubscribers = [],
@@ -60,37 +59,37 @@
 		function getThreadIds(isArchived) {
 			var deferred = $q.defer(),
 				config = {
-					url: "/api/Thread?isArchived=" + isArchived,
-					method: "GET"
-				},
-				success = function(response) {
-					deferred.resolve(response.data);
-				},
-				error = function(data) {
-					deferred.reject(data);
+					'url': '/api/Thread?isArchived=' + isArchived,
+					'method': 'GET'
 				};
+			function success(response) {
+				deferred.resolve(response.data);
+			}
+			function error(data) {
+				deferred.reject(data);
+			}
 			$http(config).then(success, error);
 			return deferred.promise;
 		}
-		
+
 		function getThread(id, threadArray, isArchived) {
 			var deferred = $q.defer(),
 				config = {
-					url: "/api/Thread/" + id,
-					method: "GET"
-				},
-				success = function(response) {
-					threadArray.push(response.data);
-					if (isArchived) {
-						broadcastLoadedArchiveThreadEvent(threadArray);
-					} else {
-						broadcastLoadedThreadEvent(threadArray);
-					}
-					deferred.resolve(true);
-				},
-				error = function(response) {
-					console.log(response);
+					'url': '/api/Thread/' + id,
+					'method': 'GET'
 				};
+			function success(response) {
+				threadArray.push(response.data);
+				if (isArchived) {
+					broadcastLoadedArchiveThreadEvent(threadArray);
+				} else {
+					broadcastLoadedThreadEvent(threadArray);
+				}
+				deferred.resolve(true);
+			}
+			function error() {
+				deferred.reject(false);
+			}
 			$http(config).then(success, error);
 			return deferred.promise;
 		}
@@ -98,32 +97,32 @@
 		function getStandaloneThread(id) {
 			var deferred = $q.defer(),
 				config = {
-					url: "/api/Thread/" + id,
-					method: "GET"
-				},
-				success = function(response) {
-					deferred.resolve(response.data);
-				},
-				error = function() {
-					deferred.reject(false);
+					'url': '/api/Thread/' + id,
+					'method': 'GET'
 				};
+			function success(response) {
+				deferred.resolve(response.data);
+			}
+			function error() {
+				deferred.reject(false);
+			}
 			$http(config).then(success, error);
 			return deferred.promise;
 		}
 
-		function addNewThread(thread, tags) {
+		function addNewThread(thread) {
 			var deferred = $q.defer(),
 				config = {
-					url: "/api/Thread",
-					data: thread,
-					method: "POST"
-				},
-				success = function() {
-					deferred.resolve(true);
-				},
-				error = function() {
-					deferred.reject(false);
+					'url': '/api/Thread',
+					'data': thread,
+					'method': 'POST'
 				};
+			function success() {
+				deferred.resolve(true);
+			}
+			function error() {
+				deferred.reject(false);
+			}
 			$http(config).then(success, error);
 			return deferred.promise;
 		}
@@ -131,16 +130,16 @@
 		function editThread(thread) {
 			var deferred = $q.defer(),
 				config = {
-					url: "/api/Thread",
-					data: thread,
-					method: "PUT"
-				},
-				success = function() {
-					deferred.resolve(true);
-				},
-				error = function() {
-					deferred.reject(false);
+					'url': '/api/Thread',
+					'data': thread,
+					'method': 'PUT'
 				};
+			function success() {
+				deferred.resolve(true);
+			}
+			function error() {
+				deferred.reject(false);
+			}
 			$http(config).then(success, error);
 			return deferred.promise;
 		}
@@ -148,16 +147,16 @@
 		function untrackThreads(threads) {
 			var deferred = $q.defer(),
 				config = {
-					url: "/api/Thread/Delete",
-					data: threads,
-					method: "PUT"
-				},
-				success = function() {
-					deferred.resolve(true);
-				},
-				error = function() {
-					deferred.reject(false);
+					'url': '/api/Thread/Delete',
+					'data': threads,
+					'method': 'PUT'
 				};
+			function success() {
+				deferred.resolve(true);
+			}
+			function error() {
+				deferred.reject(false);
+			}
 			$http(config).then(success, error);
 			return deferred.promise;
 		}
@@ -243,21 +242,21 @@
 		}
 
 		return {
-			flushThreads: flushThreads,
-			loadThreads: loadThreads,
-			loadArchivedThreads: loadArchivedThreads,
-			untrackThreads: untrackThreads,
-			archiveThreads: archiveThreads,
-			unarchiveThreads: unarchiveThreads,
-			addNewThread: addNewThread,
-			editThread: editThread,
-			getStandaloneThread: getStandaloneThread,
-			subscribeLoadedThreadEvent: subscribeLoadedThreadEvent,
-			subscribeAllThreadsLoaded: subscribeAllThreadsLoaded,
-			subscribeLoadedArchiveThreadEvent: subscribeLoadedArchiveThreadEvent,
-			unsubscribeLoadedThreadEvent: unsubscribeLoadedThreadEvent,
-			unsubscribeAllThreadsLoaded: unsubscribeAllThreadsLoaded,
-			unsubscribeLoadedArchiveThreadEvent: unsubscribeLoadedArchiveThreadEvent
+			'flushThreads': flushThreads,
+			'loadThreads': loadThreads,
+			'loadArchivedThreads': loadArchivedThreads,
+			'untrackThreads': untrackThreads,
+			'archiveThreads': archiveThreads,
+			'unarchiveThreads': unarchiveThreads,
+			'addNewThread': addNewThread,
+			'editThread': editThread,
+			'getStandaloneThread': getStandaloneThread,
+			'subscribeLoadedThreadEvent': subscribeLoadedThreadEvent,
+			'subscribeAllThreadsLoaded': subscribeAllThreadsLoaded,
+			'subscribeLoadedArchiveThreadEvent': subscribeLoadedArchiveThreadEvent,
+			'unsubscribeLoadedThreadEvent': unsubscribeLoadedThreadEvent,
+			'unsubscribeAllThreadsLoaded': unsubscribeAllThreadsLoaded,
+			'unsubscribeLoadedArchiveThreadEvent': unsubscribeLoadedArchiveThreadEvent
 		};
 	}
-})();
+}());

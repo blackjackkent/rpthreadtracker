@@ -1,13 +1,17 @@
-﻿(function() {
-    "use strict";
-    angular.module("rpthreadtracker")
-        .service("adminflareService",
-        [
-            "$q", "$http", adminFlareService
-        ]);
+﻿/* eslint-disable max-lines */
+'use strict';
+(function() {
+	angular.module('rpthreadtracker')
+        .factory('adminflareService',
+		[
+			adminFlareService
+		]);
 
-    function adminFlareService($q, $http) {
-        var init = function() {
+	// eslint-disable-next-line valid-jsdoc, max-params, max-len, max-statements
+	function adminFlareService() {
+		// eslint-disable-next-line max-statements
+		function init() {
+			/* eslint-disable */
             /* scripts\iscroll-lite-4.2.0.js */
 
             /*!
@@ -37606,19 +37610,17 @@
 
             })(jQuery);
 
-
-        };
-        var initCustom = function() {
-            $("body")
-                .tooltip({
-                    selector: "[rel=tooltip]",
-                    html: true
-                });
-        };
-        return {
-            init: init,
-            initCustom: initCustom
-        };
-    }
-
-})();
+			/* eslint-enable */
+		}
+		function initCustom() {
+			angular.element('body').tooltip({
+				'selector': '[rel=tooltip]',
+				'html': true
+			});
+		}
+		return {
+			'init': init,
+			'initCustom': initCustom
+		};
+	}
+}());

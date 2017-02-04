@@ -1,14 +1,15 @@
-﻿(function() {
-    "use strict";
-    angular.module("rpthreadtracker")
-        .service("publicThreadService",
-        [
-            "$q", "$http", publicThreadService
-        ]);
+﻿'use strict';
+(function() {
+	angular.module('rpthreadtracker')
+        .factory('publicThreadService',
+		[
+			'$q', '$http', publicThreadService
+		]);
 
-    function publicThreadService($q, $http) {
-        var loadedThreadEventSubscribers = [],
-            threads = [];
+	// eslint-disable-next-line valid-jsdoc, max-params, max-len, max-statements
+	function publicThreadService($q, $http) {
+		var loadedThreadEventSubscribers = [],
+			threads = [];
 
 		function loadThreads(userId, blogShortname) {
 			threads = [];
@@ -19,75 +20,59 @@
 
 		function loadThreadIdsSuccess(ids) {
 			angular.forEach(ids, function(value) {
-                getThread(value);
-            });
+				getThread(value);
+			});
 		}
 
-        function getThreadIds(userId, blogShortname) {
-            var deferred = $q.defer(),
-                config = {
-                    url: "/api/PublicThread?userId=" + userId + "&blogShortname=" + blogShortname,
-                    method: "GET"
-                },
-                success = function(response) {
-                    deferred.resolve(response.data);
-                },
-                error = function(data) {
-                    deferred.reject(data);
-                };
-            $http(config).then(success).catch(error);
-            return deferred.promise;
-        }
+		function getThreadIds(userId, blogShortname) {
+			var deferred = $q.defer(),
+				config = {
+					'url': '/api/PublicThread?userId=' + userId + '&blogShortname=' + blogShortname,
+					'method': 'GET'
+				};
+			function success(response) {
+				deferred.resolve(response.data);
+			}
+			function error(data) {
+				deferred.reject(data);
+			}
+			$http(config).then(success).catch(error);
+			return deferred.promise;
+		}
 
-        function getThreads(userId, blogShortname, force) {
-            if (threads.length > 0 && !force) {
-                broadcast(threads);
-                return;
-            }
-            threads = [];
-            getThreadIds(userId, blogShortname)
-                .then(function(ids) {
-                    angular.forEach(ids,
-                        function(value, key) {
-                            getThread(value);
-                        });
-                });
-        };
+		function getThread(id) {
+			var config = {
+				'url': '/api/PublicThread/' + id,
+				'method': 'GET'
+			};
+			function success(response) {
+				threads.push(response.data);
+				broadcastLoadedThreadEvent(threads);
+			}
+			$http(config).then(success);
+		}
 
-        function getThread(id) {
-            var config = {
-                    url: "/api/PublicThread/" + id,
-                    method: "GET"
-                },
-                success = function(response) {
-                    threads.push(response.data);
-                    broadcastLoadedThreadEvent(threads);
-                };
-            $http(config).then(success);
-        };
+		function subscribeLoadedThreadEvent(callback) {
+			loadedThreadEventSubscribers.push(callback);
+		}
 
-        function subscribeLoadedThreadEvent(callback) {
-            loadedThreadEventSubscribers.push(callback);
-        }
+		function unsubscribeLoadedThreadEvent(callback) {
+			var index = loadedThreadEventSubscribers.indexOf(callback);
+			if (index > -1) {
+				loadedThreadEventSubscribers.splice(index, 1);
+			}
+		}
 
-        function unsubscribeLoadedThreadEvent(callback) {
-            var index = loadedThreadEventSubscribers.indexOf(callback);
-            if (index > -1) {
-                loadedThreadEventSubscribers.splice(index, 1);
-            }
-        }
+		function broadcastLoadedThreadEvent(data) {
+			angular.forEach(loadedThreadEventSubscribers, function(callback) {
+				callback(data);
+			});
+		}
 
-        function broadcastLoadedThreadEvent(data) {
-            angular.forEach(loadedThreadEventSubscribers,
-                function(callback) {
-                    callback(data);
-                });
-        }
-
-        return {
-            subscribeLoadedThreadEvent: subscribeLoadedThreadEvent,
-            unsubscribeLoadedThreadEvent: unsubscribeLoadedThreadEvent,
-            loadThreads: loadThreads
-        };
-    }
-})();
+		return {
+			'subscribeLoadedThreadEvent': subscribeLoadedThreadEvent,
+			'unsubscribeLoadedThreadEvent': unsubscribeLoadedThreadEvent,
+			'loadThreads': loadThreads
+		};
+	}
+}());
