@@ -1,57 +1,58 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using TumblrThreadTracker.Interfaces;
-using TumblrThreadTracker.Models.DomainModels.Blogs;
-
-namespace TumblrThreadTracker.Infrastructure.Services
+﻿namespace TumblrThreadTracker.Infrastructure.Services
 {
-    public class BlogService : IBlogService
-    {
-        public BlogDto GetBlogById(int userBlogId, IRepository<Blog> blogRepository)
-        {
-            var blog = blogRepository.GetSingle(b => b.UserBlogId == userBlogId);
-            return blog.ToDto();
-        }
+	using System.Collections.Generic;
+	using System.Linq;
+	using Interfaces;
+	using Models.DomainModels.Blogs;
 
-        public IEnumerable<BlogDto> GetBlogsByUserId(int? id, IRepository<Blog> userBlogRepository, bool includeHiatusedBlogs)
-        {
-            if (id == null)
-                return null;
-            var blogs = userBlogRepository.Get(b => b.UserId == id);
-            if (!includeHiatusedBlogs)
-            {
-                blogs = blogs.Where(b => !b.OnHiatus);
-            }
-            return blogs.Select(blog => blog.ToDto()).ToList();
-        }
+	/// <inheritdoc cref="IBlogService"/>
+	public class BlogService : IBlogService
+	{
+		/// <inheritdoc cref="IBlogService"/>
+		public void AddNewBlog(BlogDto dto, IRepository<Blog> blogRepository)
+		{
+			blogRepository.Insert(new Blog(dto));
+		}
 
-        public BlogDto GetBlogByShortname(string shortname, int userId, IRepository<Blog> userBlogRepository)
-        {
-            if (shortname == null)
-                return null;
-            var blog = userBlogRepository.Get(b => b.BlogShortname == shortname && b.UserId == userId).FirstOrDefault();
-            return blog != null ? blog.ToDto() : null;
-        }
+		/// <inheritdoc cref="IBlogService"/>
+		public void DeleteBlog(int userBlogId, IRepository<Blog> blogRepository)
+		{
+			blogRepository.Delete(userBlogId);
+		}
 
-        public void AddNewBlog(BlogDto dto, IRepository<Blog> blogRepository)
-        {
-            blogRepository.Insert(new Blog(dto));
-        }
+		/// <inheritdoc cref="IBlogService"/>
+		public BlogDto GetBlogById(int userBlogId, IRepository<Blog> blogRepository)
+		{
+			var blog = blogRepository.GetSingle(b => b.UserBlogId == userBlogId);
+			return blog.ToDto();
+		}
 
-        public void UpdateBlog(BlogDto dto, IRepository<Blog> blogRepository)
-        {
-            blogRepository.Update(dto.UserBlogId, new Blog(dto));
-        }
+		/// <inheritdoc cref="IBlogService"/>
+		public IEnumerable<BlogDto> GetBlogsByUserId(int? id, IRepository<Blog> userBlogRepository, bool includeHiatusedBlogs)
+		{
+			if (id == null)
+			{
+				return null;
+			}
+			var blogs = userBlogRepository.Get(b => b.UserId == id);
+			if (!includeHiatusedBlogs)
+			{
+				blogs = blogs.Where(b => !b.OnHiatus);
+			}
+			return blogs.Select(blog => blog.ToDto()).ToList();
+		}
 
-        public void DeleteBlog(BlogDto blog, IRepository<Blog> blogRepository)
-        {
-            blogRepository.Delete(blog.UserBlogId);
-        }
+		/// <inheritdoc cref="IBlogService"/>
+		public void UpdateBlog(BlogDto dto, IRepository<Blog> userBlogRepository)
+		{
+			userBlogRepository.Update(dto.UserBlogId, new Blog(dto));
+		}
 
-	    public bool UserOwnsBlog(int userBlogId, int userId, IRepository<Blog> blogRepository)
-	    {
-			var userOwnsBlog = blogRepository.Get(t => t.UserBlogId == userBlogId && t.UserId == userId).FirstOrDefault();
+		/// <inheritdoc cref="IBlogService"/>
+		public bool UserOwnsBlog(int userBlogId, int userId, IRepository<Blog> userBlogRepository)
+		{
+			var userOwnsBlog = userBlogRepository.Get(t => t.UserBlogId == userBlogId && t.UserId == userId).FirstOrDefault();
 			return userOwnsBlog != null;
 		}
-    }
+	}
 }

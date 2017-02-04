@@ -1,40 +1,59 @@
-﻿using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Security.Claims;
-using System.Web.Http;
-using TumblrThreadTracker.Infrastructure.Filters;
-using TumblrThreadTracker.Interfaces;
-using TumblrThreadTracker.Models.DomainModels.Users;
-using TumblrThreadTracker.Models.RequestModels;
-
-namespace TumblrThreadTracker.Controllers
+﻿namespace TumblrThreadTracker.Controllers
 {
-    [RedirectOnMaintenance]
-    public class AccountController : ApiController
-    {
-        private readonly IRepository<User> _userProfileRepository;
-        private readonly IWebSecurityService _webSecurityService;
+	using System.Linq;
+	using System.Net;
+	using System.Net.Http;
+	using System.Web.Http;
+	using Infrastructure.Filters;
+	using Interfaces;
+	using Models.DomainModels.Users;
+	using Models.RequestModels;
 
-        public AccountController(IRepository<User> userProfileRepository, IWebSecurityService webSecurityService)
-        {
-            _userProfileRepository = userProfileRepository;
-            _webSecurityService = webSecurityService;
-        }
+	/// <summary>
+	/// Controller class for account management functions
+	/// </summary>
+	[RedirectOnMaintenance]
+	public class AccountController : ApiController
+	{
+		private readonly IRepository<User> _userProfileRepository;
+		private readonly IWebSecurityService _webSecurityService;
 
-        [HttpPost]
-        [AllowAnonymous]
-        public HttpResponseMessage Post(RegisterRequest request)
-        {
-            var existingUsername = _userProfileRepository.Get(u => u.UserName == request.Username).Any();
-            var existingEmail = _userProfileRepository.Get(u => u.Email == request.Email).Any();
+		/// <summary>
+		/// Initializes a new instance of the <see cref="AccountController"/> class
+		/// </summary>
+		/// <param name="userProfileRepository">Unity-injected user profile repository</param>
+		/// <param name="webSecurityService">Unity-injected web secruty service</param>
+		public AccountController(IRepository<User> userProfileRepository, IWebSecurityService webSecurityService)
+		{
+			_userProfileRepository = userProfileRepository;
+			_webSecurityService = webSecurityService;
+		}
 
-            if (existingUsername || existingEmail)
-                return Request.CreateResponse(HttpStatusCode.BadRequest,
-                    "An account with some or all of this information already exists.");
+		/// <summary>
+		/// Controller endpoint for creating new UserProfile accounts
+		/// </summary>
+		/// <param name="request">Request body containing new account information</param>
+		/// <returns>HttpResponseMessage indicating success or failure</returns>
+		[HttpPost]
+		[AllowAnonymous]
+		public HttpResponseMessage Post(RegisterRequest request)
+		{
+			var existingUsername = _userProfileRepository.Get(u => u.UserName == request.Username).Any();
+			var existingEmail = _userProfileRepository.Get(u => u.Email == request.Email).Any();
 
-            _webSecurityService.CreateAccount(request.Username, request.Password, request.Email, _userProfileRepository);
-            return new HttpResponseMessage(HttpStatusCode.Created);
-        }
-    }
+			if (existingUsername || existingEmail)
+			{
+				return Request.CreateResponse(
+					HttpStatusCode.BadRequest,
+					"An account with some or all of this information already exists.");
+			}
+
+			_webSecurityService.CreateAccount(
+				request.Username,
+				request.Password,
+				request.Email,
+				_userProfileRepository);
+			return new HttpResponseMessage(HttpStatusCode.Created);
+		}
+	}
 }

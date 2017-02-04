@@ -55,7 +55,7 @@
 				config = {
 					'url': '/api/Blog',
 					'method': 'POST',
-					'data': {'BlogShortname': blogShortname}
+					'data': '"' + blogShortname + '"'
 				};
 			function success(response) {
 				deferred.resolve(response.data);

@@ -1,11 +1,13 @@
-﻿using System.Collections.Generic;
-using TumblrThreadTracker.Models.ServiceModels;
-
-namespace TumblrThreadTracker.Interfaces
+﻿namespace TumblrThreadTracker.Interfaces
 {
-    public interface ITumblrClient
-    {
-        IPost GetPost(string postId, string blogShortname);
-        IEnumerable<Post> GetNewsPosts(int? count = null);
-    }
+	using System.Collections.Generic;
+
+	using TumblrThreadTracker.Models.ServiceModels;
+
+	public interface ITumblrClient
+	{
+		IEnumerable<Post> GetNewsPosts(int? count = null);
+
+		IPost GetPost(string postId, string blogShortname);
+	}
 }

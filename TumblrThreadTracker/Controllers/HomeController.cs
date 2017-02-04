@@ -1,18 +1,19 @@
-﻿using System.Security.Claims;
-using System.Web.Mvc;
-
-namespace TumblrThreadTracker.Controllers
+﻿namespace TumblrThreadTracker.Controllers
 {
-    public class HomeController : Controller
-    {
-        public ActionResult Index()
-        {
-            return View();
-        }
+	using System.Web.Mvc;
 
-        public ActionResult Maintenance()
-        {
-            return View();
-        }
-    }
+	/// <summary>
+	/// Controller class for base MVC views
+	/// </summary>
+	public class HomeController : Controller
+	{
+		/// <summary>
+		/// MVC view that contains all front-end scripts
+		/// </summary>
+		/// <returns>ActionResult display class</returns>
+		public ActionResult Index()
+		{
+			return View();
+		}
+	}
 }

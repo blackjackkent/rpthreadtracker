@@ -1,6 +1,6 @@
 ﻿namespace TumblrThreadTracker.Models.ServiceModels
 {
-    public class ServiceModel : Model
-    {
-    }
+	public class ServiceModel : Model
+	{
+	}
 }
