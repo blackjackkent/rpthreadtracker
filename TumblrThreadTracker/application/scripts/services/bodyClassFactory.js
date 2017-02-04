@@ -1,11 +1,15 @@
-﻿(function() {
-	'use strict';
+﻿'use strict';
+(function() {
 	angular.module('rpthreadtracker').factory('BodyClass', bodyClassFactory);
 	function bodyClassFactory() {
 		var bodyClass = '';
 		return {
-			value: function () { return bodyClass; },
-			set: function (newBodyClass) { bodyClass = newBodyClass; }
+			'value': function() {
+				return bodyClass;
+			},
+			'set': function(newBodyClass) {
+				bodyClass = newBodyClass;
+			}
 		};
-	};
-})();
+	}
+}());

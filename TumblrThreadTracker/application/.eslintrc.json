@@ -63,7 +63,7 @@
 			"error",
 			{ "code": 100 }
 		],
-		"max-lines": "error",
+		"max-lines": ["error", 400],
 		"max-params": "error",
 		"max-statements-per-line": "error",
 		"max-statements": [
