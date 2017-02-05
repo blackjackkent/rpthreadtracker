@@ -1,37 +1,26 @@
 ﻿namespace TumblrThreadTracker.Infrastructure.Repositories
 {
 	using System.Data.Entity;
+	using Interfaces;
+	using Models.DomainModels.Account;
 
-	using TumblrThreadTracker.Interfaces;
-	using TumblrThreadTracker.Models.DomainModels.Account;
-
-	public class WebpagesMembershipRepository :
-		BaseRepository<WebpagesMembership, webpages_Membership>
+	/// <inheritdoc cref="BaseRepository{TModel,TEntity}"/>
+	public class WebpagesMembershipRepository : BaseRepository<WebpagesMembership, webpages_Membership>
 	{
-		private readonly IThreadTrackerContext _context;
-
-		private readonly IDbSet<webpages_Membership> _dbSet;
-
+		/// <summary>
+		/// Initializes a new instance of the <see cref="WebpagesMembershipRepository"/> class
+		/// </summary>
+		/// <param name="context">Entity framework data context to use for tracker data management</param>
 		public WebpagesMembershipRepository(IThreadTrackerContext context)
 		{
-			_context = context;
-			_dbSet = context.webpages_Membership;
+			Context = context;
+			DbSet = context.WebpagesMemberships;
 		}
 
-		protected override IThreadTrackerContext Context
-		{
-			get
-			{
-				return _context;
-			}
-		}
+		/// <inheritdoc cref="BaseRepository{TModel,TEntity}"/>
+		protected override IThreadTrackerContext Context { get; }
 
-		protected override IDbSet<webpages_Membership> DbSet
-		{
-			get
-			{
-				return _dbSet;
-			}
-		}
+		/// <inheritdoc cref="BaseRepository{TModel,TEntity}"/>
+		protected override IDbSet<webpages_Membership> DbSet { get; }
 	}
 }

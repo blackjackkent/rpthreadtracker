@@ -293,7 +293,6 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ExportController.cs" />
-    <Compile Include="Controllers\TagController.cs" />
     <Compile Include="Infrastructure\BlogModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -309,7 +308,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BlogModel.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BlogController.cs" />
     <Compile Include="Controllers\ChangePasswordController.cs" />
     <Compile Include="Controllers\ForgotPasswordController.cs" />
@@ -347,8 +345,6 @@
     <Compile Include="Interfaces\IWebSecurityService.cs" />
     <Compile Include="Models\DomainModels\Account\WebpagesMembershipDto.cs" />
     <Compile Include="Models\DomainModels\DomainModel.cs" />
-    <Compile Include="Models\Model.cs" />
-    <Compile Include="Models\RequestModels\LoginRequest.cs" />
     <Compile Include="Models\DomainModels\Blogs\Blog.cs" />
     <Compile Include="Models\DomainModels\Blogs\BlogDto.cs" />
     <Compile Include="Models\DomainModels\Threads\Thread.cs" />
@@ -363,10 +359,7 @@
     <Compile Include="Models\DomainModels\Account\WebpagesMembership.cs" />
     <Compile Include="Models\RequestModels\ChangePasswordRequest.cs" />
     <Compile Include="Models\RequestModels\RegisterRequest.cs" />
-    <Compile Include="Models\RequestModels\TagCollectionResponse.cs" />
-    <Compile Include="Models\RequestModels\ThreadUpdateRequest.cs" />
     <Compile Include="Models\ServiceModels\Blog.cs" />
-    <Compile Include="Models\ServiceModels\ServiceModel.cs" />
     <Compile Include="Models\ServiceModels\Note.cs" />
     <Compile Include="Models\ServiceModels\Post.cs" />
     <Compile Include="Models\ServiceModels\ServiceMeta.cs" />

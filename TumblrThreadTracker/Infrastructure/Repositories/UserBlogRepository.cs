@@ -1,36 +1,26 @@
 ﻿namespace TumblrThreadTracker.Infrastructure.Repositories
 {
 	using System.Data.Entity;
+	using Interfaces;
+	using Models.DomainModels.Blogs;
 
-	using TumblrThreadTracker.Interfaces;
-	using TumblrThreadTracker.Models.DomainModels.Blogs;
-
+	/// <inheritdoc cref="BaseRepository{TModel,TEntity}"/>
 	public class UserBlogRepository : BaseRepository<Blog, UserBlog>
 	{
-		private readonly IThreadTrackerContext _context;
-
-		private readonly IDbSet<UserBlog> _dbSet;
-
+		/// <summary>
+		/// Initializes a new instance of the <see cref="UserBlogRepository"/> class
+		/// </summary>
+		/// <param name="context">Entity framework data context to use for tracker data management</param>
 		public UserBlogRepository(IThreadTrackerContext context)
 		{
-			_context = context;
-			_dbSet = context.UserBlogs;
+			Context = context;
+			DbSet = context.UserBlogs;
 		}
 
-		protected override IThreadTrackerContext Context
-		{
-			get
-			{
-				return _context;
-			}
-		}
+		/// <inheritdoc cref="BaseRepository{TModel,TEntity}"/>
+		protected override IThreadTrackerContext Context { get; }
 
-		protected override IDbSet<UserBlog> DbSet
-		{
-			get
-			{
-				return _dbSet;
-			}
-		}
+		/// <inheritdoc cref="BaseRepository{TModel,TEntity}"/>
+		protected override IDbSet<UserBlog> DbSet { get; }
 	}
 }

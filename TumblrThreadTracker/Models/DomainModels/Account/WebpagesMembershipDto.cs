@@ -1,49 +1,36 @@
 ﻿namespace TumblrThreadTracker.Models.DomainModels.Account
 {
-	using System;
-
 	using Interfaces;
 
+	/// <summary>
+	/// DTO object for transferring <see cref="WebpagesMembership" /> data
+	/// </summary>
 	public class WebpagesMembershipDto : IDto<WebpagesMembership>
 	{
-		public string ConfirmationToken { get; set; }
-
-		public DateTime? CreateDate { get; set; }
-
-		public bool IsConfirmed { get; set; }
-
-		public DateTime? LastPasswordFailureDate { get; set; }
-
-		public string Password { get; set; }
-
-		public DateTime? PasswordChangedDate { get; set; }
-
-		public int PasswordFailuresSinceLastSuccess { get; set; }
-
-		public string PasswordSalt { get; set; }
-
+		/// <summary>
+		/// Gets or sets the token value used to verify a password reset
+		/// </summary>
+		/// <value>
+		/// String value of token
+		/// </value>
 		public string PasswordVerificationToken { get; set; }
 
-		public DateTime? PasswordVerificationTokenExpirationDate { get; set; }
-
+		/// <summary>
+		/// Gets or sets unique identifier of user profile associated with membership info
+		/// </summary>
+		/// <value>
+		/// Integer value of user profile ID
+		/// </value>
 		public int UserId { get; set; }
 
+		/// <inheritdoc cref="IDto{TModel}"/>
 		public WebpagesMembership ToModel()
 		{
 			return new WebpagesMembership
-				       {
-					       UserId = UserId,
-					       ConfirmationToken = ConfirmationToken,
-					       CreateDate = CreateDate,
-					       IsConfirmed = IsConfirmed,
-					       LastPasswordFailureDate = LastPasswordFailureDate,
-					       Password = Password,
-					       PasswordChangedDate = PasswordChangedDate,
-					       PasswordFailuresSinceLastSuccess = PasswordFailuresSinceLastSuccess,
-					       PasswordSalt = PasswordSalt,
-					       PasswordVerificationToken = PasswordVerificationToken,
-					       PasswordVerificationTokenExpirationDate = PasswordVerificationTokenExpirationDate
-				       };
+			{
+				UserId = UserId,
+				PasswordVerificationToken = PasswordVerificationToken,
+			};
 		}
 	}
 }

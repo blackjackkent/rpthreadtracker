@@ -8,32 +8,43 @@
 	using Models.ServiceModels;
 	using RestSharp;
 
+	/// <inheritdoc cref="ITumblrClient"/>
 	public class TumblrClient : ITumblrClient
 	{
 		private const string ApiKey = "***REMOVED***";
-
 		private static IRestClient _client;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="TumblrClient"/> class
+		/// </summary>
+		/// <param name="client">Unity-injected HTTP client</param>
 		public TumblrClient(IRestClient client)
 		{
 			_client = client;
 		}
 
-		public IEnumerable<Post> GetNewsPosts(int? limit = null)
+		/// <inheritdoc cref="ITumblrClient"/>
+		public IEnumerable<IPost> GetNewsPosts(int? limit = null)
 		{
 			var serviceObject = RetrieveApiData(null, WebConfigurationManager.AppSettings["NewsBlogShortname"], "news", limit);
 			return serviceObject != null ? serviceObject.Response.Posts : null;
 		}
 
+		/// <inheritdoc cref="ITumblrClient"/>
 		public IPost GetPost(string postId, string blogShortname)
 		{
-			if (string.IsNullOrWhiteSpace(postId)) return null;
+			if (string.IsNullOrWhiteSpace(postId))
+			{
+				return null;
+			}
 			var serviceObject = RetrieveApiData(postId, blogShortname);
-			if (serviceObject != null && serviceObject.Response != null && serviceObject.Response.Posts != null) return serviceObject.Response.Posts.FirstOrDefault();
+			if (serviceObject?.Response?.Posts != null)
+			{
+				return serviceObject.Response.Posts.FirstOrDefault();
+			}
 			RefreshApiCache(postId, blogShortname);
 			var updatedObject = RetrieveApiData(postId, blogShortname);
-			if (updatedObject != null && updatedObject.Response != null && updatedObject.Response.Posts != null) return updatedObject.Response.Posts.FirstOrDefault();
-			return null;
+			return updatedObject?.Response?.Posts?.FirstOrDefault();
 		}
 
 		private static void RefreshApiCache(string postId, string blogShortname)
@@ -50,11 +61,7 @@
 			}
 		}
 
-		private static ServiceObject RetrieveApiData(
-			string postId,
-			string blogShortname,
-			string tag = null,
-			int? limit = null)
+		private static ServiceObject RetrieveApiData(string postId, string blogShortname, string tag = null, int? limit = null)
 		{
 			var request = new RestRequest("blog/" + blogShortname + ".tumblr.com/posts", Method.GET);
 			request.AddParameter("api_key", ApiKey);

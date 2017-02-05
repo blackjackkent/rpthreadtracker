@@ -7,27 +7,37 @@
 
 	using Microsoft.Practices.Unity;
 
+	/// <inheritdoc cref="IDependencyResolver"/>
 	public class UnityResolver : IDependencyResolver
 	{
-		protected IUnityContainer Container;
+		private readonly IUnityContainer _container;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="UnityResolver"/> class
+		/// </summary>
+		/// <param name="container">Unity container for dependency injection process</param>
 		public UnityResolver(IUnityContainer container)
 		{
-			if (container == null) throw new ArgumentNullException("container");
-			Container = container;
+			if (container == null)
+			{
+				throw new ArgumentNullException(nameof(container));
+			}
+			_container = container;
 		}
 
+		/// <inheritdoc cref="IDependencyResolver"/>
 		public IDependencyScope BeginScope()
 		{
-			var child = Container.CreateChildContainer();
+			var child = _container.CreateChildContainer();
 			return new UnityResolver(child);
 		}
 
+		/// <inheritdoc cref="IDependencyResolver"/>
 		public void Dispose()
 		{
 			try
 			{
-				Container.Dispose();
+				_container.Dispose();
 			}
 			catch (TaskCanceledException e)
 			{
@@ -35,11 +45,12 @@
 			}
 		}
 
+		/// <inheritdoc cref="IDependencyResolver"/>
 		public object GetService(Type serviceType)
 		{
 			try
 			{
-				return Container.Resolve(serviceType);
+				return _container.Resolve(serviceType);
 			}
 			catch (ResolutionFailedException)
 			{
@@ -47,11 +58,12 @@
 			}
 		}
 
+		/// <inheritdoc cref="IDependencyResolver"/>
 		public IEnumerable<object> GetServices(Type serviceType)
 		{
 			try
 			{
-				return Container.ResolveAll(serviceType);
+				return _container.ResolveAll(serviceType);
 			}
 			catch (ResolutionFailedException)
 			{

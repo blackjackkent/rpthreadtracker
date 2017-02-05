@@ -153,7 +153,7 @@
 		string Type { get; set; }
 
 		/// <summary>
-		/// Processes list of notes attached to post and retrieves the most recent reblog 
+		/// Processes list of notes attached to post and retrieves the most recent reblog
 		/// for tracker purposes
 		/// </summary>
 		/// <param name="blogShortname">Tracker user's blog shortname (for determining if it is user's turn or not)</param>

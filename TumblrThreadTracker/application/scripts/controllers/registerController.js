@@ -17,7 +17,7 @@
 
 		function register() {
 			vm.loading = true;
-			if (!vm.registerForm.$valid || vm.confirmPassword !== vm.Password) {
+			if (!vm.registerForm.$valid || vm.confirmPassword !== vm.password) {
 				showValidationError();
 				vm.loading = false;
 				return;
@@ -33,7 +33,7 @@
 		}
 
 		function success() {
-			sessionService.login(vm.username, vm.Password)
+			sessionService.login(vm.username, vm.password)
 				.then(function() {
 					vm.loading = false;
 					$location.path('/');
@@ -57,9 +57,9 @@
 				'usernameRequired': vm.registerForm.username.$error.required,
 				'emailRequired': vm.registerForm.email.$error.email
 					|| vm.registerForm.email.$error.required,
-				'passwordRequired': vm.registerForm.Password.$error.required,
+				'passwordRequired': vm.registerForm.password.$error.required,
 				'confirmPasswordRequired': vm.registerForm.confirmPassword.$error.required,
-				'passwordMatch': vm.confirmPassword !== vm.Password
+				'passwordMatch': vm.confirmPassword !== vm.password
 			};
 			var type = NOTIFICATION_TYPES.REGISTER_VALIDATION_ERROR;
 			notificationService.show(type, extraData);

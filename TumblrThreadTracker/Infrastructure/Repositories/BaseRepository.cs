@@ -35,10 +35,7 @@
 		/// </value>
 		protected abstract IDbSet<TEntity> DbSet { get; }
 
-		/// <summary>
-		/// Delete entity with provided ID from database
-		/// </summary>
-		/// <param name="id">Unique identifier for object to be deleted</param>
+		/// <inheritdoc cref="IRepository{TModel}"/>
 		public virtual void Delete(object id)
 		{
 			var entityToRemove = DbSet.Find(id);
@@ -51,31 +48,19 @@
 			Context.Commit();
 		}
 
-		/// <summary>
-		/// Get list of <see cref="TModel" /> objects based on search filter
-		/// </summary>
-		/// <param name="filter">Search filter expression used to search <see cref="DbSet" /></param>
-		/// <returns>IEnumerable list of <see cref="TModel" /> objects</returns>
+		/// <inheritdoc cref="IRepository{TModel}"/>
 		public IEnumerable<TModel> Get(Expression<Func<TModel, bool>> filter)
 		{
 			return DbSet.ToSelection<TModel, TEntity>().Where(filter);
 		}
 
-		/// <summary>
-		/// Gets single instance of <see cref="TModel" /> class based on search filter
-		/// </summary>
-		/// <param name="filter">Search filter expression used to search <see cref="DbSet" /></param>
-		/// <returns>First item in <see cref="DbSet" /> matching <see cref="filter" />, or null if none found</returns>
+		/// <inheritdoc cref="IRepository{TModel}"/>
 		public TModel GetSingle(Expression<Func<TModel, bool>> filter)
 		{
 			return DbSet.ToSelection<TModel, TEntity>().FirstOrDefault(filter);
 		}
 
-		/// <summary>
-		/// Inserts a new instance of <see cref="TModel" /> into database
-		/// </summary>
-		/// <param name="model">Instance of <see cref="TModel" /> to be inserted</param>
-		/// <returns>Inserted object after any modification during insertion</returns>
+		/// <inheritdoc cref="IRepository{TModel}"/>
 		public virtual TModel Insert(TModel model)
 		{
 			var entity = DbSet.Add(model.ToEntity<TModel, TEntity>());
@@ -83,12 +68,7 @@
 			return entity.ToModel<TModel, TEntity>();
 		}
 
-		/// <summary>
-		/// Updates object with <see cref="id" /> based on properties of <see cref="model" />
-		/// </summary>
-		/// <param name="id">Unique identifier of object to be updated</param>
-		/// <param name="model"><see cref="TModel" /> instance with properties to be updated.</param>
-		/// <returns><see cref="TModel" /> value that has been updated</returns>
+		/// <inheritdoc cref="IRepository{TModel}"/>
 		public virtual TModel Update(object id, TModel model)
 		{
 			var entityToUpdate = DbSet.Find(id);

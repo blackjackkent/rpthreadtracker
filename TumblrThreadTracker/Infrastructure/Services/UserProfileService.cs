@@ -1,10 +1,12 @@
 ﻿namespace TumblrThreadTracker.Infrastructure.Services
 {
-	using TumblrThreadTracker.Interfaces;
-	using TumblrThreadTracker.Models.DomainModels.Users;
+	using Interfaces;
+	using Models.DomainModels.Users;
 
+	/// <inheritdoc cref="IUserProfileService"/>
 	public class UserProfileService : IUserProfileService
 	{
+		/// <inheritdoc cref="IUserProfileService"/>
 		public void Update(UserDto user, IRepository<User> userProfileRepository)
 		{
 			userProfileRepository.Update(user.UserId, user.ToModel());

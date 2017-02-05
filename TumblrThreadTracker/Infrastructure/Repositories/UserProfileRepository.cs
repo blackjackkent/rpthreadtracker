@@ -5,32 +5,23 @@
 	using Interfaces;
 	using Models.DomainModels.Users;
 
+	/// <inheritdoc cref="BaseRepository{TModel,TEntity}"/>
 	public class UserProfileRepository : BaseRepository<User, UserProfile>
 	{
-		private readonly IThreadTrackerContext _context;
-
-		private readonly IDbSet<UserProfile> _dbSet;
-
+		/// <summary>
+		/// Initializes a new instance of the <see cref="UserProfileRepository"/> class
+		/// </summary>
+		/// <param name="context">Entity framework data context to use for tracker data management</param>
 		public UserProfileRepository(IThreadTrackerContext context)
 		{
-			_context = context;
-			_dbSet = context.UserProfiles;
+			Context = context;
+			DbSet = context.UserProfiles;
 		}
 
-		protected override IThreadTrackerContext Context
-		{
-			get
-			{
-				return _context;
-			}
-		}
+		/// <inheritdoc cref="BaseRepository{TModel,TEntity}"/>
+		protected override IThreadTrackerContext Context { get; }
 
-		protected override IDbSet<UserProfile> DbSet
-		{
-			get
-			{
-				return _dbSet;
-			}
-		}
+		/// <inheritdoc cref="BaseRepository{TModel,TEntity}"/>
+		protected override IDbSet<UserProfile> DbSet { get; }
 	}
 }
