@@ -86,7 +86,13 @@
 				.ForMember(dest => dest.UserProfile, m => m.Ignore())
 				.ForMember(dest => dest.UserThreads, m => m.Ignore());
 			Mapper.CreateMap<User, UserProfile>().ForMember(dest => dest.UserBlogs, m => m.Ignore());
-			Mapper.CreateMap<Thread, UserThread>().ForMember(dest => dest.UserBlog, m => m.Ignore());
+			Mapper.CreateMap<Thread, UserThread>().ForMember(dest => dest.UserBlog, m => m.Ignore())
+				.ForMember(dest => dest.UserThreadTags, m => m.MapFrom(
+					src => src.ThreadTags.Select(t =>
+						new UserThreadTag
+						{
+							TagText = t
+						})));
 			Mapper.CreateMap<WebpagesMembership, webpages_Membership>();
 		}
 	}

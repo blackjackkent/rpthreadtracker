@@ -60,11 +60,7 @@
 				throw new ObjectNotFoundException();
 			}
 			var token = _webSecurityService.GeneratePasswordResetToken(user);
-			await user.SendForgotPasswordEmail(
-				token,
-				_webpagesMembershipRepository,
-				_emailService,
-				_webSecurityService);
+			await _webSecurityService.SendForgotPasswordEmail(user, token, _webpagesMembershipRepository, _emailService);
 			return new HttpResponseMessage(HttpStatusCode.OK);
 		}
 	}

@@ -35,8 +35,12 @@
 		[HttpPost]
 		public HttpResponseMessage ChangePassword(ChangePasswordRequest model)
 		{
-			var username = _webSecurityService.GetCurrentUsernameFromIdentity((ClaimsIdentity)User.Identity);
-			var success = _webSecurityService.ChangePassword(username, model.OldPassword, model.NewPassword);
+			var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity);
+			if (user == null)
+			{
+				return new HttpResponseMessage(HttpStatusCode.BadRequest);
+			}
+			var success = _webSecurityService.ChangePassword(user.UserName, model.OldPassword, model.NewPassword);
 			return success ? new HttpResponseMessage(HttpStatusCode.OK) : new HttpResponseMessage(HttpStatusCode.BadRequest);
 		}
 	}

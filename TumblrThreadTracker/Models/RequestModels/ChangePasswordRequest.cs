@@ -6,7 +6,7 @@
 	public class ChangePasswordRequest
 	{
 		/// <summary>
-		/// Gets or sets the user's confirmation of their requestednew password
+		/// Gets or sets the user's confirmation of their requested new password
 		/// </summary>
 		/// <value>
 		/// String confirming the user's requested new password

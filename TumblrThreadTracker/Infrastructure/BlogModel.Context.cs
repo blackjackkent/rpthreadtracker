@@ -29,6 +29,6 @@ namespace TumblrThreadTracker.Infrastructure
         public virtual DbSet<UserProfile> UserProfiles { get; set; }
         public virtual DbSet<UserThread> UserThreads { get; set; }
         public virtual DbSet<UserThreadTag> UserThreadTags { get; set; }
-        public virtual DbSet<webpages_Membership> webpages_Membership { get; set; }
+        public virtual DbSet<webpages_Membership> WebpagesMemberships { get; set; }
     }
 }

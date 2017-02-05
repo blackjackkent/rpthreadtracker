@@ -3,30 +3,26 @@
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Web.Configuration;
+	using Interfaces;
+	using Models.DomainModels.Blogs;
+	using Models.DomainModels.Threads;
 
-	using TumblrThreadTracker.Interfaces;
-	using TumblrThreadTracker.Models.DomainModels.Blogs;
-	using TumblrThreadTracker.Models.DomainModels.Threads;
-
+	/// <inheritdoc cref="IThreadService"/>
 	public class ThreadService : IThreadService
 	{
+		/// <inheritdoc cref="IThreadService"/>
 		public void AddNewThread(ThreadDto threadDto, IRepository<Thread> threadRepository)
 		{
 			threadRepository.Insert(new Thread(threadDto));
 		}
 
+		/// <inheritdoc cref="IThreadService"/>
 		public void DeleteThread(int userThreadId, IRepository<Thread> threadRepository)
 		{
 			threadRepository.Delete(userThreadId);
 		}
 
-		public IEnumerable<string> GetAllTagsByBlog(int? userBlogId, IRepository<Thread> threadRepository)
-		{
-			if (userBlogId == null) return new List<string>();
-			var threads = threadRepository.Get(t => t.UserBlogId == userBlogId);
-			return threads.SelectMany(t => t.ThreadTags);
-		}
-
+		/// <inheritdoc cref="IThreadService"/>
 		public ThreadDto GetById(
 			int id,
 			IRepository<Blog> blogRepository,
@@ -45,51 +41,51 @@
 			return thread.ToDto(blog, post);
 		}
 
+		/// <inheritdoc cref="IThreadService"/>
 		public IEnumerable<ThreadDto> GetNewsThreads(ITumblrClient tumblrClient)
 		{
 			var posts = tumblrClient.GetNewsPosts(5);
-			return
-				posts.Select(
-					post =>
-						new ThreadDto
-							{
-								BlogShortname = WebConfigurationManager.AppSettings["NewsBlogShortname"],
-								ContentSnippet = null,
-								IsMyTurn = false,
-								LastPostDate = post.Timestamp,
-								LastPostUrl = post.PostUrl,
-								LastPosterShortname = WebConfigurationManager.AppSettings["NewsBlogShortname"],
-								PostId = post.Id.ToString(),
-								Type = post.Type,
-								UserTitle = post.Title
-							}).ToList();
+			return posts.Select(post => new ThreadDto
+			{
+				BlogShortname = WebConfigurationManager.AppSettings["NewsBlogShortname"],
+				IsMyTurn = false,
+				LastPostDate = post.Timestamp,
+				LastPostUrl = post.PostUrl,
+				LastPosterShortname = WebConfigurationManager.AppSettings["NewsBlogShortname"],
+				PostId = post.Id.ToString(),
+				UserTitle = post.Title
+			}).ToList();
 		}
 
-		public IEnumerable<int?> GetThreadIdsByBlogId(
-			int? blogId,
-			IRepository<Thread> threadRepository,
-			bool isArchived = false)
+		/// <inheritdoc cref="IThreadService"/>
+		public IEnumerable<int?> GetThreadIdsByBlogId(int? blogId, IRepository<Thread> threadRepository, bool isArchived = false)
 		{
-			if (blogId == null) return new List<int?>();
+			if (blogId == null)
+			{
+				return new List<int?>();
+			}
 			var threads = threadRepository.Get(t => t.UserBlogId == blogId && t.IsArchived == isArchived);
 			return threads.Select(t => t.UserThreadId).ToList();
 		}
 
-		public IEnumerable<ThreadDto> GetThreadsByBlog(
-			BlogDto blog,
-			IRepository<Thread> threadRepository,
-			bool isArchived = false)
+		/// <inheritdoc cref="IThreadService"/>
+		public IEnumerable<ThreadDto> GetThreadsByBlog(BlogDto blog, IRepository<Thread> threadRepository, bool isArchived = false)
 		{
-			if (blog?.UserBlogId == null) return new List<ThreadDto>();
+			if (blog?.UserBlogId == null)
+			{
+				return new List<ThreadDto>();
+			}
 			var threads = threadRepository.Get(t => t.UserBlogId == blog.UserBlogId && t.IsArchived == isArchived);
 			return threads.Select(t => t.ToDto(blog, null)).ToList();
 		}
 
+		/// <inheritdoc cref="IThreadService"/>
 		public void UpdateThread(ThreadDto dto, IRepository<Thread> threadRepository)
 		{
 			threadRepository.Update(dto.UserThreadId, new Thread(dto));
 		}
 
+		/// <inheritdoc cref="IThreadService"/>
 		public bool UserOwnsThread(int userId, int threadId, IRepository<Thread> threadRepository)
 		{
 			var userOwnsThread =

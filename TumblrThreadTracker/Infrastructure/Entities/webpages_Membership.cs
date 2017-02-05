@@ -1,7 +1,10 @@
 ﻿namespace TumblrThreadTracker.Infrastructure
 {
-	using TumblrThreadTracker.Infrastructure.Entities;
+	using Entities;
 
+	/// <summary>
+	/// Partial class representing user thread tag data entity
+	/// </summary>
 	public partial class webpages_Membership : IEntity
 	{
 	}

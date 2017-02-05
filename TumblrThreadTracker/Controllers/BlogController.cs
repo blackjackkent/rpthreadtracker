@@ -23,7 +23,7 @@
 		/// Initializes a new instance of the <see cref="BlogController"/> class
 		/// </summary>
 		/// <param name="userBlogRepository">Unity-injected user blog repository</param>
-		/// <param name="webSecurityService">Unity-injected web secruty service</param>
+		/// <param name="webSecurityService">Unity-injected web security service</param>
 		/// <param name="blogService">Unity-injected blog service</param>
 		public BlogController(
 			IRepository<Blog> userBlogRepository,

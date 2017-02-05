@@ -2,14 +2,17 @@
 {
 	using System.Security.Claims;
 	using System.Threading.Tasks;
-
 	using Microsoft.Owin.Security.OAuth;
+	using Repositories;
+	using Services;
 
-	using TumblrThreadTracker.Infrastructure.Repositories;
-	using TumblrThreadTracker.Infrastructure.Services;
-
+	/// <summary>
+	/// Authorization server provider implementation providing
+	/// credential authorization for OWIN server
+	/// </summary>
 	public class SimpleAuthorizationServerProvider : OAuthAuthorizationServerProvider
 	{
+		/// <inheritdoc />
 		public override async Task GrantResourceOwnerCredentials(OAuthGrantResourceOwnerCredentialsContext context)
 		{
 			context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { "*" });
@@ -35,6 +38,7 @@
 			}
 		}
 
+		/// <inheritdoc />
 		public override async Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
 		{
 			context.Validated();

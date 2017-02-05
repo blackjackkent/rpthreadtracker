@@ -54,7 +54,7 @@
 		/// Gets or sets unique identifier for blog object
 		/// </summary>
 		/// <value>
-		/// Integer value of user blog, or null if blog is not yet in database
+		/// Integer value of user blog ID, or null if blog is not yet in database
 		/// </value>
 		public int? UserBlogId { get; set; }
 

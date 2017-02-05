@@ -134,7 +134,7 @@
 		function register(registerData) {
 			var deferred = $q.defer(),
 				config = {
-					'url': '/api/Account',
+					'url': '/api/User',
 					'method': 'POST',
 					'data': registerData
 				};

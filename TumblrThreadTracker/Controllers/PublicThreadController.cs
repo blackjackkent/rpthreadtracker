@@ -3,31 +3,35 @@
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Web.Http;
+	using Infrastructure.Filters;
+	using Interfaces;
 
-	using TumblrThreadTracker.Infrastructure.Filters;
-	using TumblrThreadTracker.Interfaces;
-	using TumblrThreadTracker.Models.DomainModels.Blogs;
-	using TumblrThreadTracker.Models.DomainModels.Threads;
+	using Microsoft.Ajax.Utilities;
 
+	using Models.DomainModels.Blogs;
+	using Models.DomainModels.Threads;
+
+	/// <summary>
+	/// Controller class for getting thread information available to unauthenticated users
+	/// </summary>
 	[RedirectOnMaintenance]
 	public class PublicThreadController : ApiController
 	{
 		private readonly IRepository<Blog> _blogRepository;
-
 		private readonly IBlogService _blogService;
-
 		private readonly IRepository<Thread> _threadRepository;
-
 		private readonly IThreadService _threadService;
-
 		private readonly ITumblrClient _tumblrClient;
 
-		public PublicThreadController(
-			IRepository<Blog> userBlogRepository,
-			IRepository<Thread> userThreadRepository,
-			IBlogService blogService,
-			IThreadService threadService,
-			ITumblrClient tumblrClient)
+		/// <summary>
+		/// Initializes a new instance of the <see cref="PublicThreadController"/> class
+		/// </summary>
+		/// <param name="userBlogRepository">Unity-injected user blog repository</param>
+		/// <param name="userThreadRepository">Unity-injected user thread repository</param>
+		/// <param name="blogService">Unity-injected blog service</param>
+		/// <param name="threadService">Unity-injected thread service</param>
+		/// <param name="tumblrClient">Unity-injected Tumblr client</param>
+		public PublicThreadController(IRepository<Blog> userBlogRepository, IRepository<Thread> userThreadRepository, IBlogService blogService, IThreadService threadService, ITumblrClient tumblrClient)
 		{
 			_blogRepository = userBlogRepository;
 			_threadRepository = userThreadRepository;
@@ -36,20 +40,38 @@
 			_tumblrClient = tumblrClient;
 		}
 
+		/// <summary>
+		/// Controller endpoint for getting a specific thread by UserThreadId
+		/// </summary>
+		/// <param name="id">Unique identifier of thread to be retrieved</param>
+		/// <returns><see cref="ThreadDto"/> object describing requested thread</returns>
 		public ThreadDto Get(int id)
 		{
 			return _threadService.GetById(id, _blogRepository, _threadRepository, _tumblrClient);
 		}
 
+		/// <summary>
+		/// Controller endpoint for getting all thread IDs for a particular tracked blog
+		/// </summary>
+		/// <param name="userId">Unique identifier of user which owns blog</param>
+		/// <param name="blogShortname">Shortname identifier of blog to be retrieved</param>
+		/// <returns>Collection of integer identifiers for all relevant threads</returns>
 		public IEnumerable<int?> Get(int userId, string blogShortname)
 		{
 			var ids = new List<int?>();
-			var blogs = !string.IsNullOrEmpty(blogShortname)
-				            ? _blogService.GetBlogsByUserId(userId, _blogRepository, false)
-					            .Where(b => b.BlogShortname == blogShortname)
-					            .ToList()
-				            : _blogService.GetBlogsByUserId(userId, _blogRepository, false).ToList();
-			foreach (var blog in blogs) ids.AddRange(_threadService.GetThreadIdsByBlogId(blog.UserBlogId, _threadRepository));
+			var blogs = new List<BlogDto>();
+			if (string.IsNullOrEmpty(blogShortname))
+			{
+				blogs = _blogService.GetBlogsByUserId(userId, _blogRepository, false).ToList();
+			}
+			else
+			{
+				_blogService.GetBlogsByUserId(userId, _blogRepository, false).Where(b => b.BlogShortname == blogShortname).ToList();
+			}
+			foreach (var blog in blogs)
+			{
+				ids.AddRange(_threadService.GetThreadIdsByBlogId(blog.UserBlogId, _threadRepository));
+			}
 			return ids;
 		}
 	}

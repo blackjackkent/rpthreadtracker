@@ -51,8 +51,8 @@
 		/// <summary>
 		/// Determines whether or not a particular user is the owner of a particular blog
 		/// </summary>
-		/// <param name="userBlogId">Unique identifier of user account to check</param>
-		/// <param name="userId">Unique identifier of blog to check</param>userBlogRepository
+		/// <param name="userBlogId">Unique identifier of blog to check</param>
+		/// <param name="userId">Unique identifier of user account to check</param>
 		/// <param name="userBlogRepository">Repository object containing database connection</param>
 		/// <returns>True if user is associated with blog, false if not</returns>
 		bool UserOwnsBlog(int userBlogId, int userId, IRepository<Blog> userBlogRepository);
