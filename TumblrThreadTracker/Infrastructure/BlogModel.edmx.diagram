@@ -12,7 +12,7 @@
         <AssociationConnector Association="RPThreadTrackerModel.FK_dbo_UserBlog_dbo_UserProfile_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="RPThreadTrackerModel.FK_dbo_UserThread_dbo_UserBlog_UserBlogId" ManuallyRouted="false" />
         <AssociationConnector Association="RPThreadTrackerModel.FK__UserThrea__UserT__1B9317B3" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="RPThreadTrackerModel.webpages_Membership" Width="1.5" PointX="0.75" PointY="4.75" />
+        <EntityTypeShape EntityType="RPThreadTrackerModel.WebpagesMembership" Width="1.5" PointX="0.75" PointY="4.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

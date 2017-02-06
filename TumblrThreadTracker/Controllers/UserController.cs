@@ -41,7 +41,7 @@
 		/// <returns><see cref="UserDto"/> object describing requested user</returns>
 		public UserDto Get()
 		{
-			var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity);
+			var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity, _userProfileRepository);
 			return user.ToDto();
 		}
 
@@ -71,7 +71,7 @@
 		/// <param name="user">Request body containing information about user to be updated</param>
 		public void Put(UserDto user)
 		{
-			var currentUser = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity);
+			var currentUser = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity, _userProfileRepository);
 			if (currentUser.UserId != user.UserId)
 			{
 				throw new ArgumentException();

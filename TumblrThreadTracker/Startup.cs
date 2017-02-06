@@ -4,9 +4,19 @@ namespace TumblrThreadTracker
 {
 	using System;
 	using System.Web.Http;
+	using Infrastructure;
 	using Infrastructure.Providers;
+	using Infrastructure.Repositories;
+	using Infrastructure.Services;
+	using Interfaces;
 	using Microsoft.Owin.Security.OAuth;
+	using Microsoft.Practices.Unity;
+	using Models.DomainModels.Account;
+	using Models.DomainModels.Blogs;
+	using Models.DomainModels.Threads;
+	using Models.DomainModels.Users;
 	using Owin;
+	using RestSharp;
 
 	/// <summary>
 	/// Startup class for initializing OAuth configuration
@@ -20,21 +30,43 @@ namespace TumblrThreadTracker
 		/// <param name="app">Default <see cref="IAppBuilder"/> WebAPI object</param>
 		public void Configuration(IAppBuilder app)
 		{
-			ConfigureOAuth(app);
 			var config = new HttpConfiguration();
+			var container = ConfigureInjection(config);
+			ConfigureOAuth(app, container);
 			WebApiConfig.Register(config);
 			app.UseWebApi(config);
 		}
 
-		private static void ConfigureOAuth(IAppBuilder app)
+		private static UnityContainer ConfigureInjection(HttpConfiguration config)
+		{
+			var container = new UnityContainer();
+			container.RegisterType<IRepository<User>, UserProfileRepository>()
+				.RegisterType<IRepository<Blog>, UserBlogRepository>()
+				.RegisterType<IRepository<Thread>, UserThreadRepository>()
+				.RegisterType<IRepository<Membership>, MembershipRepository>()
+				.RegisterType<IWebSecurityService, WebSecurityService>()
+				.RegisterType<IBlogService, BlogService>()
+				.RegisterType<IThreadService, ThreadService>()
+				.RegisterType<IUserProfileService, UserProfileService>()
+				.RegisterType<ITumblrClient, TumblrClient>(new InjectionConstructor(new RestClient("http://api.tumblr.com/v2")))
+				.RegisterType<IEmailService, EmailService>()
+				.RegisterType<IExporterService, ExporterService>()
+				.RegisterType<IThreadTrackerContext, RPThreadTrackerEntities>();
+			config.DependencyResolver = new UnityResolver(container);
+			return container;
+		}
+
+		private static void ConfigureOAuth(IAppBuilder app, UnityContainer container)
 		{
 			// Token Generation
+			var userProfileRepository = container.Resolve<IRepository<User>>();
+			var webSecurityService = container.Resolve<IWebSecurityService>();
 			app.UseOAuthAuthorizationServer(new OAuthAuthorizationServerOptions()
 			{
 				AllowInsecureHttp = true,
 				TokenEndpointPath = new PathString("/token"),
 				AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
-				Provider = new SimpleAuthorizationServerProvider()
+				Provider = new SimpleAuthorizationServerProvider(webSecurityService, userProfileRepository)
 			});
 			app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
 			app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());

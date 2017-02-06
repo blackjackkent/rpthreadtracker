@@ -12,7 +12,7 @@ namespace TumblrThreadTracker.Infrastructure
     using System;
     using System.Collections.Generic;
     
-    public partial class webpages_Membership
+    public partial class WebpagesMembership
     {
         public int UserId { get; set; }
         public Nullable<System.DateTime> CreateDate { get; set; }

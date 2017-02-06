@@ -6,30 +6,21 @@
 	using System.Security.Claims;
 	using System.Text;
 	using System.Threading.Tasks;
-	using System.Web.Security;
-
-	using SendGrid.Helpers.Mail;
-
-	using TumblrThreadTracker.Interfaces;
-	using TumblrThreadTracker.Models.DomainModels.Account;
-	using TumblrThreadTracker.Models.DomainModels.Users;
-
+	using Interfaces;
+	using Models.DomainModels.Account;
+	using Models.DomainModels.Users;
 	using WebMatrix.WebData;
 
+	/// <inheritdoc cref="IWebSecurityService"/>
 	public class WebSecurityService : IWebSecurityService
 	{
-		private readonly IRepository<User> _userProfileRepository;
-
-		public WebSecurityService(IRepository<User> userProfileRepository)
-		{
-			_userProfileRepository = userProfileRepository;
-		}
-
+		/// <inheritdoc cref="IWebSecurityService"/>
 		public bool ChangePassword(string username, string oldPassword, string newPassword)
 		{
 			return WebSecurity.ChangePassword(username, oldPassword, newPassword);
 		}
 
+		/// <inheritdoc cref="IWebSecurityService"/>
 		public void CreateAccount(string username, string password, string email, IRepository<User> userProfileRepository)
 		{
 			WebSecurity.CreateUserAndAccount(username, password);
@@ -43,47 +34,56 @@
 			userProfileRepository.Update(profile.UserId, profile);
 		}
 
+		/// <inheritdoc cref="IWebSecurityService"/>
 		public string GeneratePasswordResetToken(User user)
 		{
 			return WebSecurity.GeneratePasswordResetToken(user.UserName);
 		}
 
-		public User GetCurrentUserFromIdentity(ClaimsIdentity claimsIdentity)
+		/// <inheritdoc cref="IWebSecurityService"/>
+		public User GetCurrentUserFromIdentity(ClaimsIdentity claimsIdentity, IRepository<User> userProfileRepository)
 		{
-			if (claimsIdentity == null) return null;
-			var claim = claimsIdentity.Claims.FirstOrDefault(c => c.Type == "userId");
-			if (claim == null) return null;
+			var claim = claimsIdentity?.Claims.FirstOrDefault(c => c.Type == "userId");
+			if (claim == null)
+			{
+				return null;
+			}
 			var userId = int.Parse(claim.Value);
-			return _userProfileRepository.GetSingle(u => u.UserId == userId);
+			return userProfileRepository.GetSingle(u => u.UserId == userId);
 		}
 
+		/// <inheritdoc cref="IWebSecurityService"/>
 		public int? GetCurrentUserIdFromIdentity(ClaimsIdentity claimsIdentity)
 		{
-			if (claimsIdentity == null) return null;
-			var claim = claimsIdentity.Claims.FirstOrDefault(c => c.Type == "userId");
-			if (claim == null) return null;
+			var claim = claimsIdentity?.Claims.FirstOrDefault(c => c.Type == "userId");
+			if (claim == null)
+			{
+				return null;
+			}
 			var userId = int.Parse(claim.Value);
 			return userId;
 		}
 
-		public int? GetUserIdByUsernameAndPassword(string username, string password)
+		/// <inheritdoc cref="IWebSecurityService"/>
+		public int? GetUserIdByUsernameAndPassword(string username, string password, IRepository<User> userProfileRepository)
 		{
-			var userExistsWithUsername = Membership.Provider.ValidateUser(username, password);
+			var userExistsWithUsername = System.Web.Security.Membership.Provider.ValidateUser(username, password);
 			if (userExistsWithUsername)
 			{
 				return WebSecurity.GetUserId(username);
 			}
 
-			var userByEmail = _userProfileRepository.GetSingle(u => u.Email == username);
+			var userByEmail = userProfileRepository.GetSingle(u => u.Email == username);
 			if (userByEmail == null)
 			{
 				return null;
 			}
 
-			var usernameFromEmailIsValid = Membership.Provider.ValidateUser(userByEmail.UserName, password);
+			var usernameFromEmailIsValid = System.Web.Security.Membership.Provider.ValidateUser(userByEmail.UserName, password);
 			return usernameFromEmailIsValid ? WebSecurity.GetUserId(userByEmail.UserName) : (int?)null;
 		}
 
+		/// <inheritdoc cref="IWebSecurityService"/>
 		public string ResetPassword(string resetToken)
 		{
 			var newPassword = GenerateRandomPassword(6);
@@ -95,6 +95,7 @@
 			return newPassword;
 		}
 
+		/// <inheritdoc cref="IWebSecurityService"/>
 		public string GenerateRandomPassword(int length)
 		{
 			const string AllowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789!@$?_-*&#+";
@@ -107,7 +108,8 @@
 			return new string(chars);
 		}
 
-		public async Task SendForgotPasswordEmail(User user, string token, IRepository<WebpagesMembership> webpagesMembershipRepository, IEmailService emailService)
+		/// <inheritdoc cref="IWebSecurityService"/>
+		public async Task SendForgotPasswordEmail(User user, string token, IRepository<Membership> webpagesMembershipRepository, IEmailService emailService)
 		{
 			var isValidToken = IsValidToken(user, token, webpagesMembershipRepository);
 			if (!isValidToken)
@@ -118,7 +120,7 @@
 			await SendTemporaryPasswordEmail(user, newPassword, emailService);
 		}
 
-		private bool IsValidToken(User user, string resetToken, IRepository<WebpagesMembership> webpagesMembershipRepository)
+		private bool IsValidToken(User user, string resetToken, IRepository<Membership> webpagesMembershipRepository)
 		{
 			var record = webpagesMembershipRepository.Get(m => m.UserId == user.UserId && m.PasswordVerificationToken == resetToken);
 			return record.Any();

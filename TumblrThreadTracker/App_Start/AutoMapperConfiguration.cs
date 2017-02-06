@@ -43,7 +43,7 @@
 				.ForMember(dest => dest.UserThreads, m => m.Ignore());
 			Mapper.CreateMap<UserDto, UserProfile>().ForMember(dest => dest.UserBlogs, m => m.Ignore());
 			Mapper.CreateMap<ThreadDto, UserThread>().ForMember(dest => dest.UserBlog, m => m.Ignore());
-			Mapper.CreateMap<WebpagesMembershipDto, webpages_Membership>();
+			Mapper.CreateMap<MembershipDto, WebpagesMembership>();
 		}
 
 		private static void ConfigureDtoToModel()
@@ -51,7 +51,7 @@
 			Mapper.CreateMap<BlogDto, Blog>();
 			Mapper.CreateMap<UserDto, User>();
 			Mapper.CreateMap<ThreadDto, Thread>();
-			Mapper.CreateMap<WebpagesMembershipDto, WebpagesMembership>();
+			Mapper.CreateMap<MembershipDto, Membership>();
 		}
 
 		private static void ConfigureEntityToDto()
@@ -60,7 +60,7 @@
 			Mapper.CreateMap<UserProfile, UserDto>();
 			Mapper.CreateMap<UserThread, ThreadDto>()
 				.ForMember(dest => dest.ThreadTags, m => m.MapFrom(src => src.UserThreadTags.Select(t => t.TagText)));
-			Mapper.CreateMap<webpages_Membership, WebpagesMembershipDto>();
+			Mapper.CreateMap<WebpagesMembership, MembershipDto>();
 		}
 
 		private static void ConfigureEntityToModel()
@@ -69,7 +69,7 @@
 			Mapper.CreateMap<UserProfile, User>();
 			Mapper.CreateMap<UserThread, Thread>()
 				.ForMember(dest => dest.ThreadTags, m => m.MapFrom(src => src.UserThreadTags.Select(t => t.TagText)));
-			Mapper.CreateMap<webpages_Membership, WebpagesMembership>();
+			Mapper.CreateMap<WebpagesMembership, Membership>();
 		}
 
 		private static void ConfigureModelToDto()
@@ -77,7 +77,7 @@
 			Mapper.CreateMap<Blog, BlogDto>();
 			Mapper.CreateMap<User, UserDto>();
 			Mapper.CreateMap<Thread, ThreadDto>();
-			Mapper.CreateMap<WebpagesMembership, WebpagesMembershipDto>();
+			Mapper.CreateMap<Membership, MembershipDto>();
 		}
 
 		private static void ConfigureModelToEntity()
@@ -93,7 +93,7 @@
 						{
 							TagText = t
 						})));
-			Mapper.CreateMap<WebpagesMembership, webpages_Membership>();
+			Mapper.CreateMap<Membership, WebpagesMembership>();
 		}
 	}
 }

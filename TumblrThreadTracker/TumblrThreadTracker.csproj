@@ -322,7 +322,7 @@
     <Compile Include="Infrastructure\Entities\UserProfile.cs" />
     <Compile Include="Infrastructure\Entities\UserThread.cs" />
     <Compile Include="Infrastructure\Entities\UserThreadTag.cs" />
-    <Compile Include="Infrastructure\Entities\webpages_Membership.cs" />
+    <Compile Include="Infrastructure\Entities\WebpagesMembership.cs" />
     <Compile Include="Infrastructure\ModelMappingExtensionMethods.cs" />
     <Compile Include="Infrastructure\Providers\SimpleAuthorizationServerProvider.cs" />
     <Compile Include="Infrastructure\Filters\RedirectOnMaintenance.cs" />
@@ -332,7 +332,7 @@
     <Compile Include="Infrastructure\Services\ThreadService.cs" />
     <Compile Include="Infrastructure\Services\UserProfileService.cs" />
     <Compile Include="Infrastructure\Services\WebSecurityService.cs" />
-    <Compile Include="Infrastructure\webpages_Membership.cs">
+    <Compile Include="Infrastructure\WebpagesMembership.cs">
       <DependentUpon>BlogModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IBlogService.cs" />
@@ -343,7 +343,7 @@
     <Compile Include="Interfaces\ITumblrClient.cs" />
     <Compile Include="Interfaces\IUserProfileService.cs" />
     <Compile Include="Interfaces\IWebSecurityService.cs" />
-    <Compile Include="Models\DomainModels\Account\WebpagesMembershipDto.cs" />
+    <Compile Include="Models\DomainModels\Account\MembershipDto.cs" />
     <Compile Include="Models\DomainModels\DomainModel.cs" />
     <Compile Include="Models\DomainModels\Blogs\Blog.cs" />
     <Compile Include="Models\DomainModels\Blogs\BlogDto.cs" />
@@ -351,12 +351,12 @@
     <Compile Include="Models\DomainModels\Threads\ThreadDto.cs" />
     <Compile Include="Models\DomainModels\Users\User.cs" />
     <Compile Include="Models\DomainModels\Users\UserDto.cs" />
-    <Compile Include="Infrastructure\Repositories\WebpagesMembershipRepository.cs" />
+    <Compile Include="Infrastructure\Repositories\MembershipRepository.cs" />
     <Compile Include="Infrastructure\UnityResolver.cs" />
     <Compile Include="Interfaces\IPost.cs" />
     <Compile Include="Interfaces\IRepository.cs" />
     <Compile Include="Interfaces\IThreadTrackerContext.cs" />
-    <Compile Include="Models\DomainModels\Account\WebpagesMembership.cs" />
+    <Compile Include="Models\DomainModels\Account\Membership.cs" />
     <Compile Include="Models\RequestModels\ChangePasswordRequest.cs" />
     <Compile Include="Models\RequestModels\RegisterRequest.cs" />
     <Compile Include="Models\ServiceModels\Blog.cs" />
