@@ -46,7 +46,7 @@
 		/// <value>
 		/// <see cref="DbSet"/> collection of <see cref="WebpagesMemberships"/> data access values
 		/// </value>
-		DbSet<webpages_Membership> WebpagesMemberships { get; set; }
+		DbSet<WebpagesMembership> WebpagesMemberships { get; set; }
 
 		/// <summary>
 		/// Saves all changes made to the context datasets

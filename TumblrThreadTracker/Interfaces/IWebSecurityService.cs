@@ -41,8 +41,9 @@
 		/// Gets <see cref="User"/> object based on authenticated identity
 		/// </summary>
 		/// <param name="claimsIdentity">Identity of a user based on their authentication claims</param>
+		/// <param name="userProfileRepository">Repository object containing database connection</param>
 		/// <returns><see cref="User"/> object associated with the identity</returns>
-		User GetCurrentUserFromIdentity(ClaimsIdentity claimsIdentity);
+		User GetCurrentUserFromIdentity(ClaimsIdentity claimsIdentity, IRepository<User> userProfileRepository);
 
 		/// <summary>
 		/// Gets user ID based on authenticated identity
@@ -50,6 +51,15 @@
 		/// <param name="claimsIdentity">Identity of a user based on their authentication claims</param>
 		/// <returns>Integer identifier for user associated with the identity</returns>
 		int? GetCurrentUserIdFromIdentity(ClaimsIdentity claimsIdentity);
+
+		/// <summary>
+		/// Gets user ID based on passed credentials
+		/// </summary>
+		/// <param name="username">Username credential passed to authenticate</param>
+		/// <param name="password">Password credential passed to authenticate</param>
+		/// <param name="userProfileRepository">Repository object containing database connection</param>
+		/// <returns>Integer identifier for user associated with the identity</returns>
+		int? GetUserIdByUsernameAndPassword(string username, string password, IRepository<User> userProfileRepository);
 
 		/// <summary>
 		/// Generates a new user account password using a password reset token
@@ -74,6 +84,6 @@
 		/// <param name="webpagesMembershipRepository">Repository object containing database connection</param>
 		/// <param name="emailService">Service responsible for constructing and sending email message</param>
 		/// <returns>Task object for async handling</returns>
-		Task SendForgotPasswordEmail(User user, string token, IRepository<WebpagesMembership> webpagesMembershipRepository, IEmailService emailService);
+		Task SendForgotPasswordEmail(User user, string token, IRepository<Membership> webpagesMembershipRepository, IEmailService emailService);
 	}
 }

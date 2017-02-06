@@ -10,6 +10,7 @@
 	using Interfaces;
 	using Models.DomainModels.Blogs;
 	using Models.DomainModels.Threads;
+	using Models.DomainModels.Users;
 
 	/// <summary>
 	/// Controller class for getting and updating thread information
@@ -22,6 +23,7 @@
 		private readonly IBlogService _blogService;
 		private readonly IRepository<Thread> _threadRepository;
 		private readonly IThreadService _threadService;
+		private readonly IRepository<User> _userProfileRepository;
 		private readonly ITumblrClient _tumblrClient;
 		private readonly IWebSecurityService _webSecurityService;
 
@@ -34,7 +36,8 @@
 		/// <param name="blogService">Unity-injected blog service</param>
 		/// <param name="threadService">Unity-injected thread service</param>
 		/// <param name="tumblrClient">Unity-injected tumblr client</param>
-		public ThreadController(IRepository<Blog> userBlogRepository, IRepository<Thread> userThreadRepository, IWebSecurityService webSecurityService, IBlogService blogService, IThreadService threadService, ITumblrClient tumblrClient)
+		/// <param name="userProfileRepository">Unity-injected user profile repository</param>
+		public ThreadController(IRepository<Blog> userBlogRepository, IRepository<Thread> userThreadRepository, IWebSecurityService webSecurityService, IBlogService blogService, IThreadService threadService, ITumblrClient tumblrClient, IRepository<User> userProfileRepository)
 		{
 			_blogRepository = userBlogRepository;
 			_threadRepository = userThreadRepository;
@@ -42,6 +45,7 @@
 			_blogService = blogService;
 			_threadService = threadService;
 			_tumblrClient = tumblrClient;
+			_userProfileRepository = userProfileRepository;
 		}
 
 		/// <summary>
@@ -52,7 +56,7 @@
 		[HttpPut]
 		public void DeleteThreads(List<ThreadDto> threads)
 		{
-			var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity);
+			var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity, _userProfileRepository);
 			foreach (var thread in threads)
 			{
 				var userOwnsThread = _threadService.UserOwnsThread(
@@ -134,7 +138,7 @@
 		/// <returns>HttpResponseMessage indicating success or failure</returns>
 		public HttpResponseMessage Put(ThreadDto thread)
 		{
-			var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity);
+			var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity, _userProfileRepository);
 			if (thread?.UserThreadId == null || user == null)
 			{
 				return new HttpResponseMessage(HttpStatusCode.BadRequest);

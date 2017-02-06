@@ -19,7 +19,7 @@
 	{
 		private readonly IEmailService _emailService;
 		private readonly IRepository<User> _userProfileRepository;
-		private readonly IRepository<WebpagesMembership> _webpagesMembershipRepository;
+		private readonly IRepository<Membership> _webpagesMembershipRepository;
 		private readonly IWebSecurityService _webSecurityService;
 
 		/// <summary>
@@ -31,7 +31,7 @@
 		/// <param name="emailService">Unity-injected email service</param>
 		public ForgotPasswordController(
 			IRepository<User> userProfileRepository,
-			IRepository<WebpagesMembership> webpagesMembershipRepository,
+			IRepository<Membership> webpagesMembershipRepository,
 			IWebSecurityService webSecurityService,
 			IEmailService emailService)
 		{

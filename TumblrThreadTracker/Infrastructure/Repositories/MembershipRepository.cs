@@ -4,14 +4,16 @@
 	using Interfaces;
 	using Models.DomainModels.Account;
 
+	using WebpagesMembership = WebpagesMembership;
+
 	/// <inheritdoc cref="BaseRepository{TModel,TEntity}"/>
-	public class WebpagesMembershipRepository : BaseRepository<WebpagesMembership, webpages_Membership>
+	public class MembershipRepository : BaseRepository<Membership, WebpagesMembership>
 	{
 		/// <summary>
-		/// Initializes a new instance of the <see cref="WebpagesMembershipRepository"/> class
+		/// Initializes a new instance of the <see cref="MembershipRepository"/> class
 		/// </summary>
 		/// <param name="context">Entity framework data context to use for tracker data management</param>
-		public WebpagesMembershipRepository(IThreadTrackerContext context)
+		public MembershipRepository(IThreadTrackerContext context)
 		{
 			Context = context;
 			DbSet = context.WebpagesMemberships;
@@ -21,6 +23,6 @@
 		protected override IThreadTrackerContext Context { get; }
 
 		/// <inheritdoc cref="BaseRepository{TModel,TEntity}"/>
-		protected override IDbSet<webpages_Membership> DbSet { get; }
+		protected override IDbSet<WebpagesMembership> DbSet { get; }
 	}
 }

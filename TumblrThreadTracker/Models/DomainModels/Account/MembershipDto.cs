@@ -1,9 +1,11 @@
 ﻿namespace TumblrThreadTracker.Models.DomainModels.Account
 {
+	using Interfaces;
+
 	/// <summary>
-	/// Domain Model class representing user authentication info
+	/// DTO object for transferring <see cref="Membership" /> data
 	/// </summary>
-	public class WebpagesMembership : DomainModel
+	public class MembershipDto : IDto<Membership>
 	{
 		/// <summary>
 		/// Gets or sets the token value used to verify a password reset
@@ -20,5 +22,15 @@
 		/// Integer value of user profile ID
 		/// </value>
 		public int UserId { get; set; }
+
+		/// <inheritdoc cref="IDto{TModel}"/>
+		public Membership ToModel()
+		{
+			return new Membership
+			{
+				UserId = UserId,
+				PasswordVerificationToken = PasswordVerificationToken,
+			};
+		}
 	}
 }

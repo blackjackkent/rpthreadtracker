@@ -229,9 +229,9 @@
             <End Role="UserThread" EntitySet="UserThreads" />
             <End Role="UserThreadTag" EntitySet="UserThreadTags" />
           </AssociationSet>
-          <EntitySet Name="webpages_Membership" EntityType="RPThreadTrackerModel.webpages_Membership" />
+          <EntitySet Name="WebpagesMemberships" EntityType="RPThreadTrackerModel.WebpagesMembership" />
         </EntityContainer>
-        <EntityType Name="webpages_Membership">
+        <EntityType Name="WebpagesMembership">
           <Key>
             <PropertyRef Name="UserId" />
           </Key>
@@ -297,8 +297,8 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="webpages_Membership">
-            <EntityTypeMapping TypeName="RPThreadTrackerModel.webpages_Membership">
+          <EntitySetMapping Name="WebpagesMemberships">
+            <EntityTypeMapping TypeName="RPThreadTrackerModel.WebpagesMembership">
               <MappingFragment StoreEntitySet="webpages_Membership">
                 <ScalarProperty Name="PasswordVerificationTokenExpirationDate" ColumnName="PasswordVerificationTokenExpirationDate" />
                 <ScalarProperty Name="PasswordVerificationToken" ColumnName="PasswordVerificationToken" />

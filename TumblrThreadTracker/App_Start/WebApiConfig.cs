@@ -28,21 +28,6 @@
 		/// <param name="config">Default HttpConfiguration object</param>
 		public static void Register(HttpConfiguration config)
 		{
-			var container = new UnityContainer();
-			container.RegisterType<IRepository<User>, UserProfileRepository>()
-				.RegisterType<IRepository<Blog>, UserBlogRepository>()
-				.RegisterType<IRepository<Thread>, UserThreadRepository>()
-				.RegisterType<IRepository<WebpagesMembership>, WebpagesMembershipRepository>()
-				.RegisterType<IWebSecurityService, WebSecurityService>()
-				.RegisterType<IBlogService, BlogService>()
-				.RegisterType<IThreadService, ThreadService>()
-				.RegisterType<IUserProfileService, UserProfileService>()
-				.RegisterType<ITumblrClient, TumblrClient>(new InjectionConstructor(new RestClient("http://api.tumblr.com/v2")))
-				.RegisterType<IEmailService, EmailService>()
-				.RegisterType<IExporterService, ExporterService>()
-				.RegisterType<IThreadTrackerContext, RPThreadTrackerEntities>();
-			config.DependencyResolver = new UnityResolver(container);
-
 			config.MapHttpAttributeRoutes();
 			config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new { id = RouteParameter.Optional });
 			RouteConfig.RegisterRoutes(RouteTable.Routes);

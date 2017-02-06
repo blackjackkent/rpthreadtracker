@@ -5,7 +5,7 @@
 	/// <summary>
 	/// Partial class representing user thread tag data entity
 	/// </summary>
-	public partial class webpages_Membership : IEntity
+	public partial class WebpagesMembership : IEntity
 	{
 	}
 }
