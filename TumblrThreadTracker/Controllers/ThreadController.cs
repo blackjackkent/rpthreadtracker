@@ -59,15 +59,11 @@
 			var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity, _userProfileRepository);
 			foreach (var thread in threads)
 			{
-				var userOwnsThread = _threadService.UserOwnsThread(
-					user.UserId,
-					thread.UserThreadId.GetValueOrDefault(),
-					_threadRepository);
-				if (!userOwnsThread)
+				var userOwnsThread = _threadService.UserOwnsThread(user.UserId, thread.UserThreadId.GetValueOrDefault(), _threadRepository);
+				if (userOwnsThread)
 				{
-					continue;
+					_threadService.DeleteThread(thread.UserThreadId.GetValueOrDefault(), _threadRepository);
 				}
-				_threadService.DeleteThread(thread.UserThreadId.GetValueOrDefault(), _threadRepository);
 			}
 		}
 
@@ -110,23 +106,20 @@
 			{
 				throw new ArgumentNullException();
 			}
-			var userOwnsBlog = _blogService.UserOwnsBlog(
-				thread.UserBlogId,
-				userId.GetValueOrDefault(),
-				_blogRepository);
+			var userOwnsBlog = _blogService.UserOwnsBlog(thread.UserBlogId, userId.GetValueOrDefault(), _blogRepository);
 			if (!userOwnsBlog)
 			{
 				return new HttpResponseMessage(HttpStatusCode.BadRequest);
 			}
 			var dto = new ThreadDto
-				          {
-					          UserThreadId = null,
-					          PostId = thread.PostId,
-					          UserBlogId = thread.UserBlogId,
-					          UserTitle = thread.UserTitle,
-					          WatchedShortname = thread.WatchedShortname,
-					          ThreadTags = thread.ThreadTags
-				          };
+			{
+				UserThreadId = null,
+				PostId = thread.PostId,
+				UserBlogId = thread.UserBlogId,
+				UserTitle = thread.UserTitle,
+				WatchedShortname = thread.WatchedShortname,
+				ThreadTags = thread.ThreadTags
+			};
 			_threadService.AddNewThread(dto, _threadRepository);
 			return new HttpResponseMessage(HttpStatusCode.Created);
 		}
@@ -143,10 +136,7 @@
 			{
 				return new HttpResponseMessage(HttpStatusCode.BadRequest);
 			}
-			var userOwnsThread = _threadService.UserOwnsThread(
-				user.UserId,
-				thread.UserThreadId.GetValueOrDefault(),
-				_threadRepository);
+			var userOwnsThread = _threadService.UserOwnsThread(user.UserId, thread.UserThreadId.GetValueOrDefault(), _threadRepository);
 			if (!userOwnsThread)
 			{
 				return new HttpResponseMessage(HttpStatusCode.BadRequest);

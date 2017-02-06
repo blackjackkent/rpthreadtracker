@@ -17,14 +17,6 @@
 		string BlogName { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether post was created with Tumblr Bookmarklet
-		/// </summary>
-		/// <value>
-		/// True if created with bookmarklet, false if not
-		/// </value>
-		bool Bookmarklet { get; set; }
-
-		/// <summary>
 		/// Gets or sets a string value indicating date at which post was created
 		/// </summary>
 		/// <value>
@@ -33,36 +25,12 @@
 		string Date { get; set; }
 
 		/// <summary>
-		/// Gets or sets a value representing the post format
-		/// </summary>
-		/// <value>
-		/// 'html' or 'markdown' depending on post format
-		/// </value>
-		string Format { get; set; }
-
-		/// <summary>
 		/// Gets or sets the post's unique identifier value
 		/// </summary>
 		/// <value>
 		/// Unique numerical identifer of post
 		/// </value>
 		long Id { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether an authenticated calling user has liked the post.
-		/// </summary>
-		/// <value>
-		/// True if post has been liked by calling user, false if not
-		/// </value>
-		bool Liked { get; set; }
-
-		/// <summary>
-		/// Gets or sets a value indicating whether the post was created via Tumblr mobile
-		/// </summary>
-		/// <value>
-		/// True if post was created on mobile, false if not
-		/// </value>
-		bool Mobile { get; set; }
 
 		/// <summary>
 		/// Gets or sets collection of <see cref="Note"/> objects associated with post
@@ -81,46 +49,6 @@
 		string PostUrl { get; set; }
 
 		/// <summary>
-		/// Gets or sets the value used as an identifier during the reblog process
-		/// </summary>
-		/// <value>
-		/// The posts's unique reblog key string
-		/// </value>
-		string ReblogKey { get; set; }
-
-		/// <summary>
-		/// Gets or sets the title of a post with a content source
-		/// </summary>
-		/// <value>
-		/// String value of the content title
-		/// </value>
-		string SourceTitle { get; set; }
-
-		/// <summary>
-		/// Gets or sets the source URL for a post with a content source
-		/// </summary>
-		/// <value>
-		/// String value of the content source URL
-		/// </value>
-		string SourceUrl { get; set; }
-
-		/// <summary>
-		/// Gets or sets a string representing the current state of the post
-		/// </summary>
-		/// <value>
-		/// 'published', 'queued', 'draft', or 'private'
-		/// </value>
-		string State { get; set; }
-
-		/// <summary>
-		/// Gets or sets a list of tags applied to the post
-		/// </summary>
-		/// <value>
-		/// List of string values representing tags for the post
-		/// </value>
-		List<string> Tags { get; set; }
-
-		/// <summary>
 		/// Gets or sets post timestamp
 		/// </summary>
 		/// <value>
@@ -135,22 +63,6 @@
 		/// String title applied to Tumblr post
 		/// </value>
 		string Title { get; set; }
-
-		/// <summary>
-		/// Gets or sets value representing the number of total posts returned by request which returned this post
-		/// </summary>
-		/// <value>
-		/// Numerical value of total posts returned by request
-		/// </value>
-		long TotalPosts { get; set; }
-
-		/// <summary>
-		/// Gets or sets value representing post type
-		/// </summary>
-		/// <value>
-		/// 'text', 'quote', 'link', 'answer', 'video', 'audio', 'photo', or 'chat'
-		/// </value>
-		string Type { get; set; }
 
 		/// <summary>
 		/// Processes list of notes attached to post and retrieves the most recent reblog

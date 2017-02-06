@@ -9,7 +9,6 @@
 	using Interfaces;
 	using Models.DomainModels.Account;
 	using Models.DomainModels.Users;
-	using Models.RequestModels;
 
 	/// <summary>
 	/// Controller class for handling forgot password flow
@@ -29,11 +28,7 @@
 		/// <param name="webpagesMembershipRepository">Unity-injected WebpagesMembership repository</param>
 		/// <param name="webSecurityService">Unity-injected web security service</param>
 		/// <param name="emailService">Unity-injected email service</param>
-		public ForgotPasswordController(
-			IRepository<User> userProfileRepository,
-			IRepository<Membership> webpagesMembershipRepository,
-			IWebSecurityService webSecurityService,
-			IEmailService emailService)
+		public ForgotPasswordController(IRepository<User> userProfileRepository, IRepository<Membership> webpagesMembershipRepository, IWebSecurityService webSecurityService, IEmailService emailService)
 		{
 			_userProfileRepository = userProfileRepository;
 			_webpagesMembershipRepository = webpagesMembershipRepository;
@@ -54,7 +49,7 @@
 		{
 			var username = usernameOrEmail;
 			var user = _userProfileRepository.GetSingle(u => u.UserName == username)
-			           ?? _userProfileRepository.GetSingle(u => u.Email == username);
+						?? _userProfileRepository.GetSingle(u => u.Email == username);
 			if (user == null || username == null)
 			{
 				throw new ObjectNotFoundException();

@@ -5,9 +5,6 @@
 	using System.Web.Http;
 	using Infrastructure.Filters;
 	using Interfaces;
-
-	using Microsoft.Ajax.Utilities;
-
 	using Models.DomainModels.Blogs;
 	using Models.DomainModels.Threads;
 
@@ -66,7 +63,7 @@
 			}
 			else
 			{
-				_blogService.GetBlogsByUserId(userId, _blogRepository, false).Where(b => b.BlogShortname == blogShortname).ToList();
+				blogs = _blogService.GetBlogsByUserId(userId, _blogRepository, false).Where(b => b.BlogShortname == blogShortname).ToList();
 			}
 			foreach (var blog in blogs)
 			{

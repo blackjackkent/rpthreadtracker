@@ -10,14 +10,6 @@
 	public class Note
 	{
 		/// <summary>
-		/// Gets or sets text added when a post was reblogged
-		/// </summary>
-		/// <value>
-		/// String containing the added text if the note is a reblog
-		/// </value>
-		public string AddedText { get; set; }
-
-		/// <summary>
 		/// Gets or sets shortname of blog which generated the note
 		/// </summary>
 		/// <value>

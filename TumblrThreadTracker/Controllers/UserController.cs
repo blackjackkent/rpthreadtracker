@@ -56,7 +56,6 @@
 		{
 			var existingUsername = _userProfileRepository.Get(u => u.UserName == request.Username).Any();
 			var existingEmail = _userProfileRepository.Get(u => u.Email == request.Email).Any();
-
 			if (existingUsername || existingEmail)
 			{
 				return Request.CreateResponse(HttpStatusCode.BadRequest, "An account with some or all of this information already exists.");
@@ -76,7 +75,6 @@
 			{
 				throw new ArgumentException();
 			}
-
 			_userProfileService.Update(user, _userProfileRepository);
 		}
 	}

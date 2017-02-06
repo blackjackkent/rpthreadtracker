@@ -6,14 +6,6 @@
 	public class ServiceObject
 	{
 		/// <summary>
-		/// Gets or sets the metadata information associated with the response
-		/// </summary>
-		/// <value>
-		/// <see cref="ServiceMeta"/> object containing response metadata
-		/// </value>
-		public ServiceMeta Meta { get; set; }
-
-		/// <summary>
 		/// Gets or sets the data returned from the API
 		/// </summary>
 		/// <value>

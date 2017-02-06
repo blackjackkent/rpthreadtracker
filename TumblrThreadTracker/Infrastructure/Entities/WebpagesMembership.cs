@@ -1,4 +1,5 @@
-﻿namespace TumblrThreadTracker.Infrastructure
+﻿ // ReSharper disable once CheckNamespace
+namespace TumblrThreadTracker.Infrastructure
 {
 	using Entities;
 

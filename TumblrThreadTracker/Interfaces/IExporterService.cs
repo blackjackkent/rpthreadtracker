@@ -18,10 +18,6 @@
 		/// <param name="archivedThreadDistribution">Distribution of archived thread objects by blog ID</param>
 		/// <param name="includeArchived">Whether or not to include archived threads in export</param>
 		/// <returns><see cref="ExcelPackage"/> object containing exported thread data to be viewed as Excel file</returns>
-		ExcelPackage GetPackage(
-			IEnumerable<BlogDto> blogs,
-			Dictionary<int, IEnumerable<ThreadDto>> threadDistribution,
-			Dictionary<int, IEnumerable<ThreadDto>> archivedThreadDistribution,
-			bool includeArchived);
+		ExcelPackage GetPackage(IEnumerable<BlogDto> blogs, Dictionary<int, IEnumerable<ThreadDto>> threadDistribution, Dictionary<int, IEnumerable<ThreadDto>> archivedThreadDistribution, bool includeArchived);
 	}
 }

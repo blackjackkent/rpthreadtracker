@@ -359,10 +359,8 @@
     <Compile Include="Models\DomainModels\Account\Membership.cs" />
     <Compile Include="Models\RequestModels\ChangePasswordRequest.cs" />
     <Compile Include="Models\RequestModels\RegisterRequest.cs" />
-    <Compile Include="Models\ServiceModels\Blog.cs" />
     <Compile Include="Models\ServiceModels\Note.cs" />
     <Compile Include="Models\ServiceModels\Post.cs" />
-    <Compile Include="Models\ServiceModels\ServiceMeta.cs" />
     <Compile Include="Models\ServiceModels\ServiceObject.cs" />
     <Compile Include="Models\ServiceModels\ServiceResponse.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

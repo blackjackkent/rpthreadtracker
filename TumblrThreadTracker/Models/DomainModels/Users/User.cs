@@ -1,13 +1,5 @@
 ﻿namespace TumblrThreadTracker.Models.DomainModels.Users
 {
-	using System;
-	using System.IO;
-	using System.Linq;
-	using System.Text;
-	using System.Threading.Tasks;
-	using Account;
-	using Interfaces;
-
 	/// <summary>
 	/// Domain Model class representing a user account
 	/// </summary>

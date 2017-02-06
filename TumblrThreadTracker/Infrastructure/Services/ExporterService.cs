@@ -11,16 +11,12 @@
 	public class ExporterService : IExporterService
 	{
 		/// <inheritdoc cref="IExporterService"/>
-		public ExcelPackage GetPackage(
-			IEnumerable<BlogDto> blogs,
-			Dictionary<int, IEnumerable<ThreadDto>> threadDistribution,
-			Dictionary<int, IEnumerable<ThreadDto>> archivedThreadDistribution,
-			bool includeArchived)
+		public ExcelPackage GetPackage(IEnumerable<BlogDto> blogs, Dictionary<int, IEnumerable<ThreadDto>> threadDistribution, Dictionary<int, IEnumerable<ThreadDto>> archivedThreadDistribution, bool includeArchived)
 		{
 			var package = new ExcelPackage();
 			foreach (var blog in blogs)
 			{
-				ExcelWorksheet worksheet = package.Workbook.Worksheets.Add(blog.BlogShortname);
+				var worksheet = package.Workbook.Worksheets.Add(blog.BlogShortname);
 				var hasThreads = false;
 				var hasArchivedThreads = false;
 
@@ -30,7 +26,7 @@
 				worksheet.Cells[1, 3].Value = "User Title";
 				worksheet.Cells[1, 4].Value = "Watched Shortname";
 				worksheet.Cells[1, 5].Value = "Is Archived";
-				int i = 2;
+				var i = 2;
 				if (threadDistribution.ContainsKey(blog.UserBlogId.GetValueOrDefault()))
 				{
 					hasThreads = true;

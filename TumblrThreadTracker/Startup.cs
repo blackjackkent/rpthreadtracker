@@ -51,7 +51,7 @@ namespace TumblrThreadTracker
 				.RegisterType<ITumblrClient, TumblrClient>(new InjectionConstructor(new RestClient("http://api.tumblr.com/v2")))
 				.RegisterType<IEmailService, EmailService>()
 				.RegisterType<IExporterService, ExporterService>()
-				.RegisterType<IThreadTrackerContext, RPThreadTrackerEntities>();
+				.RegisterType<IThreadTrackerContext, RpThreadTrackerEntities>();
 			config.DependencyResolver = new UnityResolver(container);
 			return container;
 		}
