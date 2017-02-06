@@ -1,12 +1,8 @@
 ﻿namespace TumblrThreadTracker.Models.DomainModels.Threads
 {
-	using System;
 	using System.Collections.Generic;
-	using System.Linq;
 	using Blogs;
 	using Interfaces;
-	using ServiceModels;
-	using Blog = Blogs.Blog;
 
 	/// <summary>
 	/// Domain Model class representing a user-tracked thread

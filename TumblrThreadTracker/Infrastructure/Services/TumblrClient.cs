@@ -27,7 +27,7 @@
 		public IEnumerable<IPost> GetNewsPosts(int? limit = null)
 		{
 			var serviceObject = RetrieveApiData(null, WebConfigurationManager.AppSettings["NewsBlogShortname"], "news", limit);
-			return serviceObject != null ? serviceObject.Response.Posts : null;
+			return serviceObject?.Response.Posts;
 		}
 
 		/// <inheritdoc cref="ITumblrClient"/>

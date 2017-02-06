@@ -73,12 +73,12 @@
 		public BlogDto ToDto()
 		{
 			return new BlogDto
-				       {
-					       BlogShortname = BlogShortname,
-					       UserBlogId = UserBlogId,
-					       UserId = UserId,
-					       OnHiatus = OnHiatus
-				       };
+			{
+				BlogShortname = BlogShortname,
+				UserBlogId = UserBlogId,
+				UserId = UserId,
+				OnHiatus = OnHiatus
+			};
 		}
 	}
 }

@@ -36,7 +36,6 @@
 				context.SetError("invalid_grant", "The user name or password is incorrect.");
 				return;
 			}
-
 			var user = _userProfileRepository.GetSingle(u => u.UserId == userId);
 			var identity = new ClaimsIdentity(context.Options.AuthenticationType);
 			identity.AddClaim(new Claim("username", context.UserName));

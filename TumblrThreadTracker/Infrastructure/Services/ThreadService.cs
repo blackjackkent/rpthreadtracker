@@ -23,12 +23,7 @@
 		}
 
 		/// <inheritdoc cref="IThreadService"/>
-		public ThreadDto GetById(
-			int id,
-			IRepository<Blog> blogRepository,
-			IRepository<Thread> threadRepository,
-			ITumblrClient tumblrClient,
-			bool skipTumblrCall = false)
+		public ThreadDto GetById(int id, IRepository<Blog> blogRepository, IRepository<Thread> threadRepository, ITumblrClient tumblrClient, bool skipTumblrCall = false)
 		{
 			var thread = threadRepository.GetSingle(t => t.UserThreadId == id);
 			var blog = blogRepository.GetSingle(b => b.UserBlogId == thread.UserBlogId).ToDto();
@@ -36,7 +31,6 @@
 			{
 				return thread.ToDto(blog, null);
 			}
-
 			var post = tumblrClient.GetPost(thread.PostId, blog.BlogShortname);
 			return thread.ToDto(blog, post);
 		}
@@ -88,9 +82,7 @@
 		/// <inheritdoc cref="IThreadService"/>
 		public bool UserOwnsThread(int userId, int threadId, IRepository<Thread> threadRepository)
 		{
-			var userOwnsThread =
-				threadRepository.Get(t => t.UserThreadId == threadId && t.UserBlog != null && t.UserBlog.UserId == userId)
-					.FirstOrDefault();
+			var userOwnsThread = threadRepository.Get(t => t.UserThreadId == threadId && t.UserBlog != null && t.UserBlog.UserId == userId).FirstOrDefault();
 			return userOwnsThread != null;
 		}
 	}

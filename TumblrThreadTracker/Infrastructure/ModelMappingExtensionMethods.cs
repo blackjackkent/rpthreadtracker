@@ -2,16 +2,13 @@
 {
 	using System;
 	using System.Linq;
-
 	using AutoMapper;
 	using AutoMapper.QueryableExtensions;
-
 	using Entities;
-	using Models;
 	using Models.DomainModels;
 
 	/// <summary>
-	/// Class containing extension methods for managing mapping between <see cref="Model"/> objects and <see cref="IEntity"/> objects
+	/// Class containing extension methods for managing mapping between <see cref="DomainModel"/> objects and <see cref="IEntity"/> objects
 	/// </summary>
 	public static class ModelMappingExtensionMethods
 	{

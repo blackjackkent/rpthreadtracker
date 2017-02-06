@@ -12,22 +12,10 @@
 		public string BlogName { get; set; }
 
 		/// <inheritdoc cref="IPost"/>
-		public bool Bookmarklet { get; set; }
-
-		/// <inheritdoc cref="IPost"/>
 		public string Date { get; set; }
 
 		/// <inheritdoc cref="IPost"/>
-		public string Format { get; set; }
-
-		/// <inheritdoc cref="IPost"/>
 		public long Id { get; set; }
-
-		/// <inheritdoc cref="IPost"/>
-		public bool Liked { get; set; }
-
-		/// <inheritdoc cref="IPost"/>
-		public bool Mobile { get; set; }
 
 		/// <inheritdoc cref="IPost"/>
 		public List<Note> Notes { get; set; }
@@ -36,31 +24,10 @@
 		public string PostUrl { get; set; }
 
 		/// <inheritdoc cref="IPost"/>
-		public string ReblogKey { get; set; }
-
-		/// <inheritdoc cref="IPost"/>
-		public string SourceTitle { get; set; }
-
-		/// <inheritdoc cref="IPost"/>
-		public string SourceUrl { get; set; }
-
-		/// <inheritdoc cref="IPost"/>
-		public string State { get; set; }
-
-		/// <inheritdoc cref="IPost"/>
-		public List<string> Tags { get; set; }
-
-		/// <inheritdoc cref="IPost"/>
 		public long Timestamp { get; set; }
 
 		/// <inheritdoc cref="IPost"/>
 		public string Title { get; set; }
-
-		/// <inheritdoc cref="IPost"/>
-		public long TotalPosts { get; set; }
-
-		/// <inheritdoc cref="IPost"/>
-		public string Type { get; set; }
 
 		/// <inheritdoc cref="IPost"/>
 		public Note GetMostRecentRelevantNote(string blogShortname, string watchedShortname)

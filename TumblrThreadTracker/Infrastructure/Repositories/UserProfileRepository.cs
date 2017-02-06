@@ -1,7 +1,6 @@
 ﻿namespace TumblrThreadTracker.Infrastructure.Repositories
 {
 	using System.Data.Entity;
-
 	using Interfaces;
 	using Models.DomainModels.Users;
 

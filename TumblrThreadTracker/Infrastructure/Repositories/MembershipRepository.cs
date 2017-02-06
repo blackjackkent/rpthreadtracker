@@ -4,8 +4,6 @@
 	using Interfaces;
 	using Models.DomainModels.Account;
 
-	using WebpagesMembership = WebpagesMembership;
-
 	/// <inheritdoc cref="BaseRepository{TModel,TEntity}"/>
 	public class MembershipRepository : BaseRepository<Membership, WebpagesMembership>
 	{

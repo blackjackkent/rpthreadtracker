@@ -5,16 +5,6 @@
 	using System.Web.Optimization;
 	using System.Web.Routing;
 	using Elmah.Contrib.WebApi;
-	using Infrastructure;
-	using Infrastructure.Repositories;
-	using Infrastructure.Services;
-	using Interfaces;
-	using Microsoft.Practices.Unity;
-	using Models.DomainModels.Account;
-	using Models.DomainModels.Blogs;
-	using Models.DomainModels.Threads;
-	using Models.DomainModels.Users;
-	using RestSharp;
 	using WebMatrix.WebData;
 
 	/// <summary>
@@ -32,12 +22,7 @@
 			config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new { id = RouteParameter.Optional });
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
 			BundleConfig.RegisterBundles(BundleTable.Bundles);
-			WebSecurity.InitializeDatabaseConnection(
-				"DefaultConnection",
-				"UserProfile",
-				"UserId",
-				"UserName",
-				true);
+			WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", true);
 			AutoMapperConfiguration.Configure();
 			config.Services.Add(typeof(IExceptionLogger), new ElmahExceptionLogger());
 		}

@@ -13,9 +13,9 @@ namespace TumblrThreadTracker.Infrastructure
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class RPThreadTrackerEntities : DbContext
+    public partial class RpThreadTrackerEntities : DbContext
     {
-        public RPThreadTrackerEntities()
+        public RpThreadTrackerEntities()
             : base("name=RPThreadTrackerEntities")
         {
         }

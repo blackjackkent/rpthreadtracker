@@ -28,7 +28,6 @@
 			{
 				filterContext.Response = filterContext.Request.CreateErrorResponse(HttpStatusCode.ServiceUnavailable, "Temporarily Offline");
 			}
-
 			base.OnActionExecuting(filterContext);
 		}
 	}

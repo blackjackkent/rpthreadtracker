@@ -25,10 +25,7 @@
 		/// <param name="userBlogRepository">Unity-injected user blog repository</param>
 		/// <param name="webSecurityService">Unity-injected web security service</param>
 		/// <param name="blogService">Unity-injected blog service</param>
-		public BlogController(
-			IRepository<Blog> userBlogRepository,
-			IWebSecurityService webSecurityService,
-			IBlogService blogService)
+		public BlogController(IRepository<Blog> userBlogRepository, IWebSecurityService webSecurityService, IBlogService blogService)
 		{
 			_blogRepository = userBlogRepository;
 			_webSecurityService = webSecurityService;
@@ -84,11 +81,11 @@
 				throw new ArgumentNullException();
 			}
 			var dto = new BlogDto
-				          {
-					          UserId = userId.GetValueOrDefault(),
-					          BlogShortname = blogShortname,
-					          OnHiatus = false
-				          };
+			{
+				UserId = userId.GetValueOrDefault(),
+				BlogShortname = blogShortname,
+				OnHiatus = false
+			};
 			_blogService.AddNewBlog(dto, _blogRepository);
 		}
 

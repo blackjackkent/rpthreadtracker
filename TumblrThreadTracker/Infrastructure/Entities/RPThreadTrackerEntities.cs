@@ -4,7 +4,7 @@ namespace TumblrThreadTracker.Infrastructure
 	using Interfaces;
 
 	/// <inheritdoc cref="IThreadTrackerContext"/>
-	public partial class RPThreadTrackerEntities : IThreadTrackerContext
+	public partial class RpThreadTrackerEntities : IThreadTrackerContext
 	{
 		/// <inheritdoc cref="IThreadTrackerContext"/>
 		public void Commit()
