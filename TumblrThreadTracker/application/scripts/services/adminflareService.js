@@ -17998,7 +17998,7 @@
                     }
 
                     for (i = 0; i < oldChildsLength; i++) {
-                        newChild = _convert(oldChilds[i], cleanUp);
+                        var newChild = _convert(oldChilds[i], cleanUp);
                         if (newChild) {
                             newNode.appendChild(newChild);
                         }
@@ -19291,7 +19291,7 @@
                                 setTimeout(function() { throw e3; }, 0);
                             }
 
-                            caretPlaceholder = this.doc.querySelector("." + className);
+                            var caretPlaceholder = this.doc.querySelector("." + className);
                             if (caretPlaceholder) {
                                 newRange = rangy.createRange(this.doc);
                                 newRange.selectNode(caretPlaceholder);
@@ -32266,7 +32266,7 @@
                             labelHeight = opts.labelHeight || 0,
                             maxWidth = labelWidth || axis.direction == "x"
                                 ? Math.floor(surface.width / (ticks.length || 1))
-                                : null;
+                                : null,
                         legacyStyles = axis.direction + "Axis " + axis.direction + axis.n + "Axis",
                             layer = "flot-" +
                                 axis.direction +

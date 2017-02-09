@@ -42,6 +42,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>TumblrThreadTracker.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\TumblrThreadTracker.XML</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AjaxMin">
@@ -1682,6 +1683,7 @@
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>TumblrThreadTracker.ruleset</CodeAnalysisRuleSet>
+    <DocumentationFile>bin\TumblrThreadTracker.XML</DocumentationFile>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

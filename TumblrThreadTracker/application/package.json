@@ -10,11 +10,13 @@
     "eslint:controllers": "eslint scripts/controllers/** --fix",
     "eslint:directives": "eslint scripts/directives/** --fix",
     "eslint:filters": "eslint scripts/filters/** --fix",
-    "eslint:services": "eslint scripts/services/** --fix"
+    "eslint:services": "eslint scripts/services/** --fix",
+    "csslint": "csslint styles/default/custom.css"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "csslint": "^1.0.5",
     "eslint": "^3.13.1",
     "eslint-config-angular": "^0.5.0",
     "eslint-config-standard": "^6.2.1",
