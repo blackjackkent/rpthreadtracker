@@ -14,7 +14,7 @@
 		{
 			var apiKey = ConfigurationManager.AppSettings["SendGridAPIKey"];
 			var sendGridApiClient = new SendGridAPIClient(apiKey);
-			var from = new Email("noreply@rpthreadtracker.com");
+			var from = new Email(ConfigurationManager.AppSettings["EmailFromAddress"]);
 			var to = new Email(recipientAddress);
 			var content = new Content("text/html", body);
 			var mail = new Mail(from, subject, to, content);

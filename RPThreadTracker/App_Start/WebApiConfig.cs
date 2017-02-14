@@ -1,5 +1,6 @@
 ﻿namespace RPThreadTracker
 {
+	using System.Configuration;
 	using System.Web.Http;
 	using System.Web.Http.ExceptionHandling;
 	using System.Web.Optimization;
@@ -22,7 +23,7 @@
 			config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new { id = RouteParameter.Optional });
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
 			BundleConfig.RegisterBundles(BundleTable.Bundles);
-			WebSecurity.InitializeDatabaseConnection("DefaultConnection", "UserProfile", "UserId", "UserName", true);
+			WebSecurity.InitializeDatabaseConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, "System.Data.SqlClient", "UserProfile", "UserId", "UserName", true);
 			AutoMapperConfiguration.Configure();
 			config.Services.Add(typeof(IExceptionLogger), new ElmahExceptionLogger());
 		}
