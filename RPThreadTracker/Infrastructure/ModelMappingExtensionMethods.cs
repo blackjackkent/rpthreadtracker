@@ -13,7 +13,7 @@
 	public static class ModelMappingExtensionMethods
 	{
 		/// <summary>
-		/// Loads a database-level <see cref="IEntity"/> object with mapped properties from a <see cref="TModel"/> object
+		/// Loads a database-level <see cref="IEntity"/> object with mapped properties from a <c>TModel</c> object
 		/// </summary>
 		/// <typeparam name="TModel"><see cref="DomainModel"/> object used in business layer</typeparam>
 		/// <typeparam name="TEntity"><see cref="IEntity"> object used at data layer</see></typeparam>

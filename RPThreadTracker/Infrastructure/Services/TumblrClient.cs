@@ -11,7 +11,7 @@
 	/// <inheritdoc cref="ITumblrClient"/>
 	public class TumblrClient : ITumblrClient
 	{
-		private const string ApiKey = "***REMOVED***";
+		private static string _apiKey;
 		private static IRestClient _client;
 
 		/// <summary>
@@ -20,6 +20,7 @@
 		/// <param name="client">Unity-injected HTTP client</param>
 		public TumblrClient(IRestClient client)
 		{
+			_apiKey = WebConfigurationManager.AppSettings["TumblrAPIKey"];
 			_client = client;
 		}
 
@@ -64,7 +65,7 @@
 		private static ServiceObject RetrieveApiData(string postId, string blogShortname, string tag = null, int? limit = null)
 		{
 			var request = new RestRequest("blog/" + blogShortname + ".tumblr.com/posts", Method.GET);
-			request.AddParameter("api_key", ApiKey);
+			request.AddParameter("api_key", _apiKey);
 			request.AddParameter("notes_info", "true");
 			if (postId != null)
 			{
