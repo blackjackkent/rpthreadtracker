@@ -1,6 +1,7 @@
 */bin
 */obj
 packages/*
+Help/*
 *.suo
 *.bak
 *.orig
@@ -9,8 +10,8 @@ packages/*
 *.LOCAL.*
 *.REMOTE.*
 *.DotSettings*
-TumblrThreadTracker/App_Data/TumblrThreadTracker.mdf
-TumblrThreadTracker/App_Data/TumblrThreadTracker_log.ldf
+RPThreadTracker/App_Data/RPThreadTracker.mdf
+RPThreadTracker/App_Data/RPThreadTracker_log.ldf
 packages/*
-TumblrThreadTracker/application/node_modules/*
+RPThreadTracker/application/node_modules/*
 npm-debug.log
