@@ -1654,6 +1654,7 @@
     <Content Include="RPThreadTracker.ruleset">
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Web.connectionStrings.config" />
     <None Include="Web.Staging.config">
       <DependentUpon>Web.config</DependentUpon>
       <SubType>Designer</SubType>
