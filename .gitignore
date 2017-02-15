@@ -15,3 +15,4 @@ RPThreadTracker/App_Data/RPThreadTracker_log.ldf
 packages/*
 RPThreadTracker/application/node_modules/*
 npm-debug.log
+RPThreadTracker/Web.connectionStrings.config
