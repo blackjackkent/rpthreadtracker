@@ -12,7 +12,7 @@ Help/*
 *.DotSettings*
 RPThreadTracker/App_Data/RPThreadTracker.mdf
 RPThreadTracker/App_Data/RPThreadTracker_log.ldf
+RPThreadTracker/App_Data/*
 packages/*
 RPThreadTracker/application/node_modules/*
 npm-debug.log
-RPThreadTracker/Web.connectionStrings.config
