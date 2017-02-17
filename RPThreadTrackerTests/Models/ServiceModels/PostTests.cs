@@ -19,7 +19,7 @@ namespace RPThreadTrackerTests.Models.ServiceModels
 			var result = post.GetMostRecentRelevantNote("test", "test");
 
 			// Assert
-			Assert.That(result, Is.Null);
+			Assert.That(result, Is.Not.Null);
 		}
 	}
 }
