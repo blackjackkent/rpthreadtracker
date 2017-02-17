@@ -1,0 +1,5 @@
+build:
+  project: RPThreadTracker.sln
+before_build:
+  - ps: nuget restore RPThreadTracker.sln
+  
