@@ -1,5 +1,6 @@
 build:
   project: RPThreadTracker.sln
+  publish_wap: true
 before_build:
   - ps: nuget restore RPThreadTracker.sln
   
