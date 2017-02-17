@@ -16,3 +16,7 @@ RPThreadTracker/App_Data/*
 packages/*
 RPThreadTracker/application/node_modules/*
 npm-debug.log
+OpenCover/*
+RPThreadTrackerTests/Reports/*
+RPThreadTrackerTests/TestResult.xml
+RPThreadTrackerTests/results.xml
