@@ -1,4 +1,6 @@
 ﻿using Microsoft.Owin;
+using RPThreadTracker.Infrastructure.Filters;
+
 [assembly: OwinStartup(typeof(RPThreadTracker.Startup))]
 namespace RPThreadTracker
 {
@@ -22,6 +24,7 @@ namespace RPThreadTracker
 	/// Startup class for initializing OAuth configuration
 	/// and other WebAPI setup processes
 	/// </summary>
+	[ExcludeFromCoverage]
 	public class Startup
 	{
 		/// <summary>
