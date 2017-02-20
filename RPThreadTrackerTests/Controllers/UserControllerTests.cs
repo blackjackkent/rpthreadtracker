@@ -31,7 +31,7 @@
 		public void Get_UserFound_ReturnsUser()
 		{
 			// Arrange
-			var user = new UserBuilder().Build();
+			var user = new UserBuilder().BuildDto();
 			_webSecurityService.Setup(s => s.GetCurrentUserFromIdentity(It.IsAny<ClaimsIdentity>(), _userProfileRepository.Object)).Returns(user);
 
 			// Act
@@ -41,19 +41,14 @@
 			Assert.That(result, Is.TypeOf<OkNegotiatedContentResult<UserDto>>());
 			var content = result as OkNegotiatedContentResult<UserDto>;
 			Assert.That(content, Is.Not.Null);
-			Assert.That(content.Content, Is.Not.Null);
-			Assert.That(content.Content.UserId, Is.EqualTo(user.UserId));
-			Assert.That(content.Content.Email, Is.EqualTo(user.Email));
-			Assert.That(content.Content.ShowDashboardThreadDistribution, Is.EqualTo(user.ShowDashboardThreadDistribution));
-			Assert.That(content.Content.UseInvertedTheme, Is.EqualTo(user.UseInvertedTheme));
-			Assert.That(content.Content.UserName, Is.EqualTo(user.UserName));
+			Assert.That(content.Content, Is.EqualTo(user));
 		}
 
 		[Test]
 		public void Post_EmailExists_ReturnsBadRequest()
 		{
 			// Arrange
-			var user = new UserBuilder().Build();
+			var user = new UserBuilder().BuildDto();
 			var request = new RegisterRequest
 			{
 				Email = user.Email,
@@ -77,7 +72,7 @@
 		public void Post_UsernameExists_ReturnsBadRequest()
 		{
 			// Arrange
-			var user = new UserBuilder().Build();
+			var user = new UserBuilder().BuildDto();
 			var request = new RegisterRequest
 			{
 				Email = user.Email,
@@ -101,7 +96,7 @@
 		public void Post_RequestValid_CreatesUser()
 		{
 			// Arrange
-			var user = new UserBuilder().Build();
+			var user = new UserBuilder().BuildDto();
 			var request = new RegisterRequest
 			{
 				Email = user.Email,
@@ -112,7 +107,7 @@
 			_webSecurityService.Setup(s => s.GetCurrentUserFromIdentity(It.IsAny<ClaimsIdentity>(), _userProfileRepository.Object)).Returns(user);
 			_userProfileService.Setup(s => s.UserExistsWithEmail(It.IsAny<string>(), _userProfileRepository.Object)).Returns(false);
 			_userProfileService.Setup(s => s.UserExistsWithUsername(It.IsAny<string>(), _userProfileRepository.Object)).Returns(false);
-			_webSecurityService.Setup(s => s.CreateAccount(request.Username, request.Password, request.Email, _userProfileRepository.Object)).Returns(user.ToDto());
+			_webSecurityService.Setup(s => s.CreateAccount(request.Username, request.Password, request.Email, _userProfileRepository.Object)).Returns(user);
 
 			// Act
 			var result = _userController.Post(request);
@@ -122,11 +117,7 @@
 			Assert.That(result, Is.TypeOf<CreatedAtRouteNegotiatedContentResult<UserDto>>());
 			var content = result as CreatedAtRouteNegotiatedContentResult<UserDto>;
 			Assert.That(content, Is.Not.Null);
-			Assert.That(content.Content.UserId, Is.EqualTo(user.UserId));
-			Assert.That(content.Content.Email, Is.EqualTo(user.Email));
-			Assert.That(content.Content.ShowDashboardThreadDistribution, Is.EqualTo(user.ShowDashboardThreadDistribution));
-			Assert.That(content.Content.UseInvertedTheme, Is.EqualTo(user.UseInvertedTheme));
-			Assert.That(content.Content.UserName, Is.EqualTo(user.UserName));
+			Assert.That(content.Content, Is.EqualTo(user));
 		}
 
 		[Test]
@@ -145,7 +136,7 @@
 		{
 			// Arrange
 			var user = new UserBuilder().BuildDto();
-			_webSecurityService.Setup(s => s.GetCurrentUserFromIdentity(It.IsAny<ClaimsIdentity>(), _userProfileRepository.Object)).Returns((User)null);
+			_webSecurityService.Setup(s => s.GetCurrentUserFromIdentity(It.IsAny<ClaimsIdentity>(), _userProfileRepository.Object)).Returns((UserDto)null);
 
 			// Act
 			var result = _userController.Put(user);
@@ -164,7 +155,7 @@
 				.BuildDto();
 			var currentUser = new UserBuilder()
 				.WithUserId(2)
-				.Build();
+				.BuildDto();
 			_webSecurityService.Setup(s => s.GetCurrentUserFromIdentity(It.IsAny<ClaimsIdentity>(), _userProfileRepository.Object)).Returns(currentUser);
 
 			// Act
@@ -184,7 +175,7 @@
 				.BuildDto();
 			var currentUser = new UserBuilder()
 				.WithUserId(1)
-				.Build();
+				.BuildDto();
 			_webSecurityService.Setup(s => s.GetCurrentUserFromIdentity(It.IsAny<ClaimsIdentity>(), _userProfileRepository.Object)).Returns(currentUser);
 
 			// Act
@@ -199,7 +190,7 @@
 		public void ChangePassword_UserNotFound_ReturnsBadRequest()
 		{
 			// Arrange
-			_webSecurityService.Setup(s => s.GetCurrentUserFromIdentity(It.IsAny<ClaimsIdentity>(), _userProfileRepository.Object)).Returns((User)null);
+			_webSecurityService.Setup(s => s.GetCurrentUserFromIdentity(It.IsAny<ClaimsIdentity>(), _userProfileRepository.Object)).Returns((UserDto)null);
 
 			// Act
 			var result = _userController.ChangePassword(new ChangePasswordRequest());
@@ -213,7 +204,7 @@
 		public void ChangePassword_UpdateFailed_ReturnsBadRequest()
 		{
 			// Arrange
-			var user = new UserBuilder().Build();
+			var user = new UserBuilder().BuildDto();
 			_webSecurityService.Setup(s => s.GetCurrentUserFromIdentity(It.IsAny<ClaimsIdentity>(), _userProfileRepository.Object)).Returns(user);
 			_webSecurityService.Setup(s => s.ChangePassword(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(false);
 
@@ -226,10 +217,10 @@
 		}
 
 		[Test]
-		public void ChangePassword_UpdateSucceeded_ReturnsOk()
+		public void ChangePassword_RequestValid_PerformsOperation()
 		{
 			// Arrange
-			var user = new UserBuilder().Build();
+			var user = new UserBuilder().BuildDto();
 			_webSecurityService.Setup(s => s.GetCurrentUserFromIdentity(It.IsAny<ClaimsIdentity>(), _userProfileRepository.Object)).Returns(user);
 			_webSecurityService.Setup(s => s.ChangePassword(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>())).Returns(true);
 

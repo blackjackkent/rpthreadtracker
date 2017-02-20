@@ -44,7 +44,7 @@
 		/// <param name="claimsIdentity">Identity of a user based on their authentication claims</param>
 		/// <param name="userProfileRepository">Repository object containing database connection</param>
 		/// <returns><see cref="User"/> object associated with the identity</returns>
-		User GetCurrentUserFromIdentity(ClaimsIdentity claimsIdentity, IRepository<User> userProfileRepository);
+		UserDto GetCurrentUserFromIdentity(ClaimsIdentity claimsIdentity, IRepository<User> userProfileRepository);
 
 		/// <summary>
 		/// Gets user ID based on authenticated identity

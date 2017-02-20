@@ -42,7 +42,7 @@
 		public IHttpActionResult Get()
 		{
 			var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity, _userProfileRepository);
-			return Ok(user.ToDto());
+			return Ok(user);
 		}
 
 		/// <summary>
