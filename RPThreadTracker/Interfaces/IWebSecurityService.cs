@@ -34,9 +34,9 @@
 		/// <summary>
 		/// Generates a password reset token that can be sent to a user in email.
 		/// </summary>
-		/// <param name="username">Username of the account that is being reset</param>
+		/// <param name="user">Username of the account that is being reset</param>
 		/// <returns>String token to be sent to user</returns>
-		string GeneratePasswordResetToken(User username);
+		string GeneratePasswordResetToken(UserDto user);
 
 		/// <summary>
 		/// Gets <see cref="User"/> object based on authenticated identity
@@ -85,6 +85,6 @@
 		/// <param name="webpagesMembershipRepository">Repository object containing database connection</param>
 		/// <param name="emailService">Service responsible for constructing and sending email message</param>
 		/// <returns>Task object for async handling</returns>
-		Task SendForgotPasswordEmail(User user, string token, IRepository<Membership> webpagesMembershipRepository, IEmailService emailService);
+		Task SendForgotPasswordEmail(UserDto user, string token, IRepository<Membership> webpagesMembershipRepository, IEmailService emailService);
 	}
 }

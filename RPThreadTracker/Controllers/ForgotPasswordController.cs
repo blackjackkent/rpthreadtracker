@@ -1,8 +1,5 @@
 ﻿namespace RPThreadTracker.Controllers
 {
-	using System.Data.Entity.Core;
-	using System.Net;
-	using System.Net.Http;
 	using System.Threading.Tasks;
 	using System.Web.Http;
 	using Infrastructure.Filters;
@@ -19,6 +16,7 @@
 		private readonly IEmailService _emailService;
 		private readonly IRepository<User> _userProfileRepository;
 		private readonly IRepository<Membership> _webpagesMembershipRepository;
+		private readonly IUserProfileService _userProfileService;
 		private readonly IWebSecurityService _webSecurityService;
 
 		/// <summary>
@@ -28,12 +26,14 @@
 		/// <param name="webpagesMembershipRepository">Unity-injected WebpagesMembership repository</param>
 		/// <param name="webSecurityService">Unity-injected web security service</param>
 		/// <param name="emailService">Unity-injected email service</param>
-		public ForgotPasswordController(IRepository<User> userProfileRepository, IRepository<Membership> webpagesMembershipRepository, IWebSecurityService webSecurityService, IEmailService emailService)
+		/// <param name="userProfileService">Unity-injected user profile service</param>
+		public ForgotPasswordController(IRepository<User> userProfileRepository, IRepository<Membership> webpagesMembershipRepository, IWebSecurityService webSecurityService, IEmailService emailService, IUserProfileService userProfileService)
 		{
 			_userProfileRepository = userProfileRepository;
 			_webpagesMembershipRepository = webpagesMembershipRepository;
 			_webSecurityService = webSecurityService;
 			_emailService = emailService;
+			_userProfileService = userProfileService;
 		}
 
 		/// <summary>
@@ -42,21 +42,24 @@
 		/// <param name="usernameOrEmail">
 		/// Identifier used to find account to be reset
 		/// </param>
-		/// <returns>HttpResponseMessage indicating success of request</returns>
+		/// <returns>ActionResult object wrapping HTTP response</returns>
 		[HttpPost]
 		[AllowAnonymous]
-		public async Task<HttpResponseMessage> Post([FromBody] string usernameOrEmail)
+		public async Task<IHttpActionResult> Post([FromBody] string usernameOrEmail)
 		{
-			var username = usernameOrEmail;
-			var user = _userProfileRepository.GetSingle(u => u.UserName == username)
-						?? _userProfileRepository.GetSingle(u => u.Email == username);
-			if (user == null || username == null)
+			if (usernameOrEmail == null)
 			{
-				throw new ObjectNotFoundException();
+				return BadRequest();
+			}
+			var user = _userProfileService.GetUserByUsername(usernameOrEmail, _userProfileRepository)
+			           ?? _userProfileService.GetUserByEmail(usernameOrEmail, _userProfileRepository);
+			if (user == null)
+			{
+				return BadRequest();
 			}
 			var token = _webSecurityService.GeneratePasswordResetToken(user);
 			await _webSecurityService.SendForgotPasswordEmail(user, token, _webpagesMembershipRepository, _emailService);
-			return new HttpResponseMessage(HttpStatusCode.OK);
+			return Ok();
 		}
 	}
 }
