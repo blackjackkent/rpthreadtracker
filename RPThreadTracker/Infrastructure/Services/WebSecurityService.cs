@@ -21,7 +21,7 @@
 		}
 
 		/// <inheritdoc cref="IWebSecurityService"/>
-		public void CreateAccount(string username, string password, string email, IRepository<User> userProfileRepository)
+		public UserDto CreateAccount(string username, string password, string email, IRepository<User> userProfileRepository)
 		{
 			WebSecurity.CreateUserAndAccount(username, password);
 			var profile = new User
@@ -32,6 +32,7 @@
 				ShowDashboardThreadDistribution = true
 			};
 			userProfileRepository.Update(profile.UserId, profile);
+			return userProfileRepository.GetSingle(u => u.UserId == profile.UserId).ToDto();
 		}
 
 		/// <inheritdoc cref="IWebSecurityService"/>

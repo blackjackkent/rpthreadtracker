@@ -28,7 +28,8 @@
 		/// <param name="password">Password to be assigned to account</param>
 		/// <param name="email">Email address to be associated with account</param>
 		/// <param name="userProfileRepository">Repository object containing database connection</param>
-		void CreateAccount(string username, string password, string email, IRepository<User> userProfileRepository);
+		/// <returns><see cref="UserDto" /> object created by insert</returns>
+		UserDto CreateAccount(string username, string password, string email, IRepository<User> userProfileRepository);
 
 		/// <summary>
 		/// Generates a password reset token that can be sent to a user in email.

@@ -44,7 +44,7 @@
 			vm.loading = false;
 			var specificErrorMessage = '';
 			if (response.status === 400) {
-				specificErrorMessage = response.data;
+				specificErrorMessage = response.data.Message;
 			}
 			var type = NOTIFICATION_TYPES.REGISTER_FAILURE;
 			var extraData = {'specificErrorMessage': specificErrorMessage};
