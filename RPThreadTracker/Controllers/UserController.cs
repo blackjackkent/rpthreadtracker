@@ -39,43 +39,49 @@
 		/// Controller endpoint for getting the currently authenticated user
 		/// </summary>
 		/// <returns><see cref="UserDto"/> object describing requested user</returns>
-		public UserDto Get()
+		public IHttpActionResult Get()
 		{
 			var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity, _userProfileRepository);
-			return user.ToDto();
+			return Ok(user.ToDto());
 		}
 
 		/// <summary>
 		/// Controller endpoint for creating new UserProfile accounts
 		/// </summary>
 		/// <param name="request">Request body containing new account information</param>
-		/// <returns>HttpResponseMessage indicating success or failure</returns>
+		/// <returns>ActionResult object wrapping HTTP response</returns>
 		[HttpPost]
 		[AllowAnonymous]
-		public HttpResponseMessage Post(RegisterRequest request)
+		public IHttpActionResult Post(RegisterRequest request)
 		{
-			var existingUsername = _userProfileRepository.Get(u => u.UserName == request.Username).Any();
-			var existingEmail = _userProfileRepository.Get(u => u.Email == request.Email).Any();
-			if (existingUsername || existingEmail)
+			var usernameExists = _userProfileService.UserExistsWithUsername(request.Username, _userProfileRepository);
+			var emailExists = _userProfileService.UserExistsWithEmail(request.Email, _userProfileRepository);
+			if (usernameExists || emailExists)
 			{
-				return Request.CreateResponse(HttpStatusCode.BadRequest, "An account with some or all of this information already exists.");
+				return BadRequest("An account with some or all of this information already exists.");
 			}
-			_webSecurityService.CreateAccount(request.Username, request.Password, request.Email, _userProfileRepository);
-			return new HttpResponseMessage(HttpStatusCode.Created);
+			var createdAccount = _webSecurityService.CreateAccount(request.Username, request.Password, request.Email, _userProfileRepository);
+			return CreatedAtRoute("DefaultApi", new { }, createdAccount);
 		}
 
 		/// <summary>
 		/// Controller endpoint for updating the currently authenticated user
 		/// </summary>
 		/// <param name="user">Request body containing information about user to be updated</param>
-		public void Put(UserDto user)
+		/// <returns>ActionResult object wrapping HTTP response</returns>
+		public IHttpActionResult Put(UserDto user)
 		{
-			var currentUser = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity, _userProfileRepository);
-			if (currentUser.UserId != user.UserId)
+			if (user == null)
 			{
-				throw new ArgumentException();
+				return BadRequest();
+			}
+			var currentUser = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity, _userProfileRepository);
+			if (currentUser == null || currentUser.UserId != user.UserId)
+			{
+				return BadRequest();
 			}
 			_userProfileService.Update(user, _userProfileRepository);
+			return Ok();
 		}
 
 		/// <summary>

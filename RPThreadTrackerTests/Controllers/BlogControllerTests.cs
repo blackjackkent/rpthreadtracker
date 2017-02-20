@@ -88,8 +88,51 @@
 		}
 
 		[Test]
+		public void Get_BlogRequested_ReturnsBlog()
+		{
+			// Arrange
+			var blogId = 1;
+			var blog = new BlogBuilder()
+				.WithUserBlogId(blogId)
+				.BuildDto();
+			var blogRepository = new Mock<IRepository<Blog>>();
+			var webSecurityService = new Mock<IWebSecurityService>();
+			var blogService = new Mock<IBlogService>();
+			blogService.Setup(b => b.GetBlogById(blogId, blogRepository.Object)).Returns(blog);
+			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
+
+			// Act
+			var result = controller.Get(blogId);
+
+			// Assert
+			Assert.That(result, Is.TypeOf<OkNegotiatedContentResult<BlogDto>>());
+			var content = result as OkNegotiatedContentResult<BlogDto>;
+			Assert.That(content, Is.Not.Null);
+			Assert.That(content.Content, Is.EqualTo(blog));
+		}
+
+		[Test]
+		public void Get_BlogNotFound_ReturnsNotFound()
+		{
+			// Arrange
+			var blogId = 1;
+			var blogRepository = new Mock<IRepository<Blog>>();
+			var webSecurityService = new Mock<IWebSecurityService>();
+			var blogService = new Mock<IBlogService>();
+			blogService.Setup(b => b.GetBlogById(blogId, blogRepository.Object)).Returns((BlogDto)null);
+			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
+
+			// Act
+			var result = controller.Get(blogId);
+
+			// Assert
+			Assert.That(result, Is.TypeOf<NotFoundResult>());
+		}
+
+		[Test]
 		public void Get_BlogsRequested_ReturnsBlogs()
 		{
+			// Arrange
 			var userId = 5;
 			var includeHiatused = false;
 			var blog1 = new BlogBuilder()
@@ -295,10 +338,11 @@
 			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
 
 			// Act
-			controller.Put(blog);
+			var result = controller.Put(blog);
 
 			// Assert
 			blogService.Verify(bs => bs.UpdateBlog(blog, blogRepository.Object), Times.Once());
+			Assert.That(result, Is.TypeOf<OkResult>());
 		}
 	}
 }
