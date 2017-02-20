@@ -2,10 +2,12 @@
 {
 	using System.Web.Optimization;
 	using BundleTransformer.Core.Bundles;
+	using Infrastructure.Filters;
 
 	/// <summary>
 	/// Class defining setup of script bundles
 	/// </summary>
+	[ExcludeFromCoverage]
 	public class BundleConfig
 	{
 		/// <summary>

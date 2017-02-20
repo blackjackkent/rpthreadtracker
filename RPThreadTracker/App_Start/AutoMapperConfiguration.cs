@@ -3,6 +3,7 @@
 	using System.Linq;
 	using AutoMapper;
 	using Infrastructure;
+	using Infrastructure.Filters;
 	using Models.DomainModels.Account;
 	using Models.DomainModels.Blogs;
 	using Models.DomainModels.Threads;
@@ -15,6 +16,7 @@
 	/// These rules are used to define mapping between
 	/// data models, domain models, and DTOs
 	/// </remarks>
+	[ExcludeFromCoverage]
 	public static class AutoMapperConfiguration
 	{
 		static AutoMapperConfiguration()

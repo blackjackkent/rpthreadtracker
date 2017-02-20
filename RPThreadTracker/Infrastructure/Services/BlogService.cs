@@ -51,8 +51,15 @@
 		/// <inheritdoc cref="IBlogService"/>
 		public bool UserOwnsBlog(int userBlogId, int userId, IRepository<Blog> userBlogRepository)
 		{
-			var userOwnsBlog = userBlogRepository.Get(t => t.UserBlogId == userBlogId && t.UserId == userId).FirstOrDefault();
+			var userOwnsBlog = userBlogRepository.Get(b => b.UserBlogId == userBlogId && b.UserId == userId).FirstOrDefault();
 			return userOwnsBlog != null;
+		}
+
+		/// <inheritdoc cref="IBlogService"/>
+		public bool UserIsTrackingShortname(string blogShortname, int? userId, IRepository<Blog> userBlogRepository)
+		{
+			var userIsTrackingShortname = userBlogRepository.Get(b => b.UserId == userId && b.BlogShortname == blogShortname).FirstOrDefault();
+			return userIsTrackingShortname != null;
 		}
 	}
 }

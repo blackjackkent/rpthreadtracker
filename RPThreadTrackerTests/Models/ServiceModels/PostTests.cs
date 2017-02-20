@@ -1,10 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using NUnit.Framework;
-using RPThreadTracker.Models.ServiceModels;
-
-namespace RPThreadTrackerTests.Models.ServiceModels
+﻿namespace RPThreadTrackerTests.Models.ServiceModels
 {
+	using System;
+	using System.Collections.Generic;
+	using NUnit.Framework;
+	using RPThreadTracker.Models.ServiceModels;
+
 	[TestFixture]
 	public class PostTests
 	{
@@ -191,7 +191,6 @@ namespace RPThreadTrackerTests.Models.ServiceModels
 			// Assert
 			Assert.That(result.PostId, Is.EqualTo("2"));
 		}
-
 
 		[Test]
 		public void MostRecentRelevantNote_WatchedShortnameNotNull_ReturnsCaseInsensitiveShortnameMatch()

@@ -1,10 +1,12 @@
 ﻿namespace RPThreadTracker
 {
 	using System.Web.Mvc;
+	using Infrastructure.Filters;
 
 	/// <summary>
 	/// Class defining setup of WebAPI Filters
 	/// </summary>
+	[ExcludeFromCoverage]
 	public class FilterConfig
 	{
 		/// <summary>

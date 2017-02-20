@@ -41,7 +41,8 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>RPThreadTracker.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
     <DocumentationFile>bin\RPThreadTracker.xml</DocumentationFile>
   </PropertyGroup>
   <ItemGroup>
@@ -324,6 +325,7 @@
     <Compile Include="Infrastructure\Entities\UserThread.cs" />
     <Compile Include="Infrastructure\Entities\UserThreadTag.cs" />
     <Compile Include="Infrastructure\Entities\WebpagesMembership.cs" />
+    <Compile Include="Infrastructure\Filters\ExcludeFromCoverage.cs" />
     <Compile Include="Infrastructure\ModelMappingExtensionMethods.cs" />
     <Compile Include="Infrastructure\Providers\SimpleAuthorizationServerProvider.cs" />
     <Compile Include="Infrastructure\Filters\RedirectOnMaintenance.cs" />
@@ -1690,7 +1692,8 @@
     <DebugType>pdbonly</DebugType>
     <PlatformTarget>AnyCPU</PlatformTarget>
     <ErrorReport>prompt</ErrorReport>
-    <CodeAnalysisRuleSet>RPThreadTracker.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>
+    </CodeAnalysisRuleSet>
     <DocumentationFile>bin\RPThreadTracker.xml</DocumentationFile>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -1708,7 +1711,7 @@
           <OverrideIISAppRootUrl>True</OverrideIISAppRootUrl>
           <IISAppRootUrl>http://localhost:1989/</IISAppRootUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
+          <UseCustomServer>True</UseCustomServer>
           <CustomServerUrl>http://localhost:1989/</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>

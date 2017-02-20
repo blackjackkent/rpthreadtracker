@@ -2,10 +2,12 @@
 {
 	using System.Web.Mvc;
 	using System.Web.Routing;
+	using Infrastructure.Filters;
 
 	/// <summary>
 	/// Class defining setup of MVC routes
 	/// </summary>
+	[ExcludeFromCoverage]
 	public class RouteConfig
 	{
 		/// <summary>
