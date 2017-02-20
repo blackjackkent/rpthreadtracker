@@ -30,10 +30,10 @@
 		/// Controller endpoint to retrieve recent posts from news blog
 		/// </summary>
 		/// <returns>List of <see cref="ThreadDto"/> objects representing recent posts</returns>
-		public IEnumerable<ThreadDto> Get()
+		public IHttpActionResult Get()
 		{
 			var threads = _threadService.GetNewsThreads(_tumblrClient);
-			return threads;
+			return Ok(threads);
 		}
 	}
 }
