@@ -85,5 +85,20 @@
 			var userOwnsThread = threadRepository.Get(t => t.UserThreadId == threadId && t.UserBlog != null && t.UserBlog.UserId == userId).FirstOrDefault();
 			return userOwnsThread != null;
 		}
+
+		/// <inheritdoc cref="IThreadService"/>
+		public Dictionary<int, IEnumerable<ThreadDto>> GetThreadDistribution(IEnumerable<BlogDto> blogs, IRepository<Thread> threadRepository, bool isArchived)
+		{
+			var distribution = new Dictionary<int, IEnumerable<ThreadDto>>();
+			foreach (var blog in blogs)
+			{
+				var threads = GetThreadsByBlog(blog, threadRepository, isArchived).OrderBy(t => t.WatchedShortname).ThenBy(t => t.UserTitle);
+				if (threads.Any())
+				{
+					distribution.Add(blog.UserBlogId.GetValueOrDefault(), threads);
+				}
+			}
+			return distribution;
+		}
 	}
 }

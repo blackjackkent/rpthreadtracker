@@ -360,6 +360,7 @@
     <Compile Include="Interfaces\IThreadTrackerContext.cs" />
     <Compile Include="Models\DomainModels\Account\Membership.cs" />
     <Compile Include="Models\RequestModels\ChangePasswordRequest.cs" />
+    <Compile Include="Models\RequestModels\ExportStreamResult.cs" />
     <Compile Include="Models\RequestModels\RegisterRequest.cs" />
     <Compile Include="Models\ServiceModels\Note.cs" />
     <Compile Include="Models\ServiceModels\Post.cs" />
