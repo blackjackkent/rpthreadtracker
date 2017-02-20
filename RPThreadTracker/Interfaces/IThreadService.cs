@@ -1,6 +1,7 @@
 ﻿namespace RPThreadTracker.Interfaces
 {
 	using System.Collections.Generic;
+	using System.Linq;
 	using Models.DomainModels.Blogs;
 	using Models.DomainModels.Threads;
 
@@ -75,5 +76,14 @@
 		/// <param name="threadRepository">Repository object containing database connection</param>
 		/// <returns>True if user is associated with thread, false if not</returns>
 		bool UserOwnsThread(int userId, int threadId, IRepository<Thread> threadRepository);
+
+		/// <summary>
+		/// Retrieves thread information organized by userblogid
+		/// </summary>
+		/// <param name="blogs">Blogs to retrieve thread information for</param>
+		/// <param name="threadRepository">Repository object containing database connection</param>
+		/// <param name="isArchived">Whether the threads retrieved should be IsArchived = true or not</param>
+		/// <returns>Dictionary of thread information organized by userblogid</returns>
+		Dictionary<int, IEnumerable<ThreadDto>> GetThreadDistribution(IEnumerable<BlogDto> blogs, IRepository<Thread> threadRepository, bool isArchived);
 	}
 }

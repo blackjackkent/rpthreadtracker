@@ -1,18 +1,13 @@
 ﻿namespace RPThreadTracker.Controllers
 {
-	using System;
-	using System.Collections.Generic;
-	using System.IO;
 	using System.Linq;
-	using System.Net;
-	using System.Net.Http;
-	using System.Net.Http.Headers;
 	using System.Security.Claims;
 	using System.Web.Http;
 	using Infrastructure.Filters;
 	using Interfaces;
 	using Models.DomainModels.Blogs;
 	using Models.DomainModels.Threads;
+	using Models.RequestModels;
 
 	/// <summary>
 	/// Controller class for exporting thread data
@@ -53,55 +48,17 @@
 		/// <param name="includeArchived">Whether or not to include threads marked as Archived</param>
 		/// <param name="includeHiatused">Whether or not to include blogs marked as OnHiatus</param>
 		/// <returns>HttpResponseMessage containing thread data exported to excel file (or BadRequest if export failed)</returns>
-		public HttpResponseMessage Get([FromUri] bool includeArchived = false, [FromUri] bool includeHiatused = false)
+		public IHttpActionResult Get([FromUri] bool includeArchived = false, [FromUri] bool includeHiatused = false)
 		{
-			try
+			var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
+			var blogs = _blogService.GetBlogsByUserId(userId, _blogRepository, includeHiatused).OrderBy(b => b.BlogShortname);
+			var threadDistribution = _threadService.GetThreadDistribution(blogs, _threadRepository, false);
+			var archivedThreadDistribution = _threadService.GetThreadDistribution(blogs, _threadRepository, true);
+			var package = _exporterService.GetPackage(blogs, threadDistribution, archivedThreadDistribution, includeArchived);
+			return new ExportStreamResult(package, this)
 			{
-				var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
-				var blogs = _blogService.GetBlogsByUserId(userId, _blogRepository, includeHiatused).OrderBy(b => b.BlogShortname);
-				var threadDistribution = new Dictionary<int, IEnumerable<ThreadDto>>();
-				var archivedThreadDistribution = new Dictionary<int, IEnumerable<ThreadDto>>();
-				foreach (var blog in blogs)
-				{
-					var threads = _threadService.GetThreadsByBlog(blog, _threadRepository).OrderBy(t => t.WatchedShortname).ThenBy(t => t.UserTitle);
-					if (threads.Any())
-					{
-						threadDistribution.Add(blog.UserBlogId.GetValueOrDefault(), threads);
-					}
-					if (!includeArchived)
-					{
-						continue;
-					}
-					var archivedThreads = _threadService.GetThreadsByBlog(blog, _threadRepository, true).OrderBy(t => t.WatchedShortname).ThenBy(t => t.UserTitle);
-					if (archivedThreads.Any())
-					{
-						archivedThreadDistribution.Add(blog.UserBlogId.GetValueOrDefault(), archivedThreads);
-					}
-				}
-
-				var package = _exporterService.GetPackage(blogs, threadDistribution, archivedThreadDistribution, includeArchived);
-				var result = new HttpResponseMessage(HttpStatusCode.OK);
-				using (var ms = new MemoryStream())
-				{
-					var bytes = package.GetAsByteArray();
-					ms.Write(bytes, 0, bytes.Length);
-					var copy = new MemoryStream(ms.ToArray());
-					copy.Seek(0, SeekOrigin.Begin);
-					result.Content = new StreamContent(copy);
-					result.Content.Headers.ContentType = new MediaTypeHeaderValue("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-					result.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment");
-					result.Content.Headers.Add("x-filename", userId + "_Export.xlsx");
-					return result;
-				}
-			}
-			catch (Exception e)
-			{
-				var result = new HttpResponseMessage(HttpStatusCode.BadRequest)
-				{
-					Content = new StringContent(e.Message)
-				};
-				return result;
-			}
+				UserId = userId.GetValueOrDefault()
+			};
 		}
 	}
 }
