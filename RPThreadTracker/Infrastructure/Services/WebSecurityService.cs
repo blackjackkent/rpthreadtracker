@@ -42,7 +42,7 @@
 		}
 
 		/// <inheritdoc cref="IWebSecurityService"/>
-		public User GetCurrentUserFromIdentity(ClaimsIdentity claimsIdentity, IRepository<User> userProfileRepository)
+		public UserDto GetCurrentUserFromIdentity(ClaimsIdentity claimsIdentity, IRepository<User> userProfileRepository)
 		{
 			var claim = claimsIdentity?.Claims.FirstOrDefault(c => c.Type == "userId");
 			if (claim == null)
@@ -50,7 +50,7 @@
 				return null;
 			}
 			var userId = int.Parse(claim.Value);
-			return userProfileRepository.GetSingle(u => u.UserId == userId);
+			return userProfileRepository.GetSingle(u => u.UserId == userId).ToDto();
 		}
 
 		/// <inheritdoc cref="IWebSecurityService"/>
