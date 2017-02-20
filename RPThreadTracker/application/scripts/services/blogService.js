@@ -30,22 +30,6 @@
 			return deferred.promise;
 		}
 
-		function getBlog(id) {
-			var deferred = $q.defer(),
-				config = {
-					'url': '/api/Blog/' + id,
-					'method': 'GET'
-				};
-			function success(response) {
-				deferred.resolve(response.data);
-			}
-			function error(response) {
-				deferred.reject(response.data);
-			}
-			$http(config).then(success).catch(error);
-			return deferred.promise;
-		}
-
 		function flushBlogs() {
 			blogs = [];
 		}
@@ -102,7 +86,6 @@
 
 		return {
 			'getBlogs': getBlogs,
-			'getBlog': getBlog,
 			'flushBlogs': flushBlogs,
 			'createBlog': createBlog,
 			'editBlog': editBlog,

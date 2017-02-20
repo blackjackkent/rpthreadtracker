@@ -6,11 +6,13 @@
 	using System.Web.Optimization;
 	using System.Web.Routing;
 	using Elmah.Contrib.WebApi;
+	using Infrastructure.Filters;
 	using WebMatrix.WebData;
 
 	/// <summary>
 	/// Class which initializes all WebAPI settings across the project
 	/// </summary>
+	[ExcludeFromCoverage]
 	public static class WebApiConfig
 	{
 		/// <summary>

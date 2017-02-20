@@ -2,6 +2,7 @@
 {
 	using System;
 	using System.Collections.Generic;
+	using System.Net;
 	using System.Security.Claims;
 	using System.Web.Http;
 	using Infrastructure.Filters;
@@ -42,19 +43,9 @@
 			var blog = _blogService.GetBlogById(userBlogId, _blogRepository);
 			if (blog == null || blog.UserId != userId)
 			{
-				return;
+				throw new HttpResponseException(HttpStatusCode.BadRequest);
 			}
 			_blogService.DeleteBlog(blog.UserBlogId.GetValueOrDefault(), _blogRepository);
-		}
-
-		/// <summary>
-		/// Controller endpoint for getting a specific blog by UserBlogId
-		/// </summary>
-		/// <param name="id">Unique identifier of blog to be retrieved</param>
-		/// <returns><see cref="BlogDto"/> object describing requested blog</returns>
-		public BlogDto Get(int id)
-		{
-			return _blogService.GetBlogById(id, _blogRepository);
 		}
 
 		/// <summary>
@@ -78,7 +69,12 @@
 			var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
 			if (blogShortname == null || userId == null)
 			{
-				throw new ArgumentNullException();
+				throw new HttpResponseException(HttpStatusCode.BadRequest);
+			}
+			var blogExists = _blogService.UserIsTrackingShortname(blogShortname, userId, _blogRepository);
+			if (blogExists)
+			{
+				throw new HttpResponseException(HttpStatusCode.BadRequest);
 			}
 			var dto = new BlogDto
 			{
@@ -98,7 +94,11 @@
 			var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
 			if (request?.UserBlogId == null || userId == null)
 			{
-				throw new ArgumentNullException();
+				throw new HttpResponseException(HttpStatusCode.BadRequest);
+			}
+			if (!_blogService.UserOwnsBlog(request.UserBlogId.GetValueOrDefault(), userId.GetValueOrDefault(), _blogRepository))
+			{
+				throw new HttpResponseException(HttpStatusCode.BadRequest);
 			}
 			_blogService.UpdateBlog(request, _blogRepository);
 		}

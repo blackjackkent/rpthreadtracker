@@ -56,5 +56,14 @@
 		/// <param name="userBlogRepository">Repository object containing database connection</param>
 		/// <returns>True if user is associated with blog, false if not</returns>
 		bool UserOwnsBlog(int userBlogId, int userId, IRepository<Blog> userBlogRepository);
+
+		/// <summary>
+		/// Determines whether or not a particular user has a blog tracked with a particular shortname
+		/// </summary>
+		/// <param name="blogShortname">Shortname string to verify</param>
+		/// <param name="userId">Unique identifier of user account to check</param>
+		/// <param name="userBlogRepository">Repository object containing database connection</param>
+		/// <returns>True if any blog associated with user's account has passed shortname, false if not</returns>
+		bool UserIsTrackingShortname(string blogShortname, int? userId, IRepository<Blog> userBlogRepository);
 	}
 }
