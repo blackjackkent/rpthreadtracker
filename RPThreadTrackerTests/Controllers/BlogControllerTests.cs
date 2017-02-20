@@ -15,6 +15,20 @@
 	[TestFixture]
 	internal class BlogControllerTests
 	{
+		private Mock<IWebSecurityService> _webSecurityService;
+		private Mock<IBlogService> _blogService;
+		private Mock<IRepository<Blog>> _blogRepository;
+		private BlogController _blogController;
+
+		[SetUp]
+		public void Setup()
+		{
+			_blogRepository = new Mock<IRepository<Blog>>();
+			_webSecurityService = new Mock<IWebSecurityService>();
+			_blogService = new Mock<IBlogService>();
+			_blogController = new BlogController(_blogRepository.Object, _webSecurityService.Object, _blogService.Object);
+		}
+
 		[Test]
 		public void Delete_BlogNotNull_CallsDeleteMethod()
 		{
@@ -25,18 +39,14 @@
 				.WithUserBlogId(userBlogId)
 				.WithUserId(userId)
 				.BuildDto();
-			var blogRepository = new Mock<IRepository<Blog>>();
-			var webSecurityService = new Mock<IWebSecurityService>();
-			var blogService = new Mock<IBlogService>();
-			blogService.Setup(b => b.GetBlogById(userBlogId, blogRepository.Object)).Returns(blog);
-			webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(userId);
-			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
+			_blogService.Setup(b => b.GetBlogById(userBlogId, _blogRepository.Object)).Returns(blog);
+			_webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(userId);
 
 			// Act
-			var result = controller.Delete(userBlogId);
+			var result = _blogController.Delete(userBlogId);
 
 			// Assert
-			blogService.Verify(b => b.DeleteBlog(userBlogId, blogRepository.Object), Times.Once);
+			_blogService.Verify(b => b.DeleteBlog(userBlogId, _blogRepository.Object), Times.Once);
 			Assert.That(result, Is.TypeOf<OkResult>());
 		}
 
@@ -51,18 +61,14 @@
 				.WithUserBlogId(1)
 				.WithUserId(ownerUserId)
 				.BuildDto();
-			var blogRepository = new Mock<IRepository<Blog>>();
-			var webSecurityService = new Mock<IWebSecurityService>();
-			var blogService = new Mock<IBlogService>();
-			blogService.Setup(b => b.GetBlogById(userBlogId, blogRepository.Object)).Returns(blog);
-			webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(currentUserId);
-			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
+			_blogService.Setup(b => b.GetBlogById(userBlogId, _blogRepository.Object)).Returns(blog);
+			_webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(currentUserId);
 
 			// Act
-			var result = controller.Delete(userBlogId);
+			var result = _blogController.Delete(userBlogId);
 
 			// Assert
-			blogService.Verify(b => b.DeleteBlog(userBlogId, blogRepository.Object), Times.Never);
+			_blogService.Verify(b => b.DeleteBlog(userBlogId, _blogRepository.Object), Times.Never);
 			Assert.That(result, Is.TypeOf<BadRequestResult>());
 		}
 
@@ -72,18 +78,14 @@
 			// Arrange
 			const int userBlogId = 1;
 			const int currentUserId = 5;
-			var blogRepository = new Mock<IRepository<Blog>>();
-			var webSecurityService = new Mock<IWebSecurityService>();
-			var blogService = new Mock<IBlogService>();
-			blogService.Setup(b => b.GetBlogById(userBlogId, blogRepository.Object)).Returns((BlogDto)null);
-			webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(currentUserId);
-			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
+			_blogService.Setup(b => b.GetBlogById(userBlogId, _blogRepository.Object)).Returns((BlogDto)null);
+			_webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(currentUserId);
 
 			// Act
-			var result = controller.Delete(userBlogId);
+			var result = _blogController.Delete(userBlogId);
 
 			// Assert
-			blogService.Verify(b => b.DeleteBlog(userBlogId, blogRepository.Object), Times.Never);
+			_blogService.Verify(b => b.DeleteBlog(userBlogId, _blogRepository.Object), Times.Never);
 			Assert.That(result, Is.TypeOf<BadRequestResult>());
 		}
 
@@ -95,14 +97,10 @@
 			var blog = new BlogBuilder()
 				.WithUserBlogId(blogId)
 				.BuildDto();
-			var blogRepository = new Mock<IRepository<Blog>>();
-			var webSecurityService = new Mock<IWebSecurityService>();
-			var blogService = new Mock<IBlogService>();
-			blogService.Setup(b => b.GetBlogById(blogId, blogRepository.Object)).Returns(blog);
-			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
+			_blogService.Setup(b => b.GetBlogById(blogId, _blogRepository.Object)).Returns(blog);
 
 			// Act
-			var result = controller.Get(blogId);
+			var result = _blogController.Get(blogId);
 
 			// Assert
 			Assert.That(result, Is.TypeOf<OkNegotiatedContentResult<BlogDto>>());
@@ -116,14 +114,10 @@
 		{
 			// Arrange
 			var blogId = 1;
-			var blogRepository = new Mock<IRepository<Blog>>();
-			var webSecurityService = new Mock<IWebSecurityService>();
-			var blogService = new Mock<IBlogService>();
-			blogService.Setup(b => b.GetBlogById(blogId, blogRepository.Object)).Returns((BlogDto)null);
-			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
+			_blogService.Setup(b => b.GetBlogById(blogId, _blogRepository.Object)).Returns((BlogDto)null);
 
 			// Act
-			var result = controller.Get(blogId);
+			var result = _blogController.Get(blogId);
 
 			// Assert
 			Assert.That(result, Is.TypeOf<NotFoundResult>());
@@ -142,15 +136,11 @@
 				.WithUserBlogId(2)
 				.BuildDto();
 			var blogList = new List<BlogDto> { blog1, blog2 };
-			var blogRepository = new Mock<IRepository<Blog>>();
-			var webSecurityService = new Mock<IWebSecurityService>();
-			var blogService = new Mock<IBlogService>();
-			webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(userId);
-			blogService.Setup(b => b.GetBlogsByUserId(userId, blogRepository.Object, includeHiatused)).Returns(blogList);
-			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
+			_webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(userId);
+			_blogService.Setup(b => b.GetBlogsByUserId(userId, _blogRepository.Object, includeHiatused)).Returns(blogList);
 
 			// Act
-			var result = controller.Get(includeHiatused);
+			var result = _blogController.Get(includeHiatused);
 
 			// Assert
 			Assert.That(result, Is.TypeOf<OkNegotiatedContentResult<IEnumerable<BlogDto>>>());
@@ -164,17 +154,13 @@
 		{
 			// Arrange
 			var blogShortname = "TestBlog";
-			var blogRepository = new Mock<IRepository<Blog>>();
-			var webSecurityService = new Mock<IWebSecurityService>();
-			var blogService = new Mock<IBlogService>();
-			webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns((int?)null);
-			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
+			_webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns((int?)null);
 
 			// Act
-			var result = controller.Post(blogShortname);
+			var result = _blogController.Post(blogShortname);
 
 			// Assert
-			blogService.Verify(bs => bs.AddNewBlog(It.IsAny<BlogDto>(), blogRepository.Object), Times.Never());
+			_blogService.Verify(bs => bs.AddNewBlog(It.IsAny<BlogDto>(), _blogRepository.Object), Times.Never());
 			Assert.That(result, Is.TypeOf<BadRequestResult>());
 		}
 
@@ -183,17 +169,13 @@
 		{
 			// Arrange
 			const int currentUserId = 5;
-			var blogRepository = new Mock<IRepository<Blog>>();
-			var webSecurityService = new Mock<IWebSecurityService>();
-			var blogService = new Mock<IBlogService>();
-			webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(currentUserId);
-			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
+			_webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(currentUserId);
 
 			// Act
-			var result = controller.Post(null);
+			var result = _blogController.Post(null);
 
 			// Assert
-			blogService.Verify(bs => bs.AddNewBlog(It.IsAny<BlogDto>(), blogRepository.Object), Times.Never());
+			_blogService.Verify(bs => bs.AddNewBlog(It.IsAny<BlogDto>(), _blogRepository.Object), Times.Never());
 			Assert.That(result, Is.TypeOf<BadRequestResult>());
 		}
 
@@ -203,18 +185,14 @@
 			// Arrange
 			const string blogShortname = "TestBlog";
 			const int currentUserId = 5;
-			var blogRepository = new Mock<IRepository<Blog>>();
-			var webSecurityService = new Mock<IWebSecurityService>();
-			var blogService = new Mock<IBlogService>();
-			webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(currentUserId);
-			blogService.Setup(b => b.UserIsTrackingShortname(blogShortname, currentUserId, blogRepository.Object)).Returns(true);
-			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
+			_webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(currentUserId);
+			_blogService.Setup(b => b.UserIsTrackingShortname(blogShortname, currentUserId, _blogRepository.Object)).Returns(true);
 
 			// Act
-			var result = controller.Post(blogShortname);
+			var result = _blogController.Post(blogShortname);
 
 			// Assert
-			blogService.Verify(bs => bs.AddNewBlog(It.IsAny<BlogDto>(), blogRepository.Object), Times.Never());
+			_blogService.Verify(bs => bs.AddNewBlog(It.IsAny<BlogDto>(), _blogRepository.Object), Times.Never());
 			Assert.That(result, Is.TypeOf<BadRequestResult>());
 		}
 
@@ -225,19 +203,15 @@
 			const string blogShortname = "TestBlog";
 			const int currentUserId = 5;
 			var blog = new BlogBuilder().BuildDto();
-			var blogRepository = new Mock<IRepository<Blog>>();
-			var webSecurityService = new Mock<IWebSecurityService>();
-			var blogService = new Mock<IBlogService>();
-			webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(currentUserId);
-			blogService.Setup(b => b.UserIsTrackingShortname(blogShortname, currentUserId, blogRepository.Object)).Returns(false);
-			blogService.Setup(b => b.AddNewBlog(It.IsAny<BlogDto>(), blogRepository.Object)).Returns(blog);
-			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
+			_webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(currentUserId);
+			_blogService.Setup(b => b.UserIsTrackingShortname(blogShortname, currentUserId, _blogRepository.Object)).Returns(false);
+			_blogService.Setup(b => b.AddNewBlog(It.IsAny<BlogDto>(), _blogRepository.Object)).Returns(blog);
 
 			// Act
-			var result = controller.Post(blogShortname);
+			var result = _blogController.Post(blogShortname);
 
 			// Assert
-			blogService.Verify(bs => bs.AddNewBlog(It.Is<BlogDto>(b => b.BlogShortname == blogShortname && b.UserId == currentUserId), blogRepository.Object), Times.Once());
+			_blogService.Verify(bs => bs.AddNewBlog(It.Is<BlogDto>(b => b.BlogShortname == blogShortname && b.UserId == currentUserId), _blogRepository.Object), Times.Once());
 			Assert.That(result, Is.TypeOf<CreatedAtRouteNegotiatedContentResult<BlogDto>>());
 			var content = result as CreatedAtRouteNegotiatedContentResult<BlogDto>;
 			Assert.That(content, Is.Not.Null);
@@ -249,17 +223,13 @@
 		{
 			// Arrange
 			const int currentUserId = 5;
-			var blogRepository = new Mock<IRepository<Blog>>();
-			var webSecurityService = new Mock<IWebSecurityService>();
-			var blogService = new Mock<IBlogService>();
-			webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(currentUserId);
-			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
+			_webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(currentUserId);
 
 			// Act
-			var result = controller.Put(null);
+			var result = _blogController.Put(null);
 
 			// Assert
-			blogService.Verify(bs => bs.UpdateBlog(It.IsAny<BlogDto>(), blogRepository.Object), Times.Never());
+			_blogService.Verify(bs => bs.UpdateBlog(It.IsAny<BlogDto>(), _blogRepository.Object), Times.Never());
 			Assert.That(result, Is.TypeOf<BadRequestResult>());
 		}
 
@@ -271,17 +241,13 @@
 				.WithUserBlogId(null)
 				.BuildDto();
 			const int currentUserId = 5;
-			var blogRepository = new Mock<IRepository<Blog>>();
-			var webSecurityService = new Mock<IWebSecurityService>();
-			var blogService = new Mock<IBlogService>();
-			webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(currentUserId);
-			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
+			_webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(currentUserId);
 
 			// Act
-			var result = controller.Put(blog);
+			var result = _blogController.Put(blog);
 
 			// Assert
-			blogService.Verify(bs => bs.UpdateBlog(It.IsAny<BlogDto>(), blogRepository.Object), Times.Never());
+			_blogService.Verify(bs => bs.UpdateBlog(It.IsAny<BlogDto>(), _blogRepository.Object), Times.Never());
 			Assert.That(result, Is.TypeOf<BadRequestResult>());
 		}
 
@@ -290,17 +256,13 @@
 		{
 			// Arrange
 			var blog = new BlogBuilder().BuildDto();
-			var blogRepository = new Mock<IRepository<Blog>>();
-			var webSecurityService = new Mock<IWebSecurityService>();
-			var blogService = new Mock<IBlogService>();
-			webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns((int?)null);
-			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
+			_webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns((int?)null);
 
 			// Act
-			var result = controller.Put(blog);
+			var result = _blogController.Put(blog);
 
 			// Assert
-			blogService.Verify(bs => bs.UpdateBlog(It.IsAny<BlogDto>(), blogRepository.Object), Times.Never());
+			_blogService.Verify(bs => bs.UpdateBlog(It.IsAny<BlogDto>(), _blogRepository.Object), Times.Never());
 			Assert.That(result, Is.TypeOf<BadRequestResult>());
 		}
 
@@ -310,18 +272,14 @@
 			// Arrange
 			var blog = new BlogBuilder().BuildDto();
 			const int currentUserId = 4;
-			var blogRepository = new Mock<IRepository<Blog>>();
-			var webSecurityService = new Mock<IWebSecurityService>();
-			var blogService = new Mock<IBlogService>();
-			webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(currentUserId);
-			blogService.Setup(b => b.UserOwnsBlog(blog.UserBlogId.GetValueOrDefault(), blog.UserId, blogRepository.Object)).Returns(false);
-			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
+			_webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(currentUserId);
+			_blogService.Setup(b => b.UserOwnsBlog(blog.UserBlogId.GetValueOrDefault(), blog.UserId, _blogRepository.Object)).Returns(false);
 
 			// Act
-			var result = controller.Put(blog);
+			var result = _blogController.Put(blog);
 
 			// Assert
-			blogService.Verify(bs => bs.UpdateBlog(It.IsAny<BlogDto>(), blogRepository.Object), Times.Never());
+			_blogService.Verify(bs => bs.UpdateBlog(It.IsAny<BlogDto>(), _blogRepository.Object), Times.Never());
 			Assert.That(result, Is.TypeOf<BadRequestResult>());
 		}
 
@@ -330,18 +288,14 @@
 		{
 			// Arrange
 			var blog = new BlogBuilder().BuildDto();
-			var blogRepository = new Mock<IRepository<Blog>>();
-			var webSecurityService = new Mock<IWebSecurityService>();
-			var blogService = new Mock<IBlogService>();
-			webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(blog.UserId);
-			blogService.Setup(b => b.UserOwnsBlog(blog.UserBlogId.GetValueOrDefault(), blog.UserId, blogRepository.Object)).Returns(true);
-			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
+			_webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(blog.UserId);
+			_blogService.Setup(b => b.UserOwnsBlog(blog.UserBlogId.GetValueOrDefault(), blog.UserId, _blogRepository.Object)).Returns(true);
 
 			// Act
-			var result = controller.Put(blog);
+			var result = _blogController.Put(blog);
 
 			// Assert
-			blogService.Verify(bs => bs.UpdateBlog(blog, blogRepository.Object), Times.Once());
+			_blogService.Verify(bs => bs.UpdateBlog(blog, _blogRepository.Object), Times.Once());
 			Assert.That(result, Is.TypeOf<OkResult>());
 		}
 	}
