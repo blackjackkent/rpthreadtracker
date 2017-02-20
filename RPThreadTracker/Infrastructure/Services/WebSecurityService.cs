@@ -36,7 +36,7 @@
 		}
 
 		/// <inheritdoc cref="IWebSecurityService"/>
-		public string GeneratePasswordResetToken(User user)
+		public string GeneratePasswordResetToken(UserDto user)
 		{
 			return WebSecurity.GeneratePasswordResetToken(user.UserName);
 		}
@@ -108,7 +108,7 @@
 		}
 
 		/// <inheritdoc cref="IWebSecurityService"/>
-		public async Task SendForgotPasswordEmail(User user, string token, IRepository<Membership> webpagesMembershipRepository, IEmailService emailService)
+		public async Task SendForgotPasswordEmail(UserDto user, string token, IRepository<Membership> webpagesMembershipRepository, IEmailService emailService)
 		{
 			var isValidToken = IsValidToken(user, token, webpagesMembershipRepository);
 			if (!isValidToken)
@@ -119,13 +119,13 @@
 			await SendTemporaryPasswordEmail(user, newPassword, emailService);
 		}
 
-		private static bool IsValidToken(User user, string resetToken, IRepository<Membership> webpagesMembershipRepository)
+		private static bool IsValidToken(UserDto user, string resetToken, IRepository<Membership> webpagesMembershipRepository)
 		{
 			var record = webpagesMembershipRepository.Get(m => m.UserId == user.UserId && m.PasswordVerificationToken == resetToken);
 			return record.Any();
 		}
 
-		private static async Task SendTemporaryPasswordEmail(User user, string newPassword, IEmailService emailService)
+		private static async Task SendTemporaryPasswordEmail(UserDto user, string newPassword, IEmailService emailService)
 		{
 			const string subject = "RPThreadTracker ~ New Temporary Password";
 			var bodyBuilder = new StringBuilder();

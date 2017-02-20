@@ -30,5 +30,21 @@
 		/// <param name="userProfileRepository">Repository object containing database connection</param>
 		/// <returns>True if account exists with passed email, false if not</returns>
 		bool UserExistsWithEmail(string email, IRepository<User> userProfileRepository);
+
+		/// <summary>
+		/// Returns the user from the database which has a passed username
+		/// </summary>
+		/// <param name="username">Username for the user to retrieve</param>
+		/// <param name="userProfileRepository">Repository object containing database connection</param>
+		/// <returns><see cref="UserDto"/> object representing user to which the username belongs, or null if not found</returns>
+		UserDto GetUserByUsername(string username, IRepository<User> userProfileRepository);
+
+		/// <summary>
+		/// Returns the user from the database which has a passed email address
+		/// </summary>
+		/// <param name="email">Email for the user to retrieve</param>
+		/// <param name="userProfileRepository">Repository object containing database connection</param>
+		/// <returns><see cref="UserDto"/> object representing user to which the username belongs, or null if not found</returns>
+		UserDto GetUserByEmail(string email, IRepository<User> userProfileRepository);
 	}
 }
