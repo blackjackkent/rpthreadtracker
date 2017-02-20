@@ -9,9 +9,10 @@
 	public class BlogService : IBlogService
 	{
 		/// <inheritdoc cref="IBlogService"/>
-		public void AddNewBlog(BlogDto dto, IRepository<Blog> blogRepository)
+		public BlogDto AddNewBlog(BlogDto dto, IRepository<Blog> blogRepository)
 		{
-			blogRepository.Insert(new Blog(dto));
+			var blog = blogRepository.Insert(new Blog(dto));
+			return blog.ToDto();
 		}
 
 		/// <inheritdoc cref="IBlogService"/>

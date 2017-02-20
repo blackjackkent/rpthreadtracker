@@ -1,10 +1,10 @@
 ﻿namespace RPThreadTrackerTests.Controllers
 {
-	using System;
 	using System.Collections.Generic;
 	using System.Net;
 	using System.Security.Claims;
 	using System.Web.Http;
+	using System.Web.Http.Results;
 	using Builders;
 	using Moq;
 	using NUnit.Framework;
@@ -33,14 +33,15 @@
 			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
 
 			// Act
-			controller.Delete(userBlogId);
+			var result = controller.Delete(userBlogId);
 
 			// Assert
 			blogService.Verify(b => b.DeleteBlog(userBlogId, blogRepository.Object), Times.Once);
+			Assert.That(result, Is.TypeOf<OkResult>());
 		}
 
 		[Test]
-		public void Delete_UserDoesNotOwnBlog_ThrowsResponseException()
+		public void Delete_UserDoesNotOwnBlog_ReturnsBadRequest()
 		{
 			// Arrange
 			const int userBlogId = 1;
@@ -57,14 +58,16 @@
 			webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(currentUserId);
 			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
 
-			// Act/Assert
-			var exception = Assert.Throws<HttpResponseException>(() => controller.Delete(userBlogId));
-			Assert.That(exception.Response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-			blogService.Verify(b => b.DeleteBlog(userBlogId, blogRepository.Object), Times.Never());
+			// Act
+			var result = controller.Delete(userBlogId);
+
+			// Assert
+			blogService.Verify(b => b.DeleteBlog(userBlogId, blogRepository.Object), Times.Never);
+			Assert.That(result, Is.TypeOf<BadRequestResult>());
 		}
 
 		[Test]
-		public void Delete_BlogNotFound_ThrowsResponseException()
+		public void Delete_BlogNotFound_ReturnsBadRequest()
 		{
 			// Arrange
 			const int userBlogId = 1;
@@ -76,10 +79,12 @@
 			webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(currentUserId);
 			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
 
-			// Act/Assert
-			var exception = Assert.Throws<HttpResponseException>(() => controller.Delete(userBlogId));
-			Assert.That(exception.Response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
-			blogService.Verify(b => b.DeleteBlog(userBlogId, blogRepository.Object), Times.Never());
+			// Act
+			var result = controller.Delete(userBlogId);
+
+			// Assert
+			blogService.Verify(b => b.DeleteBlog(userBlogId, blogRepository.Object), Times.Never);
+			Assert.That(result, Is.TypeOf<BadRequestResult>());
 		}
 
 		[Test]
@@ -105,11 +110,14 @@
 			var result = controller.Get(includeHiatused);
 
 			// Assert
-			Assert.That(result, Is.EqualTo(blogList));
+			Assert.That(result, Is.TypeOf<OkNegotiatedContentResult<IEnumerable<BlogDto>>>());
+			var content = result as OkNegotiatedContentResult<IEnumerable<BlogDto>>;
+			Assert.That(content, Is.Not.Null);
+			Assert.That(content.Content, Is.EqualTo(blogList));
 		}
 
 		[Test]
-		public void Post_UserNotFound_ThrowsException()
+		public void Post_UserNotFound_ReturnsBadRequest()
 		{
 			// Arrange
 			var blogShortname = "TestBlog";
@@ -119,13 +127,16 @@
 			webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns((int?)null);
 			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
 
-			// Act/Assert
-			var exception = Assert.Throws<HttpResponseException>(() => controller.Post(blogShortname));
-			Assert.That(exception.Response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+			// Act
+			var result = controller.Post(blogShortname);
+
+			// Assert
+			blogService.Verify(bs => bs.AddNewBlog(It.IsAny<BlogDto>(), blogRepository.Object), Times.Never());
+			Assert.That(result, Is.TypeOf<BadRequestResult>());
 		}
 
 		[Test]
-		public void Post_ShortnameNull_ThrowsException()
+		public void Post_ShortnameNull_ReturnsBadRequest()
 		{
 			// Arrange
 			const int currentUserId = 5;
@@ -135,13 +146,16 @@
 			webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(currentUserId);
 			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
 
-			// Act/Assert
-			var exception = Assert.Throws<HttpResponseException>(() => controller.Post(null));
-			Assert.That(exception.Response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+			// Act
+			var result = controller.Post(null);
+
+			// Assert
+			blogService.Verify(bs => bs.AddNewBlog(It.IsAny<BlogDto>(), blogRepository.Object), Times.Never());
+			Assert.That(result, Is.TypeOf<BadRequestResult>());
 		}
 
 		[Test]
-		public void Post_BlogExists_ThrowsException()
+		public void Post_BlogExists_ReturnsBadRequest()
 		{
 			// Arrange
 			const string blogShortname = "TestBlog";
@@ -153,9 +167,12 @@
 			blogService.Setup(b => b.UserIsTrackingShortname(blogShortname, currentUserId, blogRepository.Object)).Returns(true);
 			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
 
-			// Act/Assert
-			var exception = Assert.Throws<HttpResponseException>(() => controller.Post(blogShortname));
-			Assert.That(exception.Response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+			// Act
+			var result = controller.Post(blogShortname);
+
+			// Assert
+			blogService.Verify(bs => bs.AddNewBlog(It.IsAny<BlogDto>(), blogRepository.Object), Times.Never());
+			Assert.That(result, Is.TypeOf<BadRequestResult>());
 		}
 
 		[Test]
@@ -164,22 +181,28 @@
 			// Arrange
 			const string blogShortname = "TestBlog";
 			const int currentUserId = 5;
+			var blog = new BlogBuilder().BuildDto();
 			var blogRepository = new Mock<IRepository<Blog>>();
 			var webSecurityService = new Mock<IWebSecurityService>();
 			var blogService = new Mock<IBlogService>();
 			webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(currentUserId);
 			blogService.Setup(b => b.UserIsTrackingShortname(blogShortname, currentUserId, blogRepository.Object)).Returns(false);
+			blogService.Setup(b => b.AddNewBlog(It.IsAny<BlogDto>(), blogRepository.Object)).Returns(blog);
 			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
 
 			// Act
-			controller.Post(blogShortname);
+			var result = controller.Post(blogShortname);
 
 			// Assert
 			blogService.Verify(bs => bs.AddNewBlog(It.Is<BlogDto>(b => b.BlogShortname == blogShortname && b.UserId == currentUserId), blogRepository.Object), Times.Once());
+			Assert.That(result, Is.TypeOf<CreatedAtRouteNegotiatedContentResult<BlogDto>>());
+			var content = result as CreatedAtRouteNegotiatedContentResult<BlogDto>;
+			Assert.That(content, Is.Not.Null);
+			Assert.That(content.Content, Is.EqualTo(blog));
 		}
 
 		[Test]
-		public void Put_RequestNull_ThrowsException()
+		public void Put_RequestNull_ReturnsBadRequest()
 		{
 			// Arrange
 			const int currentUserId = 5;
@@ -189,13 +212,16 @@
 			webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(currentUserId);
 			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
 
-			// Act/Assert
-			var exception = Assert.Throws<HttpResponseException>(() => controller.Put(null));
-			Assert.That(exception.Response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+			// Act
+			var result = controller.Put(null);
+
+			// Assert
+			blogService.Verify(bs => bs.UpdateBlog(It.IsAny<BlogDto>(), blogRepository.Object), Times.Never());
+			Assert.That(result, Is.TypeOf<BadRequestResult>());
 		}
 
 		[Test]
-		public void Put_BlogUserBlogIdNull_ThrowsException()
+		public void Put_BlogUserBlogIdNull_ReturnsBadRequest()
 		{
 			// Arrange
 			var blog = new BlogBuilder()
@@ -208,13 +234,16 @@
 			webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(currentUserId);
 			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
 
-			// Act/Assert
-			var exception = Assert.Throws<HttpResponseException>(() => controller.Put(blog));
-			Assert.That(exception.Response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+			// Act
+			var result = controller.Put(blog);
+
+			// Assert
+			blogService.Verify(bs => bs.UpdateBlog(It.IsAny<BlogDto>(), blogRepository.Object), Times.Never());
+			Assert.That(result, Is.TypeOf<BadRequestResult>());
 		}
 
 		[Test]
-		public void Put_UserNotFound_ThrowsException()
+		public void Put_UserNotFound_ReturnsBadRequest()
 		{
 			// Arrange
 			var blog = new BlogBuilder().BuildDto();
@@ -224,17 +253,20 @@
 			webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns((int?)null);
 			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
 
-			// Act/Assert
-			var exception = Assert.Throws<HttpResponseException>(() => controller.Put(blog));
-			Assert.That(exception.Response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+			// Act
+			var result = controller.Put(blog);
+
+			// Assert
+			blogService.Verify(bs => bs.UpdateBlog(It.IsAny<BlogDto>(), blogRepository.Object), Times.Never());
+			Assert.That(result, Is.TypeOf<BadRequestResult>());
 		}
 
 		[Test]
-		public void Put_UserDoesNotOwnBlog_ThrowsException()
+		public void Put_UserDoesNotOwnBlog_ReturnsBadRequest()
 		{
 			// Arrange
 			var blog = new BlogBuilder().BuildDto();
-			var currentUserId = 4;
+			const int currentUserId = 4;
 			var blogRepository = new Mock<IRepository<Blog>>();
 			var webSecurityService = new Mock<IWebSecurityService>();
 			var blogService = new Mock<IBlogService>();
@@ -242,9 +274,12 @@
 			blogService.Setup(b => b.UserOwnsBlog(blog.UserBlogId.GetValueOrDefault(), blog.UserId, blogRepository.Object)).Returns(false);
 			var controller = new BlogController(blogRepository.Object, webSecurityService.Object, blogService.Object);
 
-			// Act/Assert
-			var exception = Assert.Throws<HttpResponseException>(() => controller.Put(blog));
-			Assert.That(exception.Response.StatusCode, Is.EqualTo(HttpStatusCode.BadRequest));
+			// Act
+			var result = controller.Put(blog);
+
+			// Assert
+			blogService.Verify(bs => bs.UpdateBlog(It.IsAny<BlogDto>(), blogRepository.Object), Times.Never());
+			Assert.That(result, Is.TypeOf<BadRequestResult>());
 		}
 
 		[Test]

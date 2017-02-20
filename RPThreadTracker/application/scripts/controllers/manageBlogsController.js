@@ -80,7 +80,7 @@
 			var message = 'This will untrack all thread(s) ';
 			message += 'associated with this blog from your account. Continue?';
 			var confirm = $mdDialog.confirm()
-				.title('Untrack Thread(s)')
+				.title('Untrack Blog')
 				.textContent(message)
 				.ok('Yes')
 				.cancel('Cancel');

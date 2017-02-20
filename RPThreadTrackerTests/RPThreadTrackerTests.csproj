@@ -66,8 +66,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builders\UserBuilder.cs" />
     <Compile Include="Builders\BlogBuilder.cs" />
     <Compile Include="Controllers\BlogControllerTests.cs" />
+    <Compile Include="Controllers\UserControllerTests.cs" />
     <Compile Include="Models\ServiceModels\PostTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

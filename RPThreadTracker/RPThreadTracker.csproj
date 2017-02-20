@@ -311,7 +311,6 @@
       <DependentUpon>BlogModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Controllers\BlogController.cs" />
-    <Compile Include="Controllers\ChangePasswordController.cs" />
     <Compile Include="Controllers\ForgotPasswordController.cs" />
     <Compile Include="Controllers\PublicThreadController.cs" />
     <Compile Include="Controllers\UserController.cs" />

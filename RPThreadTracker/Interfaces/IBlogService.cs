@@ -15,7 +15,8 @@
 		/// </summary>
 		/// <param name="dto"><see cref="BlogDto"/> object containing information about blog to be created.</param>
 		/// <param name="blogRepository">Repository object containing database connection</param>
-		void AddNewBlog(BlogDto dto, IRepository<Blog> blogRepository);
+		/// <returns><see cref="BlogDto" /> object returned by insert</returns>
+		BlogDto AddNewBlog(BlogDto dto, IRepository<Blog> blogRepository);
 
 		/// <summary>
 		/// Removes blog with passed identifier from database
