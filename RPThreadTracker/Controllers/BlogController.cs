@@ -34,47 +34,48 @@
 		}
 
 		/// <summary>
-		/// Controller endpoint for removing a blog from the database
+		/// Controller endpoint for getting a specific blog by UserBlogId
 		/// </summary>
-		/// <param name="userBlogId">Unique identifier of blog to be deleted</param>
-		public void Delete(int userBlogId)
+		/// <param name="id">Unique identifier of blog to be retrieved</param>
+		/// <returns><see cref="BlogDto"/> object describing requested blog</returns>
+		public IHttpActionResult Get(int id)
 		{
-			var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
-			var blog = _blogService.GetBlogById(userBlogId, _blogRepository);
-			if (blog == null || blog.UserId != userId)
+			var blog = _blogService.GetBlogById(id, _blogRepository);
+			if (blog == null)
 			{
-				throw new HttpResponseException(HttpStatusCode.BadRequest);
+				return NotFound();
 			}
-			_blogService.DeleteBlog(blog.UserBlogId.GetValueOrDefault(), _blogRepository);
+			return Ok(blog);
 		}
 
 		/// <summary>
 		/// Controller endpoint for getting all blogs belonging to the currently authenticated user
 		/// </summary>
 		/// <param name="includeHiatusedBlogs">Whether or not to include blogs the user has marked as on hiatus</param>
-		/// <returns>Collection of <see cref="BlogDto"/> objects based on request parameters</returns>
-		public IEnumerable<BlogDto> Get(bool includeHiatusedBlogs = false)
+		/// <returns>ActionResult object wrapping collection of <see cref="BlogDto"/> objects</returns>
+		public IHttpActionResult Get(bool includeHiatusedBlogs = false)
 		{
 			var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
 			var blogs = _blogService.GetBlogsByUserId(userId, _blogRepository, includeHiatusedBlogs);
-			return blogs;
+			return Ok(blogs);
 		}
 
 		/// <summary>
 		/// Controller endpoint for adding a new blog to the currently authenticated user's account
 		/// </summary>
 		/// <param name="blogShortname">Shortname of blog to be created</param>
-		public void Post([FromBody] string blogShortname)
+		/// <returns>ActionResult object wrapping HTTP response</returns>
+		public IHttpActionResult Post([FromBody] string blogShortname)
 		{
 			var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
 			if (blogShortname == null || userId == null)
 			{
-				throw new HttpResponseException(HttpStatusCode.BadRequest);
+				return BadRequest();
 			}
 			var blogExists = _blogService.UserIsTrackingShortname(blogShortname, userId, _blogRepository);
 			if (blogExists)
 			{
-				throw new HttpResponseException(HttpStatusCode.BadRequest);
+				return BadRequest();
 			}
 			var dto = new BlogDto
 			{
@@ -82,25 +83,45 @@
 				BlogShortname = blogShortname,
 				OnHiatus = false
 			};
-			_blogService.AddNewBlog(dto, _blogRepository);
+			var createdBlog = _blogService.AddNewBlog(dto, _blogRepository);
+			return CreatedAtRoute("DefaultApi", new { id = createdBlog.UserBlogId }, createdBlog);
 		}
 
 		/// <summary>
 		/// Controller endpoint for updating an existing blog
 		/// </summary>
 		/// <param name="request">Request body containing information about blog to be updated</param>
-		public void Put(BlogDto request)
+		/// <returns>ActionResult object wrapping HTTP response</returns>
+		public IHttpActionResult Put(BlogDto request)
 		{
 			var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
 			if (request?.UserBlogId == null || userId == null)
 			{
-				throw new HttpResponseException(HttpStatusCode.BadRequest);
+				return BadRequest();
 			}
 			if (!_blogService.UserOwnsBlog(request.UserBlogId.GetValueOrDefault(), userId.GetValueOrDefault(), _blogRepository))
 			{
-				throw new HttpResponseException(HttpStatusCode.BadRequest);
+				return BadRequest();
 			}
 			_blogService.UpdateBlog(request, _blogRepository);
+			return Ok();
+		}
+
+		/// <summary>
+		/// Controller endpoint for removing a blog from the database
+		/// </summary>
+		/// <param name="userBlogId">Unique identifier of blog to be deleted</param>
+		/// <returns>ActionResult object wrapping HTTP response</returns>
+		public IHttpActionResult Delete(int userBlogId)
+		{
+			var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
+			var blog = _blogService.GetBlogById(userBlogId, _blogRepository);
+			if (blog == null || blog.UserId != userId)
+			{
+				return BadRequest();
+			}
+			_blogService.DeleteBlog(blog.UserBlogId.GetValueOrDefault(), _blogRepository);
+			return Ok();
 		}
 	}
 }

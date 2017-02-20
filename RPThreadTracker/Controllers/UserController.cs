@@ -77,5 +77,27 @@
 			}
 			_userProfileService.Update(user, _userProfileRepository);
 		}
+
+		/// <summary>
+		/// Controller endpoint for changing password of currently authenticated user
+		/// </summary>
+		/// <param name="model">Request body containing information about password change</param>
+		/// <returns>ActionResult object wrapping HTTP response</returns>
+		[Route("api/User/Password")]
+		[HttpPut]
+		public IHttpActionResult ChangePassword(ChangePasswordRequest model)
+		{
+			var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity, _userProfileRepository);
+			if (user == null)
+			{
+				return BadRequest();
+			}
+			var success = _webSecurityService.ChangePassword(user.UserName, model.OldPassword, model.NewPassword);
+			if (!success)
+			{
+				return BadRequest();
+			}
+			return Ok();
+		}
 	}
 }

@@ -151,8 +151,8 @@
 		function changePassword(oldPassword, newPassword, confirmNewPassword) {
 			var deferred = $q.defer(),
 				config = {
-					'url': '/api/ChangePassword',
-					'method': 'POST',
+					'url': '/api/User/Password',
+					'method': 'PUT',
 					'data': {
 						'OldPassword': oldPassword,
 						'NewPassword': newPassword,
