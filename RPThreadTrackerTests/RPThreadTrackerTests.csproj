@@ -94,6 +94,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\RequestModels\ExportStreamResultTests.cs" />
     <None Include="app.config" />
     <Content Include="Coverage.bat">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

@@ -55,7 +55,8 @@
 			var threadDistribution = _threadService.GetThreadDistribution(blogs, _threadRepository, false);
 			var archivedThreadDistribution = _threadService.GetThreadDistribution(blogs, _threadRepository, true);
 			var package = _exporterService.GetPackage(blogs, threadDistribution, archivedThreadDistribution, includeArchived);
-			return new ExportStreamResult(package, this)
+			var bytes = package.GetAsByteArray();
+			return new ExportStreamResult(bytes, this)
 			{
 				UserId = userId.GetValueOrDefault()
 			};

@@ -44,6 +44,7 @@
 			var threadDistribution = new Dictionary<int, IEnumerable<ThreadDto>>();
 			var archivedThreadDistribution = new Dictionary<int, IEnumerable<ThreadDto>>();
 			var package = new ExcelPackage();
+		    package.Workbook.Worksheets.Add("test");
 			_webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(userId);
 			_blogService.Setup(s => s.GetBlogsByUserId(userId, _userBlogRepository.Object, includeHiatusedBlogs)).Returns(blogs);
 			_threadService.Setup(s => s.GetThreadDistribution(blogs, _userThreadRepository.Object, false)).Returns(threadDistribution);
