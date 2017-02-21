@@ -14,14 +14,14 @@
 	using OfficeOpenXml;
 
 	/// <inheritdoc cref="OkNegotiatedContentResult{T}"/>
-	public class ExportStreamResult : OkNegotiatedContentResult<ExcelPackage>
+	public class ExportStreamResult : OkNegotiatedContentResult<byte[]>
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="ExportStreamResult"/> class
 		/// </summary>
 		/// <param name="content">ExcelPackage value to be included in the result</param>
 		/// <param name="controller">Calling controller returning the result</param>
-		public ExportStreamResult(ExcelPackage content, ApiController controller)
+		public ExportStreamResult(byte[] content, ApiController controller)
 			: base(content, controller)
 		{
 		}
@@ -34,7 +34,7 @@
 		/// <param name="request">Request message which led to this result</param>
 		/// <param name="formatters">Formatters used to format the content</param>
 		[ExcludeFromCoverage]
-		public ExportStreamResult(ExcelPackage content, IContentNegotiator contentNegotiator, HttpRequestMessage request, IEnumerable<MediaTypeFormatter> formatters)
+		public ExportStreamResult(byte[] content, IContentNegotiator contentNegotiator, HttpRequestMessage request, IEnumerable<MediaTypeFormatter> formatters)
 			: base(content, contentNegotiator, request, formatters)
 		{
 		}
@@ -53,8 +53,7 @@
 			var result = new HttpResponseMessage(HttpStatusCode.OK);
 			using (var ms = new MemoryStream())
 			{
-				var bytes = Content.GetAsByteArray();
-				ms.Write(bytes, 0, bytes.Length);
+				ms.Write(Content, 0, Content.Length);
 				var copy = new MemoryStream(ms.ToArray());
 				copy.Seek(0, SeekOrigin.Begin);
 				result.Content = new StreamContent(copy);
