@@ -17,6 +17,7 @@
 		private readonly IRepository<User> _userProfileRepository;
 		private readonly IRepository<Membership> _webpagesMembershipRepository;
 		private readonly IUserProfileService _userProfileService;
+		private readonly IConfigurationService _configurationService;
 		private readonly IWebSecurityService _webSecurityService;
 
 		/// <summary>
@@ -27,13 +28,15 @@
 		/// <param name="webSecurityService">Unity-injected web security service</param>
 		/// <param name="emailService">Unity-injected email service</param>
 		/// <param name="userProfileService">Unity-injected user profile service</param>
-		public ForgotPasswordController(IRepository<User> userProfileRepository, IRepository<Membership> webpagesMembershipRepository, IWebSecurityService webSecurityService, IEmailService emailService, IUserProfileService userProfileService)
+		/// <param name="configurationService">Unity-injected configuration service</param>
+		public ForgotPasswordController(IRepository<User> userProfileRepository, IRepository<Membership> webpagesMembershipRepository, IWebSecurityService webSecurityService, IEmailService emailService, IUserProfileService userProfileService, IConfigurationService configurationService)
 		{
 			_userProfileRepository = userProfileRepository;
 			_webpagesMembershipRepository = webpagesMembershipRepository;
 			_webSecurityService = webSecurityService;
 			_emailService = emailService;
 			_userProfileService = userProfileService;
+			_configurationService = configurationService;
 		}
 
 		/// <summary>
@@ -58,7 +61,7 @@
 				return BadRequest();
 			}
 			var token = _webSecurityService.GeneratePasswordResetToken(user);
-			await _webSecurityService.SendForgotPasswordEmail(user, token, _webpagesMembershipRepository, _emailService);
+			await _webSecurityService.SendForgotPasswordEmail(user, token, _webpagesMembershipRepository, _emailService, _configurationService);
 			return Ok();
 		}
 	}

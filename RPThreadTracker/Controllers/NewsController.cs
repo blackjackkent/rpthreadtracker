@@ -14,16 +14,19 @@
 	{
 		private readonly IThreadService _threadService;
 		private readonly ITumblrClient _tumblrClient;
+		private readonly IConfigurationService _configurationService;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="NewsController"/> class
 		/// </summary>
 		/// <param name="threadService">Unity-injected thread service</param>
 		/// <param name="tumblrClient">Unity-injected Tumblr client</param>
-		public NewsController(IThreadService threadService, ITumblrClient tumblrClient)
+		/// <param name="configurationService">Unity-injected configuration service</param>
+		public NewsController(IThreadService threadService, ITumblrClient tumblrClient, IConfigurationService configurationService)
 		{
 			_threadService = threadService;
 			_tumblrClient = tumblrClient;
+			_configurationService = configurationService;
 		}
 
 		/// <summary>
@@ -32,7 +35,7 @@
 		/// <returns>List of <see cref="ThreadDto"/> objects representing recent posts</returns>
 		public IHttpActionResult Get()
 		{
-			var threads = _threadService.GetNewsThreads(_tumblrClient);
+			var threads = _threadService.GetNewsThreads(_tumblrClient, _configurationService);
 			return Ok(threads);
 		}
 	}

@@ -12,22 +12,25 @@
 	public class TumblrClient : ITumblrClient
 	{
 		private static string _apiKey;
+		private static string _newsBlogShortname;
 		private static IRestClient _client;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TumblrClient"/> class
 		/// </summary>
 		/// <param name="client">Unity-injected HTTP client</param>
-		public TumblrClient(IRestClient client)
+		/// <param name="configurationService">Unity-injected configuration service</param>
+		public TumblrClient(IRestClient client, IConfigurationService configurationService)
 		{
-			_apiKey = WebConfigurationManager.AppSettings["TumblrAPIKey"];
+			_apiKey = configurationService.TumblrApiKey;
+			_newsBlogShortname = configurationService.NewsBlogShortname;
 			_client = client;
 		}
 
 		/// <inheritdoc cref="ITumblrClient"/>
 		public IEnumerable<IPost> GetNewsPosts(int? limit = null)
 		{
-			var serviceObject = RetrieveApiData(null, WebConfigurationManager.AppSettings["NewsBlogShortname"], "news", limit);
+			var serviceObject = RetrieveApiData(null, _newsBlogShortname, "news", limit);
 			return serviceObject?.Response.Posts;
 		}
 
