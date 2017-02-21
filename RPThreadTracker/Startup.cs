@@ -5,7 +5,9 @@ using RPThreadTracker.Infrastructure.Filters;
 namespace RPThreadTracker
 {
 	using System;
+	using System.Linq;
 	using System.Web.Http;
+	using System.Web.Http.Filters;
 	using Infrastructure;
 	using Infrastructure.Data;
 	using Infrastructure.Providers;
@@ -37,6 +39,7 @@ namespace RPThreadTracker
 			var config = new HttpConfiguration();
 			var container = ConfigureInjection(config);
 			ConfigureOAuth(app, container);
+			ConfigureFilters(config, container);
 			WebApiConfig.Register(config);
 			app.UseWebApi(config);
 		}
@@ -75,6 +78,14 @@ namespace RPThreadTracker
 			});
 			app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
 			app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
+		}
+
+		private void ConfigureFilters(HttpConfiguration config, UnityContainer container)
+		{
+			var providers = config.Services.GetFilterProviders().ToList();
+			var defaultprovider = providers.Single(i => i is ActionDescriptorFilterProvider);
+			config.Services.Remove(typeof(IFilterProvider), defaultprovider);
+			config.Services.Add(typeof(IFilterProvider), new UnityFilterProvider(container));
 		}
 	}
 }

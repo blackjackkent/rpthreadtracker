@@ -7,6 +7,9 @@
 	using System.Web;
 	using System.Web.Http.Controllers;
 	using System.Web.Http.Filters;
+	using Interfaces;
+	using Microsoft.Practices.Unity;
+	using Providers;
 
 	/// <summary>
 	/// Attribute used to intercept all tagged controller endpoints
@@ -14,6 +17,15 @@
 	/// </summary>
 	public class RedirectOnMaintenance : ActionFilterAttribute
 	{
+		/// <summary>
+		/// Gets or sets Unity-injected configuration service
+		/// </summary>
+		/// <value>
+		/// Wrapper service for application config information
+		/// </value>
+		[Dependency]
+		public IConfigurationService ConfigurationService { get; set; }
+
 		/// <summary>
 		/// Adds a check to the normal WebAPI controller processing
 		/// and intercepts the response, converting it to a 503
@@ -23,8 +35,8 @@
 		/// <param name="filterContext">Default HttpActionContext object from WebAPI</param>
 		public override void OnActionExecuting(HttpActionContext filterContext)
 		{
-			var allowedIPs = ConfigurationManager.AppSettings["AllowedMaintenanceIPs"].Split(',');
-			if (ConfigurationManager.AppSettings["MaintenanceMode"] == "true" && !allowedIPs.Contains(HttpContext.Current.Request.UserHostAddress))
+			var allowedIPs = ConfigurationService.AllowedMaintenanceIPs;
+			if (ConfigurationService.MaintenanceMode && !allowedIPs.Contains(HttpContextProvider.Current.Request.UserHostAddress))
 			{
 				filterContext.Response = filterContext.Request.CreateErrorResponse(HttpStatusCode.ServiceUnavailable, "Temporarily Offline");
 			}
