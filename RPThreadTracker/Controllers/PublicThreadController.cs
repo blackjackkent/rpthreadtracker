@@ -53,23 +53,19 @@
 		/// <param name="userId">Unique identifier of user which owns blog</param>
 		/// <param name="blogShortname">Shortname identifier of blog to be retrieved</param>
 		/// <returns>Collection of integer identifiers for all relevant threads</returns>
-		public IEnumerable<int?> Get(int userId, string blogShortname)
+		public IHttpActionResult Get(int userId, string blogShortname)
 		{
-			var ids = new List<int?>();
-			var blogs = new List<BlogDto>();
 			if (string.IsNullOrEmpty(blogShortname))
 			{
-				blogs = _blogService.GetBlogsByUserId(userId, _blogRepository, false).ToList();
+				return Ok(_threadService.GetThreadIdsByUserId(userId, _threadRepository));
 			}
-			else
+			var blog = _blogService.GetBlogByShortname(blogShortname, userId, _blogRepository);
+			if (blog == null)
 			{
-				blogs = _blogService.GetBlogsByUserId(userId, _blogRepository, false).Where(b => b.BlogShortname == blogShortname).ToList();
+				return BadRequest();
 			}
-			foreach (var blog in blogs)
-			{
-				ids.AddRange(_threadService.GetThreadIdsByBlogId(blog.UserBlogId, _threadRepository));
-			}
-			return ids;
+			var threads = _threadService.GetThreadsByBlog(blog, _threadRepository);
+			return Ok(threads.Select(t => t.UserThreadId));
 		}
 	}
 }

@@ -76,7 +76,7 @@
 				return BadRequest();
 			}
 			var currentUser = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity, _userProfileRepository);
-			if (currentUser == null || currentUser.UserId != user.UserId)
+			if (currentUser.UserId != user.UserId)
 			{
 				return BadRequest();
 			}
@@ -94,10 +94,6 @@
 		public IHttpActionResult ChangePassword(ChangePasswordRequest model)
 		{
 			var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity, _userProfileRepository);
-			if (user == null)
-			{
-				return BadRequest();
-			}
 			var success = _webSecurityService.ChangePassword(user.UserName, model.OldPassword, model.NewPassword);
 			if (!success)
 			{

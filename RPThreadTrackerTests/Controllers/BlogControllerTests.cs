@@ -150,21 +150,6 @@
 		}
 
 		[Test]
-		public void Post_UserNotFound_ReturnsBadRequest()
-		{
-			// Arrange
-			var blogShortname = "TestBlog";
-			_webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns((int?)null);
-
-			// Act
-			var result = _blogController.Post(blogShortname);
-
-			// Assert
-			_blogService.Verify(bs => bs.AddNewBlog(It.IsAny<BlogDto>(), _blogRepository.Object), Times.Never());
-			Assert.That(result, Is.TypeOf<BadRequestResult>());
-		}
-
-		[Test]
 		public void Post_ShortnameNull_ReturnsBadRequest()
 		{
 			// Arrange
@@ -252,28 +237,13 @@
 		}
 
 		[Test]
-		public void Put_UserNotFound_ReturnsBadRequest()
-		{
-			// Arrange
-			var blog = new BlogBuilder().BuildDto();
-			_webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns((int?)null);
-
-			// Act
-			var result = _blogController.Put(blog);
-
-			// Assert
-			_blogService.Verify(bs => bs.UpdateBlog(It.IsAny<BlogDto>(), _blogRepository.Object), Times.Never());
-			Assert.That(result, Is.TypeOf<BadRequestResult>());
-		}
-
-		[Test]
 		public void Put_UserDoesNotOwnBlog_ReturnsBadRequest()
 		{
 			// Arrange
 			var blog = new BlogBuilder().BuildDto();
 			const int currentUserId = 4;
 			_webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(currentUserId);
-			_blogService.Setup(b => b.UserOwnsBlog(blog.UserBlogId.GetValueOrDefault(), blog.UserId, _blogRepository.Object)).Returns(false);
+			_blogService.Setup(b => b.UserOwnsBlog(blog.UserBlogId.GetValueOrDefault(), currentUserId, _blogRepository.Object)).Returns(false);
 
 			// Act
 			var result = _blogController.Put(blog);

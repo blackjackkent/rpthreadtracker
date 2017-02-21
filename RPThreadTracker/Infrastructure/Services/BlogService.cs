@@ -25,7 +25,14 @@
 		public BlogDto GetBlogById(int userBlogId, IRepository<Blog> blogRepository)
 		{
 			var blog = blogRepository.GetSingle(b => b.UserBlogId == userBlogId);
-			return blog.ToDto();
+			return blog?.ToDto();
+		}
+
+		/// <inheritdoc cref="IBlogService"/>
+		public BlogDto GetBlogByShortname(string blogShortname, int userId, IRepository<Blog> blogRepository)
+		{
+			var blog = blogRepository.GetSingle(b => b.BlogShortname == blogShortname && b.UserId == userId);
+			return blog?.ToDto();
 		}
 
 		/// <inheritdoc cref="IBlogService"/>

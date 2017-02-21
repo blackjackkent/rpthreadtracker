@@ -11,9 +11,10 @@
 	public class ThreadService : IThreadService
 	{
 		/// <inheritdoc cref="IThreadService"/>
-		public void AddNewThread(ThreadDto threadDto, IRepository<Thread> threadRepository)
+		public ThreadDto AddNewThread(ThreadDto threadDto, IRepository<Thread> threadRepository)
 		{
-			threadRepository.Insert(new Thread(threadDto));
+			var createdThread = threadRepository.Insert(new Thread(threadDto));
+			return createdThread.ToDto(createdThread.UserBlog.ToDto(), null);
 		}
 
 		/// <inheritdoc cref="IThreadService"/>
@@ -52,13 +53,13 @@
 		}
 
 		/// <inheritdoc cref="IThreadService"/>
-		public IEnumerable<int?> GetThreadIdsByBlogId(int? blogId, IRepository<Thread> threadRepository, bool isArchived = false)
+		public IEnumerable<int?> GetThreadIdsByUserId(int? userId, IRepository<Thread> threadRepository, bool isArchived = false)
 		{
-			if (blogId == null)
+			if (userId == null)
 			{
 				return new List<int?>();
 			}
-			var threads = threadRepository.Get(t => t.UserBlogId == blogId && t.IsArchived == isArchived);
+			var threads = threadRepository.Get(t => t.UserBlog != null && t.UserBlog.UserId == userId && t.IsArchived == isArchived);
 			return threads.Select(t => t.UserThreadId).ToList();
 		}
 

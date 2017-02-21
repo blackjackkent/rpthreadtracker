@@ -4,10 +4,11 @@
 	using System.Collections.Generic;
 	using System.Threading.Tasks;
 	using System.Web.Http.Dependencies;
-
+	using Filters;
 	using Microsoft.Practices.Unity;
 
 	/// <inheritdoc cref="IDependencyResolver"/>
+	[ExcludeFromCoverage]
 	public class UnityResolver : IDependencyResolver
 	{
 		private readonly IUnityContainer _container;

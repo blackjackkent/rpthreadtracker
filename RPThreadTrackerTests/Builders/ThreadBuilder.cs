@@ -112,7 +112,7 @@
 			return this;
 		}
 
-		public ThreadBuilder WithUserThreadId(int userThreadId)
+		public ThreadBuilder WithUserThreadId(int? userThreadId)
 		{
 			_userThreadId = userThreadId;
 			return this;

@@ -52,9 +52,10 @@
 		/// Controller endpoint for removing threads from the database
 		/// </summary>
 		/// <param name="threads">Collection of <see cref="ThreadDto"/> objects to be removed</param>
+		/// <returns>ActionResult object wrapping HTTP response</returns>
 		[Route("api/Thread/Delete")]
 		[HttpPut]
-		public void DeleteThreads(List<ThreadDto> threads)
+		public IHttpActionResult DeleteThreads(List<ThreadDto> threads)
 		{
 			var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity, _userProfileRepository);
 			foreach (var thread in threads)
@@ -65,6 +66,7 @@
 					_threadService.DeleteThread(thread.UserThreadId.GetValueOrDefault(), _threadRepository);
 				}
 			}
+			return Ok();
 		}
 
 		/// <summary>
@@ -72,9 +74,14 @@
 		/// </summary>
 		/// <param name="id">Unique identifier of thread to be retrieved</param>
 		/// <returns><see cref="ThreadDto"/> object describing requested blog</returns>
-		public ThreadDto Get(int id)
+		public IHttpActionResult Get(int id)
 		{
-			return _threadService.GetById(id, _blogRepository, _threadRepository, _tumblrClient);
+			var thread = _threadService.GetById(id, _blogRepository, _threadRepository, _tumblrClient);
+			if (thread == null)
+			{
+				return NotFound();
+			}
+			return Ok(thread);
 		}
 
 		/// <summary>
@@ -82,16 +89,11 @@
 		/// </summary>
 		/// <param name="isArchived">Whether or not to retrieve archived threads</param>
 		/// <returns>List of integer thread IDs</returns>
-		public IEnumerable<int?> Get([FromUri] bool isArchived = false)
+		public IHttpActionResult Get([FromUri] bool isArchived = false)
 		{
 			var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
-			var ids = new List<int?>();
-			var blogs = _blogService.GetBlogsByUserId(userId, _blogRepository, false);
-			foreach (var blog in blogs)
-			{
-				ids.AddRange(_threadService.GetThreadIdsByBlogId(blog.UserBlogId, _threadRepository, isArchived));
-			}
-			return ids;
+			var ids = _threadService.GetThreadIdsByUserId(userId, _threadRepository, isArchived);
+			return Ok(ids);
 		}
 
 		/// <summary>
@@ -99,17 +101,17 @@
 		/// </summary>
 		/// <param name="thread">Request body containing information about thread to be created</param>
 		/// <returns>HttpResponseMessage indicating success or failure</returns>
-		public HttpResponseMessage Post(ThreadDto thread)
+		public IHttpActionResult Post(ThreadDto thread)
 		{
-			var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
-			if (thread == null || userId == null)
+			if (thread == null)
 			{
-				throw new ArgumentNullException();
+				return BadRequest();
 			}
+			var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
 			var userOwnsBlog = _blogService.UserOwnsBlog(thread.UserBlogId, userId.GetValueOrDefault(), _blogRepository);
 			if (!userOwnsBlog)
 			{
-				return new HttpResponseMessage(HttpStatusCode.BadRequest);
+				return BadRequest();
 			}
 			var dto = new ThreadDto
 			{
@@ -120,8 +122,8 @@
 				WatchedShortname = thread.WatchedShortname,
 				ThreadTags = thread.ThreadTags
 			};
-			_threadService.AddNewThread(dto, _threadRepository);
-			return new HttpResponseMessage(HttpStatusCode.Created);
+			var createdThread = _threadService.AddNewThread(dto, _threadRepository);
+			return CreatedAtRoute("DefaultApi", new { id = createdThread.UserThreadId }, createdThread);
 		}
 
 		/// <summary>
@@ -129,20 +131,20 @@
 		/// </summary>
 		/// <param name="thread"><see cref="ThreadDto"/> object containing information about thread to be updated</param>
 		/// <returns>HttpResponseMessage indicating success or failure</returns>
-		public HttpResponseMessage Put(ThreadDto thread)
+		public IHttpActionResult Put(ThreadDto thread)
 		{
-			var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity, _userProfileRepository);
-			if (thread?.UserThreadId == null || user == null)
+			var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
+			if (thread?.UserThreadId == null)
 			{
-				return new HttpResponseMessage(HttpStatusCode.BadRequest);
+				return BadRequest();
 			}
-			var userOwnsThread = _threadService.UserOwnsThread(user.UserId, thread.UserThreadId.GetValueOrDefault(), _threadRepository);
+			var userOwnsThread = _threadService.UserOwnsThread(userId.GetValueOrDefault(), thread.UserThreadId.GetValueOrDefault(), _threadRepository);
 			if (!userOwnsThread)
 			{
-				return new HttpResponseMessage(HttpStatusCode.BadRequest);
+				return BadRequest();
 			}
 			_threadService.UpdateThread(thread, _threadRepository);
-			return new HttpResponseMessage(HttpStatusCode.OK);
+			return Ok();
 		}
 	}
 }
