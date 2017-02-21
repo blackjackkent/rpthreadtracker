@@ -82,6 +82,7 @@
     <Compile Include="Controllers\ForgotPasswordControllerTests.cs" />
     <Compile Include="Controllers\HomeControllerTests.cs" />
     <Compile Include="Controllers\NewsControllerTests.cs" />
+    <Compile Include="Controllers\PublicThreadControllerTests.cs" />
     <Compile Include="Controllers\ThreadControllerTests.cs" />
     <Compile Include="Controllers\UserControllerTests.cs" />
     <Compile Include="Models\ServiceModels\PostTests.cs" />

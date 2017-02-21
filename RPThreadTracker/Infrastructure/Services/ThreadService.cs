@@ -75,6 +75,13 @@
 		}
 
 		/// <inheritdoc cref="IThreadService"/>
+		public IEnumerable<int?> GetThreadIdsByBlog(BlogDto blog, IRepository<Thread> threadRepository, bool isArchived = false)
+		{
+			var threads = GetThreadsByBlog(blog, threadRepository, isArchived);
+			return threads.Select(t => t.UserThreadId).ToList();
+		}
+
+		/// <inheritdoc cref="IThreadService"/>
 		public void UpdateThread(ThreadDto dto, IRepository<Thread> threadRepository)
 		{
 			threadRepository.Update(dto.UserThreadId, new Thread(dto));
