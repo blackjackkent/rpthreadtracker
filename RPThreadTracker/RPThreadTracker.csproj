@@ -330,6 +330,7 @@
     <Compile Include="Infrastructure\Filters\RedirectOnMaintenance.cs" />
     <Compile Include="Infrastructure\Repositories\BaseRepository.cs" />
     <Compile Include="Infrastructure\Services\BlogService.cs" />
+    <Compile Include="Infrastructure\Services\ConfigurationService.cs" />
     <Compile Include="Infrastructure\Services\ExporterService.cs" />
     <Compile Include="Infrastructure\Services\ThreadService.cs" />
     <Compile Include="Infrastructure\Services\UserProfileService.cs" />
@@ -338,6 +339,7 @@
       <DependentUpon>BlogModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IBlogService.cs" />
+    <Compile Include="Interfaces\IConfigurationService.cs" />
     <Compile Include="Interfaces\IDto.cs" />
     <Compile Include="Interfaces\IEmailService.cs" />
     <Compile Include="Interfaces\IExporterService.cs" />
