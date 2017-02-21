@@ -42,9 +42,14 @@
 		/// </summary>
 		/// <param name="id">Unique identifier of thread to be retrieved</param>
 		/// <returns><see cref="ThreadDto"/> object describing requested thread</returns>
-		public ThreadDto Get(int id)
+		public IHttpActionResult Get(int id)
 		{
-			return _threadService.GetById(id, _blogRepository, _threadRepository, _tumblrClient);
+			var thread = _threadService.GetById(id, _blogRepository, _threadRepository, _tumblrClient);
+			if (thread == null)
+			{
+				return NotFound();
+			}
+			return Ok(thread);
 		}
 
 		/// <summary>
@@ -64,8 +69,7 @@
 			{
 				return BadRequest();
 			}
-			var threads = _threadService.GetThreadsByBlog(blog, _threadRepository);
-			return Ok(threads.Select(t => t.UserThreadId));
+			return Ok(_threadService.GetThreadIdsByBlog(blog, _threadRepository));
 		}
 	}
 }
