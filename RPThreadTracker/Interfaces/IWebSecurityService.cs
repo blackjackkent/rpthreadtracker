@@ -84,7 +84,8 @@
 		/// <param name="token">Password reset token string</param>
 		/// <param name="webpagesMembershipRepository">Repository object containing database connection</param>
 		/// <param name="emailService">Service responsible for constructing and sending email message</param>
+		/// <param name="configurationService">Wrapper service for app config information</param>
 		/// <returns>Task object for async handling</returns>
-		Task SendForgotPasswordEmail(UserDto user, string token, IRepository<Membership> webpagesMembershipRepository, IEmailService emailService);
+		Task SendForgotPasswordEmail(UserDto user, string token, IRepository<Membership> webpagesMembershipRepository, IEmailService emailService, IConfigurationService configurationService);
 	}
 }

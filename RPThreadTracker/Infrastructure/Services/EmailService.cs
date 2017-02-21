@@ -10,11 +10,11 @@
 	public class EmailService : IEmailService
 	{
 		/// <inheritdoc cref="IEmailService"/>
-		public async Task SendEmail(string recipientAddress, string subject, string body)
+		public async Task SendEmail(string recipientAddress, string subject, string body, IConfigurationService configurationService)
 		{
-			var apiKey = ConfigurationManager.AppSettings["SendGridAPIKey"];
+			var apiKey = configurationService.SendGridApiKey;
 			var sendGridApiClient = new SendGridAPIClient(apiKey);
-			var from = new Email(ConfigurationManager.AppSettings["EmailFromAddress"]);
+			var from = new Email(configurationService.EmailFromAddress);
 			var to = new Email(recipientAddress);
 			var content = new Content("text/html", body);
 			var mail = new Mail(from, subject, to, content);

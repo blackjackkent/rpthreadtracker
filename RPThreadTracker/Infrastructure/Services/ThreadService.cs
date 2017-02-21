@@ -33,16 +33,16 @@
 		}
 
 		/// <inheritdoc cref="IThreadService"/>
-		public IEnumerable<ThreadDto> GetNewsThreads(ITumblrClient tumblrClient)
+		public IEnumerable<ThreadDto> GetNewsThreads(ITumblrClient tumblrClient, IConfigurationService configurationService)
 		{
 			var posts = tumblrClient.GetNewsPosts(5);
 			return posts.Select(post => new ThreadDto
 			{
-				BlogShortname = WebConfigurationManager.AppSettings["NewsBlogShortname"],
+				BlogShortname = configurationService.NewsBlogShortname,
 				IsMyTurn = false,
 				LastPostDate = post.Timestamp,
 				LastPostUrl = post.PostUrl,
-				LastPosterShortname = WebConfigurationManager.AppSettings["NewsBlogShortname"],
+				LastPosterShortname = configurationService.NewsBlogShortname,
 				PostId = post.Id.ToString(),
 				UserTitle = post.Title
 			}).ToList();

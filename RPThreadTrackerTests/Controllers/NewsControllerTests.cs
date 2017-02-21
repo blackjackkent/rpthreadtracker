@@ -15,13 +15,15 @@
 		private NewsController _newsController;
 		private Mock<IThreadService> _threadService;
 		private Mock<ITumblrClient> _tumblrClient;
+		private Mock<IConfigurationService> _configurationService;
 
 		[SetUp]
 		public void Setup()
 		{
 			_threadService = new Mock<IThreadService>();
 			_tumblrClient = new Mock<ITumblrClient>();
-			_newsController = new NewsController(_threadService.Object, _tumblrClient.Object);
+			_configurationService = new Mock<IConfigurationService>();
+			_newsController = new NewsController(_threadService.Object, _tumblrClient.Object, _configurationService.Object);
 		}
 
 		[Test]
@@ -37,7 +39,7 @@
 					.WithUserBlogId(2)
 					.BuildDto()
 			};
-			_threadService.Setup(t => t.GetNewsThreads(_tumblrClient.Object)).Returns(list);
+			_threadService.Setup(t => t.GetNewsThreads(_tumblrClient.Object, _configurationService.Object)).Returns(list);
 
 			// Act
 			var result = _newsController.Get();
