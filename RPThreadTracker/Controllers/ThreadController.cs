@@ -81,7 +81,9 @@
 			{
 				return NotFound();
 			}
-			return Ok(thread);
+			var post = _tumblrClient.GetPost(thread.PostId, thread.BlogShortname);
+			var hydratedThread = _threadService.HydrateThread(thread, post);
+			return Ok(hydratedThread);
 		}
 
 		/// <summary>

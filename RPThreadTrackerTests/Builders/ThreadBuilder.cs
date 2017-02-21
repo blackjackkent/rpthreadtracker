@@ -14,7 +14,7 @@
 		private string _lastPosterShortname = "mypartner";
 		private string _lastPostUrl = "http://mypartner.tumblr.com/post/12345";
 		private string _postId = "123456";
-		private List<string> _threadTags = new List<string>();
+		private List<string> _threadTags = new List<string> { "tag1", "tag2" };
 		private int _userBlogId = 1;
 		private int? _userThreadId = 2;
 		private string _userTitle = "Test Thread";

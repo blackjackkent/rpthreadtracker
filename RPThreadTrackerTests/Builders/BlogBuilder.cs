@@ -22,7 +22,13 @@
 
 		public BlogDto BuildDto()
 		{
-			return Build().ToDto();
+			return new BlogDto
+			{
+				UserId = _userId,
+				UserBlogId = _userBlogId,
+				BlogShortname = _blogShortname,
+				OnHiatus = _onHiatus
+			};
 		}
 
 		public BlogBuilder WithUserId(int userId)

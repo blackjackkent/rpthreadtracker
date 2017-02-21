@@ -24,7 +24,7 @@
 
 		public UserDto BuildDto()
 		{
-			var user = new User
+			return new UserDto
 			{
 				UserId = _userId,
 				Email = _email,
@@ -32,7 +32,6 @@
 				UseInvertedTheme = _useInvertedTheme,
 				UserName = _username
 			};
-			return user.ToDto();
 		}
 
 		public UserBuilder WithUserId(int userId)

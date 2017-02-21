@@ -10,6 +10,7 @@
 	using System.Threading.Tasks;
 	using System.Web.Http;
 	using System.Web.Http.Results;
+	using Infrastructure.Filters;
 	using OfficeOpenXml;
 
 	/// <inheritdoc cref="OkNegotiatedContentResult{T}"/>
@@ -32,6 +33,7 @@
 		/// <param name="contentNegotiator">Content negotiator object</param>
 		/// <param name="request">Request message which led to this result</param>
 		/// <param name="formatters">Formatters used to format the content</param>
+		[ExcludeFromCoverage]
 		public ExportStreamResult(ExcelPackage content, IContentNegotiator contentNegotiator, HttpRequestMessage request, IEnumerable<MediaTypeFormatter> formatters)
 			: base(content, contentNegotiator, request, formatters)
 		{

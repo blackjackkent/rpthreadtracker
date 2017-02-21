@@ -32,9 +32,8 @@
 		/// <param name="blogRepository">Repository object containing database connection for blog info</param>
 		/// <param name="threadRepository">Repository object containing database connection for thread info</param>
 		/// <param name="tumblrClient">Wrapper class for HTTP client connection to Tumblr API</param>
-		/// <param name="skipTumblrCall">Whether or not to skip retrieving information from Tumblr when getting post info</param>
 		/// <returns><see cref="ThreadDto"/> object containing information for requested ID</returns>
-		ThreadDto GetById(int id, IRepository<Blog> blogRepository, IRepository<Thread> threadRepository, ITumblrClient tumblrClient, bool skipTumblrCall = false);
+		ThreadDto GetById(int id, IRepository<Blog> blogRepository, IRepository<Thread> threadRepository, ITumblrClient tumblrClient);
 
 		/// <summary>
 		/// Gets five most recent #news posts from the Tracker blog on Tumblr
@@ -94,5 +93,14 @@
 		/// <param name="isArchived">Whether the threads retrieved should be IsArchived = true or not</param>
 		/// <returns>Dictionary of thread information organized by userblogid</returns>
 		Dictionary<int, IEnumerable<ThreadDto>> GetThreadDistribution(IEnumerable<BlogDto> blogs, IRepository<Thread> threadRepository, bool isArchived);
+
+		/// <summary>
+		/// Populates information about the last post in the thread
+		/// based on Tumblr note information
+		/// </summary>
+		/// <param name="thread"><see cref="ThreadDto"/> to be hydrated</param>
+		/// <param name="post"><see cref="IPost"/> to use for last post information</param>
+		/// <returns><see cref="ThreadDto" /> object hydrated with latest post info</returns>
+		ThreadDto HydrateThread(ThreadDto thread, IPost post);
 	}
 }

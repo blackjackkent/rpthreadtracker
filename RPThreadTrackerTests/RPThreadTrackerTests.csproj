@@ -74,6 +74,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builders\MembershipBuilder.cs" />
     <Compile Include="Builders\ThreadBuilder.cs" />
     <Compile Include="Builders\UserBuilder.cs" />
     <Compile Include="Builders\BlogBuilder.cs" />
@@ -85,6 +86,10 @@
     <Compile Include="Controllers\PublicThreadControllerTests.cs" />
     <Compile Include="Controllers\ThreadControllerTests.cs" />
     <Compile Include="Controllers\UserControllerTests.cs" />
+    <Compile Include="Models\DomainModels\BlogTests.cs" />
+    <Compile Include="Models\DomainModels\MembershipTests.cs" />
+    <Compile Include="Models\DomainModels\ThreadTests.cs" />
+    <Compile Include="Models\DomainModels\UserTests.cs" />
     <Compile Include="Models\ServiceModels\PostTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
