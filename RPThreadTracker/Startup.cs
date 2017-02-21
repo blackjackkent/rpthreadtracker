@@ -7,6 +7,7 @@ namespace RPThreadTracker
 	using System;
 	using System.Web.Http;
 	using Infrastructure;
+	using Infrastructure.Data;
 	using Infrastructure.Providers;
 	using Infrastructure.Repositories;
 	using Infrastructure.Services;

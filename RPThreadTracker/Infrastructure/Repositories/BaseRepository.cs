@@ -5,7 +5,7 @@
 	using System.Data.Entity;
 	using System.Linq;
 	using System.Linq.Expressions;
-	using Entities;
+	using Data.Entities;
 	using Interfaces;
 	using Models.DomainModels;
 

@@ -1,6 +1,7 @@
 ﻿namespace RPThreadTracker.Infrastructure.Repositories
 {
 	using System.Data.Entity;
+	using Data;
 	using Interfaces;
 	using Models.DomainModels.Users;
 
