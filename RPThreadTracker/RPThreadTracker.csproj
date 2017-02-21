@@ -295,17 +295,17 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\ExportController.cs" />
-    <Compile Include="Infrastructure\BlogModel.Context.cs">
+    <Compile Include="Infrastructure\Data\BlogModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>BlogModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\BlogModel.cs">
+    <Compile Include="Infrastructure\Data\BlogModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>BlogModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\BlogModel.Designer.cs">
+    <Compile Include="Infrastructure\Data\BlogModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>BlogModel.edmx</DependentUpon>
@@ -317,13 +317,13 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ThreadController.cs" />
     <Compile Include="Controllers\NewsController.cs" />
-    <Compile Include="Infrastructure\Entities\IEntity.cs" />
-    <Compile Include="Infrastructure\Entities\RPThreadTrackerEntities.cs" />
-    <Compile Include="Infrastructure\Entities\UserBlog.cs" />
-    <Compile Include="Infrastructure\Entities\UserProfile.cs" />
-    <Compile Include="Infrastructure\Entities\UserThread.cs" />
-    <Compile Include="Infrastructure\Entities\UserThreadTag.cs" />
-    <Compile Include="Infrastructure\Entities\WebpagesMembership.cs" />
+    <Compile Include="Infrastructure\Data\Entities\IEntity.cs" />
+    <Compile Include="Infrastructure\Data\Entities\RPThreadTrackerEntities.cs" />
+    <Compile Include="Infrastructure\Data\Entities\UserBlog.cs" />
+    <Compile Include="Infrastructure\Data\Entities\UserProfile.cs" />
+    <Compile Include="Infrastructure\Data\Entities\UserThread.cs" />
+    <Compile Include="Infrastructure\Data\Entities\UserThreadTag.cs" />
+    <Compile Include="Infrastructure\Data\Entities\WebpagesMembership.cs" />
     <Compile Include="Infrastructure\Filters\ExcludeFromCoverage.cs" />
     <Compile Include="Infrastructure\ModelMappingExtensionMethods.cs" />
     <Compile Include="Infrastructure\Providers\SimpleAuthorizationServerProvider.cs" />
@@ -334,7 +334,7 @@
     <Compile Include="Infrastructure\Services\ThreadService.cs" />
     <Compile Include="Infrastructure\Services\UserProfileService.cs" />
     <Compile Include="Infrastructure\Services\WebSecurityService.cs" />
-    <Compile Include="Infrastructure\WebpagesMembership.cs">
+    <Compile Include="Infrastructure\Data\WebpagesMembership.cs">
       <DependentUpon>BlogModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Interfaces\IBlogService.cs" />
@@ -372,16 +372,16 @@
     <Compile Include="Infrastructure\Repositories\UserBlogRepository.cs" />
     <Compile Include="Infrastructure\Services\EmailService.cs" />
     <Compile Include="Infrastructure\Services\TumblrClient.cs" />
-    <Compile Include="Infrastructure\UserBlog.cs">
+    <Compile Include="Infrastructure\Data\UserBlog.cs">
       <DependentUpon>BlogModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\UserProfile.cs">
+    <Compile Include="Infrastructure\Data\UserProfile.cs">
       <DependentUpon>BlogModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\UserThread.cs">
+    <Compile Include="Infrastructure\Data\UserThread.cs">
       <DependentUpon>BlogModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Infrastructure\UserThreadTag.cs">
+    <Compile Include="Infrastructure\Data\UserThreadTag.cs">
       <DependentUpon>BlogModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
@@ -1315,19 +1315,20 @@
     <Content Include="application\fonts\fontawesome\fontawesome-webfont.ttf" />
     <Content Include="application\fonts\fontawesome\fontawesome-webfont.woff" />
     <Content Include="application\fonts\fontawesome\FontAwesome.otf" />
-    <EntityDeploy Include="Infrastructure\BlogModel.edmx">
+    <EntityDeploy Include="Infrastructure\Data\BlogModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>BlogModel.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>RPThreadTracker.Infrastructure.Data</CustomToolNamespace>
     </EntityDeploy>
-    <Content Include="Infrastructure\BlogModel.Context.tt">
+    <Content Include="Infrastructure\Data\BlogModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>BlogModel.edmx</DependentUpon>
       <LastGenOutput>BlogModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Infrastructure\BlogModel.edmx.diagram">
+    <Content Include="Infrastructure\Data\BlogModel.edmx.diagram">
       <DependentUpon>BlogModel.edmx</DependentUpon>
     </Content>
-    <Content Include="Infrastructure\BlogModel.tt">
+    <Content Include="Infrastructure\Data\BlogModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>BlogModel.edmx</DependentUpon>
       <LastGenOutput>BlogModel.cs</LastGenOutput>

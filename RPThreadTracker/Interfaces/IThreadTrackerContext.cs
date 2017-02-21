@@ -1,7 +1,7 @@
 ﻿namespace RPThreadTracker.Interfaces
 {
 	using System.Data.Entity;
-	using Infrastructure;
+	using Infrastructure.Data;
 
 	/// <summary>
 	/// Custom EntityFramework context containing RPThreadTracker data structure
@@ -12,7 +12,7 @@
 		/// Gets or sets the DbSet containing blog information
 		/// </summary>
 		/// <value>
-		/// <see cref="DbSet"/> collection of <see cref="UserBlog"/> data access values
+		/// <see cref="DbSet{TEntity}"/> collection of <see cref="UserBlog"/> data access values
 		/// </value>
 		DbSet<UserBlog> UserBlogs { get; set; }
 

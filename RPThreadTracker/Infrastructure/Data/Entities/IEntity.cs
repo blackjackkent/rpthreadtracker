@@ -1,4 +1,4 @@
-﻿namespace RPThreadTracker.Infrastructure.Entities
+﻿namespace RPThreadTracker.Infrastructure.Data.Entities
 {
 	/// <summary>
 	/// Interface for data-level entities

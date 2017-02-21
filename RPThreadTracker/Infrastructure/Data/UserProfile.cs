@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RPThreadTracker.Infrastructure
+namespace RPThreadTracker.Infrastructure.Data
 {
     using System;
     using System.Collections.Generic;

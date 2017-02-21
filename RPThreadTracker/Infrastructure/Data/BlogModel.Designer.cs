@@ -1,4 +1,4 @@
-﻿// T4 code generation is enabled for model 'C:\Users\rosalindwills\Documents\Visual Studio 2012\Projects\RPThreadTracker\RPThreadTracker\Infrastructure\BlogModel.edmx'. 
+﻿// T4 code generation is enabled for model 'C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTracker\Infrastructure\Data\BlogModel.edmx'. 
 // To enable legacy code generation, change the value of the 'Code Generation Strategy' designer
 // property to 'Legacy ObjectContext'. This property is available in the Properties Window when the model
 // is open in the designer.

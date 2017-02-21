@@ -4,7 +4,7 @@
 	using System.Linq;
 	using AutoMapper;
 	using AutoMapper.QueryableExtensions;
-	using Entities;
+	using Data.Entities;
 	using Models.DomainModels;
 
 	/// <summary>

@@ -1,5 +1,5 @@
 ﻿ // ReSharper disable once CheckNamespace
-namespace RPThreadTracker.Infrastructure
+namespace RPThreadTracker.Infrastructure.Data
 {
 	using Entities;
 

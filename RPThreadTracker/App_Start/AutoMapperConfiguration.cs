@@ -2,7 +2,7 @@
 {
 	using System.Linq;
 	using AutoMapper;
-	using Infrastructure;
+	using Infrastructure.Data;
 	using Infrastructure.Filters;
 	using Models.DomainModels.Account;
 	using Models.DomainModels.Blogs;

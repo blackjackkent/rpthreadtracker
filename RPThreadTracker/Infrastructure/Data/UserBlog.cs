@@ -7,26 +7,24 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace RPThreadTracker.Infrastructure
+namespace RPThreadTracker.Infrastructure.Data
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class UserThread
+    public partial class UserBlog
     {
-        public UserThread()
+        public UserBlog()
         {
-            this.UserThreadTags = new HashSet<UserThreadTag>();
+            this.UserThreads = new HashSet<UserThread>();
         }
     
-        public int UserThreadId { get; set; }
         public int UserBlogId { get; set; }
-        public string PostId { get; set; }
-        public string UserTitle { get; set; }
-        public string WatchedShortname { get; set; }
-        public bool IsArchived { get; set; }
+        public int UserId { get; set; }
+        public string BlogShortname { get; set; }
+        public bool OnHiatus { get; set; }
     
-        public virtual UserBlog UserBlog { get; set; }
-        public virtual ICollection<UserThreadTag> UserThreadTags { get; set; }
+        public virtual UserProfile UserProfile { get; set; }
+        public virtual ICollection<UserThread> UserThreads { get; set; }
     }
 }
