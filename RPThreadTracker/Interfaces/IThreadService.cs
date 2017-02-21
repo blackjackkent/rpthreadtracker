@@ -1,7 +1,6 @@
 ﻿namespace RPThreadTracker.Interfaces
 {
 	using System.Collections.Generic;
-	using System.Linq;
 	using Models.DomainModels.Blogs;
 	using Models.DomainModels.Threads;
 
@@ -16,7 +15,8 @@
 		/// </summary>
 		/// <param name="dto"><see cref="ThreadDto"/> object containing information about thread to be created.</param>
 		/// <param name="threadRepository">Repository object containing database connection</param>
-		void AddNewThread(ThreadDto dto, IRepository<Thread> threadRepository);
+		/// <returns><see cref="ThreadDto" /> object returned by insert</returns>
+		ThreadDto AddNewThread(ThreadDto dto, IRepository<Thread> threadRepository);
 
 		/// <summary>
 		/// Removes thread with passed identifier from database
@@ -44,13 +44,13 @@
 		IEnumerable<ThreadDto> GetNewsThreads(ITumblrClient tumblrClient);
 
 		/// <summary>
-		/// Gets all IDs for tracked threads belonging to a particular blog
+		/// Gets all IDs for tracked threads belonging to a particular user account
 		/// </summary>
-		/// <param name="blogId">Unique identifier of blog whose info should be retrieved</param>
+		/// <param name="userId">Unique identifier of user whose info should be retrieved</param>
 		/// <param name="threadRepository">Repository object containing database connection</param>
 		/// <param name="isArchived">Whether or not to retrieve archived threads</param>
 		/// <returns>List of integer identifiers for tracked threads</returns>
-		IEnumerable<int?> GetThreadIdsByBlogId(int? blogId, IRepository<Thread> threadRepository, bool isArchived = false);
+		IEnumerable<int?> GetThreadIdsByUserId(int? userId, IRepository<Thread> threadRepository, bool isArchived = false);
 
 		/// <summary>
 		/// Gets <see cref="ThreadDto"/> representations of all threads tracked on a particular blog

@@ -5,11 +5,13 @@
 	using AutoMapper;
 	using AutoMapper.QueryableExtensions;
 	using Data.Entities;
+	using Filters;
 	using Models.DomainModels;
 
 	/// <summary>
 	/// Class containing extension methods for managing mapping between <see cref="DomainModel"/> objects and <see cref="IEntity"/> objects
 	/// </summary>
+	[ExcludeFromCoverage]
 	public static class ModelMappingExtensionMethods
 	{
 		/// <summary>

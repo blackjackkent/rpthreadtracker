@@ -132,21 +132,6 @@
 		}
 
 		[Test]
-		public void Put_CurrentUserNotFound_ReturnsBadRequest()
-		{
-			// Arrange
-			var user = new UserBuilder().BuildDto();
-			_webSecurityService.Setup(s => s.GetCurrentUserFromIdentity(It.IsAny<ClaimsIdentity>(), _userProfileRepository.Object)).Returns((UserDto)null);
-
-			// Act
-			var result = _userController.Put(user);
-
-			// Assert
-			_userProfileService.Verify(us => us.Update(It.IsAny<UserDto>(), _userProfileRepository.Object), Times.Never());
-			Assert.That(result, Is.TypeOf<BadRequestResult>());
-		}
-
-		[Test]
 		public void Put_UpdatedUserDoesntMatchCurrentUser_ReturnsBadRequest()
 		{
 			// Arrange
@@ -184,20 +169,6 @@
 			// Assert
 			_userProfileService.Verify(us => us.Update(updatedUser, _userProfileRepository.Object), Times.Once());
 			Assert.That(result, Is.TypeOf<OkResult>());
-		}
-
-		[Test]
-		public void ChangePassword_UserNotFound_ReturnsBadRequest()
-		{
-			// Arrange
-			_webSecurityService.Setup(s => s.GetCurrentUserFromIdentity(It.IsAny<ClaimsIdentity>(), _userProfileRepository.Object)).Returns((UserDto)null);
-
-			// Act
-			var result = _userController.ChangePassword(new ChangePasswordRequest());
-
-			// Assert
-			_webSecurityService.Verify(s => s.ChangePassword(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()), Times.Never());
-			Assert.That(result, Is.TypeOf<BadRequestResult>());
 		}
 
 		[Test]

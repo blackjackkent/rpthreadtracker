@@ -2,6 +2,7 @@
 {
 	using System.Collections.Generic;
 	using Infrastructure;
+	using Infrastructure.Data;
 	using Models.DomainModels.Blogs;
 
 	/// <summary>
@@ -32,6 +33,15 @@
 		/// <param name="blogRepository">Repository object containing database connection</param>
 		/// <returns><see cref="BlogDto"/> object representing retrieved blog</returns>
 		BlogDto GetBlogById(int userBlogId, IRepository<Blog> blogRepository);
+
+		/// <summary>
+		/// Retrieves blog with passed shortname from database
+		/// </summary>
+		/// <param name="blogShortname">Shortname of blog to be retrieved</param>
+		/// <param name="userId">Unique identifier of user whose account should be searched</param>
+		/// <param name="blogRepository">Repository object containing database connection</param>
+		/// <returns><see cref="BlogDto"/> object representing retrieved blog</returns>
+		BlogDto GetBlogByShortname(string blogShortname, int userId, IRepository<Blog> blogRepository);
 
 		/// <summary>
 		/// Retrieves all blogs belonging to a particular user account

@@ -67,11 +67,11 @@
 		/// <returns>ActionResult object wrapping HTTP response</returns>
 		public IHttpActionResult Post([FromBody] string blogShortname)
 		{
-			var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
-			if (blogShortname == null || userId == null)
+			if (blogShortname == null)
 			{
 				return BadRequest();
 			}
+			var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
 			var blogExists = _blogService.UserIsTrackingShortname(blogShortname, userId, _blogRepository);
 			if (blogExists)
 			{
@@ -94,11 +94,11 @@
 		/// <returns>ActionResult object wrapping HTTP response</returns>
 		public IHttpActionResult Put(BlogDto request)
 		{
-			var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
-			if (request?.UserBlogId == null || userId == null)
+			if (request?.UserBlogId == null)
 			{
 				return BadRequest();
 			}
+			var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
 			if (!_blogService.UserOwnsBlog(request.UserBlogId.GetValueOrDefault(), userId.GetValueOrDefault(), _blogRepository))
 			{
 				return BadRequest();

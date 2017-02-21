@@ -2,6 +2,7 @@
 {
 	using System.Security.Claims;
 	using System.Threading.Tasks;
+	using Filters;
 	using Interfaces;
 	using Microsoft.Owin.Security.OAuth;
 	using Models.DomainModels.Users;
@@ -10,6 +11,7 @@
 	/// Authorization server provider implementation providing
 	/// credential authorization for OWIN server
 	/// </summary>
+	[ExcludeFromCoverage]
 	public class SimpleAuthorizationServerProvider : OAuthAuthorizationServerProvider
 	{
 		private readonly IRepository<User> _userProfileRepository;
