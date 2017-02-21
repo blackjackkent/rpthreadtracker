@@ -31,14 +31,21 @@
 		}
 
 		[Test]
-		public void Get_ThreadRequested_ReturnsThread()
+		public void Get_ThreadRequested_ReturnsHydratedThread()
 		{
 			// Arrange
 			var threadId = 1;
 			var thread = new ThreadBuilder()
 				.WithUserThreadId(threadId)
 				.BuildDto();
-			_threadService.Setup(t => t.GetById(threadId, _userBlogRepository.Object, _userThreadRepository.Object, _tumblrClient.Object, false)).Returns(thread);
+			var hydratedThread = new ThreadBuilder()
+				.WithUserThreadId(threadId)
+				.WithPostId("12345")
+				.BuildDto();
+			var post = new Mock<IPost>();
+			_threadService.Setup(t => t.GetById(threadId, _userBlogRepository.Object, _userThreadRepository.Object, _tumblrClient.Object)).Returns(thread);
+			_tumblrClient.Setup(c => c.GetPost(thread.PostId, thread.BlogShortname)).Returns(post.Object);
+			_threadService.Setup(s => s.HydrateThread(thread, post.Object)).Returns(hydratedThread);
 
 			// Act
 			var result = _publicThreadController.Get(threadId);
@@ -47,7 +54,7 @@
 			Assert.That(result, Is.TypeOf<OkNegotiatedContentResult<ThreadDto>>());
 			var content = result as OkNegotiatedContentResult<ThreadDto>;
 			Assert.That(content, Is.Not.Null);
-			Assert.That(content.Content, Is.EqualTo(thread));
+			Assert.That(content.Content, Is.EqualTo(hydratedThread));
 		}
 
 		[Test]
@@ -55,7 +62,7 @@
 		{
 			// Arrange
 			var threadId = 1;
-			_threadService.Setup(t => t.GetById(threadId, _userBlogRepository.Object, _userThreadRepository.Object, _tumblrClient.Object, false)).Returns((ThreadDto)null);
+			_threadService.Setup(t => t.GetById(threadId, _userBlogRepository.Object, _userThreadRepository.Object, _tumblrClient.Object)).Returns((ThreadDto)null);
 
 			// Act
 			var result = _publicThreadController.Get(threadId);

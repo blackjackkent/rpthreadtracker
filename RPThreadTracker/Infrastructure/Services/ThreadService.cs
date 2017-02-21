@@ -1,11 +1,13 @@
 ﻿namespace RPThreadTracker.Infrastructure.Services
 {
+	using System;
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Web.Configuration;
 	using Interfaces;
 	using Models.DomainModels.Blogs;
 	using Models.DomainModels.Threads;
+	using Models.ServiceModels;
 
 	/// <inheritdoc cref="IThreadService"/>
 	public class ThreadService : IThreadService
@@ -14,7 +16,7 @@
 		public ThreadDto AddNewThread(ThreadDto threadDto, IRepository<Thread> threadRepository)
 		{
 			var createdThread = threadRepository.Insert(new Thread(threadDto));
-			return createdThread.ToDto(createdThread.UserBlog.ToDto(), null);
+			return createdThread.ToDto();
 		}
 
 		/// <inheritdoc cref="IThreadService"/>
@@ -24,16 +26,10 @@
 		}
 
 		/// <inheritdoc cref="IThreadService"/>
-		public ThreadDto GetById(int id, IRepository<Blog> blogRepository, IRepository<Thread> threadRepository, ITumblrClient tumblrClient, bool skipTumblrCall = false)
+		public ThreadDto GetById(int id, IRepository<Blog> blogRepository, IRepository<Thread> threadRepository, ITumblrClient tumblrClient)
 		{
 			var thread = threadRepository.GetSingle(t => t.UserThreadId == id);
-			var blog = blogRepository.GetSingle(b => b.UserBlogId == thread.UserBlogId).ToDto();
-			if (skipTumblrCall)
-			{
-				return thread.ToDto(blog, null);
-			}
-			var post = tumblrClient.GetPost(thread.PostId, blog.BlogShortname);
-			return thread.ToDto(blog, post);
+			return thread.ToDto();
 		}
 
 		/// <inheritdoc cref="IThreadService"/>
@@ -71,7 +67,7 @@
 				return new List<ThreadDto>();
 			}
 			var threads = threadRepository.Get(t => t.UserBlogId == blog.UserBlogId && t.IsArchived == isArchived);
-			return threads.Select(t => t.ToDto(blog, null)).ToList();
+			return threads.Select(t => t.ToDto()).ToList();
 		}
 
 		/// <inheritdoc cref="IThreadService"/>
@@ -107,6 +103,53 @@
 				}
 			}
 			return distribution;
+		}
+
+		/// <inheritdoc cref="IThreadService"/>
+		public ThreadDto HydrateThread(ThreadDto thread, IPost post)
+		{
+			if (post == null)
+			{
+				return thread;
+			}
+			var mostRecentRelevantNote = post.GetMostRecentRelevantNote(thread.BlogShortname, thread.WatchedShortname);
+			if (mostRecentRelevantNote == null)
+			{
+				HydrateLastPostInfoFromPost(thread, post);
+				return thread;
+			}
+			HydrateLastPostInfoFromNote(thread, mostRecentRelevantNote);
+			return thread;
+		}
+
+		private void HydrateLastPostInfoFromNote(ThreadDto thread, Note note)
+		{
+			thread.LastPosterShortname = note.BlogName;
+			thread.LastPostUrl = note.BlogUrl + "post/" + note.PostId;
+			thread.LastPostDate = note.Timestamp;
+			if (string.IsNullOrEmpty(thread.WatchedShortname))
+			{
+				thread.IsMyTurn = !string.Equals(note.BlogName, thread.BlogShortname, StringComparison.OrdinalIgnoreCase);
+			}
+			else
+			{
+				thread.IsMyTurn = string.Equals(note.BlogName, thread.WatchedShortname, StringComparison.OrdinalIgnoreCase);
+			}
+		}
+
+		private void HydrateLastPostInfoFromPost(ThreadDto thread, IPost post)
+		{
+			thread.LastPosterShortname = post.BlogName;
+			thread.LastPostUrl = post.PostUrl;
+			thread.LastPostDate = post.Timestamp;
+			if (string.IsNullOrEmpty(thread.WatchedShortname))
+			{
+				thread.IsMyTurn = !string.Equals(post.BlogName, thread.BlogShortname, StringComparison.OrdinalIgnoreCase);
+			}
+			else
+			{
+				thread.IsMyTurn = string.Equals(post.BlogName, thread.WatchedShortname, StringComparison.OrdinalIgnoreCase);
+			}
 		}
 	}
 }

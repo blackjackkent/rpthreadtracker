@@ -115,47 +115,5 @@
 		{
 			return new Thread(this);
 		}
-
-		/// <summary>
-		/// Populates information about the last post in the thread
-		/// based on Tumblr note information
-		/// </summary>
-		/// <param name="note"><see cref="Note"/> to use for last post information</param>
-		/// <param name="blog"><see cref="BlogDto"/> object used to set <see cref="IsMyTurn"/></param>
-		public void HydrateLastPostInfoFromNote(Note note, BlogDto blog)
-		{
-			LastPosterShortname = note.BlogName;
-			LastPostUrl = note.BlogUrl + "post/" + note.PostId;
-			LastPostDate = note.Timestamp;
-			if (string.IsNullOrEmpty(WatchedShortname))
-			{
-				IsMyTurn = !string.Equals(note.BlogName, blog.BlogShortname, StringComparison.OrdinalIgnoreCase);
-			}
-			else
-			{
-				IsMyTurn = string.Equals(note.BlogName, WatchedShortname, StringComparison.OrdinalIgnoreCase);
-			}
-		}
-
-		/// <summary>
-		/// Populates information about the last post in the thread
-		/// based on Tumblr note information
-		/// </summary>
-		/// <param name="post"><see cref="IPost"/> to use for last post information</param>
-		/// <param name="blog"><see cref="BlogDto"/> object used to set <see cref="IsMyTurn"/></param>
-		public void HydrateLastPostInfoFromPost(IPost post, BlogDto blog)
-		{
-			LastPosterShortname = post.BlogName;
-			LastPostUrl = post.PostUrl;
-			LastPostDate = post.Timestamp;
-			if (string.IsNullOrEmpty(WatchedShortname))
-			{
-				IsMyTurn = !string.Equals(post.BlogName, blog.BlogShortname, StringComparison.OrdinalIgnoreCase);
-			}
-			else
-			{
-				IsMyTurn = string.Equals(post.BlogName, WatchedShortname, StringComparison.OrdinalIgnoreCase);
-			}
-		}
 	}
 }

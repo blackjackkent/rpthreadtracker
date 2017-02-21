@@ -99,48 +99,24 @@
 		/// <summary>
 		/// Converts <see cref="Thread"/> object to <see cref="ThreadDto"/>
 		/// </summary>
-		/// <param name="blog"><see cref="BlogDto"/> information to be attached to thread object</param>
-		/// <param name="post">Raw Tumblr API <see cref="IPost"/> information to be attached to thread object</param>
 		/// <returns><see cref="ThreadDto"/> object corresponding to this thread, hydrated with blog and Tumblr API info</returns>
-		public ThreadDto ToDto(BlogDto blog, IPost post)
+		public ThreadDto ToDto()
 		{
-			if (post == null)
+			return new ThreadDto
 			{
-				return new ThreadDto
-				{
-					BlogShortname = blog.BlogShortname,
-					UserBlogId = blog.UserBlogId ?? -1,
-					IsMyTurn = true,
-					LastPostDate = null,
-					LastPostUrl = null,
-					LastPosterShortname = null,
-					PostId = PostId,
-					UserThreadId = UserThreadId,
-					UserTitle = UserTitle,
-					WatchedShortname = WatchedShortname,
-					IsArchived = IsArchived,
-					ThreadTags = ThreadTags
-				};
-			}
-			var dto = new ThreadDto
-			{
+				BlogShortname = UserBlog.BlogShortname,
+				UserBlogId = UserBlogId,
+				IsMyTurn = true,
+				LastPostDate = null,
+				LastPostUrl = null,
+				LastPosterShortname = null,
+				PostId = PostId,
 				UserThreadId = UserThreadId,
-				PostId = post.Id.ToString(),
 				UserTitle = UserTitle,
-				BlogShortname = blog.BlogShortname,
-				UserBlogId = blog.UserBlogId ?? -1,
 				WatchedShortname = WatchedShortname,
 				IsArchived = IsArchived,
 				ThreadTags = ThreadTags
 			};
-			var mostRecentRelevantNote = post.GetMostRecentRelevantNote(blog.BlogShortname, WatchedShortname);
-			if (mostRecentRelevantNote == null)
-			{
-				dto.HydrateLastPostInfoFromPost(post, blog);
-				return dto;
-			}
-			dto.HydrateLastPostInfoFromNote(mostRecentRelevantNote, blog);
-			return dto;
 		}
 	}
 }
