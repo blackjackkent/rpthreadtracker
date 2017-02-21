@@ -326,8 +326,10 @@
     <Compile Include="Infrastructure\Data\Entities\WebpagesMembership.cs" />
     <Compile Include="Infrastructure\Filters\ExcludeFromCoverage.cs" />
     <Compile Include="Infrastructure\ModelMappingExtensionMethods.cs" />
+    <Compile Include="Infrastructure\Providers\HttpContextProvider.cs" />
     <Compile Include="Infrastructure\Providers\SimpleAuthorizationServerProvider.cs" />
     <Compile Include="Infrastructure\Filters\RedirectOnMaintenance.cs" />
+    <Compile Include="Infrastructure\Providers\UnityFilterProvider.cs" />
     <Compile Include="Infrastructure\Repositories\BaseRepository.cs" />
     <Compile Include="Infrastructure\Services\BlogService.cs" />
     <Compile Include="Infrastructure\Services\ConfigurationService.cs" />

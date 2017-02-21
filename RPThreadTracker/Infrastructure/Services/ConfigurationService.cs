@@ -3,9 +3,11 @@
 	using System.Collections.Generic;
 	using System.Configuration;
 	using System.Linq;
+	using Filters;
 	using Interfaces;
 
 	/// <inheritdoc cref="IConfigurationService"/>
+	[ExcludeFromCoverage]
 	public class ConfigurationService : IConfigurationService
 	{
 		/// <inheritdoc cref="IConfigurationService"/>
