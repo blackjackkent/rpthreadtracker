@@ -6,6 +6,7 @@
 	using System.Security.Claims;
 	using System.Text;
 	using System.Threading.Tasks;
+	using Filters;
 	using Interfaces;
 	using Models.DomainModels.Account;
 	using Models.DomainModels.Users;
@@ -15,12 +16,14 @@
 	public class WebSecurityService : IWebSecurityService
 	{
 		/// <inheritdoc cref="IWebSecurityService"/>
+		[ExcludeFromCoverage]
 		public bool ChangePassword(string username, string oldPassword, string newPassword)
 		{
 			return WebSecurity.ChangePassword(username, oldPassword, newPassword);
 		}
 
 		/// <inheritdoc cref="IWebSecurityService"/>
+		[ExcludeFromCoverage]
 		public UserDto CreateAccount(string username, string password, string email, IRepository<User> userProfileRepository)
 		{
 			WebSecurity.CreateUserAndAccount(username, password);
@@ -36,6 +39,7 @@
 		}
 
 		/// <inheritdoc cref="IWebSecurityService"/>
+		[ExcludeFromCoverage]
 		public string GeneratePasswordResetToken(UserDto user)
 		{
 			return WebSecurity.GeneratePasswordResetToken(user.UserName);
@@ -66,6 +70,7 @@
 		}
 
 		/// <inheritdoc cref="IWebSecurityService"/>
+		[ExcludeFromCoverage]
 		public int? GetUserIdByUsernameAndPassword(string username, string password, IRepository<User> userProfileRepository)
 		{
 			var userExistsWithUsername = System.Web.Security.Membership.Provider.ValidateUser(username, password);
@@ -83,6 +88,7 @@
 		}
 
 		/// <inheritdoc cref="IWebSecurityService"/>
+		[ExcludeFromCoverage]
 		public string ResetPassword(string resetToken)
 		{
 			var newPassword = GenerateRandomPassword(6);

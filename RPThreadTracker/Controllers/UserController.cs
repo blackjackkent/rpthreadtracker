@@ -54,8 +54,8 @@
 		[AllowAnonymous]
 		public IHttpActionResult Post(RegisterRequest request)
 		{
-			var usernameExists = _userProfileService.UserExistsWithUsername(request.Username, _userProfileRepository);
-			var emailExists = _userProfileService.UserExistsWithEmail(request.Email, _userProfileRepository);
+			var usernameExists = _userProfileService.GetUserByUsername(request.Username, _userProfileRepository) != null;
+			var emailExists = _userProfileService.GetUserByEmail(request.Email, _userProfileRepository) != null;
 			if (usernameExists || emailExists)
 			{
 				return BadRequest("An account with some or all of this information already exists.");

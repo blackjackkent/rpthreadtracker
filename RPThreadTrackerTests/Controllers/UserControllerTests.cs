@@ -55,8 +55,8 @@
 				Username = "test"
 			};
 			_webSecurityService.Setup(s => s.GetCurrentUserFromIdentity(It.IsAny<ClaimsIdentity>(), _userProfileRepository.Object)).Returns(user);
-			_userProfileService.Setup(s => s.UserExistsWithEmail(It.IsAny<string>(), _userProfileRepository.Object)).Returns(true);
-			_userProfileService.Setup(s => s.UserExistsWithUsername(It.IsAny<string>(), _userProfileRepository.Object)).Returns(false);
+			_userProfileService.Setup(s => s.GetUserByEmail(It.IsAny<string>(), _userProfileRepository.Object)).Returns(new UserBuilder().BuildDto);
+			_userProfileService.Setup(s => s.GetUserByUsername(It.IsAny<string>(), _userProfileRepository.Object)).Returns((UserDto)null);
 
 			// Act
 			var result = _userController.Post(request);
@@ -79,8 +79,8 @@
 				Username = "test"
 			};
 			_webSecurityService.Setup(s => s.GetCurrentUserFromIdentity(It.IsAny<ClaimsIdentity>(), _userProfileRepository.Object)).Returns(user);
-			_userProfileService.Setup(s => s.UserExistsWithEmail(It.IsAny<string>(), _userProfileRepository.Object)).Returns(false);
-			_userProfileService.Setup(s => s.UserExistsWithUsername(It.IsAny<string>(), _userProfileRepository.Object)).Returns(true);
+			_userProfileService.Setup(s => s.GetUserByEmail(It.IsAny<string>(), _userProfileRepository.Object)).Returns((UserDto)null);
+			_userProfileService.Setup(s => s.GetUserByUsername(It.IsAny<string>(), _userProfileRepository.Object)).Returns(new UserBuilder().BuildDto());
 
 			// Act
 			var result = _userController.Post(request);
@@ -105,8 +105,8 @@
 				ConfirmPassword = "TestPassword"
 			};
 			_webSecurityService.Setup(s => s.GetCurrentUserFromIdentity(It.IsAny<ClaimsIdentity>(), _userProfileRepository.Object)).Returns(user);
-			_userProfileService.Setup(s => s.UserExistsWithEmail(It.IsAny<string>(), _userProfileRepository.Object)).Returns(false);
-			_userProfileService.Setup(s => s.UserExistsWithUsername(It.IsAny<string>(), _userProfileRepository.Object)).Returns(false);
+			_userProfileService.Setup(s => s.GetUserByUsername(It.IsAny<string>(), _userProfileRepository.Object)).Returns((UserDto)null);
+			_userProfileService.Setup(s => s.GetUserByEmail(It.IsAny<string>(), _userProfileRepository.Object)).Returns((UserDto)null);
 			_webSecurityService.Setup(s => s.CreateAccount(request.Username, request.Password, request.Email, _userProfileRepository.Object)).Returns(user);
 
 			// Act

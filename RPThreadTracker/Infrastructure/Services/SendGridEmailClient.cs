@@ -7,10 +7,10 @@
 	using SendGrid.Helpers.Mail;
 
 	/// <inheritdoc cref="IEmailClient"/>
-	[ExcludeFromCoverage]
 	public class SendGridEmailClient : IEmailClient
 	{
 		/// <inheritdoc cref="IEmailClient"/>
+		[ExcludeFromCoverage]
 		public async Task SendEmail(string recipientAddress, string subject, string body, IConfigurationService configurationService)
 		{
 			var apiKey = configurationService.SendGridApiKey;

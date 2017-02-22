@@ -71,7 +71,8 @@
 			{
 				return BadRequest();
 			}
-			return Ok(_threadService.GetThreadIdsByBlog(blog, _threadRepository));
+			var threads = _threadService.GetThreadsByBlog(blog, _threadRepository);
+			return Ok(threads.Select(t => t.UserThreadId));
 		}
 	}
 }
