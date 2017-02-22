@@ -344,5 +344,196 @@
 			Assert.That(result[1].Count(), Is.EqualTo(2));
 			Assert.That(result[2].Count(), Is.EqualTo(2));
 		}
+
+		[Test]
+		public void HydrateThread_PostNull_ReturnsThreadAsIs()
+		{
+			// Arrange
+			var thread = new ThreadBuilder()
+				.WithLastPosterShortname(null)
+				.WithLastPostUrl(null)
+				.WithLastPostDate(null)
+				.WithWatchedShortname(null)
+				.WithIsMyTurn(false)
+				.BuildDto();
+
+			// Act
+			var result = _service.HydrateThread(thread, null);
+
+			// Assert
+			Assert.That(result, Is.Not.Null);
+			Assert.That(result.BlogShortname, Is.EqualTo(thread.BlogShortname));
+			Assert.That(result.IsArchived, Is.EqualTo(thread.IsArchived));
+			Assert.That(result.IsMyTurn, Is.EqualTo(thread.IsMyTurn));
+			Assert.That(result.LastPostDate, Is.EqualTo(thread.LastPostDate));
+			Assert.That(result.LastPosterShortname, Is.EqualTo(thread.LastPosterShortname));
+			Assert.That(result.LastPostUrl, Is.EqualTo(thread.LastPostUrl));
+			Assert.That(result.PostId, Is.EqualTo(thread.PostId));
+			Assert.That(result.ThreadTags, Is.EqualTo(thread.ThreadTags));
+			Assert.That(result.UserBlogId, Is.EqualTo(thread.UserBlogId));
+			Assert.That(result.UserThreadId, Is.EqualTo(thread.UserThreadId));
+			Assert.That(result.UserTitle, Is.EqualTo(thread.UserTitle));
+			Assert.That(result.WatchedShortname, Is.EqualTo(thread.WatchedShortname));
+		}
+
+		[Test]
+		public void HydrateThread_NoRelevantNote_WatchedShortnameNull_ReturnsHydratedThread()
+		{
+			// Arrange
+			var thread = new ThreadBuilder()
+				.WithBlogShortname("MyShortname")
+				.WithLastPosterShortname(null)
+				.WithLastPostUrl(null)
+				.WithLastPostDate(null)
+				.WithWatchedShortname(null)
+				.WithIsMyTurn(false)
+				.BuildDto();
+			var post = new Mock<IPost>();
+			var timestamp = DateTime.Now.Ticks;
+			post.Setup(p => p.GetMostRecentRelevantNote(thread.BlogShortname, thread.WatchedShortname)).Returns((Note)null);
+			post.SetupGet(p => p.BlogName).Returns("PostLastPosterShortname");
+			post.SetupGet(p => p.PostUrl).Returns("PostLastPostUrl");
+			post.SetupGet(p => p.Timestamp).Returns(timestamp);
+
+			// Act
+			var result = _service.HydrateThread(thread, post.Object);
+
+			// Assert
+			Assert.That(result, Is.Not.Null);
+			Assert.That(result.BlogShortname, Is.EqualTo(thread.BlogShortname));
+			Assert.That(result.IsArchived, Is.EqualTo(thread.IsArchived));
+			Assert.That(result.IsMyTurn, Is.EqualTo(true));
+			Assert.That(result.LastPostDate, Is.EqualTo(timestamp));
+			Assert.That(result.LastPosterShortname, Is.EqualTo(post.Object.BlogName));
+			Assert.That(result.LastPostUrl, Is.EqualTo(post.Object.PostUrl));
+			Assert.That(result.PostId, Is.EqualTo(thread.PostId));
+			Assert.That(result.ThreadTags, Is.EqualTo(thread.ThreadTags));
+			Assert.That(result.UserBlogId, Is.EqualTo(thread.UserBlogId));
+			Assert.That(result.UserThreadId, Is.EqualTo(thread.UserThreadId));
+			Assert.That(result.UserTitle, Is.EqualTo(thread.UserTitle));
+			Assert.That(result.WatchedShortname, Is.EqualTo(thread.WatchedShortname));
+		}
+
+		[Test]
+		public void HydrateThread_NoRelevantNote_WatchedShortnameNotNull_ReturnsHydratedThread()
+		{
+			// Arrange
+			var thread = new ThreadBuilder()
+				.WithBlogShortname("MyShortname")
+				.WithLastPosterShortname(null)
+				.WithLastPostUrl(null)
+				.WithLastPostDate(null)
+				.WithWatchedShortname("SomeoneElsesShortname")
+				.WithIsMyTurn(false)
+				.BuildDto();
+			var post = new Mock<IPost>();
+			var timestamp = DateTime.Now.Ticks;
+			post.Setup(p => p.GetMostRecentRelevantNote(thread.BlogShortname, thread.WatchedShortname)).Returns((Note)null);
+			post.SetupGet(p => p.BlogName).Returns("PostLastPosterShortname");
+			post.SetupGet(p => p.PostUrl).Returns("PostLastPostUrl");
+			post.SetupGet(p => p.Timestamp).Returns(timestamp);
+
+			// Act
+			var result = _service.HydrateThread(thread, post.Object);
+
+			// Assert
+			Assert.That(result, Is.Not.Null);
+			Assert.That(result.BlogShortname, Is.EqualTo(thread.BlogShortname));
+			Assert.That(result.IsArchived, Is.EqualTo(thread.IsArchived));
+			Assert.That(result.IsMyTurn, Is.EqualTo(false));
+			Assert.That(result.LastPostDate, Is.EqualTo(timestamp));
+			Assert.That(result.LastPosterShortname, Is.EqualTo(post.Object.BlogName));
+			Assert.That(result.LastPostUrl, Is.EqualTo(post.Object.PostUrl));
+			Assert.That(result.PostId, Is.EqualTo(thread.PostId));
+			Assert.That(result.ThreadTags, Is.EqualTo(thread.ThreadTags));
+			Assert.That(result.UserBlogId, Is.EqualTo(thread.UserBlogId));
+			Assert.That(result.UserThreadId, Is.EqualTo(thread.UserThreadId));
+			Assert.That(result.UserTitle, Is.EqualTo(thread.UserTitle));
+			Assert.That(result.WatchedShortname, Is.EqualTo(thread.WatchedShortname));
+		}
+
+		[Test]
+		public void HydrateThread_RelevantNote_WatchedShortnameNull_ReturnsHydratedThread()
+		{
+			// Arrange
+			var thread = new ThreadBuilder()
+				.WithBlogShortname("MyShortname")
+				.WithLastPosterShortname(null)
+				.WithLastPostUrl(null)
+				.WithLastPostDate(null)
+				.WithWatchedShortname(null)
+				.WithIsMyTurn(false)
+				.BuildDto();
+			var post = new Mock<IPost>();
+			var timestamp = DateTime.Now.Ticks;
+			var note = new Note
+			{
+				BlogName = "PostLastPosterShortname",
+				BlogUrl = "PostLastPostUrl",
+				Timestamp = timestamp,
+				PostId = "12345"
+			};
+			post.Setup(p => p.GetMostRecentRelevantNote(thread.BlogShortname, thread.WatchedShortname)).Returns(note);
+
+			// Act
+			var result = _service.HydrateThread(thread, post.Object);
+
+			// Assert
+			Assert.That(result, Is.Not.Null);
+			Assert.That(result.BlogShortname, Is.EqualTo(thread.BlogShortname));
+			Assert.That(result.IsArchived, Is.EqualTo(thread.IsArchived));
+			Assert.That(result.IsMyTurn, Is.EqualTo(true));
+			Assert.That(result.LastPostDate, Is.EqualTo(timestamp));
+			Assert.That(result.LastPosterShortname, Is.EqualTo(note.BlogName));
+			Assert.That(result.LastPostUrl, Is.EqualTo(note.BlogUrl + "post/" + note.PostId));
+			Assert.That(result.PostId, Is.EqualTo(thread.PostId));
+			Assert.That(result.ThreadTags, Is.EqualTo(thread.ThreadTags));
+			Assert.That(result.UserBlogId, Is.EqualTo(thread.UserBlogId));
+			Assert.That(result.UserThreadId, Is.EqualTo(thread.UserThreadId));
+			Assert.That(result.UserTitle, Is.EqualTo(thread.UserTitle));
+			Assert.That(result.WatchedShortname, Is.EqualTo(thread.WatchedShortname));
+		}
+
+		[Test]
+		public void HydrateThread_RelevantNote_WatchedShortnameNotNull_ReturnsHydratedThread()
+		{
+			// Arrange
+			var thread = new ThreadBuilder()
+				.WithBlogShortname("MyShortname")
+				.WithLastPosterShortname(null)
+				.WithLastPostUrl(null)
+				.WithLastPostDate(null)
+				.WithWatchedShortname("SomeoneElsesShortname")
+				.WithIsMyTurn(false)
+				.BuildDto();
+			var post = new Mock<IPost>();
+			var timestamp = DateTime.Now.Ticks;
+			var note = new Note
+			{
+				BlogName = "PostLastPosterShortname",
+				BlogUrl = "PostLastPostUrl",
+				Timestamp = timestamp,
+				PostId = "123456"
+			};
+			post.Setup(p => p.GetMostRecentRelevantNote(thread.BlogShortname, thread.WatchedShortname)).Returns(note);
+
+			// Act
+			var result = _service.HydrateThread(thread, post.Object);
+
+			// Assert
+			Assert.That(result, Is.Not.Null);
+			Assert.That(result.BlogShortname, Is.EqualTo(thread.BlogShortname));
+			Assert.That(result.IsArchived, Is.EqualTo(thread.IsArchived));
+			Assert.That(result.IsMyTurn, Is.EqualTo(false));
+			Assert.That(result.LastPostDate, Is.EqualTo(timestamp));
+			Assert.That(result.LastPosterShortname, Is.EqualTo(note.BlogName));
+			Assert.That(result.LastPostUrl, Is.EqualTo(note.BlogUrl + "post/" + note.PostId));
+			Assert.That(result.PostId, Is.EqualTo(thread.PostId));
+			Assert.That(result.ThreadTags, Is.EqualTo(thread.ThreadTags));
+			Assert.That(result.UserBlogId, Is.EqualTo(thread.UserBlogId));
+			Assert.That(result.UserThreadId, Is.EqualTo(thread.UserThreadId));
+			Assert.That(result.UserTitle, Is.EqualTo(thread.UserTitle));
+			Assert.That(result.WatchedShortname, Is.EqualTo(thread.WatchedShortname));
+		}
 	}
 }
