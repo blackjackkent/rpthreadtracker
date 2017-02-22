@@ -281,5 +281,68 @@
 			// Assert
 			Assert.That(result, Is.True);
 		}
+
+		[Test]
+		public void GetThreadDistribution_BlogsEmpty_ReturnsEmpty()
+		{
+			// Arrange
+			var blogs = new List<BlogDto>();
+
+			// Act
+			var result = _service.GetThreadDistribution(blogs, _threadRepository.Object, true);
+
+			// Assert
+			Assert.That(result, Is.Not.Null);
+			Assert.That(result, Is.Empty);
+		}
+
+		[Test]
+		public void GetThreadDistribution_BlogsValid_ReturnsBlogsWithThreads()
+		{
+			// Arrange
+			var blogs = new List<BlogDto>
+			{
+				new BlogBuilder()
+					.WithUserBlogId(1)
+					.BuildDto(),
+				new BlogBuilder()
+					.WithUserBlogId(2)
+					.BuildDto(),
+				new BlogBuilder()
+					.WithUserBlogId(3)
+					.BuildDto()
+			};
+			var blog1Threads = new List<Thread>
+			{
+				new ThreadBuilder()
+					.WithUserThreadId(1)
+					.Build(),
+				new ThreadBuilder()
+					.WithUserThreadId(2)
+					.Build(),
+			};
+			var blog2Threads = new List<Thread>
+			{
+				new ThreadBuilder()
+					.WithUserThreadId(3)
+					.Build(),
+				new ThreadBuilder()
+					.WithUserThreadId(4)
+					.Build(),
+			};
+			_threadRepository.SetupSequence(t => t.Get(It.IsAny<Expression<Func<Thread, bool>>>()))
+				.Returns(blog1Threads)
+				.Returns(blog2Threads)
+				.Returns(new List<Thread>());
+
+			// Act
+			var result = _service.GetThreadDistribution(blogs, _threadRepository.Object, true);
+
+			// Assert
+			Assert.That(result, Is.Not.Null);
+			Assert.That(result.Count(), Is.EqualTo(2));
+			Assert.That(result[1].Count(), Is.EqualTo(2));
+			Assert.That(result[2].Count(), Is.EqualTo(2));
+		}
 	}
 }
