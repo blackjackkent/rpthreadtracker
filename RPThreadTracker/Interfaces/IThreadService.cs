@@ -60,15 +60,6 @@
 		IEnumerable<ThreadDto> GetThreadsByBlog(BlogDto blog, IRepository<Thread> threadRepository, bool isArchived = false);
 
 		/// <summary>
-		/// Gets integer IDs of all threads tracked on a particular blog
-		/// </summary>
-		/// <param name="blog"><see cref="BlogDto"/> object for which to retrieve thread information</param>
-		/// <param name="threadRepository">Repository object containing database connection</param>
-		/// <param name="isArchived">Whether or not to retrieve archived threads</param>
-		/// <returns>List of <see cref="ThreadDto"/> objects</returns>
-		IEnumerable<int?> GetThreadIdsByBlog(BlogDto blog, IRepository<Thread> threadRepository, bool isArchived = false);
-
-		/// <summary>
 		/// Updates existing thread with passed property information
 		/// </summary>
 		/// <param name="dto"><see cref="ThreadDto"/> object containing data to be updated on database object</param>

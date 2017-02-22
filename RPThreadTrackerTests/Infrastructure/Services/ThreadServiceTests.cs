@@ -234,35 +234,52 @@
 		}
 
 		[Test]
-		public void GetThreadIdsByBlog_BlogValid_ReturnsThreadIds()
+		public void UpdateThread_UpdatesThread()
 		{
 			// Arrange
-			var userId = 1234;
-			var thread1 = new ThreadBuilder()
-				.WithUserThreadId(1)
-				.Build();
-			var thread2 = new ThreadBuilder()
-				.WithUserThreadId(2)
-				.Build();
-			var thread3 = new ThreadBuilder()
-				.WithUserThreadId(3)
-				.Build();
-			var threadList = new List<Thread> { thread1, thread2, thread3 };
-			var blog = new BlogBuilder()
-				.WithUserBlogId(5)
+			int userThreadId = 12345;
+			var thread = new ThreadBuilder()
+				.WithUserThreadId(userThreadId)
 				.BuildDto();
-			_threadRepository.Setup(b => b.Get(It.IsAny<Expression<Func<Thread, bool>>>())).Returns(threadList);
 
 			// Act
-			var result = _service.GetThreadIdsByBlog(blog, _threadRepository.Object);
+			_service.UpdateThread(thread, _threadRepository.Object);
 
 			// Assert
-			_threadRepository.Verify(b => b.Get(It.IsAny<Expression<Func<Thread, bool>>>()), Times.Once);
-			Assert.That(result, Is.Not.Null);
-			Assert.That(result.Count(), Is.EqualTo(3));
-			Assert.That(result.Contains(1));
-			Assert.That(result.Contains(2));
-			Assert.That(result.Contains(3));
+			_threadRepository.Verify(tr => tr.Update(userThreadId, It.Is<Thread>(t => t.UserThreadId == userThreadId && t.UserTitle == thread.UserTitle)), Times.Once);
+		}
+
+		[Test]
+		public void UserOwnsThread_ThreadNotFound_ReturnsFalse()
+		{
+			// Arrange
+			var userId = 12345;
+			var threadId = 1234;
+			_threadRepository.Setup(b => b.Get(It.IsAny<Expression<Func<Thread, bool>>>())).Returns(new List<Thread>());
+
+			// Act
+			var result = _service.UserOwnsThread(userId, threadId, _threadRepository.Object);
+
+			// Assert
+			Assert.That(result, Is.False);
+		}
+
+		[Test]
+		public void UserOwnsThread_ThreadFound_ReturnsTrue()
+		{
+			// Arrange
+			var userId = 12345;
+			var threadId = 1234;
+			var thread = new ThreadBuilder()
+				.WithUserBlogId(threadId)
+				.Build();
+			_threadRepository.Setup(b => b.Get(It.IsAny<Expression<Func<Thread, bool>>>())).Returns(new List<Thread> { thread });
+
+			// Act
+			var result = _service.UserOwnsThread(userId, threadId, _threadRepository.Object);
+
+			// Assert
+			Assert.That(result, Is.True);
 		}
 	}
 }

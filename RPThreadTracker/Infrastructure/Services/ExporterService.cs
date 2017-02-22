@@ -2,6 +2,7 @@
 {
 	using System.Collections.Generic;
 	using System.Drawing;
+	using Filters;
 	using Interfaces;
 	using Models.DomainModels.Blogs;
 	using Models.DomainModels.Threads;
@@ -11,6 +12,7 @@
 	public class ExporterService : IExporterService
 	{
 		/// <inheritdoc cref="IExporterService"/>
+		[ExcludeFromCoverage]
 		public ExcelPackage GetPackage(IEnumerable<BlogDto> blogs, Dictionary<int, IEnumerable<ThreadDto>> threadDistribution, Dictionary<int, IEnumerable<ThreadDto>> archivedThreadDistribution, bool includeArchived)
 		{
 			var package = new ExcelPackage();
