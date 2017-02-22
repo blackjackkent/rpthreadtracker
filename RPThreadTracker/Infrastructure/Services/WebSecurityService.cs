@@ -101,36 +101,26 @@
 		}
 
 		/// <inheritdoc cref="IWebSecurityService"/>
-		public string GenerateRandomPassword(int length)
-		{
-			const string allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789!@$?_-*&#+";
-			var chars = new char[length];
-			var rd = new Random();
-			for (var i = 0; i < length; i++)
-			{
-				chars[i] = allowedChars[rd.Next(0, allowedChars.Length)];
-			}
-			return new string(chars);
-		}
-
-		/// <inheritdoc cref="IWebSecurityService"/>
+		[ExcludeFromCoverage]
 		public async Task SendForgotPasswordEmail(UserDto user, string token, IRepository<Membership> webpagesMembershipRepository, IEmailClient emailClient, IConfigurationService configurationService)
 		{
 			var isValidToken = IsValidToken(user, token, webpagesMembershipRepository);
 			if (!isValidToken)
 			{
-				throw new InvalidDataException();
+				throw new Exception("Invalid token");
 			}
 			var newPassword = ResetPassword(token);
 			await SendTemporaryPasswordEmail(user, newPassword, emailClient, configurationService);
 		}
 
+		[ExcludeFromCoverage]
 		private static bool IsValidToken(UserDto user, string resetToken, IRepository<Membership> webpagesMembershipRepository)
 		{
 			var record = webpagesMembershipRepository.Get(m => m.UserId == user.UserId && m.PasswordVerificationToken == resetToken);
 			return record.Any();
 		}
 
+		[ExcludeFromCoverage]
 		private static async Task SendTemporaryPasswordEmail(UserDto user, string newPassword, IEmailClient emailClient, IConfigurationService configurationService)
 		{
 			const string subject = "RPThreadTracker ~ New Temporary Password";
@@ -143,6 +133,19 @@
 			bodyBuilder.Append("<p>~Tracker-mun</p>");
 			var body = bodyBuilder.ToString();
 			await emailClient.SendEmail(user.Email, subject, body, configurationService);
+		}
+
+		[ExcludeFromCoverage]
+		private string GenerateRandomPassword(int length)
+		{
+			const string allowedChars = "abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ0123456789!@$?_-*&#+";
+			var chars = new char[length];
+			var rd = new Random();
+			for (var i = 0; i < length; i++)
+			{
+				chars[i] = allowedChars[rd.Next(0, allowedChars.Length)];
+			}
+			return new string(chars);
 		}
 	}
 }

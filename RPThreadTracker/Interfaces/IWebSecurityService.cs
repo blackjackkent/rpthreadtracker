@@ -71,13 +71,6 @@
 		string ResetPassword(string resetToken);
 
 		/// <summary>
-		/// Generates a random string to be used as a temporary password
-		/// </summary>
-		/// <param name="length">Length of string to generate</param>
-		/// <returns>String of random characters</returns>
-		string GenerateRandomPassword(int length);
-
-		/// <summary>
 		/// Sends an email to the user containing a temporary password to log into the site
 		/// </summary>
 		/// <param name="user">User account for which to update password</param>
