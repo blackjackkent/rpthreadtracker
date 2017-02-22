@@ -89,10 +89,10 @@
 			var distribution = new Dictionary<int, IEnumerable<ThreadDto>>();
 			foreach (var blog in blogs)
 			{
-				var threads = GetThreadsByBlog(blog, threadRepository, isArchived).OrderBy(t => t.WatchedShortname).ThenBy(t => t.UserTitle);
+				var threads = threadRepository.Get(t => t.UserBlogId == blog.UserBlogId && t.IsArchived == isArchived);
 				if (threads.Any())
 				{
-					distribution.Add(blog.UserBlogId.GetValueOrDefault(), threads);
+					distribution.Add(blog.UserBlogId.GetValueOrDefault(), threads.Select(t => t.ToDto()));
 				}
 			}
 			return distribution;
