@@ -2,7 +2,7 @@
 {
 	using RPThreadTracker.Models.DomainModels.Account;
 
-	public class MembershipBuilder
+	internal class MembershipBuilder
 	{
 		private string _passwordVerificationToken = "123456";
 		private int _userId = 4;
