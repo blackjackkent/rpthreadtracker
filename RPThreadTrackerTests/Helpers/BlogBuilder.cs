@@ -1,4 +1,4 @@
-﻿namespace RPThreadTrackerTests.Builders
+﻿namespace RPThreadTrackerTests.Helpers
 {
 	using RPThreadTracker.Models.DomainModels.Blogs;
 

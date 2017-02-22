@@ -1,6 +1,6 @@
 ﻿namespace RPThreadTrackerTests.Models.DomainModels
 {
-	using Builders;
+	using Helpers;
 	using NUnit.Framework;
 
 	[TestFixture]
