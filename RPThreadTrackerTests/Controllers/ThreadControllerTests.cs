@@ -79,7 +79,7 @@
 				.WithPostId("12345")
 				.BuildDto();
 			var post = new Mock<IPost>();
-			_threadService.Setup(t => t.GetById(threadId, _userBlogRepository.Object, _userThreadRepository.Object, _tumblrClient.Object)).Returns(thread);
+			_threadService.Setup(t => t.GetById(threadId, _userThreadRepository.Object)).Returns(thread);
 			_tumblrClient.Setup(c => c.GetPost(thread.PostId, thread.BlogShortname)).Returns(post.Object);
 			_threadService.Setup(s => s.HydrateThread(thread, post.Object)).Returns(hydratedThread);
 
@@ -98,7 +98,7 @@
 		{
 			// Arrange
 			var threadId = 1;
-			_threadService.Setup(t => t.GetById(threadId, _userBlogRepository.Object, _userThreadRepository.Object, _tumblrClient.Object)).Returns((ThreadDto)null);
+			_threadService.Setup(t => t.GetById(threadId, _userThreadRepository.Object)).Returns((ThreadDto)null);
 
 			// Act
 			var result = _threadController.Get(threadId);

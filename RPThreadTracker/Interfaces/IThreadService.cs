@@ -29,11 +29,9 @@
 		/// Gets a single thread object by its unique identifier
 		/// </summary>
 		/// <param name="id">Unique identifier for the thread to be retrieved</param>
-		/// <param name="blogRepository">Repository object containing database connection for blog info</param>
 		/// <param name="threadRepository">Repository object containing database connection for thread info</param>
-		/// <param name="tumblrClient">Wrapper class for HTTP client connection to Tumblr API</param>
 		/// <returns><see cref="ThreadDto"/> object containing information for requested ID</returns>
-		ThreadDto GetById(int id, IRepository<Blog> blogRepository, IRepository<Thread> threadRepository, ITumblrClient tumblrClient);
+		ThreadDto GetById(int id, IRepository<Thread> threadRepository);
 
 		/// <summary>
 		/// Gets five most recent #news posts from the Tracker blog on Tumblr

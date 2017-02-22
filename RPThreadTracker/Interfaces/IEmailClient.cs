@@ -3,9 +3,9 @@
 	using System.Threading.Tasks;
 
 	/// <summary>
-	/// Class responsible for sending emails to users via SendGrid API
+	/// Wrapper class for client used to send emails from tracker
 	/// </summary>
-	public interface IEmailService
+	public interface IEmailClient
 	{
 		/// <summary>
 		/// Sends email via sendgrid API to passed recipient
@@ -14,7 +14,7 @@
 		/// <param name="subject">Subject line of email</param>
 		/// <param name="body">HTML string representing email body</param>
 		/// <param name="configurationService">Wrapper service for application config information</param>
-		/// <returns>Dynamic object returned from SendGrid API</returns>
+		/// <returns>Task for async processing</returns>
 		Task SendEmail(string recipientAddress, string subject, string body, IConfigurationService configurationService);
 	}
 }

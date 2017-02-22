@@ -13,7 +13,7 @@
 	[RedirectOnMaintenance]
 	public class ForgotPasswordController : ApiController
 	{
-		private readonly IEmailService _emailService;
+		private readonly IEmailClient _emailClient;
 		private readonly IRepository<User> _userProfileRepository;
 		private readonly IRepository<Membership> _webpagesMembershipRepository;
 		private readonly IUserProfileService _userProfileService;
@@ -26,15 +26,15 @@
 		/// <param name="userProfileRepository">Unity-injected user profile repository</param>
 		/// <param name="webpagesMembershipRepository">Unity-injected WebpagesMembership repository</param>
 		/// <param name="webSecurityService">Unity-injected web security service</param>
-		/// <param name="emailService">Unity-injected email service</param>
+		/// <param name="emailClient">Unity-injected email service</param>
 		/// <param name="userProfileService">Unity-injected user profile service</param>
 		/// <param name="configurationService">Unity-injected configuration service</param>
-		public ForgotPasswordController(IRepository<User> userProfileRepository, IRepository<Membership> webpagesMembershipRepository, IWebSecurityService webSecurityService, IEmailService emailService, IUserProfileService userProfileService, IConfigurationService configurationService)
+		public ForgotPasswordController(IRepository<User> userProfileRepository, IRepository<Membership> webpagesMembershipRepository, IWebSecurityService webSecurityService, IEmailClient emailClient, IUserProfileService userProfileService, IConfigurationService configurationService)
 		{
 			_userProfileRepository = userProfileRepository;
 			_webpagesMembershipRepository = webpagesMembershipRepository;
 			_webSecurityService = webSecurityService;
-			_emailService = emailService;
+			_emailClient = emailClient;
 			_userProfileService = userProfileService;
 			_configurationService = configurationService;
 		}
@@ -61,7 +61,7 @@
 				return BadRequest();
 			}
 			var token = _webSecurityService.GeneratePasswordResetToken(user);
-			await _webSecurityService.SendForgotPasswordEmail(user, token, _webpagesMembershipRepository, _emailService, _configurationService);
+			await _webSecurityService.SendForgotPasswordEmail(user, token, _webpagesMembershipRepository, _emailClient, _configurationService);
 			return Ok();
 		}
 	}

@@ -343,7 +343,7 @@
     <Compile Include="Interfaces\IBlogService.cs" />
     <Compile Include="Interfaces\IConfigurationService.cs" />
     <Compile Include="Interfaces\IDto.cs" />
-    <Compile Include="Interfaces\IEmailService.cs" />
+    <Compile Include="Interfaces\IEmailClient.cs" />
     <Compile Include="Interfaces\IExporterService.cs" />
     <Compile Include="Interfaces\IThreadService.cs" />
     <Compile Include="Interfaces\ITumblrClient.cs" />
@@ -374,7 +374,7 @@
     <Compile Include="Infrastructure\Repositories\UserThreadRepository.cs" />
     <Compile Include="Infrastructure\Repositories\UserProfileRepository.cs" />
     <Compile Include="Infrastructure\Repositories\UserBlogRepository.cs" />
-    <Compile Include="Infrastructure\Services\EmailService.cs" />
+    <Compile Include="Infrastructure\Services\SendGridEmailClient.cs" />
     <Compile Include="Infrastructure\Services\TumblrClient.cs" />
     <Compile Include="Infrastructure\Data\UserBlog.cs">
       <DependentUpon>BlogModel.tt</DependentUpon>

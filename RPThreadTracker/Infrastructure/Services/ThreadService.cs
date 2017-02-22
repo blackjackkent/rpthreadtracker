@@ -26,10 +26,10 @@
 		}
 
 		/// <inheritdoc cref="IThreadService"/>
-		public ThreadDto GetById(int id, IRepository<Blog> blogRepository, IRepository<Thread> threadRepository, ITumblrClient tumblrClient)
+		public ThreadDto GetById(int id, IRepository<Thread> threadRepository)
 		{
 			var thread = threadRepository.GetSingle(t => t.UserThreadId == id);
-			return thread.ToDto();
+			return thread?.ToDto();
 		}
 
 		/// <inheritdoc cref="IThreadService"/>
@@ -53,7 +53,7 @@
 		{
 			if (userId == null)
 			{
-				return new List<int?>();
+				return null;
 			}
 			var threads = threadRepository.Get(t => t.UserBlog != null && t.UserBlog.UserId == userId && t.IsArchived == isArchived);
 			return threads.Select(t => t.UserThreadId).ToList();
