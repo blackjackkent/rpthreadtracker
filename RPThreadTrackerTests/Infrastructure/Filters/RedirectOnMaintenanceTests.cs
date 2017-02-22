@@ -5,7 +5,6 @@
 	using System.Net.Http;
 	using System.Web;
 	using System.Web.Http.Controllers;
-	using Builders;
 	using Moq;
 	using NUnit.Framework;
 	using RPThreadTracker.Infrastructure.Filters;
