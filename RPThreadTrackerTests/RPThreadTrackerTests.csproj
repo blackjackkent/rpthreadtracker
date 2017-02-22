@@ -90,6 +90,7 @@
     <Compile Include="Infrastructure\Filters\RedirectOnMaintenanceTests.cs" />
     <Compile Include="Infrastructure\Services\BlogServiceTests.cs" />
     <Compile Include="Infrastructure\Services\ThreadServiceTests.cs" />
+    <Compile Include="Infrastructure\Services\UserProfileServiceTests.cs" />
     <Compile Include="Models\DomainModels\BlogTests.cs" />
     <Compile Include="Models\DomainModels\MembershipTests.cs" />
     <Compile Include="Models\DomainModels\ThreadTests.cs" />

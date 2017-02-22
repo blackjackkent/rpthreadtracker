@@ -6,7 +6,7 @@
 	using RPThreadTracker.Models.ServiceModels;
 
 	[TestFixture]
-	public class PostTests
+	internal class PostTests
 	{
 		[Test]
 		public void MostRecentRelevantNote_NotesNull_ReturnsNull()

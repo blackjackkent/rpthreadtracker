@@ -5,7 +5,7 @@
 	using RPThreadTracker.Models.DomainModels.Blogs;
 	using RPThreadTracker.Models.DomainModels.Threads;
 
-	public class ThreadBuilder
+	internal class ThreadBuilder
 	{
 		private string _blogShortname = "testblog";
 		private bool _isArchived = false;
