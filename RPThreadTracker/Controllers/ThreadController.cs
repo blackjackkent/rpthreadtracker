@@ -76,7 +76,7 @@
 		/// <returns><see cref="ThreadDto"/> object describing requested blog</returns>
 		public IHttpActionResult Get(int id)
 		{
-			var thread = _threadService.GetById(id, _blogRepository, _threadRepository, _tumblrClient);
+			var thread = _threadService.GetById(id, _threadRepository);
 			if (thread == null)
 			{
 				return NotFound();

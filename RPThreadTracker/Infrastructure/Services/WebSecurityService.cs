@@ -108,7 +108,7 @@
 		}
 
 		/// <inheritdoc cref="IWebSecurityService"/>
-		public async Task SendForgotPasswordEmail(UserDto user, string token, IRepository<Membership> webpagesMembershipRepository, IEmailService emailService, IConfigurationService configurationService)
+		public async Task SendForgotPasswordEmail(UserDto user, string token, IRepository<Membership> webpagesMembershipRepository, IEmailClient emailClient, IConfigurationService configurationService)
 		{
 			var isValidToken = IsValidToken(user, token, webpagesMembershipRepository);
 			if (!isValidToken)
@@ -116,7 +116,7 @@
 				throw new InvalidDataException();
 			}
 			var newPassword = ResetPassword(token);
-			await SendTemporaryPasswordEmail(user, newPassword, emailService, configurationService);
+			await SendTemporaryPasswordEmail(user, newPassword, emailClient, configurationService);
 		}
 
 		private static bool IsValidToken(UserDto user, string resetToken, IRepository<Membership> webpagesMembershipRepository)
@@ -125,7 +125,7 @@
 			return record.Any();
 		}
 
-		private static async Task SendTemporaryPasswordEmail(UserDto user, string newPassword, IEmailService emailService, IConfigurationService configurationService)
+		private static async Task SendTemporaryPasswordEmail(UserDto user, string newPassword, IEmailClient emailClient, IConfigurationService configurationService)
 		{
 			const string subject = "RPThreadTracker ~ New Temporary Password";
 			var bodyBuilder = new StringBuilder();
@@ -136,7 +136,7 @@
 			bodyBuilder.Append("<p>Thanks, and have a great day!</p>");
 			bodyBuilder.Append("<p>~Tracker-mun</p>");
 			var body = bodyBuilder.ToString();
-			await emailService.SendEmail(user.Email, subject, body, configurationService);
+			await emailClient.SendEmail(user.Email, subject, body, configurationService);
 		}
 	}
 }

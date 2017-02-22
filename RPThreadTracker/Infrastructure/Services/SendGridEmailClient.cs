@@ -1,15 +1,16 @@
 ﻿namespace RPThreadTracker.Infrastructure.Services
 {
-	using System.Configuration;
 	using System.Threading.Tasks;
+	using Filters;
 	using Interfaces;
 	using SendGrid;
 	using SendGrid.Helpers.Mail;
 
-	/// <inheritdoc cref="IEmailService"/>
-	public class EmailService : IEmailService
+	/// <inheritdoc cref="IEmailClient"/>
+	[ExcludeFromCoverage]
+	public class SendGridEmailClient : IEmailClient
 	{
-		/// <inheritdoc cref="IEmailService"/>
+		/// <inheritdoc cref="IEmailClient"/>
 		public async Task SendEmail(string recipientAddress, string subject, string body, IConfigurationService configurationService)
 		{
 			var apiKey = configurationService.SendGridApiKey;

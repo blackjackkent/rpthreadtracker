@@ -4,11 +4,13 @@
 	using System.Linq;
 	using System.Net;
 	using System.Web.Configuration;
+	using Filters;
 	using Interfaces;
 	using Models.ServiceModels;
 	using RestSharp;
 
 	/// <inheritdoc cref="ITumblrClient"/>
+	[ExcludeFromCoverage]
 	public class TumblrClient : ITumblrClient
 	{
 		private static string _apiKey;

@@ -17,7 +17,7 @@
 		private Mock<IUserProfileService> _userProfileService;
 		private Mock<IRepository<User>> _userProfileRepository;
 		private Mock<IRepository<Membership>> _webpagesMembershipRepository;
-		private Mock<IEmailService> _emailService;
+		private Mock<IEmailClient> _emailService;
 		private Mock<IConfigurationService> _configurationService;
 		private ForgotPasswordController _forgotPasswordController;
 
@@ -28,7 +28,7 @@
 			_userProfileService = new Mock<IUserProfileService>();
 			_userProfileRepository = new Mock<IRepository<User>>();
 			_webpagesMembershipRepository = new Mock<IRepository<Membership>>();
-			_emailService = new Mock<IEmailService>();
+			_emailService = new Mock<IEmailClient>();
 			_configurationService = new Mock<IConfigurationService>();
 			_forgotPasswordController = new ForgotPasswordController(_userProfileRepository.Object, _webpagesMembershipRepository.Object, _webSecurityService.Object, _emailService.Object, _userProfileService.Object, _configurationService.Object);
 		}
