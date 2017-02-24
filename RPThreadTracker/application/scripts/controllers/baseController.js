@@ -3,20 +3,22 @@
 	angular.module('rpthreadtracker')
 		.controller('BaseController',
 		[
-			'sessionService', 'SESSION_EVENTS', 'cacheBuster', 'BodyClass', '$timeout',
+			'$scope', 'sessionService', 'SESSION_EVENTS', 'cacheBuster', 'BodyClass', '$timeout',
 			'adminflareService', baseController
 		]);
 
 	/** @this baseController */
 	// eslint-disable-next-line valid-jsdoc, max-params, max-len
-	function baseController(sessionService, SESSION_EVENTS, cacheBuster, BodyClass, $timeout, adminflareService) {
+	function baseController($scope, sessionService, SESSION_EVENTS, cacheBuster, BodyClass, $timeout, adminflareService) {
 		var vm = this;
 		vm.cacheBuster = cacheBuster;
 		vm.bodyClass = BodyClass;
 		$timeout(adminflareService.init);
 		$timeout(adminflareService.initCustom);
+		$scope.$on('$destroy', destroyView);
 
-		sessionService.subscribe(handleSessionEvent);
+		sessionService.subscribeLoginLogoutEvent(handleSessionEvent);
+		sessionService.subscribeUpdateUserEvent(handleUpdateUserEvent);
 		registerSession();
 
 		function registerSession() {
@@ -42,6 +44,22 @@
 			if (eventType === SESSION_EVENTS.LOGOUT) {
 				clearSession();
 			}
+		}
+
+		function handleUpdateUserEvent() {
+			sessionService.getUser().then(function(user) {
+				if (!user) {
+					vm.user = null;
+					return;
+				}
+				vm.userId = user.UserId;
+				vm.user = user;
+			});
+		}
+
+		function destroyView() {
+			sessionService.unsubscribeLoginLogoutEvent(handleSessionEvent);
+			sessionService.unsubscribeUpdateUserEvent(handleUpdateUserEvent);
 		}
 	}
 }());

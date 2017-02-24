@@ -56,10 +56,10 @@
 			broadcastAllThreadsLoaded();
 		}
 
-		function getThreadIds(isArchived) {
+		function getThreadIds(isArchived, isHiatused) {
 			var deferred = $q.defer(),
 				config = {
-					'url': '/api/Thread?isArchived=' + isArchived,
+					'url': '/api/Thread?isArchived=' + isArchived + '&isHiatusedBlog=' + isHiatused,
 					'method': 'GET'
 				};
 			function success(response) {
