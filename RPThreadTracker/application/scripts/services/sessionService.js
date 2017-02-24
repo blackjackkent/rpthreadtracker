@@ -10,7 +10,8 @@
 	// eslint-disable-next-line valid-jsdoc, max-params, max-len, max-statements
 	function sessionService($q, $http, $window, SESSION_EVENTS, $httpParamSerializerJQLike) {
 		var user = null;
-		var subscribers = [];
+		var loginEventSubscribers = [];
+		var updateUserEventSubscribers = [];
 
 		function loadUser(viewModel) {
 			isLoggedIn().then(function(isLoggedIn) {
@@ -59,6 +60,9 @@
 					'data': user
 				};
 			function success(response) {
+				getUser(true).then(function(user) {
+					broadcastUpdateUserEvent(user);
+				});
 				deferred.resolve(response.data);
 			}
 			function error(response) {
@@ -99,7 +103,7 @@
 			function success(response) {
 				deferred.resolve(response.data);
 				$window.localStorage.TrackerBearerToken = response.data.access_token;
-				broadcast(SESSION_EVENTS.LOGIN);
+				broadcastLoginLogoutEvent(SESSION_EVENTS.LOGIN);
 			}
 			function error(data) {
 				deferred.reject(data);
@@ -111,7 +115,7 @@
 		function logout() {
 			user = null;
 			$window.localStorage.TrackerBearerToken = null;
-			broadcast(SESSION_EVENTS.LOGOUT);
+			broadcastLoginLogoutEvent(SESSION_EVENTS.LOGOUT);
 		}
 
 		function submitForgotPassword(username) {
@@ -169,22 +173,38 @@
 			return deferred.promise;
 		}
 
-		function subscribe(callback) {
-			subscribers.push(callback);
+		function subscribeLoginLogoutEvent(callback) {
+			loginEventSubscribers.push(callback);
 		}
 
-		function unsubscribe(callback) {
-			var index = subscribers.indexOf(callback);
+		function unsubscribeLoginLogoutEvent(callback) {
+			var index = loginEventSubscribers.indexOf(callback);
 			if (index > -1) {
-				subscribers.splice(index, 1);
+				loginEventSubscribers.splice(index, 1);
 			}
 		}
 
-		function broadcast(data) {
-			angular.forEach(subscribers,
-                function(callback) {
-	callback(data);
-});
+		function broadcastLoginLogoutEvent(data) {
+			angular.forEach(loginEventSubscribers, function(callback) {
+				callback(data);
+			});
+		}
+
+		function subscribeUpdateUserEvent(callback) {
+			updateUserEventSubscribers.push(callback);
+		}
+
+		function unsubscribeUpdateUserEvent(callback) {
+			var index = updateUserEventSubscribers.indexOf(callback);
+			if (index > -1) {
+				updateUserEventSubscribers.splice(index, 1);
+			}
+		}
+
+		function broadcastUpdateUserEvent(data) {
+			angular.forEach(updateUserEventSubscribers, function(callback) {
+				callback(data);
+			});
 		}
 
 		return {
@@ -197,8 +217,10 @@
 			'getUser': getUser,
 			'loadUser': loadUser,
 			'updateUser': updateUser,
-			'subscribe': subscribe,
-			'unsubscribe': unsubscribe
+			'subscribeLoginLogoutEvent': subscribeLoginLogoutEvent,
+			'unsubscribeLoginLogoutEvent': unsubscribeLoginLogoutEvent,
+			'subscribeUpdateUserEvent': subscribeUpdateUserEvent,
+			'unsubscribeUpdateUserEvent': unsubscribeUpdateUserEvent
 		};
 	}
 }());

@@ -113,9 +113,10 @@
 			// Arrange
 			var userId = 5;
 			var isArchived = false;
+			var isHiatused = false;
 			var threadList = new List<int?> { 5, 10, 15 };
 			_webSecurityService.Setup(s => s.GetCurrentUserIdFromIdentity(It.IsAny<ClaimsIdentity>())).Returns(userId);
-			_threadService.Setup(b => b.GetThreadIdsByUserId(userId, _userThreadRepository.Object, isArchived)).Returns(threadList);
+			_threadService.Setup(b => b.GetThreadIdsByUserId(userId, _userThreadRepository.Object, isArchived, isHiatused)).Returns(threadList);
 
 			// Act
 			var result = _threadController.Get(isArchived);

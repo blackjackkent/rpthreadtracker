@@ -47,8 +47,9 @@
 		/// <param name="userId">Unique identifier of user whose info should be retrieved</param>
 		/// <param name="threadRepository">Repository object containing database connection</param>
 		/// <param name="isArchived">Whether or not to retrieve archived threads</param>
+		/// <param name="isHiatusedBlog">Whether or not to include threads belonging to blogs marked as on hiatus</param>
 		/// <returns>List of integer identifiers for tracked threads</returns>
-		IEnumerable<int?> GetThreadIdsByUserId(int? userId, IRepository<Thread> threadRepository, bool isArchived = false);
+		IEnumerable<int?> GetThreadIdsByUserId(int? userId, IRepository<Thread> threadRepository, bool isArchived = false, bool isHiatusedBlog = false);
 
 		/// <summary>
 		/// Gets <see cref="ThreadDto"/> representations of all threads tracked on a particular blog
