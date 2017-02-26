@@ -10,6 +10,7 @@
   build:
     project: RPThreadTracker.sln
     publish_wap: true
+    verbosity: quiet
   before_build:
     - ps: nuget restore RPThreadTracker.sln -Verbosity Quiet
   environment:
@@ -25,7 +26,7 @@
     - npm --version
     - npm run eslint
     - cd ../../
-    - nunit3-console RPThreadTrackerTests/RPThreadTrackerTests.csproj --result=nunit-results.xml;format=AppVeyor --trace=Debug
+    - nunit3-console RPThreadTrackerTests/RPThreadTrackerTests.csproj --result=nunit-results.xml;format=AppVeyor --config=Release
 - 
   branches:
     only:
@@ -38,6 +39,7 @@
   build:
     project: RPThreadTracker.sln
     publish_wap: true
+    verbosity: quiet
   before_build:
     - ps: nuget restore RPThreadTracker.sln -Verbosity Quiet
   environment:
@@ -53,4 +55,4 @@
     - npm --version
     - npm run eslint
     - cd ../../
-    - nunit3-console RPThreadTrackerTests/RPThreadTrackerTests.csproj --result=nunit-results.xml;format=AppVeyor --trace=Debug
+    - nunit3-console RPThreadTrackerTests/RPThreadTrackerTests.csproj --result=nunit-results.xml;format=AppVeyor --config=Staging
