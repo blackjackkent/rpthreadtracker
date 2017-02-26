@@ -285,9 +285,9 @@
 					'/public/allthreads'
 				];
 				var isNotInWhitelist = whitelist.indexOf($location.path()) === -1;
-				if (response.status == 401 && isNotInWhitelist) {
+				if (response.status === 401 && isNotInWhitelist) {
 					$location.path('/about');
-				} else if (response.status == 503) {
+				} else if (response.status === 503) {
 					$location.path('/maintenance');
 				} else {
 					return $q.reject(response);
