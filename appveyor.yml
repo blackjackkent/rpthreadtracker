@@ -7,8 +7,10 @@ environment:
   nodejs_version: "6"
 install:
   - ps: Install-Product node $env:nodejs_version
-  - npm install
+  - ps: cd RPThreadTracker/application
+  - ps: npm install
 test_script:
+  - cd RPThreadTracker/application
   - node --version
   - npm --version
   - npm run eslint

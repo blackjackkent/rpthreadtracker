@@ -158,7 +158,9 @@
 		function populateTagFilter() {
 			var tagsByThread = _.map(vm.threads, 'ThreadTags');
 			vm.allTags = _.union(_.flatten(tagsByThread));
-			if (!_.find(vm.allTags, function(tag) { return tag === vm.filteredTag })) {
+			if (!_.find(vm.allTags, function(tag) {
+				return tag === vm.filteredTag;
+			})) {
 				vm.filteredTag = '';
 			}
 		}
