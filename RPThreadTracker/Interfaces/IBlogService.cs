@@ -19,7 +19,6 @@
 		/// <returns><see cref="BlogDto" /> object returned by insert</returns>
 		BlogDto AddNewBlog(BlogDto dto, IRepository<Blog> blogRepository);
 
-
 		/// <summary>
 		/// Removes blog with passed identifier from database
 		/// </summary>
