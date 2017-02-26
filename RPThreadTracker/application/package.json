@@ -1,7 +1,7 @@
 {
   "name": "rpthreadtracker",
   "version": "1.0.0",
-  "description": "",
+  "description": "An application allowing writers on Tumblr to track threads easily.",
   "main": "app.js",
   "scripts": {
     "test": "test",
