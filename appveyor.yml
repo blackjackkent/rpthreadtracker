@@ -25,7 +25,7 @@
     - npm --version
     - npm run eslint
     - cd ../../
-    - nunit3-console RPThreadTrackerTests/RPThreadTrackerTests.csproj --result=nunit-results.xml;format=AppVeyor
+    - nunit3-console RPThreadTrackerTests/RPThreadTrackerTests.csproj --result=nunit-results.xml;format=AppVeyor --trace=Debug
 - 
   branches:
     only:
@@ -53,4 +53,4 @@
     - npm --version
     - npm run eslint
     - cd ../../
-    - nunit3-console RPThreadTrackerTests/RPThreadTrackerTests.csproj --result=nunit-results.xml;format=AppVeyor
+    - nunit3-console RPThreadTrackerTests/RPThreadTrackerTests.csproj --result=nunit-results.xml;format=AppVeyor --trace=Debug
