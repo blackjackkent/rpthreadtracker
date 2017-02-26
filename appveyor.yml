@@ -1,6 +1,7 @@
 build:
   project: RPThreadTracker.sln
   publish_wap: true
+  verbosity: 
 before_build:
   - ps: nuget restore RPThreadTracker.sln
 environment:
@@ -16,6 +17,4 @@ test_script:
   - npm --version
   - npm run eslint
   - cd ../../
-test:
-  assemblies:
-    - '**\RPThreadTrackerTests.dll'
+  - nunit3-console RPThreadTrackerTests/RPThreadTrackerTests.csproj --result=nunit-results.xml;format=AppVeyor
