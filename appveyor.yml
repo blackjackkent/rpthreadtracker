@@ -10,7 +10,7 @@ install:
   - ps: cd RPThreadTracker/application
   - ps: npm install
 test_script:
-  - cd RPThreadTracker/application
+  - cd RPThreadTracker/application 
   - node --version
   - npm --version
   - npm run eslint
