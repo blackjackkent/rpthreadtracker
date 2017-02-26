@@ -1,0 +1,29 @@
+{
+  "name": "rpthreadtracker",
+  "homepage": "http://www.rpthreadtracker.com",
+  "authors": [
+    "Rosalind Wills <rosalind.m.wills@gmail.com>"
+  ],
+  "description": "An application designed to assist with collaborative writing on Tumblr.",
+  "main": "app.js",
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "scripts/bower",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "^1.6.1",
+    "angular-route": "^1.5.8",
+    "angulartics": "^1.3.0",
+    "angulartics-google-analytics": "^0.3.0",
+    "lodash": "^4.17.2",
+    "angular-bootstrap-switch": "^0.5.1",
+    "angular-ui-notification": "^0.3.5",
+    "angular-material": "^1.1.1"
+  }
+}

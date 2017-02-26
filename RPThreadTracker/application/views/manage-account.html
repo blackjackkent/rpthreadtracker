@@ -1,0 +1,63 @@
+<header-nav public-view="{{vm.publicView}}" page-id="{{vm.pageId}}" user="vm.user"></header-nav>
+<side-nav public-view="{{vm.publicView}}" page-id="{{vm.pageId}}"></side-nav>
+
+<section class="central-container container">
+    <div id="content">
+        <section class="row-fluid">
+            <h3>Manage Your Account</h3>
+            <form class="form-horizontal" name="vm.changePasswordForm" ng-submit="vm.changePassword()" novalidate>
+                <fieldset>
+                    <legend>Change Your Password</legend>
+                    <div class="control-group">
+                        <label class="control-label" for="oldPassword">Current Password:</label>
+                        <div class="controls">
+                            <input type="password" id="old-password" name="oldPassword" required ng-model="vm.oldPassword" placeholder="Current Password">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="newPassword">New Password:</label>
+                        <div class="controls">
+                            <input type="password" id="Text1" name="newPassword" required ng-model="vm.newPassword" placeholder="New Password">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <label class="control-label" for="confirmNewPassword">Confirm New Password:</label>
+                        <div class="controls">
+                            <input type="password" id="Text2" name="confirmNewPassword" required ng-model="vm.confirmNewPassword" ng-pattern="(vm.newPassword)" placeholder="Confirm New Password">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <button type="submit" class="btn">Change Password</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+            <form class="form-inline" name="exportThreadsForm">
+                <fieldset>
+                    <legend>Export Your Threads</legend>
+                    <p>Use the button below to export an Excel file of your current threads in the database.</p>
+                    <button type="submit" class="btn" ng-click="vm.exportThreads()">Export</button>
+                    <p>
+                        <label class="checkbox">
+                            <input type="checkbox" ng-model="vm.includeArchived"> Include Archived Threads
+                        </label>
+                    </p>
+                    <p>
+                        <label class="checkbox">
+                            <input type="checkbox" ng-model="vm.includeHiatused"> Include Hiatused Blogs
+                        </label>
+                    </p>
+                </fieldset>
+            </form>
+            <form class="form-horizontal" name="exportThreadsForm">
+                <div class="control-group">
+                    <div class="controls">
+                        <span ng-show="vm.exportLoading" class="loading-icon"><img src="/application/images/loading.gif" /></span>
+                    </div>
+                </div>
+            </form>
+        </section>
+        <footer user="vm.user"></footer>
+    </div>
+</section>

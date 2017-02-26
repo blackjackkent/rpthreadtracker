@@ -1,0 +1,53 @@
+<header-nav public-view="{{vm.publicView}}" page-id="{{vm.pageId}}" user="vm.user"></header-nav>
+<side-nav public-view="{{vm.publicView}}" page-id="{{vm.pageId}}"></side-nav>
+
+<section class="central-container container">
+    <div id="content">
+        <section class="row-fluid">
+            <form class="form-horizontal" name="vm.newBlogForm" ng-submit="vm.createBlog()" novalidate>
+                <fieldset>
+                    <legend>Add a New Blog</legend>
+                    <p>
+                        Enter the shortname of your blog below to connect it to your account. The shortname is the part of the URL before "tumblr.com",
+                        i.e. http://<strong>shortname</strong>.tumblr.com.
+                    </p><br/>
+                    <div class="control-group">
+                        <label class="control-label" for="newBlogShortname">Blog shortname:</label>
+                        <div class="controls">
+                            <input type="text" id="Text1" name="newBlogShortname" required ng-model="vm.newBlogShortname" ng-pattern="vm.shortnameRegex" placeholder="Shortname">
+                        </div>
+                    </div>
+                    <div class="control-group">
+                        <div class="controls">
+                            <button type="submit" class="btn">Add Blog</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+            <fieldset>
+                <legend>Manage Existing Blogs</legend>
+                <table class="table table-striped blog-table">
+                    <tr ng-repeat="blog in vm.blogs | orderBy:'BlogShortname'" ng-class="{'hiatused-blog': blog.OnHiatus}">
+                        <td>{{blog.BlogShortname}}</td>
+                        <td>
+                            <a href="/edit-blog/{{blog.UserBlogId}}">Edit</a>
+                        </td>
+                        <td>
+                            <a href="" ng-click="vm.untrackBlog(blog)">Untrack</a>
+                        </td>
+                        <td ng-if="blog.OnHiatus">
+                            <a href="" ng-click="vm.toggleHiatus(blog)">Set Off Hiatus</a>
+                        </td>
+                        <td ng-if="!blog.OnHiatus">
+                            <a href="" ng-click="vm.toggleHiatus(blog)">Set On Hiatus</a>
+                        </td>
+                    </tr>
+                    <tr ng-show="vm.blogs.length == 0">
+                        <td>You have not yet added any blogs.</td>
+                    </tr>
+                </table>
+            </fieldset>
+        </section>
+        <footer user="vm.user"></footer>
+    </div>
+</section>
