@@ -1,0 +1,116 @@
+<header-nav public-view="{{vm.publicView}}" page-id="{{vm.pageId}}" user="vm.user"></header-nav>
+<side-nav public-view="{{vm.publicView}}" page-id="{{vm.pageId}}"></side-nav>
+
+<section class="central-container container">
+    <div id="content">
+        <!-- #region CONTROLS -->
+        <section class="row-fluid thread-filters">
+            <div class="span9">
+                <label class="inline-control-label">Order By: </label>
+                <select ng-model="vm.currentOrderBy" name="currentOrderBy" ng-change="vm.setCurrentOrderBy()">
+                    <option value="UserTitle">Thread Title</option>
+                    <option value="LastPostDate">Last Post Date</option>
+                    <option value="LastPosterShortname">Last Poster</option>
+                    <option value="WatchedShortname">Watched Shortname</option>
+                </select>
+                <select ng-model="vm.sortDescending" ng-change="vm.setSortDescending()" ng-options="o.v as o.n for o in [{ n: 'Descending', v: true }, { n: 'Ascending', v: false }]">
+                </select>
+            </div>
+
+            <div class="span2">
+                <select ng-model="vm.currentBlog" ng-options="blog.BlogShortname for blog in vm.blogs | filter:{ OnHiatus: false } | orderBy:'BlogShortname' track by blog.UserBlogId" ng-change="vm.setCurrentBlog()">
+                    <option value="">Filter Blogs</option>
+                </select>
+            </div>
+            <div class="span1">
+                <a href="#" class="btn refresh-link" ng-click="vm.refreshThreads()">Refresh</a>
+            </div>
+        </section>
+        <section class="row-fluid thread-filters">
+            <div class="span9">
+                <label class="inline-control-label">
+                    Bulk Actions:
+                </label>
+                <select ng-model="vm.bulkItemAction" name="bulkItemAction">
+                    <option ng-value="1">Untrack Selected</option>
+                    <option ng-show="vm.pageId != 'archived'" ng-value="2">Archive Selected</option>
+                    <option ng-show="vm.pageId == 'archived'" ng-value="3">Unarchive Selected</option>
+                </select>
+                <a class="btn bulk-action-link" ng-click="vm.bulkAction()">Go</a>
+            </div>
+	        <div class="span1">
+				<select ng-model="vm.filteredTag" ng-options="tag for tag in vm.allTags | orderBy:'toString()' track by tag" ng-change="vm.setFilteredTag()">
+					<option value="">Filter By Tag</option>
+				</select>
+	        </div>
+        </section>
+        <section ng-show="pageId != 'archived'" class="row-fluid alert alert-info public-link-alert">
+            Share this view publically:
+            <a href="{{vm.buildPublicLink()}}" target="_blank">
+                {{vm.buildPublicLink()}}
+            </a>
+        </section>
+        <!-- #endregion -->
+        <!-- #region TABLE -->
+        <section class="row-fluid">
+            <table class="table table-condensed table-striped thread-table">
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>Thread Title</th>
+                    <th>Last Poster</th>
+                    <th>Last Post Date</th>
+                    <th>Watched Shortname</th>
+                    <th>Tags</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                    <th>&nbsp;</th>
+                </tr>
+
+                <tr>
+                    <td ng-show="vm.blogs.length == 0"colspan="6" class="alert public-link-alert">You have not yet added any blogs on which to track threads. Click "Manage Blogs" to get started.</td>
+                    <td ng-show="vm.blogs.length > 0 && vm.threads.length == 0" colspan="6" class="alert alert-info public-link-alert">You are not yet tracking any threads. Click "Track New Thread" to track a thread from one of your current blogs.</td>
+                </tr>
+                <tr ng-repeat="thread in vm.threads | isCurrentBlog:vm.currentBlog | isCorrectTurn:vm.pageId | containsFilteredTag:vm.filteredTag | orderBy:vm.currentOrderBy:vm.sortDescending">
+                    <td>
+                        <input type="checkbox" ng-value="thread" ng-model="thread.SelectedForBulk">
+                    </td>
+                    <td>{{thread.UserTitle}}</td>
+                    <td>
+                        <a ng-show="thread.LastPosterShortname != null" href="{{thread.LastPostUrl}}" target="_blank">{{thread.LastPosterShortname}}</a>
+                        <span ng-show="!thread.PostId">
+                            <span class="error">Awaiting Starter</span>
+                        </span>
+                        <span ng-show="thread.LastPosterShortname == null && thread.PostId">
+                            <span class="error">Not Found</span> 
+                            (<a target="_blank" href="http://tblrthreadtracker.tumblr.com/post/84787503106/fix-in-place-for-not-found-error-please-read" id="notFoundExplanation">Why am I seeing this?</a>)
+                        </span>
+                    </td>
+                    <td>
+                        <span ng-show="thread.LastPostDate != null">{{thread.LastPostDate * 1000 | date:'medium'}}</span></td>
+                    <td>
+                        <span ng-show="thread.WatchedShortname != null">{{thread.WatchedShortname}}</span>
+                    </td>
+                    <td>
+						<span ng-show="thread.ThreadTags"><span ng-repeat="tag in thread.ThreadTags" title="{{tag}}">{{tag.substring(0, 20)}}<span ng-show="tag.length > 20">...</span><br /></span></span>
+                    </td>
+                    <td>
+                        <a ng-show="thread.PostId != null && thread.LastPostUrl != null" target="_blank" href="{{thread.LastPostUrl}}">View</a>
+                    </td>
+                    <td>
+                        <a href="/edit-thread/{{thread.UserThreadId}}">Edit</a>
+                    </td>
+                    <td>
+                        <a href="#" ng-click="vm.untrackThreads([thread])">Untrack</a>
+                    </td>
+                    <td>
+                        <a ng-show="vm.pageId != 'archived'" href="#" ng-click="vm.archiveThreads([thread])">Archive</a>
+                        <a ng-show="vm.pageId == 'archived'" href="#" ng-click="vm.unarchiveThreads([thread])">Unarchive</a>
+                    </td>
+                </tr>
+            </table>
+        </section>
+        <!-- #endregion -->
+        <footer user="vm.user"></footer>
+    </div>
+</section>
