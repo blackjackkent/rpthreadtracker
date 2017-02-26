@@ -212,8 +212,8 @@
 			var message = 'WARNING: You are attempting to add a post ID from a blog ';
 			message += 'not associated with this account (<em>';
 			message += shortname;
-			message += '</em>). Please use posts from your own blogs, or leave the';
-			message += 'field blank if you have not posted to the thread yet.';
+			message += '</em>). Please use posts from your own blogs, or leave the ';
+			message += 'post ID field blank if you have not posted to the thread yet.';
 			new TrackerNotification()
 				.withMessage(message)
 				.withType('error')

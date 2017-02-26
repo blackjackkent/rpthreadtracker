@@ -38,12 +38,11 @@
                 </select>
                 <a class="btn bulk-action-link" ng-click="vm.bulkAction()">Go</a>
             </div>
-            <div class="span1">
-                <select ng-model="vm.filteredTag" ng-change="vm.setFilteredTag()">
-                    <option value="">Filter By Tag</option>
-                    <option ng-repeat="tag in vm.allTags | orderBy:'toString()'" ng-value="tag">{{tag}}</option>
-                </select>
-            </div>
+	        <div class="span1">
+				<select ng-model="vm.filteredTag" ng-options="tag for tag in vm.allTags | orderBy:'toString()' track by tag" ng-change="vm.setFilteredTag()">
+					<option value="">Filter By Tag</option>
+				</select>
+	        </div>
         </section>
         <section ng-show="pageId != 'archived'" class="row-fluid alert alert-info public-link-alert">
             Share this view publically:
@@ -69,8 +68,8 @@
                 </tr>
 
                 <tr>
-                    <td ng-show="blogs.length == 0"colspan="6" class="alert public-link-alert">You have not yet added any blogs on which to track threads. Click "Manage Blogs" to get started.</td>
-                    <td ng-show="blogs.length > 0 && threads.length == 0" colspan="6" class="alert alert-info public-link-alert">You are not yet tracking any threads. Click "Track New Thread" to track a thread from one of your current blogs.</td>
+                    <td ng-show="vm.blogs.length == 0"colspan="6" class="alert public-link-alert">You have not yet added any blogs on which to track threads. Click "Manage Blogs" to get started.</td>
+                    <td ng-show="vm.blogs.length > 0 && vm.threads.length == 0" colspan="6" class="alert alert-info public-link-alert">You are not yet tracking any threads. Click "Track New Thread" to track a thread from one of your current blogs.</td>
                 </tr>
                 <tr ng-repeat="thread in vm.threads | isCurrentBlog:vm.currentBlog | isCorrectTurn:vm.pageId | containsFilteredTag:vm.filteredTag | orderBy:vm.currentOrderBy:vm.sortDescending">
                     <td>
@@ -79,10 +78,10 @@
                     <td>{{thread.UserTitle}}</td>
                     <td>
                         <a ng-show="thread.LastPosterShortname != null" href="{{thread.LastPostUrl}}" target="_blank">{{thread.LastPosterShortname}}</a>
-                        <span ng-show="thread.PostId == null">
+                        <span ng-show="!thread.PostId">
                             <span class="error">Awaiting Starter</span>
                         </span>
-                        <span ng-show="thread.LastPosterShortname == null && thread.PostId != null">
+                        <span ng-show="thread.LastPosterShortname == null && thread.PostId">
                             <span class="error">Not Found</span> 
                             (<a target="_blank" href="http://tblrthreadtracker.tumblr.com/post/84787503106/fix-in-place-for-not-found-error-please-read" id="notFoundExplanation">Why am I seeing this?</a>)
                         </span>

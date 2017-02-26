@@ -26,6 +26,8 @@
 			vm.dashboardFilter = 'yourturn';
 			vm.showAtAGlance = false;
 			vm.loadingRandomThread = false;
+			vm.threads = [];
+			vm.blogs = [];
 			sessionService.getUser().then(function(user) {
 				vm.showAtAGlance = user.ShowDashboardThreadDistribution;
 			});
