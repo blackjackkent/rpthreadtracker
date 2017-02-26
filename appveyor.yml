@@ -16,3 +16,6 @@ test_script:
   - npm --version
   - npm run eslint
   - cd ../../
+test:
+  assemblies:
+    - '**\RPThreadTrackerTests.dll'
