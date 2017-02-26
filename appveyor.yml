@@ -3,13 +3,13 @@
     only:
       - master
   configuration: Release
+  platform: Any CPU
   deploy:
     - provider: Environment
       name: production
   build:
     project: RPThreadTracker.sln
     publish_wap: true
-    verbosity: quiet
   before_build:
     - ps: nuget restore RPThreadTracker.sln -Verbosity Quiet
   environment:
@@ -31,13 +31,13 @@
     only:
       - development
   configuration: Staging
+  platform: Any CPU
   deploy:
     - provider: Environment
       name: staging
   build:
     project: RPThreadTracker.sln
     publish_wap: true
-    verbosity: quiet
   before_build:
     - ps: nuget restore RPThreadTracker.sln -Verbosity Quiet
   environment:
