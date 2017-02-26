@@ -1,0 +1,58 @@
+- 
+  branches:
+    only:
+      - master
+  configuration: Release
+  platform: Any CPU
+  deploy:
+    - provider: Environment
+      name: production
+  build:
+    project: RPThreadTracker.sln
+    publish_wap: true
+    verbosity: quiet
+  before_build:
+    - ps: nuget restore RPThreadTracker.sln -Verbosity Quiet
+  environment:
+    nodejs_version: "6"
+  install:
+    - ps: Install-Product node $env:nodejs_version
+    - ps: cd RPThreadTracker/application
+    - ps: npm install
+    - ps: cd ../../
+  test_script:
+    - cd RPThreadTracker/application
+    - node --version
+    - npm --version
+    - npm run eslint
+    - cd ../../
+    - nunit3-console RPThreadTrackerTests/RPThreadTrackerTests.csproj --result=nunit-results.xml;format=AppVeyor --config=Release
+- 
+  branches:
+    only:
+      - development
+  configuration: Staging
+  platform: Any CPU
+  deploy:
+    - provider: Environment
+      name: staging
+  build:
+    project: RPThreadTracker.sln
+    publish_wap: true
+    verbosity: quiet
+  before_build:
+    - ps: nuget restore RPThreadTracker.sln -Verbosity Quiet
+  environment:
+    nodejs_version: "6"
+  install:
+    - ps: Install-Product node $env:nodejs_version
+    - ps: cd RPThreadTracker/application
+    - ps: npm install
+    - ps: cd ../../
+  test_script:
+    - cd RPThreadTracker/application
+    - node --version
+    - npm --version
+    - npm run eslint
+    - cd ../../
+    - nunit3-console RPThreadTrackerTests/RPThreadTrackerTests.csproj --result=nunit-results.xml;format=AppVeyor --config=Staging

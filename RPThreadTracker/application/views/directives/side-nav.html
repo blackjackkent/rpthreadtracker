@@ -1,0 +1,47 @@
+﻿<div class="nav-container">
+    <nav id="left-panel" ng-hide="vm.publicView">
+        <div id="left-panel-content">
+            <ul>
+                <li ng-class="{active: vm.pageId=='dashboard'}">
+                    <a href="/"><span class="icon-dashboard"></span>Dashboard</a>
+                </li>
+                <li ng-class="{active: vm.pageId=='allthreads'}">
+                    <a href="/threads"><span class="icon-list"></span>All Threads</a>
+                </li>
+                <li ng-class="{active: vm.pageId=='yourturn'}">
+                    <a href="/threads/yourturn"><span class="icon-edit"></span>Your Turn</a>
+                </li>
+                <li ng-class="{active: vm.pageId=='theirturn'}">
+                    <a href="/threads/theirturn"><span class="icon-check"></span>Their Turn</a>
+                </li>
+                <li ng-class="{active: vm.pageId=='archived'}">
+                    <a href="/threads/archived"><span class="icon-archive"></span>Archived</a>
+                </li>
+            </ul>
+        </div>
+        <div class="icon-caret-down"></div>
+        <div class="icon-caret-up"></div>
+    </nav>
+
+    <nav id="left-panel-mobile" ng-hide="vm.publicView">
+        <div id="left-panel-content-mobile">
+            <ul>
+                <li ng-class="{active: vm.pageId=='dashboard'}">
+                    <a href="/">Dashboard</a>
+                </li>
+                <li ng-class="{active: vm.pageId=='allthreads'}">
+                    <a href="/threads">All Threads</a>
+                </li>
+                <li ng-class="{active: vm.pageId=='yourturn'}">
+                    <a href="/threads/yourturn">Your Turn</a>
+                </li>
+                <li ng-class="{active: vm.pageId=='theirturn'}">
+                    <a href="/threads/theirturn">Their Turn</a>
+                </li>
+                <li ng-class="{active: vm.pageId=='archived'}">
+                    <a href="/threads/archived">Archived</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>

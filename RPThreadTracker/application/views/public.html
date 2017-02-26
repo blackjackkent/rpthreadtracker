@@ -1,0 +1,45 @@
+﻿<header>
+    <h3><a href="/">RPThreadTracker</a> | {{vm.publicTitleString}}</h3>
+</header>
+<div class="container">
+    <section class="row-fluid">
+        <h4>Thread Count: {{vm.threadCount}}</h4>
+        <table class="table table-striped thread-table">
+            <tr>
+                <th>Thread Title</th>
+                <th>Last Poster</th>
+                <th>Last Post Date</th>
+                <th>Watched User</th>
+				<th>Tags</th>
+                <th>&nbsp;</th>
+            </tr>
+            <tr ng-repeat="thread in vm.threads | isCurrentBlog:vm.currentBlog | isCorrectTurn:vm.pageId | containsFilteredTag:vm.filteredTag |  orderBy:vm.currentOrderBy:vm.sortDescending">
+                <td>
+                    {{thread.UserTitle}}
+                </td>
+                <td>
+                    <a ng-show="thread.LastPosterShortname != null" href="{{thread.LastPostUrl}}">{{thread.LastPosterShortname}}</a>
+                    <span ng-show="thread.PostId == null">
+                        <span class="error">Awaiting Starter</span>
+                    </span>
+                    <span ng-show="thread.LastPosterShortname == null && thread.PostId != null">
+                        <span class="error">Not Found</span>
+                        (<a target="_blank" href="http://tblrthreadtracker.tumblr.com/post/84787503106/fix-in-place-for-not-found-error-please-read" id="notFoundExplanation">Why am I seeing this?</a>)
+                    </span>
+                </td>
+                <td>
+                    <span ng-show="thread.LastPostDate != null">{{thread.LastPostDate * 1000 | date:'medium'}}</span>
+                </td>
+	            <td>
+		            <span ng-show="thread.WatchedShortname">{{thread.WatchedShortname}}</span>
+	            </td>
+				<td>
+					<span ng-show="thread.ThreadTags"><span ng-repeat="tag in thread.ThreadTags" title="{{tag}}">{{tag.substring(0, 20)}}<span ng-show="tag.length > 20">...</span><br /></span></span>
+				</td>
+                <td>
+                    <a ng-show="thread.LastPostUrl != null" target="_blank" href="{{thread.LastPostUrl}}">View</a>
+                </td>
+            </tr>
+        </table>
+    </section>
+</div>
