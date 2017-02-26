@@ -8,7 +8,7 @@
 		]);
 
 	/** @this baseController */
-	// eslint-disable-next-line valid-jsdoc, max-params, max-len
+	// eslint-disable-next-line valid-jsdoc, max-params, max-len, max-statements
 	function baseController($scope, sessionService, SESSION_EVENTS, cacheBuster, BodyClass, $timeout, adminflareService) {
 		var vm = this;
 		vm.cacheBuster = cacheBuster;

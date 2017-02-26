@@ -9,8 +9,10 @@ install:
   - ps: Install-Product node $env:nodejs_version
   - ps: cd RPThreadTracker/application
   - ps: npm install
+  - ps: cd ../../
 test_script:
-  - cd RPThreadTracker/application 
+  - cd RPThreadTracker/application
   - node --version
   - npm --version
   - npm run eslint
+  - cd ../../
