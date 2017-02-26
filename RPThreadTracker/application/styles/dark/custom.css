@@ -1,0 +1,53 @@
+﻿/*#region Bootstrap/AdminFlare overrides */
+body { background-image: url("/application/images/body-bg-dark.png");background-repeat: repeat;height: auto; color: #ccc; }
+.box { background-color: #222; border: 1px solid #333; }
+.box-header { color: #cccccc; }
+.box-expand { -moz-text-shadow: none; -o-text-shadow: none; -webkit-text-shadow: none; color: #ccc; text-shadow: none; }
+.box-collapse { opacity: 1 }
+#main-footer { border-top: 1px solid #333; }
+.btn { -moz-box-shadow: rgba(255, 255, 255, 0.3) 0 1px 0px inset; -moz-text-shadow: rgba(0, 0, 0, 0.4) 0 -1px 0; -o-text-shadow: rgba(0, 0, 0, 0.4) 0 -1px 0; 
+       -webkit-box-shadow: rgba(255, 255, 255, 0.3) 0 1px 0px inset; -webkit-text-shadow: rgba(0, 0, 0, 0.4) 0 -1px 0; background-color: #5a5a5a; *background-color: #505050; 
+       background-image: -moz-linear-gradient(top, #616161, #505050); background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#616161), to(#505050)); 
+       background-image: -webkit-linear-gradient(top, #616161, #505050); background-image: -o-linear-gradient(top, #616161, #505050); background-image: linear-gradient(to bottom, #616161, #505050);
+       border-color: #505050 #505050 #2a2a2a; box-shadow: rgba(255, 255, 255, 0.3) 0 1px 0px inset; color: #ffffff; filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff616161', endColorstr='#ff505050', GradientType=0);
+       text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25); text-shadow: rgba(0, 0, 0, 0.4) 0 -1px 0;
+}
+.btn:hover, .btn:focus, .btn:active, .btn.active, .btn.disabled, .btn[disabled] { background-color: #505050; *background-color: #434343; color: #ffffff; }
+.btn:active, .btn.active { background-color: #373737 \9; }
+.btn.disabled, .btn[disabled] { background: #7a7a7a; border: 1px solid #5e5e5e; }
+.btn.disabled:active, .btn[disabled]:active, .btn.disabled.active, .btn[disabled].active { background: #7a7a7a; }
+.btn .caret { border-top-color: #fff; }
+.open .dropdown-toggle { background: #4d4d4d !important; }
+.alert-block { -moz-box-shadow: none; -webkit-box-shadow: none;box-shadow: none; }
+.alert-info { background-color: #444; border-color: #555; color: #d5eef1; text-shadow: none; }
+select, textarea, input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"],
+    input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"], .uneditable-input {
+    border: 1px solid #333; border-top-color: #222;box-shadow: none;}
+.well { background: rgba(255, 255, 255, 0.02); }
+.widget-threads .thread { border-bottom: 1px solid rgba(255, 255, 255, 0.08); }
+.widget-statistics > div { background: rgba(255, 255, 255, 0.02); }
+a { color: #75c6f3; }
+select {
+    background-color: #222;
+    color: #ccc
+}
+.table-striped tbody > tr:nth-child(odd) > th { background-color: #333; color: #ccc; }
+.table th, .table td { border-top: 1px solid #222; }
+.table-striped tbody > tr:nth-child(odd) > td { background-color: #111; }
+.alert { box-shadow: none;}
+legend { color: #ccc; }
+/*#endregion*/
+
+/*#region General */
+.tooltip.in { opacity: 1;}
+.tooltip-inner { color: #fff;}
+/*#endregion*/
+
+/*#region Public Thread View */
+.error-page header { background: #000; border-bottom: 1px solid #333; }
+/*#endregion*/
+
+/*#region Add Thread*/
+.thread-tag-data-item { background-color: #333; color: #ccc; }
+.thread-tag-data-item:hover { background-color: #777; }
+/*#endregion*/

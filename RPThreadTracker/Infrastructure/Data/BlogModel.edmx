@@ -1,0 +1,340 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="RPThreadTrackerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="UserBlog">
+          <Key>
+            <PropertyRef Name="UserBlogId" />
+          </Key>
+          <Property Name="UserBlogId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="BlogShortname" Type="nvarchar(max)" />
+          <Property Name="OnHiatus" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar(max)" />
+          <Property Name="Email" Type="nvarchar(max)" />
+          <Property Name="Password" Type="nvarchar(max)" />
+          <Property Name="LastLogin" Type="datetime" />
+          <Property Name="ShowDashboardThreadDistribution" Type="bit" Nullable="false" />
+          <Property Name="UseInvertedTheme" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserThread">
+          <Key>
+            <PropertyRef Name="UserThreadId" />
+          </Key>
+          <Property Name="UserThreadId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserBlogId" Type="int" Nullable="false" />
+          <Property Name="PostId" Type="nvarchar(max)" />
+          <Property Name="UserTitle" Type="nvarchar(max)" />
+          <Property Name="WatchedShortname" Type="varchar" MaxLength="50" />
+          <Property Name="IsArchived" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserThreadTag">
+          <Key>
+            <PropertyRef Name="TagID" />
+          </Key>
+          <Property Name="TagID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TagText" Type="varchar" MaxLength="140" Nullable="false" />
+          <Property Name="UserThreadID" Type="int" />
+        </EntityType>
+        <EntityType Name="webpages_Membership">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="CreateDate" Type="datetime" />
+          <Property Name="ConfirmationToken" Type="nvarchar" MaxLength="128" />
+          <Property Name="IsConfirmed" Type="bit" />
+          <Property Name="LastPasswordFailureDate" Type="datetime" />
+          <Property Name="PasswordFailuresSinceLastSuccess" Type="int" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="PasswordChangedDate" Type="datetime" />
+          <Property Name="PasswordSalt" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="PasswordVerificationToken" Type="nvarchar" MaxLength="128" />
+          <Property Name="PasswordVerificationTokenExpirationDate" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_dbo_UserBlog_dbo_UserProfile_UserId">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserBlog" Type="Self.UserBlog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserBlog">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_UserThread_dbo_UserBlog_UserBlogId">
+          <End Role="UserBlog" Type="Self.UserBlog" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserThread" Type="Self.UserThread" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserBlog">
+              <PropertyRef Name="UserBlogId" />
+            </Principal>
+            <Dependent Role="UserThread">
+              <PropertyRef Name="UserBlogId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_UserThreadTag_dbo_UserThread_UserThreadId">
+          <End Role="UserThread" Type="Self.UserThread" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserThreadTag" Type="Self.UserThreadTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserThread">
+              <PropertyRef Name="UserThreadId" />
+            </Principal>
+            <Dependent Role="UserThreadTag">
+              <PropertyRef Name="UserThreadID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RPThreadTrackerModelStoreContainer">
+          <EntitySet Name="UserBlog" EntityType="Self.UserBlog" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserThread" EntityType="Self.UserThread" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserThreadTag" EntityType="Self.UserThreadTag" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="webpages_Membership" EntityType="Self.webpages_Membership" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_UserBlog_dbo_UserProfile_UserId" Association="Self.FK_dbo_UserBlog_dbo_UserProfile_UserId">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="UserBlog" EntitySet="UserBlog" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_UserThread_dbo_UserBlog_UserBlogId" Association="Self.FK_dbo_UserThread_dbo_UserBlog_UserBlogId">
+            <End Role="UserBlog" EntitySet="UserBlog" />
+            <End Role="UserThread" EntitySet="UserThread" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_UserThreadTag_dbo_UserThread_UserThreadId" Association="Self.FK_dbo_UserThreadTag_dbo_UserThread_UserThreadId">
+            <End Role="UserThread" EntitySet="UserThread" />
+            <End Role="UserThreadTag" EntitySet="UserThreadTag" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="RPThreadTrackerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="UserBlog">
+          <Key>
+            <PropertyRef Name="UserBlogId" />
+          </Key>
+          <Property Name="UserBlogId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="BlogShortname" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserProfile" Relationship="Self.FK_dbo_UserBlog_dbo_UserProfile_UserId" FromRole="UserBlog" ToRole="UserProfile" />
+          <NavigationProperty Name="UserThreads" Relationship="Self.FK_dbo_UserThread_dbo_UserBlog_UserBlogId" FromRole="UserBlog" ToRole="UserThread" />
+          <Property Name="OnHiatus" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastLogin" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="UserBlogs" Relationship="Self.FK_dbo_UserBlog_dbo_UserProfile_UserId" FromRole="UserProfile" ToRole="UserBlog" />
+          <Property Name="ShowDashboardThreadDistribution" Type="Boolean" Nullable="false" />
+          <Property Name="UseInvertedTheme" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserThread">
+          <Key>
+            <PropertyRef Name="UserThreadId" />
+          </Key>
+          <Property Name="UserThreadId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserBlogId" Type="Int32" Nullable="false" />
+          <Property Name="PostId" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="UserTitle" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="WatchedShortname" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="IsArchived" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="UserBlog" Relationship="Self.FK_dbo_UserThread_dbo_UserBlog_UserBlogId" FromRole="UserThread" ToRole="UserBlog" />
+          <NavigationProperty Name="UserThreadTags" Relationship="Self.FK__UserThrea__UserT__1B9317B3" FromRole="UserThread" ToRole="UserThreadTag" />
+        </EntityType>
+        <EntityType Name="UserThreadTag">
+          <Key>
+            <PropertyRef Name="TagID" />
+          </Key>
+          <Property Name="TagID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TagText" Type="String" MaxLength="140" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="UserThreadID" Type="Int32" />
+          <NavigationProperty Name="UserThread" Relationship="Self.FK__UserThrea__UserT__1B9317B3" FromRole="UserThreadTag" ToRole="UserThread" />
+        </EntityType>
+        <Association Name="FK_dbo_UserBlog_dbo_UserProfile_UserId">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserBlog" Type="Self.UserBlog" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="UserBlog">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_UserThread_dbo_UserBlog_UserBlogId">
+          <End Role="UserBlog" Type="Self.UserBlog" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="UserThread" Type="Self.UserThread" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserBlog">
+              <PropertyRef Name="UserBlogId" />
+            </Principal>
+            <Dependent Role="UserThread">
+              <PropertyRef Name="UserBlogId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserThrea__UserT__1B9317B3">
+          <End Role="UserThread" Type="Self.UserThread" Multiplicity="0..1" />
+          <End Role="UserThreadTag" Type="Self.UserThreadTag" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserThread">
+              <PropertyRef Name="UserThreadId" />
+            </Principal>
+            <Dependent Role="UserThreadTag">
+              <PropertyRef Name="UserThreadID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="RPThreadTrackerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="UserBlogs" EntityType="Self.UserBlog" />
+          <EntitySet Name="UserProfiles" EntityType="Self.UserProfile" />
+          <EntitySet Name="UserThreads" EntityType="Self.UserThread" />
+          <EntitySet Name="UserThreadTags" EntityType="Self.UserThreadTag" />
+          <AssociationSet Name="FK_dbo_UserBlog_dbo_UserProfile_UserId" Association="Self.FK_dbo_UserBlog_dbo_UserProfile_UserId">
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="UserBlog" EntitySet="UserBlogs" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_UserThread_dbo_UserBlog_UserBlogId" Association="Self.FK_dbo_UserThread_dbo_UserBlog_UserBlogId">
+            <End Role="UserBlog" EntitySet="UserBlogs" />
+            <End Role="UserThread" EntitySet="UserThreads" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserThrea__UserT__1B9317B3" Association="Self.FK__UserThrea__UserT__1B9317B3">
+            <End Role="UserThread" EntitySet="UserThreads" />
+            <End Role="UserThreadTag" EntitySet="UserThreadTags" />
+          </AssociationSet>
+          <EntitySet Name="WebpagesMemberships" EntityType="RPThreadTrackerModel.WebpagesMembership" />
+        </EntityContainer>
+        <EntityType Name="WebpagesMembership">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="CreateDate" Type="DateTime" Precision="3" />
+          <Property Name="ConfirmationToken" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IsConfirmed" Type="Boolean" />
+          <Property Name="LastPasswordFailureDate" Type="DateTime" Precision="3" />
+          <Property Name="PasswordFailuresSinceLastSuccess" Type="Int32" Nullable="false" />
+          <Property Name="Password" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordChangedDate" Type="DateTime" Precision="3" />
+          <Property Name="PasswordSalt" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordVerificationToken" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="PasswordVerificationTokenExpirationDate" Type="DateTime" Precision="3" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="RPThreadTrackerModelStoreContainer" CdmEntityContainer="RPThreadTrackerEntities">
+          <EntitySetMapping Name="UserBlogs">
+            <EntityTypeMapping TypeName="RPThreadTrackerModel.UserBlog">
+              <MappingFragment StoreEntitySet="UserBlog">
+                <ScalarProperty Name="OnHiatus" ColumnName="OnHiatus" />
+                <ScalarProperty Name="UserBlogId" ColumnName="UserBlogId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="BlogShortname" ColumnName="BlogShortname" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserProfiles">
+            <EntityTypeMapping TypeName="RPThreadTrackerModel.UserProfile">
+              <MappingFragment StoreEntitySet="UserProfile">
+                <ScalarProperty Name="UseInvertedTheme" ColumnName="UseInvertedTheme" />
+                <ScalarProperty Name="ShowDashboardThreadDistribution" ColumnName="ShowDashboardThreadDistribution" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="LastLogin" ColumnName="LastLogin" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserThreads">
+            <EntityTypeMapping TypeName="RPThreadTrackerModel.UserThread">
+              <MappingFragment StoreEntitySet="UserThread">
+                <ScalarProperty Name="UserThreadId" ColumnName="UserThreadId" />
+                <ScalarProperty Name="UserBlogId" ColumnName="UserBlogId" />
+                <ScalarProperty Name="PostId" ColumnName="PostId" />
+                <ScalarProperty Name="UserTitle" ColumnName="UserTitle" />
+                <ScalarProperty Name="WatchedShortname" ColumnName="WatchedShortname" />
+                <ScalarProperty Name="IsArchived" ColumnName="IsArchived" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserThreadTags">
+            <EntityTypeMapping TypeName="RPThreadTrackerModel.UserThreadTag">
+              <MappingFragment StoreEntitySet="UserThreadTag">
+                <ScalarProperty Name="TagID" ColumnName="TagID" />
+                <ScalarProperty Name="TagText" ColumnName="TagText" />
+                <ScalarProperty Name="UserThreadID" ColumnName="UserThreadID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="WebpagesMemberships">
+            <EntityTypeMapping TypeName="RPThreadTrackerModel.WebpagesMembership">
+              <MappingFragment StoreEntitySet="webpages_Membership">
+                <ScalarProperty Name="PasswordVerificationTokenExpirationDate" ColumnName="PasswordVerificationTokenExpirationDate" />
+                <ScalarProperty Name="PasswordVerificationToken" ColumnName="PasswordVerificationToken" />
+                <ScalarProperty Name="PasswordSalt" ColumnName="PasswordSalt" />
+                <ScalarProperty Name="PasswordChangedDate" ColumnName="PasswordChangedDate" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="PasswordFailuresSinceLastSuccess" ColumnName="PasswordFailuresSinceLastSuccess" />
+                <ScalarProperty Name="LastPasswordFailureDate" ColumnName="LastPasswordFailureDate" />
+                <ScalarProperty Name="IsConfirmed" ColumnName="IsConfirmed" />
+                <ScalarProperty Name="ConfirmationToken" ColumnName="ConfirmationToken" />
+                <ScalarProperty Name="CreateDate" ColumnName="CreateDate" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
