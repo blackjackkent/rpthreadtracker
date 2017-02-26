@@ -1,9 +1,9 @@
 build:
   project: RPThreadTracker.sln
   publish_wap: true
-  verbosity: 
+  verbosity: quiet
 before_build:
-  - ps: nuget restore RPThreadTracker.sln
+  - ps: nuget restore RPThreadTracker.sln -Verbosity Quiet
 environment:
   nodejs_version: "6"
 install:
