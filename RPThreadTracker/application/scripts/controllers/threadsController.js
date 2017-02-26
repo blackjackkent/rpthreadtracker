@@ -28,6 +28,8 @@
 			vm.currentOrderBy = contextService.getCurrentOrderBy();
 			vm.filteredTag = contextService.getFilteredTag();
 			vm.bulkItemAction = THREAD_BULK_ACTIONS.UNTRACK;
+			vm.threads = [];
+			vm.blogs = [];
 			blogService.getBlogs().then(function(blogs) {
 				vm.blogs = blogs;
 			});
@@ -156,6 +158,9 @@
 		function populateTagFilter() {
 			var tagsByThread = _.map(vm.threads, 'ThreadTags');
 			vm.allTags = _.union(_.flatten(tagsByThread));
+			if (!_.find(vm.allTags, function(tag) { return tag === vm.filteredTag })) {
+				vm.filteredTag = '';
+			}
 		}
 
 		function buildPublicLink() {

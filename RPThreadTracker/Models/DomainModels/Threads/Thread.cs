@@ -104,7 +104,7 @@
 		{
 			return new ThreadDto
 			{
-				BlogShortname = UserBlog.BlogShortname,
+				BlogShortname = UserBlog?.BlogShortname,
 				UserBlogId = UserBlogId,
 				IsMyTurn = true,
 				LastPostDate = null,
