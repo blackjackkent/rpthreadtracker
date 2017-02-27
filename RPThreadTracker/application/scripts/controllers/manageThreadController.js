@@ -66,8 +66,9 @@
 
 		function initAddFromExtension() {
 			vm.thread.PostId = $routeParams.tumblrPostId;
+			var routeShortname = $routeParams.tumblrBlogShortname.toLowerCase();
 			var exists = _.find(vm.blogs, function(blog) {
-				return blog.BlogShortname === $routeParams.tumblrBlogShortname;
+				return blog.BlogShortname.toLowerCase() === routeShortname;
 			});
 			if (exists) {
 				vm.thread.UserBlogId = exists.UserBlogId;
