@@ -32,6 +32,11 @@
 			vm.blogs = [];
 			blogService.getBlogs().then(function(blogs) {
 				vm.blogs = blogs;
+				if (!_.find(vm.blogs, function(blog) {
+					return blog.UserBlogId === vm.currentBlog.UserBlogId;
+				})) {
+					vm.currentBlog = null;
+				}
 			});
 		}
 
