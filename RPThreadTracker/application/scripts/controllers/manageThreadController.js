@@ -55,12 +55,6 @@
 			var userThreadId = $routeParams.userThreadId;
 			threadService.getStandaloneThread(userThreadId).then(function(thread) {
 				vm.thread = thread;
-				return blogService.getBlogs();
-			}).then(function(blogs) {
-				vm.blogs = blogs;
-				if (!vm.currentBlog) {
-					vm.currentBlog = blogs[0].BlogShortname;
-				}
 			});
 		}
 
