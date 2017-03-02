@@ -68,8 +68,8 @@
                 </tr>
 
                 <tr>
-                    <td ng-show="vm.blogs.length == 0"colspan="6" class="alert public-link-alert">You have not yet added any blogs on which to track threads. Click "Manage Blogs" to get started.</td>
-                    <td ng-show="vm.blogs.length > 0 && vm.threads.length == 0" colspan="6" class="alert alert-info public-link-alert">You are not yet tracking any threads. Click "Track New Thread" to track a thread from one of your current blogs.</td>
+                    <td ng-cloak ng-show="vm.blogs.length == 0"colspan="6" class="alert public-link-alert">You have not yet added any blogs on which to track threads. Click "Manage Blogs" to get started.</td>
+                    <td ng-cloak ng-show="vm.blogs.length > 0 && vm.threads.length == 0" colspan="6" class="alert alert-info public-link-alert">You are not yet tracking any threads. Click "Track New Thread" to track a thread from one of your current blogs.</td>
                 </tr>
                 <tr ng-repeat="thread in vm.threads | isCurrentBlog:vm.currentBlog | isCorrectTurn:vm.pageId | containsFilteredTag:vm.filteredTag | orderBy:vm.currentOrderBy:vm.sortDescending">
                     <td>
