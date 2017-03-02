@@ -3,14 +3,16 @@
 	angular.module('rpthreadtracker')
 		.controller('HeaderController',
 		[
-			'$scope', 'threadService',
+			'$scope', 'threadService', 'adminflareService', '$timeout',
 			headerController
 		]);
 
 	/** @this headerController */
-	// eslint-disable-next-line valid-jsdoc, max-params, max-len
-	function headerController($scope, threadService) {
+	// eslint-disable-next-line valid-jsdoc, max-params, max-len, max-statements
+	function headerController($scope, threadService, adminflareService, $timeout) {
 		var vm = this;
+		$timeout(adminflareService.init);
+		$timeout(adminflareService.initCustom);
 		threadService.subscribeLoadedThreadEvent(showLoadingIcon);
 		threadService.subscribeLoadedArchiveThreadEvent(showLoadingIcon);
 		threadService.subscribeAllThreadsLoaded(hideLoadingIcon);
