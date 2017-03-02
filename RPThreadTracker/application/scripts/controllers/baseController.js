@@ -3,18 +3,15 @@
 	angular.module('rpthreadtracker')
 		.controller('BaseController',
 		[
-			'$scope', 'sessionService', 'SESSION_EVENTS', 'cacheBuster', 'BodyClass', '$timeout',
-			'adminflareService', baseController
+			'$scope', 'sessionService', 'SESSION_EVENTS', 'cacheBuster', 'BodyClass', baseController
 		]);
 
 	/** @this baseController */
 	// eslint-disable-next-line valid-jsdoc, max-params, max-len, max-statements
-	function baseController($scope, sessionService, SESSION_EVENTS, cacheBuster, BodyClass, $timeout, adminflareService) {
+	function baseController($scope, sessionService, SESSION_EVENTS, cacheBuster, BodyClass) {
 		var vm = this;
 		vm.cacheBuster = cacheBuster;
 		vm.bodyClass = BodyClass;
-		$timeout(adminflareService.init);
-		$timeout(adminflareService.initCustom);
 		$scope.$on('$destroy', destroyView);
 
 		sessionService.subscribeLoginLogoutEvent(handleSessionEvent);
