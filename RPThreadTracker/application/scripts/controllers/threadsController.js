@@ -16,21 +16,30 @@
 		sessionService.loadUser(vm);
 		BodyClass.set('');
 
-		initScopeValues();
+		initScopeContextValues();
+		initScopeDataValues();
 		initSubscriptions();
 		initScopeFunctions();
 		$scope.$on('$destroy', destroyView);
 
-		function initScopeValues() {
+		function initScopeContextValues() {
 			vm.pageId = pageId;
 			vm.currentBlog = contextService.getCurrentBlog();
 			vm.sortDescending = contextService.getSortDescending();
 			vm.currentOrderBy = contextService.getCurrentOrderBy();
 			vm.filteredTag = contextService.getFilteredTag();
 			vm.bulkItemAction = THREAD_BULK_ACTIONS.UNTRACK;
+		}
+
+		function initScopeDataValues() {
 			vm.threads = [];
 			vm.blogs = [];
+			vm.noBlogs = false;
+			vm.noThreads = false;
 			blogService.getBlogs().then(function(blogs) {
+				if (blogs.length === 0) {
+					vm.noBlogs = true;
+				}
 				vm.blogs = blogs;
 				if (!_.find(vm.blogs, function(blog) {
 					return vm.currentBlog && blog.UserBlogId === vm.currentBlog.UserBlogId;
@@ -54,8 +63,9 @@
 		}
 
 		function initSubscriptions() {
-			threadService.subscribeLoadedThreadEvent(loadThreads);
-			threadService.subscribeLoadedArchiveThreadEvent(loadThreads);
+			threadService.subscribeLoadedThreadEvent(onThreadLoaded);
+			threadService.subscribeLoadedArchiveThreadEvent(onThreadLoaded);
+			threadService.subscribeAllThreadsLoaded(onAllThreadsLoaded);
 			if (vm.pageId === 'archived') {
 				threadService.loadArchivedThreads();
 			} else {
@@ -63,12 +73,19 @@
 			}
 		}
 
-		function loadThreads(data) {
+		function onThreadLoaded(data) {
 			vm.threads = data;
 			populateTagFilter();
 		}
 
+		function onAllThreadsLoaded() {
+			if (vm.threads.length === 0) {
+				vm.noThreads = true;
+			}
+		}
+
 		function refreshThreads() {
+			vm.noThreads = false;
 			threadService.flushThreads();
 			if (vm.pageId === 'archived') {
 				threadService.loadArchivedThreads(true);
@@ -182,8 +199,9 @@
 		}
 
 		function destroyView() {
-			threadService.unsubscribeLoadedThreadEvent(loadThreads);
-			threadService.unsubscribeLoadedArchiveThreadEvent(loadThreads);
+			threadService.unsubscribeLoadedThreadEvent(onThreadLoaded);
+			threadService.unsubscribeLoadedArchiveThreadEvent(onThreadLoaded);
+			threadService.unsubscribeAllThreadsLoaded(onAllThreadsLoaded);
 		}
 	}
 }());

@@ -23,12 +23,12 @@
                     <div>
                         <div class="box-wide box-no-bottom-padding">
                             <div class="widget-threads widget-thread-preview" id="Div2">
-                                <div ng-cloak class="thread" ng-show="vm.blogs.length == 0">
+                                <div ng-cloak class="thread" ng-show="vm.noBlogs">
                                     <div class="content">
                                         You have not yet added any blogs to your account. Click "Manage Blogs" to add a new blog.
                                     </div>
                                 </div>
-                                <div ng-cloak class="thread" ng-show="vm.blogs.length > 0 && vm.threads.length == 0">
+                                <div ng-cloak class="thread" ng-show="!vm.noBlogs && vm.noThreads">
                                     <div class="content">
                                         You are not yet tracking any threads.<br/> Click "Track New Thread" to track a thread from one of your current blogs.
                                     </div>

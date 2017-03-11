@@ -17,6 +17,7 @@
 		BodyClass.set('');
 
 		initScopeValues();
+		initScopeDataValues();
 		initSubscriptions();
 		initScopeFunctions();
 		$scope.$on('$destroy', destroyView);
@@ -26,13 +27,21 @@
 			vm.dashboardFilter = 'yourturn';
 			vm.showAtAGlance = false;
 			vm.loadingRandomThread = false;
+		}
+
+		function initScopeDataValues() {
 			vm.threads = [];
 			vm.blogs = [];
+			vm.noThreads = false;
+			vm.noBlogs = false;
 			sessionService.getUser().then(function(user) {
 				vm.showAtAGlance = user.ShowDashboardThreadDistribution;
 			});
 			blogService.getBlogs().then(function(blogs) {
 				vm.blogs = blogs;
+				if (vm.blogs.length === 0)				{
+					vm.noBlogs = true;
+				}
 			});
 			newsService.getNews().then(function(news) {
 				vm.news = news;
@@ -42,7 +51,7 @@
 		function initScopeFunctions() {
 			vm.untrackThreads = untrackThreads;
 			vm.archiveThreads = archiveThreads;
-			vm.loadThreads = loadThreads;
+			vm.onThreadLoaded = onThreadLoaded;
 			vm.refreshThreads = refreshThreads;
 			vm.setDashboardFilter = setDashboardFilter;
 			vm.toggleAtAGlanceData = toggleAtAGlanceData;
@@ -50,11 +59,13 @@
 		}
 
 		function initSubscriptions() {
-			threadService.subscribeLoadedThreadEvent(loadThreads);
+			threadService.subscribeLoadedThreadEvent(onThreadLoaded);
+			threadService.subscribeAllThreadsLoaded(onAllThreadsLoaded);
 			threadService.loadThreads();
 		}
 
-		function loadThreads(data) {
+		function onThreadLoaded(data) {
+			vm.noThreads = false;
 			vm.threads = data;
 			vm.myTurnCount = _.filter(vm.threads, function(thread) {
 				return thread.IsMyTurn;
@@ -62,6 +73,11 @@
 			vm.theirTurnCount = _.filter(vm.threads, function(thread) {
 				return !thread.IsMyTurn;
 			}).length;
+		}
+		function onAllThreadsLoaded() {
+			if (vm.threads.length === 0) {
+				vm.noThreads = true;
+			}
 		}
 
 		function refreshThreads() {
@@ -134,7 +150,7 @@
 		}
 
 		function destroyView() {
-			threadService.unsubscribeLoadedThreadEvent(loadThreads);
+			threadService.unsubscribeLoadedThreadEvent(onThreadLoaded);
 		}
 	}
 }());

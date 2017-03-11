@@ -12,6 +12,7 @@ body { background-repeat: repeat;height: auto;}
 
 label.inline-control-label { display: inline; line-height: 30px; vertical-align: top; }
 .tooltip-inner { max-width: 350px;font-size: 12px; }
+[ng\:cloak], [ng-cloak], .ng-cloak { display: none !important; }
 /*#endregion*/
 
 /*#region Library Overrides*/
