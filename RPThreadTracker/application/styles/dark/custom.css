@@ -1,6 +1,7 @@
 ﻿/*#region Bootstrap/AdminFlare overrides */
 html { background: #0a0a0a; }
 body { background-image: url("/application/images/body-bg-dark.png");background-repeat: repeat;height: auto; color: #ccc; }
+[ng\:cloak], [ng-cloak], .ng-cloak { display: none !important; }
 .box { background-color: #222; border: 1px solid #333; }
 .box-header { color: #cccccc; }
 .box-expand { -moz-text-shadow: none; -o-text-shadow: none; -webkit-text-shadow: none; color: #ccc; text-shadow: none; }
