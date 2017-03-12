@@ -1672,10 +1672,10 @@
     <None Include="RPThreadTracker.ruleset">
       <SubType>Designer</SubType>
     </None>
-    <None Include="Web.connectionStrings.config">
+    <None Include="Web.connectionStrings.config" Condition=" '$(Configuration)' == 'Debug' ">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Web.secureAppSettings.config">
+    <None Include="Web.secureAppSettings.config" Condition=" '$(Configuration)' == 'Debug' ">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Web.secureAppSettings.config.sample">
