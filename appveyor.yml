@@ -1,7 +1,7 @@
 - 
   branches:
     only:
-      - master
+      - production
   configuration: Release
   platform: Any CPU
   deploy:
@@ -26,8 +26,8 @@
     - npm --version
     - npm run eslint
     - cd ../../
-    - nunit3-console RPThreadTrackerTests/RPThreadTrackerTests.csproj --result=nunit-results.xml;format=AppVeyor --config=Release
-- 
+    - nunit3-console RPThreadTrackerTests/RPThreadTrackerTests.csproj --result=nunit-results.xml;format=AppVeyor --config=Staging- 
+-
   branches:
     only:
       - development
