@@ -26,7 +26,7 @@
     - npm --version
     - npm run eslint
     - cd ../../
-    - nunit3-console RPThreadTrackerTests/RPThreadTrackerTests.csproj --result=nunit-results.xml;format=AppVeyor --config=Staging- 
+    - nunit3-console RPThreadTrackerTests/RPThreadTrackerTests.csproj --result=nunit-results.xml;format=AppVeyor --config=Release
 -
   branches:
     only:
