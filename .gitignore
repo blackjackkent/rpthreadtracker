@@ -10,8 +10,6 @@ Help/*
 *.LOCAL.*
 *.REMOTE.*
 *.DotSettings*
-RPThreadTracker/Web.connectionStrings.config
-RPThreadTracker/Web.secureAppSettings.config
 RPThreadTracker/App_Data/RPThreadTracker.mdf
 RPThreadTracker/App_Data/RPThreadTracker_log.ldf
 RPThreadTracker/App_Data/*
