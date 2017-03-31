@@ -24,12 +24,13 @@
 			vm.currentOrderBy = $routeParams.currentOrderBy;
 			vm.sortDescending = $routeParams.sortDescending !== 'false';
 			vm.filteredTag = $routeParams.filteredTag;
+			vm.isArchived = vm.pageId === 'archived';
 		}
 
 		function initView() {
 			vm.publicTitleString = buildPublicTitleString();
 			publicThreadService.subscribeLoadedThreadEvent(updateThreads);
-			publicThreadService.loadThreads(vm.userId, vm.currentBlog);
+			publicThreadService.loadThreads(vm.userId, vm.currentBlog, vm.isArchived);
 		}
 
 		function updateThreads(data) {
@@ -46,6 +47,8 @@
 				result += 'Threads I Owe';
 			} else if (vm.pageId === 'theirturn') {
 				result += 'Threads Awaiting Reply';
+			} else if (vm.pageId === 'archived') {
+				result += "Archived Threads"
 			} else {
 				result += 'All Threads';
 			}
