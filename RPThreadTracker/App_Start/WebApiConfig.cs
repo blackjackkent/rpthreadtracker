@@ -28,6 +28,7 @@
 			WebSecurity.InitializeDatabaseConnection(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString, "System.Data.SqlClient", "UserProfile", "UserId", "UserName", true);
 			AutoMapperConfiguration.Configure();
 			config.Services.Add(typeof(IExceptionLogger), new ElmahExceptionLogger());
+			KeyConfig.ConfigureMachineKey();
 		}
 	}
 }
