@@ -24,12 +24,13 @@
 			vm.currentOrderBy = $routeParams.currentOrderBy;
 			vm.sortDescending = $routeParams.sortDescending !== 'false';
 			vm.filteredTag = $routeParams.filteredTag;
+			vm.isArchived = vm.pageId === 'archived';
 		}
 
 		function initView() {
 			vm.publicTitleString = buildPublicTitleString();
 			publicThreadService.subscribeLoadedThreadEvent(updateThreads);
-			publicThreadService.loadThreads(vm.userId, vm.currentBlog);
+			publicThreadService.loadThreads(vm.userId, vm.currentBlog, vm.isArchived);
 		}
 
 		function updateThreads(data) {
@@ -42,13 +43,26 @@
 
 		function buildPublicTitleString() {
 			var result = '';
+			result += getMainTitle();
+			result += getFilterTitle();
+			return result;
+		}
+
+		function getMainTitle() {
 			if (vm.pageId === 'yourturn') {
-				result += 'Threads I Owe';
-			} else if (vm.pageId === 'theirturn') {
-				result += 'Threads Awaiting Reply';
-			} else {
-				result += 'All Threads';
+				return 'Threads I Owe';
 			}
+			if (vm.pageId === 'theirturn') {
+				return 'Threads Awaiting Reply';
+			}
+			if (vm.pageId === 'archived') {
+				return 'Archived Threads';
+			}
+			return 'All Threads';
+		}
+
+		function getFilterTitle() {
+			var result = '';
 			if (vm.currentBlog !== '') {
 				result += ' on ' + vm.currentBlog;
 			}
