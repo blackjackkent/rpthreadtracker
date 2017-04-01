@@ -43,15 +43,26 @@
 
 		function buildPublicTitleString() {
 			var result = '';
+			result += getMainTitle();
+			result += getFilterTitle();
+			return result;
+		}
+
+		function getMainTitle() {
 			if (vm.pageId === 'yourturn') {
-				result += 'Threads I Owe';
-			} else if (vm.pageId === 'theirturn') {
-				result += 'Threads Awaiting Reply';
-			} else if (vm.pageId === 'archived') {
-				result += "Archived Threads"
-			} else {
-				result += 'All Threads';
+				return 'Threads I Owe';
 			}
+			if (vm.pageId === 'theirturn') {
+				return 'Threads Awaiting Reply';
+			}
+			if (vm.pageId === 'archived') {
+				return 'Archived Threads';
+			}
+			return 'All Threads';
+		}
+
+		function getFilterTitle() {
+			var result = '';
 			if (vm.currentBlog !== '') {
 				result += ' on ' + vm.currentBlog;
 			}

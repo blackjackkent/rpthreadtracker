@@ -27,8 +27,8 @@
 		function getThreadIds(userId, blogShortname, isArchived) {
 			var deferred = $q.defer(),
 				config = {
-					'url': '/api/PublicThread?userId=' + userId 
-						+ '&blogShortname=' + blogShortname 
+					'url': '/api/PublicThread?userId=' + userId
+						+ '&blogShortname=' + blogShortname
 						+ '&isArchived=' + isArchived,
 					'method': 'GET'
 				};
