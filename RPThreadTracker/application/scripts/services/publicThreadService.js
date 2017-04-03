@@ -11,9 +11,9 @@
 		var loadedThreadEventSubscribers = [],
 			threads = [];
 
-		function loadThreads(userId, blogShortname) {
+		function loadThreads(userId, blogShortname, isArchive) {
 			threads = [];
-			getThreadIds(userId, blogShortname).then(function(data) {
+			getThreadIds(userId, blogShortname, isArchive).then(function(data) {
 				loadThreadIdsSuccess(data, threads);
 			});
 		}
@@ -24,10 +24,12 @@
 			});
 		}
 
-		function getThreadIds(userId, blogShortname) {
+		function getThreadIds(userId, blogShortname, isArchived) {
 			var deferred = $q.defer(),
 				config = {
-					'url': '/api/PublicThread?userId=' + userId + '&blogShortname=' + blogShortname,
+					'url': '/api/PublicThread?userId=' + userId
+						+ '&blogShortname=' + blogShortname
+						+ '&isArchived=' + isArchived,
 					'method': 'GET'
 				};
 			function success(response) {
