@@ -6,7 +6,7 @@
   platform: Any CPU
   deploy:
     - provider: Environment
-      name: production
+      name: RPThreadTracker-Production
   build:
     project: RPThreadTracker.sln
     publish_wap: true
