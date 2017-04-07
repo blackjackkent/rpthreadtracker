@@ -59,19 +59,20 @@
 		/// </summary>
 		/// <param name="userId">Unique identifier of user which owns blog</param>
 		/// <param name="blogShortname">Shortname identifier of blog to be retrieved</param>
+		/// <param name="isArchived">If true, retrieve archived threads; otherwise retrieve non-archived</param>
 		/// <returns>Collection of integer identifiers for all relevant threads</returns>
-		public IHttpActionResult Get(int userId, string blogShortname)
+		public IHttpActionResult Get(int userId, string blogShortname, bool isArchived = false)
 		{
 			if (string.IsNullOrEmpty(blogShortname))
 			{
-				return Ok(_threadService.GetThreadIdsByUserId(userId, _threadRepository));
+				return Ok(_threadService.GetThreadIdsByUserId(userId, _threadRepository, isArchived));
 			}
 			var blog = _blogService.GetBlogByShortname(blogShortname, userId, _blogRepository);
 			if (blog == null)
 			{
 				return BadRequest();
 			}
-			var threads = _threadService.GetThreadsByBlog(blog, _threadRepository);
+			var threads = _threadService.GetThreadsByBlog(blog, _threadRepository, isArchived);
 			return Ok(threads.Select(t => t.UserThreadId));
 		}
 	}
