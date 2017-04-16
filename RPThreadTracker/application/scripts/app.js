@@ -95,7 +95,18 @@
 						return 'archived';
 					}
 				}
-			});
+            });
+        $routeProvider.when('/threads/queued',
+            {
+                'templateUrl': '/application/views/threads.html?cacheBuster=' + cacheBuster,
+                'controller': 'ThreadsController',
+                'controllerAs': 'vm',
+                'resolve': {
+                    'pageId': function () {
+                        return 'queued';
+                    }
+                }
+            });
 		$routeProvider.when('/public/:pageId',
 			{
 				'templateUrl': '/application/views/public.html?cacheBuster=' + cacheBuster,

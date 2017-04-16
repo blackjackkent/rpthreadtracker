@@ -49,13 +49,17 @@
 		}
 
 		/// <inheritdoc cref="IThreadService"/>
-		public IEnumerable<int?> GetThreadIdsByUserId(int? userId, IRepository<Thread> threadRepository, bool isArchived = false, bool isHiatusedBlog = false)
+		public IEnumerable<int?> GetThreadIdsByUserId(int? userId, IRepository<Thread> threadRepository, bool isArchived = false, bool isHiatusedBlog = false, bool isQueued = false)
 		{
 			if (userId == null)
 			{
 				return null;
 			}
-			var threads = threadRepository.Get(t => t.UserBlog != null && t.UserBlog.UserId == userId && t.IsArchived == isArchived && t.UserBlog.OnHiatus == isHiatusedBlog);
+			var threads = threadRepository.Get(t => t.UserBlog != null
+                && t.UserBlog.UserId == userId
+                && t.IsArchived == isArchived
+                && t.UserBlog.OnHiatus == isHiatusedBlog
+                && ((t.MarkedQueued != null) == isQueued));
 			return threads.Select(t => t.UserThreadId).ToList();
 		}
 
