@@ -59,7 +59,8 @@
 			vm.unarchiveThreads = unarchiveThreads;
 			vm.refreshThreads = refreshThreads;
 			vm.bulkAction = bulkAction;
-			vm.buildPublicLink = buildPublicLink;
+            vm.buildPublicLink = buildPublicLink;
+            vm.markQueued = markQueued;
 		}
 
 		function initSubscriptions() {
@@ -146,6 +147,20 @@
 				notificationService.show(type);
 			});
 		}
+
+        function markQueued(threads) {
+            vm.loading = true;
+            threadService.markThreadsQueued(threads).then(function () {
+                vm.loading = false;
+                refreshThreads();
+                var type = NOTIFICATION_TYPES.QUEUE_THREAD_SUCCESS;
+                notificationService.show(type, { 'threads': threads });
+            }, function () {
+                vm.loading = false;
+                var type = NOTIFICATION_TYPES.QUEUE_THREAD_FAILURE;
+                notificationService.show(type);
+            });
+        }
 
 		function setCurrentBlog() {
 			contextService.setCurrentBlog(vm.currentBlog);

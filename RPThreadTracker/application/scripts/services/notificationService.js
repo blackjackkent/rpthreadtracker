@@ -75,7 +75,13 @@
 				break;
 			case NOTIFICATION_TYPES.UNARCHIVE_THREAD_FAILURE:
 				showNotificationUnarchiveThreadFailure();
-				break;
+                break;
+            case NOTIFICATION_TYPES.QUEUE_THREAD_SUCCESS:
+                showNotificationQueueThreadSuccess(extraData);
+                break;
+            case NOTIFICATION_TYPES.QUEUE_THREAD_FAILURE:
+                showNotificationQueueThreadFailure(extraData);
+                break;
 			default:
 
 			}
@@ -89,12 +95,27 @@
 				.show();
 		}
 
-		function showNotificationUntrackThreadFailure() {
+        function showNotificationUntrackThreadFailure() {
+            new TrackerNotification()
+                .withMessage('There was an error untracking your threads.')
+                .withType('error')
+                .show();
+        }
+
+        function showNotificationQueueThreadFailure() {
 			new TrackerNotification()
-				.withMessage('There was an error untracking your threads.')
+				.withMessage('There was an error marking your threads queued.')
 				.withType('error')
 				.show();
-		}
+        }
+
+        function showNotificationQueueThreadSuccess(extraData) {
+            var length = extraData.threads ? extraData.threads.length : 0;
+            new TrackerNotification()
+                .withMessage(length + ' thread(s) marked queued.')
+                .withType('success')
+                .show();
+        }
 
 		function showNotificationArchiveThreadSuccess(extraData) {
 			var length = extraData.threads ? extraData.threads.length : 0;

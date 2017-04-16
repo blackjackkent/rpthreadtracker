@@ -85,7 +85,14 @@
 		/// <returns>Dictionary of thread information organized by userblogid</returns>
 		Dictionary<int, IEnumerable<ThreadDto>> GetThreadDistribution(IEnumerable<BlogDto> blogs, IRepository<Thread> threadRepository, bool isArchived);
 
-		/// <summary>
+        /// <summary>
+        /// Updates a thread to mark that the user has queued it on Tumblr
+        /// </summary>
+        /// <param name="threadId">Unique identifier of thread to be marked</param>
+        /// <param name="threadRepository">Repository object containing database connection</param>
+	    void MarkThreadQueued(int threadId, IRepository<Thread> threadRepository);
+
+            /// <summary>
 		/// Populates information about the last post in the thread
 		/// based on Tumblr note information
 		/// </summary>
