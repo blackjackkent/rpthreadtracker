@@ -65,10 +65,13 @@
 
 		function initSubscriptions() {
 			threadService.subscribeLoadedThreadEvent(onThreadLoaded);
-			threadService.subscribeLoadedArchiveThreadEvent(onThreadLoaded);
+            threadService.subscribeLoadedArchiveThreadEvent(onThreadLoaded);
+            threadService.subscribeLoadedQueuedThreadEvent(onThreadLoaded);
 			threadService.subscribeAllThreadsLoaded(onAllThreadsLoaded);
 			if (vm.pageId === 'archived') {
 				threadService.loadArchivedThreads();
+			} else if (vm.pageId === 'queued') {
+			    threadService.loadQueuedThreads();
 			} else {
 				threadService.loadThreads();
 			}
@@ -90,6 +93,8 @@
 			threadService.flushThreads();
 			if (vm.pageId === 'archived') {
 				threadService.loadArchivedThreads(true);
+			} else if (vm.pageId === 'queued') {
+			    threadService.loadQueuedThreads(true);
 			} else {
 				threadService.loadThreads(true);
 			}
@@ -215,7 +220,8 @@
 
 		function destroyView() {
 			threadService.unsubscribeLoadedThreadEvent(onThreadLoaded);
-			threadService.unsubscribeLoadedArchiveThreadEvent(onThreadLoaded);
+            threadService.unsubscribeLoadedArchiveThreadEvent(onThreadLoaded);
+            threadService.unsubscribeLoadedQueuedThreadEvent(onThreadLoaded);
 			threadService.unsubscribeAllThreadsLoaded(onAllThreadsLoaded);
 		}
 	}

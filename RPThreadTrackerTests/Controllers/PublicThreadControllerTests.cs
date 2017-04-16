@@ -78,7 +78,7 @@
 			// Arrange
 			var userId = 5;
 			var threadIds = new List<int?> { 5, 10, 15 };
-			_threadService.Setup(t => t.GetThreadIdsByUserId(userId, _userThreadRepository.Object, false, false)).Returns(threadIds);
+			_threadService.Setup(t => t.GetThreadIdsByUserId(userId, _userThreadRepository.Object, false, false, false)).Returns(threadIds);
 
 			// Act
 			var result = _publicThreadController.Get(userId, null);

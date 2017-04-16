@@ -9,9 +9,11 @@
 	function threadService($q, $http) {
 		var loadedThreadEventSubscribers = [],
 			allThreadsLoadedSubscribers = [],
-			loadedArchiveThreadEventSubscribers = [],
+            loadedArchiveThreadEventSubscribers = [],
+            loadedQueuedThreadEventSubscribers = [],
 			threads = [],
-			archivedThreads = [];
+            archivedThreads = [],
+            queuedThreads = [];
 
 		function flushThreads() {
 			threads = [];
@@ -40,7 +42,19 @@
 			getThreadIds(true).then(function(data) {
 				loadThreadIdsSuccess(data, archivedThreads);
 			}, loadThreadIdsFailure);
-		}
+        }
+
+        function loadQueuedThreads(force) {
+            if (queuedThreads.length !== 0 && !force) {
+                broadcastLoadedQueuedThreadEvent(archivedThreads);
+                broadcastAllThreadsLoaded();
+                return;
+            }
+            queuedThreads = [];
+            getThreadIds(false, false, true).then(function (data) {
+                loadThreadIdsSuccess(data, queuedThreads);
+            }, loadThreadIdsFailure);
+        }
 
 		function loadThreadIdsSuccess(ids, threadArray) {
 			var queue = [];
@@ -56,10 +70,10 @@
 			broadcastAllThreadsLoaded();
 		}
 
-		function getThreadIds(isArchived, isHiatused) {
+		function getThreadIds(isArchived, isHiatused, isQueued) {
 			var deferred = $q.defer(),
 				config = {
-					'url': '/api/Thread?isArchived=' + isArchived + '&isHiatusedBlog=' + isHiatused,
+					'url': '/api/Thread?isArchived=' + isArchived + '&isHiatusedBlog=' + isHiatused + '&isQueued=' + isQueued,
 					'method': 'GET'
 				};
 			function success(response) {
@@ -223,7 +237,14 @@
 				function(callback) {
 					callback(data);
 				});
-		}
+        }
+
+        function broadcastLoadedQueuedThreadEvent(data) {
+            angular.forEach(loadedQueuedThreadEventSubscribers,
+                function (callback) {
+                    callback(data);
+                });
+        }
 
 		function subscribeLoadedThreadEvent(callback) {
 			loadedThreadEventSubscribers.push(callback);
@@ -235,7 +256,11 @@
 
 		function subscribeLoadedArchiveThreadEvent(callback) {
 			loadedArchiveThreadEventSubscribers.push(callback);
-		}
+        }
+
+        function subscribeLoadedQueuedThreadEvent(callback) {
+            loadedQueuedThreadEventSubscribers.push(callback);
+        }
 
 		function unsubscribeLoadedThreadEvent(callback) {
 			var index = loadedThreadEventSubscribers.indexOf(callback);
@@ -258,10 +283,18 @@
 			}
 		}
 
+        function unsubscribeLoadedQueuedThreadEvent(callback) {
+            var index = loadedQueuedThreadEventSubscribers.indexOf(callback);
+            if (index > -1) {
+                loadedQueuedThreadEventSubscribers.splice(index, 1);
+            }
+        }
+
 		return {
 			'flushThreads': flushThreads,
 			'loadThreads': loadThreads,
-			'loadArchivedThreads': loadArchivedThreads,
+            'loadArchivedThreads': loadArchivedThreads,
+            'loadQueuedThreads': loadQueuedThreads,
 			'untrackThreads': untrackThreads,
 			'archiveThreads': archiveThreads,
 			'unarchiveThreads': unarchiveThreads,
@@ -271,10 +304,12 @@
             'markThreadsQueued': markThreadsQueued,
 			'subscribeLoadedThreadEvent': subscribeLoadedThreadEvent,
 			'subscribeAllThreadsLoaded': subscribeAllThreadsLoaded,
-			'subscribeLoadedArchiveThreadEvent': subscribeLoadedArchiveThreadEvent,
+            'subscribeLoadedArchiveThreadEvent': subscribeLoadedArchiveThreadEvent,
+            'subscribeLoadedQueuedThreadEvent': subscribeLoadedQueuedThreadEvent,
 			'unsubscribeLoadedThreadEvent': unsubscribeLoadedThreadEvent,
 			'unsubscribeAllThreadsLoaded': unsubscribeAllThreadsLoaded,
-			'unsubscribeLoadedArchiveThreadEvent': unsubscribeLoadedArchiveThreadEvent
+            'unsubscribeLoadedArchiveThreadEvent': unsubscribeLoadedArchiveThreadEvent,
+            'unsubscribeLoadedQueuedThreadEvent': unsubscribeLoadedQueuedThreadEvent
 		};
 	}
 }());

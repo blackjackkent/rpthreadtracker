@@ -86,16 +86,17 @@
 			return Ok(hydratedThread);
 		}
 
-		/// <summary>
-		/// Controller endpoint for getting IDs for all threads belonging to currently authenticated user
-		/// </summary>
-		/// <param name="isArchived">Whether or not to retrieve archived threads</param>
-		/// <param name="isHiatusedBlog">Whether or not to include threads belonging to blogs marked as on hiatus</param>
-		/// <returns>List of integer thread IDs</returns>
-		public IHttpActionResult Get([FromUri] bool isArchived = false, bool isHiatusedBlog = false)
+	    /// <summary>
+	    /// Controller endpoint for getting IDs for all threads belonging to currently authenticated user
+	    /// </summary>
+	    /// <param name="isArchived">Whether or not to retrieve archived threads</param>
+	    /// <param name="isHiatusedBlog">Whether or not to include threads belonging to blogs marked as on hiatus</param>
+	    /// <param name="isQueued">Whether or not to include threads the user has marked as queued on Tumblr</param>
+	    /// <returns>List of integer thread IDs</returns>
+	    public IHttpActionResult Get([FromUri] bool isArchived = false, bool isHiatusedBlog = false, bool isQueued = false)
 		{
 			var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
-			var ids = _threadService.GetThreadIdsByUserId(userId, _threadRepository, isArchived, isHiatusedBlog);
+			var ids = _threadService.GetThreadIdsByUserId(userId, _threadRepository, isArchived, isHiatusedBlog, isQueued);
 			return Ok(ids);
 		}
 

@@ -41,15 +41,16 @@
 		/// <returns>List of five <see cref="ThreadDto"/> objects representing five posts</returns>
 		IEnumerable<ThreadDto> GetNewsThreads(ITumblrClient tumblrClient, IConfigurationService configurationService);
 
-		/// <summary>
-		/// Gets all IDs for tracked threads belonging to a particular user account
-		/// </summary>
-		/// <param name="userId">Unique identifier of user whose info should be retrieved</param>
-		/// <param name="threadRepository">Repository object containing database connection</param>
-		/// <param name="isArchived">Whether or not to retrieve archived threads</param>
-		/// <param name="isHiatusedBlog">Whether or not to include threads belonging to blogs marked as on hiatus</param>
-		/// <returns>List of integer identifiers for tracked threads</returns>
-		IEnumerable<int?> GetThreadIdsByUserId(int? userId, IRepository<Thread> threadRepository, bool isArchived = false, bool isHiatusedBlog = false);
+	    /// <summary>
+	    /// Gets all IDs for tracked threads belonging to a particular user account
+	    /// </summary>
+	    /// <param name="userId">Unique identifier of user whose info should be retrieved</param>
+	    /// <param name="threadRepository">Repository object containing database connection</param>
+	    /// <param name="isArchived">Whether or not to retrieve archived threads</param>
+	    /// <param name="isHiatusedBlog">Whether or not to include threads belonging to blogs marked as on hiatus</param>
+	    /// <param name="isQueued">Whether or not to include threads the user has marked as queued</param>
+	    /// <returns>List of integer identifiers for tracked threads</returns>
+	    IEnumerable<int?> GetThreadIdsByUserId(int? userId, IRepository<Thread> threadRepository, bool isArchived = false, bool isHiatusedBlog = false, bool isQueued = false);
 
 		/// <summary>
 		/// Gets <see cref="ThreadDto"/> representations of all threads tracked on a particular blog
