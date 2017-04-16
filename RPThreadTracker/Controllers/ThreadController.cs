@@ -149,5 +149,26 @@
 			_threadService.UpdateThread(thread, _threadRepository);
 			return Ok();
 		}
+
+        /// <summary>
+		/// Controller endpoint for marking a thread as queued on Tumblr
+		/// </summary>
+		/// <param name="threads">List of thread view models to be updated</param>
+		/// <returns>HttpResponseMessage indicating success or failure</returns>
+        [Route("api/Thread/Queue")]
+        [HttpPut]
+        public IHttpActionResult MarkQueued(List<ThreadDto> threads)
+	    {
+            var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity, _userProfileRepository);
+            foreach (var thread in threads)
+            {
+                var userOwnsThread = _threadService.UserOwnsThread(user.UserId, thread.UserThreadId.GetValueOrDefault(), _threadRepository);
+                if (userOwnsThread)
+                {
+                    _threadService.MarkThreadQueued(thread.UserThreadId.GetValueOrDefault(), _threadRepository);
+                }
+            }
+            return Ok();
+        }
 	}
 }

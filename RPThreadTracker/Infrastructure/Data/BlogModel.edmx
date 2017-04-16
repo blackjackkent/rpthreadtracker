@@ -36,6 +36,7 @@
           <Property Name="UserTitle" Type="nvarchar(max)" />
           <Property Name="WatchedShortname" Type="varchar" MaxLength="50" />
           <Property Name="IsArchived" Type="bit" Nullable="false" />
+          <Property Name="MarkedQueued" Type="datetime" />
         </EntityType>
         <EntityType Name="UserThreadTag">
           <Key>
@@ -162,6 +163,7 @@
           <Property Name="IsArchived" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="UserBlog" Relationship="Self.FK_dbo_UserThread_dbo_UserBlog_UserBlogId" FromRole="UserThread" ToRole="UserBlog" />
           <NavigationProperty Name="UserThreadTags" Relationship="Self.FK__UserThrea__UserT__1B9317B3" FromRole="UserThread" ToRole="UserThreadTag" />
+          <Property Name="MarkedQueued" Type="DateTime" Precision="3" />
         </EntityType>
         <EntityType Name="UserThreadTag">
           <Key>
@@ -279,6 +281,7 @@
           <EntitySetMapping Name="UserThreads">
             <EntityTypeMapping TypeName="RPThreadTrackerModel.UserThread">
               <MappingFragment StoreEntitySet="UserThread">
+                <ScalarProperty Name="MarkedQueued" ColumnName="MarkedQueued" />
                 <ScalarProperty Name="UserThreadId" ColumnName="UserThreadId" />
                 <ScalarProperty Name="UserBlogId" ColumnName="UserBlogId" />
                 <ScalarProperty Name="PostId" ColumnName="PostId" />

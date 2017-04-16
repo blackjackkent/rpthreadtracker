@@ -65,6 +65,7 @@
                     <th>&nbsp;</th>
                     <th>&nbsp;</th>
                     <th>&nbsp;</th>
+                    <th>&nbsp;</th>
                 </tr>
 
                 <tr>
@@ -102,6 +103,9 @@
                     </td>
                     <td>
                         <a href="#" ng-click="vm.untrackThreads([thread])">Untrack</a>
+                    </td>
+                    <td>
+                        <a href="#" ng-click="vm.markQueued([thread])">Mark Queued</a>
                     </td>
                     <td>
                         <a ng-show="vm.pageId != 'archived'" href="#" ng-click="vm.archiveThreads([thread])">Archive</a>

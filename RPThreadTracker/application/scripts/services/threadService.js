@@ -187,6 +187,23 @@
 			return deferred.promise;
 		}
 
+        function markThreadsQueued(threads) {
+            var deferred = $q.defer(),
+                config = {
+                    'url': '/api/Thread/Queue',
+                    'data': threads,
+                    'method': 'PUT'
+                };
+            function success() {
+                deferred.resolve(true);
+            }
+            function error() {
+                deferred.reject(false);
+            }
+            $http(config).then(success, error);
+            return deferred.promise;
+        }
+
 		function broadcastLoadedThreadEvent(data) {
 			angular.forEach(loadedThreadEventSubscribers,
 				function(callback) {
@@ -250,7 +267,8 @@
 			'unarchiveThreads': unarchiveThreads,
 			'addNewThread': addNewThread,
 			'editThread': editThread,
-			'getStandaloneThread': getStandaloneThread,
+            'getStandaloneThread': getStandaloneThread,
+            'markThreadsQueued': markThreadsQueued,
 			'subscribeLoadedThreadEvent': subscribeLoadedThreadEvent,
 			'subscribeAllThreadsLoaded': subscribeAllThreadsLoaded,
 			'subscribeLoadedArchiveThreadEvent': subscribeLoadedArchiveThreadEvent,

@@ -1,6 +1,7 @@
 ﻿namespace RPThreadTracker.Models.DomainModels.Threads
 {
-	using System.Collections.Generic;
+    using System;
+    using System.Collections.Generic;
 	using Blogs;
 	using Interfaces;
 
@@ -95,6 +96,16 @@
 		/// String value of blog shortname (http://{shortname}.tumblr.com)
 		/// </value>
 		public string WatchedShortname { get; set; }
+
+        /// <summary>
+        /// Gets or sets the datetime at which this thread was marked
+        /// by the user as having been queued on Tumblr.
+        /// </summary>
+        /// <value>
+        /// Datetime at which the user marked the thread queued,
+        /// or null if it is not presently in the queue.
+        /// </value>
+        public DateTime? MarkedQueued { get; set; }
 
 		/// <summary>
 		/// Converts <see cref="Thread"/> object to <see cref="ThreadDto"/>

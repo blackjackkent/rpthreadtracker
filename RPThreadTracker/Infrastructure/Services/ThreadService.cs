@@ -98,6 +98,14 @@
 			return distribution;
 		}
 
+        /// <inheritdoc cref="IThreadService"/>
+        public void MarkThreadQueued(int threadId, IRepository<Thread> threadRepository)
+        {
+            var thread = threadRepository.GetSingle(t => t.UserThreadId == threadId);
+            thread.MarkedQueued = DateTime.UtcNow;
+            threadRepository.Update(threadId, thread);
+        }
+
 		/// <inheritdoc cref="IThreadService"/>
 		public ThreadDto HydrateThread(ThreadDto thread, IPost post)
 		{
