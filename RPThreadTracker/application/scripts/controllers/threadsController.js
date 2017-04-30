@@ -69,9 +69,9 @@
             threadService.subscribeLoadedArchiveThreadEvent(onThreadLoaded);
             threadService.subscribeAllThreadsLoaded(onAllThreadsLoaded);
 			if (vm.pageId === THREAD_PAGE_IDS.ARCHIVED) {
-				threadService.loadArchivedThreads(true);
+				threadService.loadArchivedThreads();
 			} else {
-				threadService.loadThreads(true);
+				threadService.loadThreads();
 			}
 		}
 
