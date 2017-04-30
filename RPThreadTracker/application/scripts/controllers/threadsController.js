@@ -204,6 +204,10 @@
 				vm.archiveThreads(bulkAffected);
 			} else if (vm.bulkItemAction === THREAD_BULK_ACTIONS.UNARCHIVE) {
 				vm.unarchiveThreads(bulkAffected);
+			} else if (vm.bulkItemAction === THREAD_BULK_ACTIONS.QUEUE) {
+				vm.markQueued(bulkAffected);
+			} else if (vm.bulkItemAction === THREAD_BULK_ACTIONS.UNQUEUE) {
+                vm.unmarkQueued(bulkAffected);
 			}
 		}
 

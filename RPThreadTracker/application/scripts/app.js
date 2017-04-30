@@ -312,7 +312,9 @@
 			{
 				'UNTRACK': 1,
 				'ARCHIVE': 2,
-				'UNARCHIVE': 3
+                'UNARCHIVE': 3,
+                'QUEUE': 4,
+                'UNQUEUE': 5
 			});
 		app.constant('NOTIFICATION_TYPES',
 			{
