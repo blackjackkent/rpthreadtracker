@@ -339,7 +339,16 @@
 				'UNARCHIVE_THREAD_SUCCESS': 21,
                 'UNARCHIVE_THREAD_FAILURE': 22,
                 'QUEUE_THREAD_SUCCESS': 23,
-                'QUEUE_THREAD_FAILURE': 24
-			});
+                'QUEUE_THREAD_FAILURE': 24,
+                'UNQUEUE_THREAD_SUCCESS': 25,
+                'UNQUEUE_THREAD_FAILURE': 26
+            });
+        app.constant('THREAD_PAGE_IDS',
+	        {
+                'YOUR_TURN': 'yourturn',
+                'THEIR_TURN': 'theirturn',
+                'ARCHIVED': 'archived',
+                'QUEUED': 'queued'
+	        })
 	}
 }());
