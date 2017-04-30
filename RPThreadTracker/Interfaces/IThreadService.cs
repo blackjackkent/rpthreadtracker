@@ -92,7 +92,7 @@
         /// <param name="threadRepository">Repository object containing database connection</param>
 	    void MarkThreadQueued(int threadId, IRepository<Thread> threadRepository);
 
-            /// <summary>
+        /// <summary>
 		/// Populates information about the last post in the thread
 		/// based on Tumblr note information
 		/// </summary>
