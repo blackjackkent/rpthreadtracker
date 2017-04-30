@@ -1,9 +1,6 @@
 ﻿namespace RPThreadTracker.Controllers
 {
-	using System;
 	using System.Collections.Generic;
-	using System.Net;
-	using System.Net.Http;
 	using System.Security.Claims;
 	using System.Web.Http;
 	using Infrastructure.Filters;
@@ -86,17 +83,16 @@
 			return Ok(hydratedThread);
 		}
 
-	    /// <summary>
-	    /// Controller endpoint for getting IDs for all threads belonging to currently authenticated user
-	    /// </summary>
-	    /// <param name="isArchived">Whether or not to retrieve archived threads</param>
-	    /// <param name="isHiatusedBlog">Whether or not to include threads belonging to blogs marked as on hiatus</param>
-	    /// <param name="isQueued">Whether or not to include threads the user has marked as queued on Tumblr</param>
-	    /// <returns>List of integer thread IDs</returns>
-	    public IHttpActionResult Get([FromUri] bool isArchived = false, bool isHiatusedBlog = false, bool isQueued = false)
+		/// <summary>
+		/// Controller endpoint for getting IDs for all threads belonging to currently authenticated user
+		/// </summary>
+		/// <param name="isArchived">Whether or not to retrieve archived threads</param>
+		/// <param name="isHiatusedBlog">Whether or not to include threads belonging to blogs marked as on hiatus</param>
+		/// <returns>List of integer thread IDs</returns>
+		public IHttpActionResult Get([FromUri] bool isArchived = false, bool isHiatusedBlog = false)
 		{
 			var userId = _webSecurityService.GetCurrentUserIdFromIdentity((ClaimsIdentity)User.Identity);
-			var ids = _threadService.GetThreadIdsByUserId(userId, _threadRepository, isArchived, isHiatusedBlog, isQueued);
+			var ids = _threadService.GetThreadIdsByUserId(userId, _threadRepository, isArchived, isHiatusedBlog);
 			return Ok(ids);
 		}
 
@@ -150,26 +146,5 @@
 			_threadService.UpdateThread(thread, _threadRepository);
 			return Ok();
 		}
-
-        /// <summary>
-		/// Controller endpoint for marking a thread as queued on Tumblr
-		/// </summary>
-		/// <param name="threads">List of thread view models to be updated</param>
-		/// <returns>HttpResponseMessage indicating success or failure</returns>
-        [Route("api/Thread/Queue")]
-        [HttpPut]
-        public IHttpActionResult MarkQueued(List<ThreadDto> threads)
-	    {
-            var user = _webSecurityService.GetCurrentUserFromIdentity((ClaimsIdentity)User.Identity, _userProfileRepository);
-            foreach (var thread in threads)
-            {
-                var userOwnsThread = _threadService.UserOwnsThread(user.UserId, thread.UserThreadId.GetValueOrDefault(), _threadRepository);
-                if (userOwnsThread)
-                {
-                    _threadService.MarkThreadQueued(thread.UserThreadId.GetValueOrDefault(), _threadRepository);
-                }
-            }
-            return Ok();
-        }
 	}
 }

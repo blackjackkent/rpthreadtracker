@@ -30,6 +30,7 @@
 			WatchedShortname = dto.WatchedShortname;
 			IsArchived = dto.IsArchived;
 			ThreadTags = dto.ThreadTags;
+			MarkedQueued = dto.MarkedQueued;
 		}
 
 		/// <summary>
@@ -126,7 +127,8 @@
 				UserTitle = UserTitle,
 				WatchedShortname = WatchedShortname,
 				IsArchived = IsArchived,
-				ThreadTags = ThreadTags
+				ThreadTags = ThreadTags,
+				MarkedQueued = MarkedQueued
 			};
 		}
 	}

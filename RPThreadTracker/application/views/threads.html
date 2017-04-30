@@ -105,7 +105,8 @@
                         <a href="#" ng-click="vm.untrackThreads([thread])">Untrack</a>
                     </td>
                     <td>
-                        <a href="#" ng-click="vm.markQueued([thread])">Mark Queued</a>
+                        <a ng-show="vm.pageId != 'queued'" href="#" ng-click="vm.markQueued([thread])">Mark Queued</a>
+                        <a ng-show="vm.pageId == 'queued'" href="#" ng-click="vm.unmarkQueued([thread])">Unmark Queued</a>
                     </td>
                     <td>
                         <a ng-show="vm.pageId != 'archived'" href="#" ng-click="vm.archiveThreads([thread])">Archive</a>

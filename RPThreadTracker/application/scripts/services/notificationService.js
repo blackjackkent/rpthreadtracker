@@ -82,6 +82,12 @@
             case NOTIFICATION_TYPES.QUEUE_THREAD_FAILURE:
                 showNotificationQueueThreadFailure(extraData);
                 break;
+			case NOTIFICATION_TYPES.UNQUEUE_THREAD_SUCCESS:
+				showNotificationUnqueueThreadSuccess(extraData);
+				break;
+			case NOTIFICATION_TYPES.UNQUEUE_THREAD_FAILURE:
+				showNotificationUnqueueThreadFailure();
+				break;
 			default:
 
 			}
@@ -116,6 +122,21 @@
                 .withType('success')
                 .show();
         }
+
+		function showNotificationUnqueueThreadSuccess(extraData) {
+			var length = extraData.threads ? extraData.threads.length : 0;
+			new TrackerNotification()
+				.withMessage(length + ' thread(s) unmarked queued.')
+				.withType('success')
+				.show();
+		}
+
+		function showNotificationUnqueueThreadFailure() {
+			new TrackerNotification()
+                .withMessage('There was an error unmarking your threads queued.')
+				.withType('success')
+				.show();
+		}
 
 		function showNotificationArchiveThreadSuccess(extraData) {
 			var length = extraData.threads ? extraData.threads.length : 0;
