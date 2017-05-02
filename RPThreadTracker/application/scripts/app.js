@@ -343,7 +343,8 @@
                 'QUEUE_THREAD_SUCCESS': 23,
                 'QUEUE_THREAD_FAILURE': 24,
                 'UNQUEUE_THREAD_SUCCESS': 25,
-                'UNQUEUE_THREAD_FAILURE': 26
+                'UNQUEUE_THREAD_FAILURE': 26,
+				'POST_ID_ALREADY_TRACKED': 27
             });
         app.constant('THREAD_PAGE_IDS',
 	        {

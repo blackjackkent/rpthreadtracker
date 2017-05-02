@@ -88,11 +88,22 @@
 			case NOTIFICATION_TYPES.UNQUEUE_THREAD_FAILURE:
 				showNotificationUnqueueThreadFailure();
 				break;
+			case NOTIFICATION_TYPES.POST_ID_ALREADY_TRACKED:
+                showNotificationPostIdAlreadyTracked(extraData);
+				break;
 			default:
 
 			}
 		}
 
+        function showNotificationPostIdAlreadyTracked(extraData) {
+            var message = 'You are already tracking a thread with ';
+	        message += 'post ID ' + extraData.postId + '.';
+			new TrackerNotification()
+				.withMessage(message)
+				.withType('error')
+				.show();
+		}
 		function showNotificationUntrackThreadSuccess(extraData) {
 			var length = extraData.threads ? extraData.threads.length : 0;
 			new TrackerNotification()
