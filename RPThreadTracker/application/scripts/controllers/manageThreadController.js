@@ -17,12 +17,14 @@
 		sessionService.loadUser(vm);
 		BodyClass.set('');
 
+		vm.isAddPage = pageId === 'add-thread';
 		vm.isEditPage = pageId === 'edit-thread';
 		vm.isExtensionPage = $routeParams.addFromExtension;
 		blogService.getBlogs().then(function(blogs) {
 			vm.blogs = blogs;
 			initScopeValues();
-			initScopeFunctions();
+            initScopeFunctions();
+			initSubscriptions();
 			if (vm.isEditPage) {
 				initEditThreadView();
 			}
@@ -34,7 +36,8 @@
 		function initScopeValues() {
 			vm.pageId = pageId;
 			vm.thread = {};
-			vm.thread.ThreadTags = [];
+            vm.thread.ThreadTags = [];
+			vm.existingThreads = [];
 			var currentBlog = contextService.getCurrentBlog();
 			if (!currentBlog) {
 				currentBlog = _.head(vm.blogs);
@@ -42,7 +45,16 @@
 			if (currentBlog && currentBlog.UserBlogId) {
 				vm.thread.UserBlogId = currentBlog.UserBlogId;
 			}
-		}
+        }
+
+        function initSubscriptions() {
+	        threadService.subscribeLoadedThreadEvent(onThreadLoaded);
+			threadService.loadThreads();
+        }
+
+        function onThreadLoaded(threads) {
+	        vm.existingThreads = threads;
+        }
 
 		function initScopeFunctions() {
 			vm.submitThread = submitThread;
@@ -73,7 +85,13 @@
 			}
 		}
 
-		function submitThread() {
+        function submitThread() {
+            if (vm.isAddPage) {
+                var threadAlreadyTracked = checkIfThreadAlreadyTracked();
+                if (threadAlreadyTracked) {
+	                return;
+                }
+            }
 			var valid = validateThread();
 			if (!valid) {
 				return;
@@ -82,11 +100,27 @@
 			if (vm.isEditPage) {
 				threadService.editThread(vm.thread)
 					.then(success, failure);
-			} else {
+            } else {
+                
 				threadService.addNewThread(vm.thread)
 					.then(success, failure);
 			}
-		}
+        }
+
+        function checkIfThreadAlreadyTracked() {
+	        var threadAlreadyTracked = _.some(vm.existingThreads, function (thread) {
+			    return thread.PostId === vm.thread.PostId;
+            });
+            if (!threadAlreadyTracked) {
+	            return false;
+            }
+	        var type = NOTIFICATION_TYPES.POST_ID_ALREADY_TRACKED;
+	        var extraData = {
+		        'postId': vm.thread.PostId
+	        };
+            notificationService.show(type, extraData);
+	        return true;
+        }
 
 		function handleThreadTagKeypress(e) {
 			// 13: Enter, 44: Comma
