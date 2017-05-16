@@ -3,6 +3,7 @@
 	using System.Collections.Generic;
 	using Models.DomainModels.Blogs;
 	using Models.DomainModels.Threads;
+	using Models.DomainModels.Users;
 
 	/// <summary>
 	/// Class which facilitates interaction with repository layer
@@ -100,5 +101,13 @@
 		/// <param name="post"><see cref="IPost"/> to use for last post information</param>
 		/// <returns><see cref="ThreadDto" /> object hydrated with latest post info</returns>
 		ThreadDto HydrateThread(ThreadDto thread, IPost post);
+
+		/// <summary>
+		/// Updates all threads associated with a particular user to remove
+		/// "Marked Queued" dates
+		/// </summary>
+		/// <param name="userId">Unique identifier of user whose threads should be updated</param>
+		/// <param name="threadRepository">Repository object containing database connection</param>
+		void ClearAllMarkedQueuedForUser(int userId, IRepository<Thread> threadRepository);
 	}
 }

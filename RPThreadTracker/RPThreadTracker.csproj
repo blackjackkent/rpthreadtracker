@@ -923,6 +923,9 @@
     <Content Include="application\scripts\bower\angular-route\angular-route.js" />
     <Content Include="application\scripts\bower\angular-route\angular-route.min.js" />
     <Content Include="application\scripts\bower\angular-route\index.js" />
+    <Content Include="application\scripts\bower\angular-sanitize\angular-sanitize.js" />
+    <Content Include="application\scripts\bower\angular-sanitize\angular-sanitize.min.js" />
+    <Content Include="application\scripts\bower\angular-sanitize\index.js" />
     <Content Include="application\scripts\bower\angular-ui-notification\dist\angular-ui-notification.css" />
     <Content Include="application\scripts\bower\angular-ui-notification\dist\angular-ui-notification.js" />
     <Content Include="application\scripts\bower\angular-ui-notification\dist\angular-ui-notification.min.css" />
@@ -1653,6 +1656,12 @@
     <Content Include="application\scripts\bower\angular-ui-notification\README.md" />
     <Content Include="application\scripts\bower\angular-ui-notification\src\angular-ui-notification.less" />
     <Content Include="application\scripts\bower\angular-ui-notification\src\build.less" />
+    <Content Include="application\scripts\bower\angular-sanitize\.bower.json" />
+    <Content Include="application\scripts\bower\angular-sanitize\angular-sanitize.min.js.map" />
+    <Content Include="application\scripts\bower\angular-sanitize\bower.json" />
+    <Content Include="application\scripts\bower\angular-sanitize\LICENSE.md" />
+    <Content Include="application\scripts\bower\angular-sanitize\package.json" />
+    <Content Include="application\scripts\bower\angular-sanitize\README.md" />
     <None Include="BundleTransformer.Configuration.xsd">
       <SubType>Designer</SubType>
     </None>

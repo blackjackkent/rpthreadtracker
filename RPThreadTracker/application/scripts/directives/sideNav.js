@@ -13,7 +13,8 @@
 			'replace': 'true',
 			'scope': {
 				'publicView': '@',
-				'pageId': '@'
+				'pageId': '@',
+				'user': '='
 			},
 			'templateUrl': '/application/views/directives/side-nav.html?cacheBuster=' + cacheBuster,
 			'controller': 'SideNavController',

@@ -33,6 +33,7 @@
 				"~/application/scripts/bower/angular-bootstrap-switch/dist/angular-bootstrap-switch.min.js",
 				"~/application/scripts/bower/angular-ui-notification/dist/angular-ui-notification.min.js",
 				"~/application/scripts/bower/angular-aria/angular-aria.min.js",
+				"~/application/scripts/bower/angular-sanitize/angular-sanitize.min.js",
 				"~/application/scripts/bower/angular-animate/angular-animate.min.js",
 				"~/application/scripts/bower/angular-material/angular-material.min.js"));
 			bundles.Add(new CustomScriptBundle("~/bundles/angular-bootstrap").Include("~/application/scripts/app.js"));

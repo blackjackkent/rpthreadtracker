@@ -40,7 +40,7 @@
 			getThreadIds(true).then(function(data) {
 				loadThreadIdsSuccess(data, archivedThreads);
 			}, loadThreadIdsFailure);
-        }
+		}
 
 		function loadThreadIdsSuccess(ids, threadArray) {
 			var queue = [];
@@ -78,8 +78,8 @@
 					'url': '/api/Thread/' + id,
 					'method': 'GET'
 				};
-            function success(response) {
-	            var thread = setThreadQueueStatus(response.data);
+			function success(response) {
+				var thread = setThreadQueueStatus(response.data);
 				threadArray.push(thread);
 				if (isArchived) {
 					broadcastLoadedArchiveThreadEvent(threadArray);
@@ -93,21 +93,21 @@
 			}
 			$http(config).then(success, error);
 			return deferred.promise;
-        }
+		}
 
-        function setThreadQueueStatus(threadData) {
-            if (!threadData.MarkedQueued) {
-	            return threadData;
-            }
-            var lastPostDate = new Date(threadData.LastPostDate * 1000);
-	        var markedQueuedDate = new Date(threadData.MarkedQueued);
-            if (lastPostDate < markedQueuedDate) {
-	            return threadData;
-            }
-            threadData.MarkedQueued = null;
-            editThread(threadData);
-            return threadData;
-        }
+		function setThreadQueueStatus(threadData) {
+			if (!threadData.MarkedQueued) {
+				return threadData;
+			}
+			var lastPostDate = new Date(threadData.LastPostDate * 1000);
+			var markedQueuedDate = new Date(threadData.MarkedQueued);
+			if (lastPostDate < markedQueuedDate) {
+				return threadData;
+			}
+			threadData.MarkedQueued = null;
+			editThread(threadData);
+			return threadData;
+		}
 
 		function getStandaloneThread(id) {
 			var deferred = $q.defer(),
@@ -202,28 +202,28 @@
 			return deferred.promise;
 		}
 
-        function markThreadsQueued(threads) {
-	        var deferred = $q.defer();
-            var queue = [];
-	        var queuedDate = new Date();
-	        angular.forEach(threads, function (thread) {
-		        thread.MarkedQueued = queuedDate;
-		        queue.push(editThread(thread));
-	        });
-	        $q.all(queue).then(function () {
-		        deferred.resolve(true);
-	        });
-	        return deferred.promise;
-        }
+		function markThreadsQueued(threads) {
+			var deferred = $q.defer();
+			var queue = [];
+			var queuedDate = new Date();
+			angular.forEach(threads, function(thread) {
+				thread.MarkedQueued = queuedDate;
+				queue.push(editThread(thread));
+			});
+			$q.all(queue).then(function() {
+				deferred.resolve(true);
+			});
+			return deferred.promise;
+		}
 
 		function unmarkThreadsQueued(threads) {
 			var deferred = $q.defer();
 			var queue = [];
-			angular.forEach(threads, function (thread) {
+			angular.forEach(threads, function(thread) {
 				thread.MarkedQueued = null;
 				queue.push(editThread(thread));
 			});
-			$q.all(queue).then(function () {
+			$q.all(queue).then(function() {
 				deferred.resolve(true);
 			});
 			return deferred.promise;
@@ -248,7 +248,7 @@
 				function(callback) {
 					callback(data);
 				});
-        }
+		}
 
 		function subscribeLoadedThreadEvent(callback) {
 			loadedThreadEventSubscribers.push(callback);
@@ -260,7 +260,7 @@
 
 		function subscribeLoadedArchiveThreadEvent(callback) {
 			loadedArchiveThreadEventSubscribers.push(callback);
-        }
+		}
 
 		function unsubscribeLoadedThreadEvent(callback) {
 			var index = loadedThreadEventSubscribers.indexOf(callback);
@@ -286,21 +286,21 @@
 		return {
 			'flushThreads': flushThreads,
 			'loadThreads': loadThreads,
-            'loadArchivedThreads': loadArchivedThreads,
+			'loadArchivedThreads': loadArchivedThreads,
 			'untrackThreads': untrackThreads,
 			'archiveThreads': archiveThreads,
 			'unarchiveThreads': unarchiveThreads,
 			'addNewThread': addNewThread,
 			'editThread': editThread,
-            'getStandaloneThread': getStandaloneThread,
-            'markThreadsQueued': markThreadsQueued,
+			'getStandaloneThread': getStandaloneThread,
+			'markThreadsQueued': markThreadsQueued,
 			'unmarkThreadsQueued': unmarkThreadsQueued,
 			'subscribeLoadedThreadEvent': subscribeLoadedThreadEvent,
 			'subscribeAllThreadsLoaded': subscribeAllThreadsLoaded,
-            'subscribeLoadedArchiveThreadEvent': subscribeLoadedArchiveThreadEvent,
+			'subscribeLoadedArchiveThreadEvent': subscribeLoadedArchiveThreadEvent,
 			'unsubscribeLoadedThreadEvent': unsubscribeLoadedThreadEvent,
 			'unsubscribeAllThreadsLoaded': unsubscribeAllThreadsLoaded,
-            'unsubscribeLoadedArchiveThreadEvent': unsubscribeLoadedArchiveThreadEvent
+			'unsubscribeLoadedArchiveThreadEvent': unsubscribeLoadedArchiveThreadEvent
 		};
 	}
 }());
