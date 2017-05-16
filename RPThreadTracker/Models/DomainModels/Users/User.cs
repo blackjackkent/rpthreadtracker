@@ -23,6 +23,7 @@
 			Email = dto.Email;
 			ShowDashboardThreadDistribution = dto.ShowDashboardThreadDistribution;
 			UseInvertedTheme = dto.UseInvertedTheme;
+			AllowMarkQueued = dto.AllowMarkQueued;
 		}
 
 		/// <summary>
@@ -66,6 +67,14 @@
 		public string UserName { get; set; }
 
 		/// <summary>
+		/// Gets or sets a value indicating whether the user has enabled the "Mark Queued" tool
+		/// </summary>
+		/// <value>
+		/// True if the user can mark threads queued, false if not
+		/// </value>
+		public bool AllowMarkQueued { get; set; }
+
+		/// <summary>
 		/// Converts <see cref="User"/> object to <see cref="UserDto"/>
 		/// </summary>
 		/// <returns><see cref="UserDto"/> object corresponding to this user</returns>
@@ -77,7 +86,8 @@
 				Email = Email,
 				UserName = UserName,
 				ShowDashboardThreadDistribution = ShowDashboardThreadDistribution,
-				UseInvertedTheme = UseInvertedTheme
+				UseInvertedTheme = UseInvertedTheme,
+				AllowMarkQueued = AllowMarkQueued
 			};
 		}
 	}

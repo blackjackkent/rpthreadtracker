@@ -25,6 +25,7 @@
           <Property Name="LastLogin" Type="datetime" />
           <Property Name="ShowDashboardThreadDistribution" Type="bit" Nullable="false" />
           <Property Name="UseInvertedTheme" Type="bit" Nullable="false" />
+          <Property Name="AllowMarkQueued" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="UserThread">
           <Key>
@@ -150,6 +151,7 @@
           <NavigationProperty Name="UserBlogs" Relationship="Self.FK_dbo_UserBlog_dbo_UserProfile_UserId" FromRole="UserProfile" ToRole="UserBlog" />
           <Property Name="ShowDashboardThreadDistribution" Type="Boolean" Nullable="false" />
           <Property Name="UseInvertedTheme" Type="Boolean" Nullable="false" />
+          <Property Name="AllowMarkQueued" Type="Boolean" Nullable="false" />
         </EntityType>
         <EntityType Name="UserThread">
           <Key>
@@ -268,6 +270,7 @@
           <EntitySetMapping Name="UserProfiles">
             <EntityTypeMapping TypeName="RPThreadTrackerModel.UserProfile">
               <MappingFragment StoreEntitySet="UserProfile">
+                <ScalarProperty Name="AllowMarkQueued" ColumnName="AllowMarkQueued" />
                 <ScalarProperty Name="UseInvertedTheme" ColumnName="UseInvertedTheme" />
                 <ScalarProperty Name="ShowDashboardThreadDistribution" ColumnName="ShowDashboardThreadDistribution" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />

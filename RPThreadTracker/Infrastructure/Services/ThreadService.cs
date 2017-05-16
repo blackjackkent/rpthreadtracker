@@ -126,6 +126,21 @@
 			return thread;
 		}
 
+		/// <inheritdoc cref="IThreadService"/>
+		public void ClearAllMarkedQueuedForUser(int userId, IRepository<Thread> threadRepository)
+		{
+			var relevantThreads = threadRepository.Get(t => t.MarkedQueued != null);
+			if (!relevantThreads.Any())
+			{
+				return;
+			}
+			foreach (var thread in relevantThreads)
+			{
+				thread.MarkedQueued = null;
+				threadRepository.Update(thread.UserThreadId, thread);
+			}
+		}
+
 		private void HydrateLastPostInfoFromNote(ThreadDto thread, Note note)
 		{
 			thread.LastPosterShortname = note.BlogName;

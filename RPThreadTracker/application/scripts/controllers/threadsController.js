@@ -5,12 +5,13 @@
 		[
 			'$scope', '$controller', '$window', 'threadService', 'contextService',
 			'blogService', 'newsService', 'sessionService', 'pageId', 'notificationService',
-            'NOTIFICATION_TYPES', 'BodyClass', 'THREAD_BULK_ACTIONS', '$mdDialog', 'THREAD_PAGE_IDS', threadsController
+			'NOTIFICATION_TYPES', 'BodyClass', 'THREAD_BULK_ACTIONS', '$mdDialog',
+			'THREAD_PAGE_IDS', threadsController
 		]);
 
 	/** @this dashboardController */
 	// eslint-disable-next-line valid-jsdoc, max-params, max-len, max-statements
-    function threadsController($scope, $controller, $window, threadService, contextService, blogService, newsService, sessionService, pageId, notificationService, NOTIFICATION_TYPES, BodyClass, THREAD_BULK_ACTIONS, $mdDialog, THREAD_PAGE_IDS) {
+	function threadsController($scope, $controller, $window, threadService, contextService, blogService, newsService, sessionService, pageId, notificationService, NOTIFICATION_TYPES, BodyClass, THREAD_BULK_ACTIONS, $mdDialog, THREAD_PAGE_IDS) {
 		var vm = this;
 		angular.extend(vm, $controller('BaseController as base', {'$scope': $scope}));
 		sessionService.loadUser(vm);
@@ -49,6 +50,7 @@
 			});
 		}
 
+		// eslint-disable-next-line max-statements
 		function initScopeFunctions() {
 			vm.setCurrentBlog = setCurrentBlog;
 			vm.setSortDescending = setSortDescending;
@@ -59,15 +61,15 @@
 			vm.unarchiveThreads = unarchiveThreads;
 			vm.refreshThreads = refreshThreads;
 			vm.bulkAction = bulkAction;
-            vm.buildPublicLink = buildPublicLink;
-            vm.markQueued = markQueued;
+			vm.buildPublicLink = buildPublicLink;
+			vm.markQueued = markQueued;
 			vm.unmarkQueued = unmarkQueued;
 		}
 
 		function initSubscriptions() {
 			threadService.subscribeLoadedThreadEvent(onThreadLoaded);
-            threadService.subscribeLoadedArchiveThreadEvent(onThreadLoaded);
-            threadService.subscribeAllThreadsLoaded(onAllThreadsLoaded);
+			threadService.subscribeLoadedArchiveThreadEvent(onThreadLoaded);
+			threadService.subscribeAllThreadsLoaded(onAllThreadsLoaded);
 			if (vm.pageId === THREAD_PAGE_IDS.ARCHIVED) {
 				threadService.loadArchivedThreads();
 			} else {
@@ -91,8 +93,8 @@
 			threadService.flushThreads();
 			if (vm.pageId === THREAD_PAGE_IDS.ARCHIVED) {
 				threadService.loadArchivedThreads(true);
-            } else {
-                threadService.loadThreads(true);
+			} else {
+				threadService.loadThreads(true);
 			}
 		}
 
@@ -149,33 +151,33 @@
 			});
 		}
 
-        function markQueued(threads) {
-            vm.loading = true;
-            threadService.markThreadsQueued(threads).then(function () {
-                vm.loading = false;
-                refreshThreads();
-                var type = NOTIFICATION_TYPES.QUEUE_THREAD_SUCCESS;
-                notificationService.show(type, { 'threads': threads });
-            }, function () {
-                vm.loading = false;
-                var type = NOTIFICATION_TYPES.QUEUE_THREAD_FAILURE;
-                notificationService.show(type);
-            });
-        }
+		function markQueued(threads) {
+			vm.loading = true;
+			threadService.markThreadsQueued(threads).then(function() {
+				vm.loading = false;
+				refreshThreads();
+				var type = NOTIFICATION_TYPES.QUEUE_THREAD_SUCCESS;
+				notificationService.show(type, {'threads': threads});
+			}, function() {
+				vm.loading = false;
+				var type = NOTIFICATION_TYPES.QUEUE_THREAD_FAILURE;
+				notificationService.show(type);
+			});
+		}
 
-        function unmarkQueued(threads) {
-	        vm.loading = true;
-	        threadService.unmarkThreadsQueued(threads).then(function () {
-		        vm.loading = false;
-		        refreshThreads();
-		        var type = NOTIFICATION_TYPES.UNQUEUE_THREAD_SUCCESS;
-		        notificationService.show(type, { 'threads': threads });
-	        }, function () {
-		        vm.loading = false;
-		        var type = NOTIFICATION_TYPES.UNQUEUE_THREAD_FAILURE;
-		        notificationService.show(type);
-	        });
-        }
+		function unmarkQueued(threads) {
+			vm.loading = true;
+			threadService.unmarkThreadsQueued(threads).then(function() {
+				vm.loading = false;
+				refreshThreads();
+				var type = NOTIFICATION_TYPES.UNQUEUE_THREAD_SUCCESS;
+				notificationService.show(type, {'threads': threads});
+			}, function() {
+				vm.loading = false;
+				var type = NOTIFICATION_TYPES.UNQUEUE_THREAD_FAILURE;
+				notificationService.show(type);
+			});
+		}
 
 		function setCurrentBlog() {
 			contextService.setCurrentBlog(vm.currentBlog);
@@ -207,7 +209,7 @@
 			} else if (vm.bulkItemAction === THREAD_BULK_ACTIONS.QUEUE) {
 				vm.markQueued(bulkAffected);
 			} else if (vm.bulkItemAction === THREAD_BULK_ACTIONS.UNQUEUE) {
-                vm.unmarkQueued(bulkAffected);
+				vm.unmarkQueued(bulkAffected);
 			}
 		}
 
@@ -234,7 +236,7 @@
 
 		function destroyView() {
 			threadService.unsubscribeLoadedThreadEvent(onThreadLoaded);
-            threadService.unsubscribeLoadedArchiveThreadEvent(onThreadLoaded);
+			threadService.unsubscribeLoadedArchiveThreadEvent(onThreadLoaded);
 			threadService.unsubscribeAllThreadsLoaded(onAllThreadsLoaded);
 		}
 	}
