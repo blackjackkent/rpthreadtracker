@@ -1,5 +1,5 @@
 <header-nav public-view="{{vm.publicView}}" page-id="{{vm.pageId}}" user="vm.user"></header-nav>
-<side-nav public-view="{{vm.publicView}}" page-id="{{vm.pageId}}"></side-nav>
+<side-nav public-view="{{vm.publicView}}" page-id="{{vm.pageId}}" user="vm.user"></side-nav>
 
 <section class="central-container container">
     <div id="content">
@@ -35,6 +35,8 @@
                     <option ng-value="1">Untrack Selected</option>
                     <option ng-show="vm.pageId != 'archived'" ng-value="2">Archive Selected</option>
                     <option ng-show="vm.pageId == 'archived'" ng-value="3">Unarchive Selected</option>
+                    <option ng-show="vm.pageId != 'queued'" ng-value="4">Mark Selected Queued</option>
+                    <option ng-show="vm.pageId == 'queued'" ng-value="5">Unmark Selected Queued</option>
                 </select>
                 <a class="btn bulk-action-link" ng-click="vm.bulkAction()">Go</a>
             </div>
@@ -61,6 +63,7 @@
                     <th>Last Post Date</th>
                     <th>Watched Shortname</th>
                     <th>Tags</th>
+                    <th>&nbsp;</th>
                     <th>&nbsp;</th>
                     <th>&nbsp;</th>
                     <th>&nbsp;</th>
@@ -102,6 +105,10 @@
                     </td>
                     <td>
                         <a href="#" ng-click="vm.untrackThreads([thread])">Untrack</a>
+                    </td>
+                    <td ng-show="vm.user.AllowMarkQueued">
+                        <a ng-show="vm.pageId != 'queued'" href="#" ng-click="vm.markQueued([thread])">Mark Queued</a>
+                        <a ng-show="vm.pageId == 'queued'" href="#" ng-click="vm.unmarkQueued([thread])">Unmark Queued</a>
                     </td>
                     <td>
                         <a ng-show="vm.pageId != 'archived'" href="#" ng-click="vm.archiveThreads([thread])">Archive</a>

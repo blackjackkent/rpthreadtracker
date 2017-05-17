@@ -2,9 +2,7 @@
 {
 	using System;
 	using System.Collections.Generic;
-	using Blogs;
 	using Interfaces;
-	using ServiceModels;
 
 	/// <summary>
 	/// DTO object for transferring <see cref="Thread" /> data
@@ -109,6 +107,16 @@
 		/// String value of blog shortname (http://{shortname}.tumblr.com)
 		/// </value>
 		public string WatchedShortname { get; set; }
+
+		/// <summary>
+		/// Gets or sets the datetime at which this thread was marked
+		/// by the user as having been queued on Tumblr.
+		/// </summary>
+		/// <value>
+		/// Datetime at which the user marked the thread queued,
+		/// or null if it is not presently in the queue.
+		/// </value>
+		public DateTime? MarkedQueued { get; set; }
 
 		/// <inheritdoc cref="IDto{TModel}"/>
 		public Thread ToModel()
