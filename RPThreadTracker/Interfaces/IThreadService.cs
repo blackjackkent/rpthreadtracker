@@ -3,6 +3,7 @@
 	using System.Collections.Generic;
 	using Models.DomainModels.Blogs;
 	using Models.DomainModels.Threads;
+	using Models.DomainModels.Users;
 
 	/// <summary>
 	/// Class which facilitates interaction with repository layer
@@ -41,15 +42,15 @@
 		/// <returns>List of five <see cref="ThreadDto"/> objects representing five posts</returns>
 		IEnumerable<ThreadDto> GetNewsThreads(ITumblrClient tumblrClient, IConfigurationService configurationService);
 
-		/// <summary>
-		/// Gets all IDs for tracked threads belonging to a particular user account
-		/// </summary>
-		/// <param name="userId">Unique identifier of user whose info should be retrieved</param>
-		/// <param name="threadRepository">Repository object containing database connection</param>
-		/// <param name="isArchived">Whether or not to retrieve archived threads</param>
-		/// <param name="isHiatusedBlog">Whether or not to include threads belonging to blogs marked as on hiatus</param>
-		/// <returns>List of integer identifiers for tracked threads</returns>
-		IEnumerable<int?> GetThreadIdsByUserId(int? userId, IRepository<Thread> threadRepository, bool isArchived = false, bool isHiatusedBlog = false);
+	    /// <summary>
+	    /// Gets all IDs for tracked threads belonging to a particular user account
+	    /// </summary>
+	    /// <param name="userId">Unique identifier of user whose info should be retrieved</param>
+	    /// <param name="threadRepository">Repository object containing database connection</param>
+	    /// <param name="isArchived">Whether or not to retrieve archived threads</param>
+	    /// <param name="isHiatusedBlog">Whether or not to include threads belonging to blogs marked as on hiatus</param>
+	    /// <returns>List of integer identifiers for tracked threads</returns>
+	    IEnumerable<int?> GetThreadIdsByUserId(int? userId, IRepository<Thread> threadRepository, bool isArchived = false, bool isHiatusedBlog = false);
 
 		/// <summary>
 		/// Gets <see cref="ThreadDto"/> representations of all threads tracked on a particular blog
@@ -85,7 +86,14 @@
 		/// <returns>Dictionary of thread information organized by userblogid</returns>
 		Dictionary<int, IEnumerable<ThreadDto>> GetThreadDistribution(IEnumerable<BlogDto> blogs, IRepository<Thread> threadRepository, bool isArchived);
 
-		/// <summary>
+        /// <summary>
+        /// Updates a thread to mark that the user has queued it on Tumblr
+        /// </summary>
+        /// <param name="threadId">Unique identifier of thread to be marked</param>
+        /// <param name="threadRepository">Repository object containing database connection</param>
+	    void MarkThreadQueued(int threadId, IRepository<Thread> threadRepository);
+
+        /// <summary>
 		/// Populates information about the last post in the thread
 		/// based on Tumblr note information
 		/// </summary>
@@ -93,5 +101,13 @@
 		/// <param name="post"><see cref="IPost"/> to use for last post information</param>
 		/// <returns><see cref="ThreadDto" /> object hydrated with latest post info</returns>
 		ThreadDto HydrateThread(ThreadDto thread, IPost post);
+
+		/// <summary>
+		/// Updates all threads associated with a particular user to remove
+		/// "Marked Queued" dates
+		/// </summary>
+		/// <param name="userId">Unique identifier of user whose threads should be updated</param>
+		/// <param name="threadRepository">Repository object containing database connection</param>
+		void ClearAllMarkedQueuedForUser(int userId, IRepository<Thread> threadRepository);
 	}
 }

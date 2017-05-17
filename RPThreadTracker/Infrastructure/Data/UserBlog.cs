@@ -16,7 +16,7 @@ namespace RPThreadTracker.Infrastructure.Data
     {
         public UserBlog()
         {
-            UserThreads = new HashSet<UserThread>();
+            this.UserThreads = new HashSet<UserThread>();
         }
     
         public int UserBlogId { get; set; }

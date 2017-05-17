@@ -55,7 +55,10 @@
 			{
 				return null;
 			}
-			var threads = threadRepository.Get(t => t.UserBlog != null && t.UserBlog.UserId == userId && t.IsArchived == isArchived && t.UserBlog.OnHiatus == isHiatusedBlog);
+			var threads = threadRepository.Get(t => t.UserBlog != null
+			                                        && t.UserBlog.UserId == userId
+			                                        && t.IsArchived == isArchived
+			                                        && t.UserBlog.OnHiatus == isHiatusedBlog);
 			return threads.Select(t => t.UserThreadId).ToList();
 		}
 
@@ -98,6 +101,14 @@
 			return distribution;
 		}
 
+        /// <inheritdoc cref="IThreadService"/>
+        public void MarkThreadQueued(int threadId, IRepository<Thread> threadRepository)
+        {
+            var thread = threadRepository.GetSingle(t => t.UserThreadId == threadId);
+            thread.MarkedQueued = DateTime.UtcNow;
+            threadRepository.Update(threadId, thread);
+        }
+
 		/// <inheritdoc cref="IThreadService"/>
 		public ThreadDto HydrateThread(ThreadDto thread, IPost post)
 		{
@@ -113,6 +124,21 @@
 			}
 			HydrateLastPostInfoFromNote(thread, mostRecentRelevantNote);
 			return thread;
+		}
+
+		/// <inheritdoc cref="IThreadService"/>
+		public void ClearAllMarkedQueuedForUser(int userId, IRepository<Thread> threadRepository)
+		{
+			var relevantThreads = threadRepository.Get(t => t.MarkedQueued != null);
+			if (!relevantThreads.Any())
+			{
+				return;
+			}
+			foreach (var thread in relevantThreads)
+			{
+				thread.MarkedQueued = null;
+				threadRepository.Update(thread.UserThreadId, thread);
+			}
 		}
 
 		private void HydrateLastPostInfoFromNote(ThreadDto thread, Note note)

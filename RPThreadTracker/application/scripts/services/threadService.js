@@ -79,7 +79,8 @@
 					'method': 'GET'
 				};
 			function success(response) {
-				threadArray.push(response.data);
+				var thread = setThreadQueueStatus(response.data);
+				threadArray.push(thread);
 				if (isArchived) {
 					broadcastLoadedArchiveThreadEvent(threadArray);
 				} else {
@@ -92,6 +93,20 @@
 			}
 			$http(config).then(success, error);
 			return deferred.promise;
+		}
+
+		function setThreadQueueStatus(threadData) {
+			if (!threadData.MarkedQueued) {
+				return threadData;
+			}
+			var lastPostDate = new Date(threadData.LastPostDate * 1000);
+			var markedQueuedDate = new Date(threadData.MarkedQueued);
+			if (lastPostDate < markedQueuedDate) {
+				return threadData;
+			}
+			threadData.MarkedQueued = null;
+			editThread(threadData);
+			return threadData;
 		}
 
 		function getStandaloneThread(id) {
@@ -187,6 +202,33 @@
 			return deferred.promise;
 		}
 
+		function markThreadsQueued(threads) {
+			var deferred = $q.defer();
+			var queue = [];
+			var queuedDate = new Date();
+			angular.forEach(threads, function(thread) {
+				thread.MarkedQueued = queuedDate;
+				queue.push(editThread(thread));
+			});
+			$q.all(queue).then(function() {
+				deferred.resolve(true);
+			});
+			return deferred.promise;
+		}
+
+		function unmarkThreadsQueued(threads) {
+			var deferred = $q.defer();
+			var queue = [];
+			angular.forEach(threads, function(thread) {
+				thread.MarkedQueued = null;
+				queue.push(editThread(thread));
+			});
+			$q.all(queue).then(function() {
+				deferred.resolve(true);
+			});
+			return deferred.promise;
+		}
+
 		function broadcastLoadedThreadEvent(data) {
 			angular.forEach(loadedThreadEventSubscribers,
 				function(callback) {
@@ -251,6 +293,8 @@
 			'addNewThread': addNewThread,
 			'editThread': editThread,
 			'getStandaloneThread': getStandaloneThread,
+			'markThreadsQueued': markThreadsQueued,
+			'unmarkThreadsQueued': unmarkThreadsQueued,
 			'subscribeLoadedThreadEvent': subscribeLoadedThreadEvent,
 			'subscribeAllThreadsLoaded': subscribeAllThreadsLoaded,
 			'subscribeLoadedArchiveThreadEvent': subscribeLoadedArchiveThreadEvent,
