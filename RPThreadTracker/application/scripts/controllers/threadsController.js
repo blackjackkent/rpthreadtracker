@@ -3,7 +3,7 @@
 	angular.module('rpthreadtracker')
 		.controller('ThreadsController',
 		[
-			'$scope', '$controller', '$window', 'threadService', 'contextService',
+			'$scope', '$filter', '$controller', '$window', 'threadService', 'contextService',
 			'blogService', 'newsService', 'sessionService', 'pageId', 'notificationService',
 			'NOTIFICATION_TYPES', 'BodyClass', 'THREAD_BULK_ACTIONS', '$mdDialog',
 			'THREAD_PAGE_IDS', threadsController
@@ -11,7 +11,7 @@
 
 	/** @this dashboardController */
 	// eslint-disable-next-line valid-jsdoc, max-params, max-len, max-statements
-	function threadsController($scope, $controller, $window, threadService, contextService, blogService, newsService, sessionService, pageId, notificationService, NOTIFICATION_TYPES, BodyClass, THREAD_BULK_ACTIONS, $mdDialog, THREAD_PAGE_IDS) {
+	function threadsController($scope, $filter, $controller, $window, threadService, contextService, blogService, newsService, sessionService, pageId, notificationService, NOTIFICATION_TYPES, BodyClass, THREAD_BULK_ACTIONS, $mdDialog, THREAD_PAGE_IDS) {
 		var vm = this;
 		angular.extend(vm, $controller('BaseController as base', {'$scope': $scope}));
 		sessionService.loadUser(vm);
@@ -64,6 +64,7 @@
 			vm.buildPublicLink = buildPublicLink;
 			vm.markQueued = markQueued;
 			vm.unmarkQueued = unmarkQueued;
+			vm.selectAllForBulk = selectAllForBulk;
 		}
 
 		function initSubscriptions() {
@@ -177,6 +178,19 @@
 				var type = NOTIFICATION_TYPES.UNQUEUE_THREAD_FAILURE;
 				notificationService.show(type);
 			});
+		}
+
+		function selectAllForBulk() {
+			var threads = $filter('isCorrectTurn')(vm.threads, vm.pageId);
+			if (vm.isSelectAllSelected) {
+				_.forEach(threads, function(thread) {
+					thread.SelectedForBulk = true;
+				});
+			} else {
+				_.forEach(threads, function(thread) {
+					thread.SelectedForBulk = false;
+				});
+			}
 		}
 
 		function setCurrentBlog() {
