@@ -58,6 +58,9 @@
 			if (vm.pageId === 'archived') {
 				return 'Archived Threads';
 			}
+			if (vm.pageId === 'queued') {
+				return 'Queued Replies';
+			}
 			return 'All Threads';
 		}
 
