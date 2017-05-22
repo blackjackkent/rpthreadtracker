@@ -129,7 +129,7 @@
 		/// <inheritdoc cref="IThreadService"/>
 		public void ClearAllMarkedQueuedForUser(int userId, IRepository<Thread> threadRepository)
 		{
-			var relevantThreads = threadRepository.Get(t => t.MarkedQueued != null);
+			var relevantThreads = threadRepository.Get(t => t.MarkedQueued != null).ToList();
 			if (!relevantThreads.Any())
 			{
 				return;
