@@ -146,7 +146,7 @@
 			vm.loadingRandomThread = true;
 			vm.randomlyGeneratedThread = null;
 			var options = _.filter(vm.threads, function(thread) {
-				return thread.IsMyTurn;
+				return thread.IsMyTurn && !thread.MarkedQueued;
 			});
 			vm.randomlyGeneratedThread = _.sample(options);
 			vm.loadingRandomThread = false;
