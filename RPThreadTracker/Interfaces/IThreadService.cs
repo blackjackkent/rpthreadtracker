@@ -93,14 +93,15 @@
         /// <param name="threadRepository">Repository object containing database connection</param>
 	    void MarkThreadQueued(int threadId, IRepository<Thread> threadRepository);
 
-        /// <summary>
+		/// <summary>
 		/// Populates information about the last post in the thread
 		/// based on Tumblr note information
 		/// </summary>
 		/// <param name="thread"><see cref="ThreadDto"/> to be hydrated</param>
 		/// <param name="post"><see cref="IPost"/> to use for last post information</param>
+		/// <param name="threadRepository">Repository object containing database connection</param>
 		/// <returns><see cref="ThreadDto" /> object hydrated with latest post info</returns>
-		ThreadDto HydrateThread(ThreadDto thread, IPost post);
+		ThreadDto HydrateThread(ThreadDto thread, IPost post, IRepository<Thread> threadRepository);
 
 		/// <summary>
 		/// Updates all threads associated with a particular user to remove
