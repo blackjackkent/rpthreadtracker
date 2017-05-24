@@ -81,7 +81,7 @@
 			var post = new Mock<IPost>();
 			_threadService.Setup(t => t.GetById(threadId, _userThreadRepository.Object)).Returns(thread);
 			_tumblrClient.Setup(c => c.GetPost(thread.PostId, thread.BlogShortname)).Returns(post.Object);
-			_threadService.Setup(s => s.HydrateThread(thread, post.Object)).Returns(hydratedThread);
+			_threadService.Setup(s => s.HydrateThread(thread, post.Object, _userThreadRepository.Object)).Returns(hydratedThread);
 
 			// Act
 			var result = _threadController.Get(threadId);

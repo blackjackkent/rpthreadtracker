@@ -79,8 +79,7 @@
 					'method': 'GET'
 				};
 			function success(response) {
-				var thread = setThreadQueueStatus(response.data);
-				threadArray.push(thread);
+				threadArray.push(response.data);
 				if (isArchived) {
 					broadcastLoadedArchiveThreadEvent(threadArray);
 				} else {
@@ -93,20 +92,6 @@
 			}
 			$http(config).then(success, error);
 			return deferred.promise;
-		}
-
-		function setThreadQueueStatus(threadData) {
-			if (!threadData.MarkedQueued) {
-				return threadData;
-			}
-			var lastPostDate = new Date(threadData.LastPostDate * 1000);
-			var markedQueuedDate = new Date(threadData.MarkedQueued);
-			if (lastPostDate < markedQueuedDate) {
-				return threadData;
-			}
-			threadData.MarkedQueued = null;
-			editThread(threadData);
-			return threadData;
 		}
 
 		function getStandaloneThread(id) {

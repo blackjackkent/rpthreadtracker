@@ -110,7 +110,7 @@
         }
 
 		/// <inheritdoc cref="IThreadService"/>
-		public ThreadDto HydrateThread(ThreadDto thread, IPost post)
+		public ThreadDto HydrateThread(ThreadDto thread, IPost post, IRepository<Thread> threadRepository)
 		{
 			if (post == null)
 			{
@@ -120,9 +120,11 @@
 			if (mostRecentRelevantNote == null)
 			{
 				HydrateLastPostInfoFromPost(thread, post);
+				UnmarkThreadQueuedIfUpdated(thread, threadRepository);
 				return thread;
 			}
 			HydrateLastPostInfoFromNote(thread, mostRecentRelevantNote);
+			UnmarkThreadQueuedIfUpdated(thread, threadRepository);
 			return thread;
 		}
 
@@ -169,6 +171,22 @@
 			{
 				thread.IsMyTurn = string.Equals(post.BlogName, thread.WatchedShortname, StringComparison.OrdinalIgnoreCase);
 			}
+		}
+
+		private void UnmarkThreadQueuedIfUpdated(ThreadDto thread, IRepository<Thread> threadRepository)
+		{
+			if (thread.MarkedQueued == null || thread.LastPostDate == null)
+			{
+				return;
+			}
+			var lastPostDate = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc)
+									.AddMilliseconds(thread.LastPostDate.GetValueOrDefault() * 1000);
+			if (lastPostDate < thread.MarkedQueued)
+			{
+				return;
+			}
+			thread.MarkedQueued = null;
+			threadRepository.Update(thread.UserThreadId, thread.ToModel());
 		}
 	}
 }
