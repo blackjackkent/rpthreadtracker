@@ -76,11 +76,34 @@
 			case NOTIFICATION_TYPES.UNARCHIVE_THREAD_FAILURE:
 				showNotificationUnarchiveThreadFailure();
 				break;
+			case NOTIFICATION_TYPES.QUEUE_THREAD_SUCCESS:
+				showNotificationQueueThreadSuccess(extraData);
+				break;
+			case NOTIFICATION_TYPES.QUEUE_THREAD_FAILURE:
+				showNotificationQueueThreadFailure(extraData);
+				break;
+			case NOTIFICATION_TYPES.UNQUEUE_THREAD_SUCCESS:
+				showNotificationUnqueueThreadSuccess(extraData);
+				break;
+			case NOTIFICATION_TYPES.UNQUEUE_THREAD_FAILURE:
+				showNotificationUnqueueThreadFailure();
+				break;
+			case NOTIFICATION_TYPES.POST_ID_ALREADY_TRACKED:
+				showNotificationPostIdAlreadyTracked(extraData);
+				break;
 			default:
 
 			}
 		}
 
+		function showNotificationPostIdAlreadyTracked(extraData) {
+			var message = 'You are already tracking a thread with ';
+			message += 'post ID ' + extraData.postId + '.';
+			new TrackerNotification()
+				.withMessage(message)
+				.withType('error')
+				.show();
+		}
 		function showNotificationUntrackThreadSuccess(extraData) {
 			var length = extraData.threads ? extraData.threads.length : 0;
 			new TrackerNotification()
@@ -93,6 +116,36 @@
 			new TrackerNotification()
 				.withMessage('There was an error untracking your threads.')
 				.withType('error')
+				.show();
+		}
+
+		function showNotificationQueueThreadFailure() {
+			new TrackerNotification()
+				.withMessage('There was an error marking your threads queued.')
+				.withType('error')
+				.show();
+		}
+
+		function showNotificationQueueThreadSuccess(extraData) {
+			var length = extraData.threads ? extraData.threads.length : 0;
+			new TrackerNotification()
+				.withMessage(length + ' thread(s) marked queued.')
+				.withType('success')
+				.show();
+		}
+
+		function showNotificationUnqueueThreadSuccess(extraData) {
+			var length = extraData.threads ? extraData.threads.length : 0;
+			new TrackerNotification()
+				.withMessage(length + ' thread(s) unmarked queued.')
+				.withType('success')
+				.show();
+		}
+
+		function showNotificationUnqueueThreadFailure() {
+			new TrackerNotification()
+				.withMessage('There was an error unmarking your threads queued.')
+				.withType('success')
 				.show();
 		}
 

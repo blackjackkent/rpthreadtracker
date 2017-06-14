@@ -187,6 +187,33 @@
 			return deferred.promise;
 		}
 
+		function markThreadsQueued(threads) {
+			var deferred = $q.defer();
+			var queue = [];
+			var queuedDate = new Date();
+			angular.forEach(threads, function(thread) {
+				thread.MarkedQueued = queuedDate;
+				queue.push(editThread(thread));
+			});
+			$q.all(queue).then(function() {
+				deferred.resolve(true);
+			});
+			return deferred.promise;
+		}
+
+		function unmarkThreadsQueued(threads) {
+			var deferred = $q.defer();
+			var queue = [];
+			angular.forEach(threads, function(thread) {
+				thread.MarkedQueued = null;
+				queue.push(editThread(thread));
+			});
+			$q.all(queue).then(function() {
+				deferred.resolve(true);
+			});
+			return deferred.promise;
+		}
+
 		function broadcastLoadedThreadEvent(data) {
 			angular.forEach(loadedThreadEventSubscribers,
 				function(callback) {
@@ -251,6 +278,8 @@
 			'addNewThread': addNewThread,
 			'editThread': editThread,
 			'getStandaloneThread': getStandaloneThread,
+			'markThreadsQueued': markThreadsQueued,
+			'unmarkThreadsQueued': unmarkThreadsQueued,
 			'subscribeLoadedThreadEvent': subscribeLoadedThreadEvent,
 			'subscribeAllThreadsLoaded': subscribeAllThreadsLoaded,
 			'subscribeLoadedArchiveThreadEvent': subscribeLoadedArchiveThreadEvent,

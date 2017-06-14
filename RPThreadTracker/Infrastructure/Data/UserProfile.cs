@@ -26,6 +26,7 @@ namespace RPThreadTracker.Infrastructure.Data
         public Nullable<System.DateTime> LastLogin { get; set; }
         public bool ShowDashboardThreadDistribution { get; set; }
         public bool UseInvertedTheme { get; set; }
+        public bool AllowMarkQueued { get; set; }
     
         public virtual ICollection<UserBlog> UserBlogs { get; set; }
     }

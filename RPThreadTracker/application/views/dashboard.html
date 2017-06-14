@@ -1,5 +1,5 @@
 <header-nav public-view="{{vm.publicView}}" page-id="{{vm.pageId}}" user="vm.user"></header-nav>
-<side-nav public-view="{{vm.publicView}}" page-id="{{vm.pageId}}"></side-nav>
+<side-nav public-view="{{vm.publicView}}" page-id="{{vm.pageId}}" user="vm.user"></side-nav>
 
 <section class="central-container container">
     <div id="content">
@@ -135,6 +135,18 @@
                             Their Turn
                         </div>
                     </div>
+
+	                <div class="rounded-borders" ng-show="vm.user && vm.user.AllowMarkQueued">
+		                <div class="counter small">
+			                <span ng-show="vm.showAtAGlance">
+				                {{vm.queuedCount}}
+			                </span>
+			                <span ng-hide="vm.showAtAGlance">-</span>
+		                </div>
+		                <div class="counter-label">
+			                Queued
+		                </div>
+	                </div>
                 </div>
             </div>
             <!-- #endregion -->
