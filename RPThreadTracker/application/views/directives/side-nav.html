@@ -17,6 +17,9 @@
                 <li ng-class="{active: vm.pageId=='archived'}">
                     <a href="/threads/archived"><span class="icon-archive"></span>Archived</a>
                 </li>
+                <li ng-class="{active: vm.pageId=='queued'}" ng-show="vm.user && vm.user.AllowMarkQueued">
+                    <a href="/threads/queued"><span class="icon-upload-alt"></span>Queued</a>
+                </li>
             </ul>
         </div>
         <div class="icon-caret-down"></div>
@@ -40,6 +43,9 @@
                 </li>
                 <li ng-class="{active: vm.pageId=='archived'}">
                     <a href="/threads/archived">Archived</a>
+                </li>
+                <li ng-class="{active: vm.pageId=='queued'}" ng-show="vm.user && vm.user.AllowMarkQueued">
+                    <a href="/threads/queued">Queued</a>
                 </li>
             </ul>
         </div>

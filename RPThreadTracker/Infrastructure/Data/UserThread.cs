@@ -25,6 +25,7 @@ namespace RPThreadTracker.Infrastructure.Data
         public string UserTitle { get; set; }
         public string WatchedShortname { get; set; }
         public bool IsArchived { get; set; }
+        public Nullable<System.DateTime> MarkedQueued { get; set; }
     
         public virtual UserBlog UserBlog { get; set; }
         public virtual ICollection<UserThreadTag> UserThreadTags { get; set; }

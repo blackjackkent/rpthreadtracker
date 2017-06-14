@@ -1,5 +1,5 @@
 <header-nav public-view="{{vm.publicView}}" page-id="{{vm.pageId}}" user="vm.user"></header-nav>
-<side-nav public-view="{{vm.publicView}}" page-id="{{vm.pageId}}"></side-nav>
+<side-nav public-view="{{vm.publicView}}" page-id="{{vm.pageId}}" user="vm.user"></side-nav>
 
 <section class="central-container container">
     <div id="content">
@@ -56,6 +56,13 @@
                         <span ng-show="vm.exportLoading" class="loading-icon"><img src="/application/images/loading.gif" /></span>
                     </div>
                 </div>
+            </form>
+            <form class="form-inline" name="markQueuedForm">
+                <fieldset>
+                    <legend>Enable Queued Thread Tracking</legend>
+                    <p ng-show="vm.user.AllowMarkQueued">Queued thread tracking is enabled for your account. <button class="btn btn-primary" ng-click="vm.disableAllowMarkQueued()">Disable</button></p>
+                    <p ng-show="!vm.user.AllowMarkQueued">Queued thread tracking is not enabled for your account. <button class="btn btn-primary" ng-click="vm.enableAllowMarkQueued()">Enable</button></p>
+                </fieldset>
             </form>
         </section>
         <footer user="vm.user"></footer>

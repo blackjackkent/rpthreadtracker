@@ -1,9 +1,6 @@
 ﻿namespace RPThreadTracker.Controllers
 {
-	using System;
 	using System.Collections.Generic;
-	using System.Net;
-	using System.Net.Http;
 	using System.Security.Claims;
 	using System.Web.Http;
 	using Infrastructure.Filters;
@@ -82,7 +79,7 @@
 				return NotFound();
 			}
 			var post = _tumblrClient.GetPost(thread.PostId, thread.BlogShortname);
-			var hydratedThread = _threadService.HydrateThread(thread, post);
+			var hydratedThread = _threadService.HydrateThread(thread, post, _threadRepository);
 			return Ok(hydratedThread);
 		}
 

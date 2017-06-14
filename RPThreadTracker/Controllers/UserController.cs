@@ -8,6 +8,7 @@
 	using System.Web.Http;
 	using Infrastructure.Filters;
 	using Interfaces;
+	using Models.DomainModels.Threads;
 	using Models.DomainModels.Users;
 	using Models.RequestModels;
 
@@ -19,6 +20,8 @@
 	public class UserController : ApiController
 	{
 		private readonly IRepository<User> _userProfileRepository;
+		private readonly IThreadService _threadService;
+		private readonly IRepository<Thread> _threadRepository;
 		private readonly IUserProfileService _userProfileService;
 		private readonly IWebSecurityService _webSecurityService;
 
@@ -28,11 +31,15 @@
 		/// <param name="webSecurityService">Unity-injected web security service</param>
 		/// <param name="userProfileService">Unity-injected user profile service</param>
 		/// <param name="userProfileRepository">Unity-injected user profile repository</param>
-		public UserController(IWebSecurityService webSecurityService, IUserProfileService userProfileService, IRepository<User> userProfileRepository)
+		/// <param name="threadService">Unity-injected thread service</param>
+		/// <param name="threadRepository">Unity-injected thread repository</param>
+		public UserController(IWebSecurityService webSecurityService, IUserProfileService userProfileService, IRepository<User> userProfileRepository, IThreadService threadService, IRepository<Thread> threadRepository)
 		{
 			_webSecurityService = webSecurityService;
 			_userProfileService = userProfileService;
 			_userProfileRepository = userProfileRepository;
+			_threadService = threadService;
+			_threadRepository = threadRepository;
 		}
 
 		/// <summary>
@@ -81,6 +88,11 @@
 				return BadRequest();
 			}
 			_userProfileService.Update(user, _userProfileRepository);
+
+			if (!user.AllowMarkQueued)
+			{
+				_threadService.ClearAllMarkedQueuedForUser(user.UserId, _threadRepository);
+			}
 			return Ok();
 		}
 

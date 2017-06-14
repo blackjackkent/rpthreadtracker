@@ -7,6 +7,7 @@
 	using NUnit.Framework;
 	using RPThreadTracker.Controllers;
 	using RPThreadTracker.Interfaces;
+	using RPThreadTracker.Models.DomainModels.Threads;
 	using RPThreadTracker.Models.DomainModels.Users;
 	using RPThreadTracker.Models.RequestModels;
 
@@ -16,6 +17,8 @@
 		private Mock<IWebSecurityService> _webSecurityService;
 		private Mock<IUserProfileService> _userProfileService;
 		private Mock<IRepository<User>> _userProfileRepository;
+		private Mock<IThreadService> _threadService;
+		private Mock<IRepository<Thread>> _threadRepository;
 		private UserController _userController;
 
 		[SetUp]
@@ -24,7 +27,9 @@
 			_webSecurityService = new Mock<IWebSecurityService>();
 			_userProfileService = new Mock<IUserProfileService>();
 			_userProfileRepository = new Mock<IRepository<User>>();
-			_userController = new UserController(_webSecurityService.Object, _userProfileService.Object, _userProfileRepository.Object);
+			_threadService = new Mock<IThreadService>();
+			_threadRepository = new Mock<IRepository<Thread>>();
+			_userController = new UserController(_webSecurityService.Object, _userProfileService.Object, _userProfileRepository.Object, _threadService.Object, _threadRepository.Object);
 		}
 
 		[Test]

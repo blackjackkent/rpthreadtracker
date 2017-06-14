@@ -358,7 +358,7 @@
 				.BuildDto();
 
 			// Act
-			var result = _service.HydrateThread(thread, null);
+			var result = _service.HydrateThread(thread, null, _threadRepository.Object);
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
@@ -396,7 +396,7 @@
 			post.SetupGet(p => p.Timestamp).Returns(timestamp);
 
 			// Act
-			var result = _service.HydrateThread(thread, post.Object);
+			var result = _service.HydrateThread(thread, post.Object, _threadRepository.Object);
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
@@ -434,7 +434,7 @@
 			post.SetupGet(p => p.Timestamp).Returns(timestamp);
 
 			// Act
-			var result = _service.HydrateThread(thread, post.Object);
+			var result = _service.HydrateThread(thread, post.Object, _threadRepository.Object);
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
@@ -476,7 +476,7 @@
 			post.Setup(p => p.GetMostRecentRelevantNote(thread.BlogShortname, thread.WatchedShortname)).Returns(note);
 
 			// Act
-			var result = _service.HydrateThread(thread, post.Object);
+			var result = _service.HydrateThread(thread, post.Object, _threadRepository.Object);
 
 			// Assert
 			Assert.That(result, Is.Not.Null);
@@ -518,7 +518,7 @@
 			post.Setup(p => p.GetMostRecentRelevantNote(thread.BlogShortname, thread.WatchedShortname)).Returns(note);
 
 			// Act
-			var result = _service.HydrateThread(thread, post.Object);
+			var result = _service.HydrateThread(thread, post.Object, _threadRepository.Object);
 
 			// Assert
 			Assert.That(result, Is.Not.Null);

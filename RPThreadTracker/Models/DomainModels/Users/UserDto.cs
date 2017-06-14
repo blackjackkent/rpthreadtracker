@@ -47,6 +47,14 @@
 		/// </value>
 		public string UserName { get; set; }
 
+		/// <summary>
+		/// Gets or sets a value indicating whether the user has enabled the "Mark Queued" tool
+		/// </summary>
+		/// <value>
+		/// True if the user can mark threads queued, false if not
+		/// </value>
+		public bool AllowMarkQueued { get; set; }
+
 		/// <inheritdoc cref="IDto{TModel}"/>
 		public User ToModel()
 		{
