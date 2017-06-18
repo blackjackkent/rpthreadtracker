@@ -20,3 +20,7 @@ OpenCover/*
 RPThreadTrackerTests/Reports/*
 RPThreadTrackerTests/TestResult.xml
 RPThreadTrackerTests/results.xml
+.vscode/*
+RPThreadTracker/Web.secureAppSettings.config
+RPThreadTracker-v3-FrontEnd/*
+static redesign/*
