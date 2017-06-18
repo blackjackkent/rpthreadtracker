@@ -36,9 +36,8 @@
                                 <div class="thread" ng-repeat="thread in vm.threads | isCorrectTurn:vm.dashboardFilter:true | orderBy:'LastPostDate':true | limitTo:5 ">
                                     <div class="content">
                                         <span>{{thread.LastPostDate * 1000 | date:'medium'}}
-                                            <br />
-	                                        <a href="#" ng-show="vm.user && vm.user.AllowMarkQueued" ng-click="vm.markThreadsQueued([thread])">Mark Queued</a> 
-                                            <a href="#" ng-click="vm.archiveThreads([thread])">Archive</a> 
+	                                        <br />
+										<a href="#" ng-click="vm.archiveThreads([thread])">Archive</a> 
                                             &bull; 
                                             <a href="#" ng-click="vm.untrackThreads([thread])">Untrack</a>
                                         </span>
