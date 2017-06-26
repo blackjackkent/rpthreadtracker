@@ -4,6 +4,10 @@
 	<add key="AllowedMaintenanceIPs" value="" />
 	<!-- API key used to retrieve information from Tumblr -->
 	<add key="TumblrAPIKey" value="API_KEY_HERE" />
+	<add key="TumblrConsumerKey" value="CONSUMER_KEY_HERE" />
+	<add key="TumblrConsumerSecret" value="CONSUMER_SECRET_HERE" />
+	<add key="TumblrOauthToken" value="OAUTH_TOKEN_HERE" />
+	<add key="TumblrOauthSecret" value="OAUTH_SECRET_HERE" />
 	<!-- SendGrid API key -->
 	<add key="SendGridAPIKey" value="API_KEY_HERE" />
 </appSettings>

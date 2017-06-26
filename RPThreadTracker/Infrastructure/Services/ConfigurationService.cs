@@ -26,6 +26,18 @@
 		public string TumblrApiKey => ConfigurationManager.AppSettings["TumblrAPIKey"];
 
 		/// <inheritdoc cref="IConfigurationService"/>
+		public string TumblrConsumerKey => ConfigurationManager.AppSettings["TumblrConsumerKey"];
+
+		/// <inheritdoc cref="IConfigurationService"/>
+		public string TumblrConsumerSecret => ConfigurationManager.AppSettings["TumblrConsumerSecret"];
+
+		/// <inheritdoc cref="IConfigurationService"/>
+		public string TumblrOauthToken => ConfigurationManager.AppSettings["TumblrOauthToken"];
+
+		/// <inheritdoc cref="IConfigurationService"/>
+		public string TumblrOauthSecret => ConfigurationManager.AppSettings["TumblrOauthSecret"];
+
+		/// <inheritdoc cref="IConfigurationService"/>
 		public string SendGridApiKey => ConfigurationManager.AppSettings["SendGridAPIKey"];
 	}
 }

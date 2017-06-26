@@ -48,6 +48,40 @@
 		string TumblrApiKey { get; }
 
 		/// <summary>
+		/// Gets a value representing the Tumblr consumer key associated with this application
+		/// </summary>
+		/// <value>
+		/// String value of the consumer key
+		/// </value>
+		string TumblrConsumerKey { get; }
+
+		/// <summary>
+		/// Gets a value representing the Tumblr consumer secret associated with this application
+		/// </summary>
+		/// <value>
+		/// String value of the consumer secret
+		/// </value>
+		string TumblrConsumerSecret { get; }
+
+		/// <summary>
+		/// Gets a value representing the Tumblr oauth token
+		/// for a Tumblr account associated with this application
+		/// </summary>
+		/// <value>
+		/// String value of the oauth token
+		/// </value>
+		string TumblrOauthToken { get; }
+
+		/// <summary>
+		/// Gets a value representing the Tumblr oauth secret
+		/// for a Tumblr account associated with this application
+		/// </summary>
+		/// <value>
+		/// String value of the oauth secret
+		/// </value>
+		string TumblrOauthSecret { get; }
+
+		/// <summary>
 		/// Gets a value representing the SendGrid API key associated with this application
 		/// </summary>
 		/// <value>
