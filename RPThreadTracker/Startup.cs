@@ -56,7 +56,7 @@ namespace RPThreadTracker
 				.RegisterType<IThreadService, ThreadService>()
 				.RegisterType<IUserProfileService, UserProfileService>()
 				.RegisterType<IConfigurationService, ConfigurationService>()
-				.RegisterType<ITumblrClient, TumblrClient>(new InjectionConstructor(new RestClient("http://api.tumblr.com/v2"), new ResolvedParameter<IConfigurationService>()))
+				.RegisterType<ITumblrClient, TumblrSharpClient>()
 				.RegisterType<IEmailClient, SendGridEmailClient>()
 				.RegisterType<IExporterService, ExporterService>()
 				.RegisterType<IThreadTrackerContext, RPThreadTrackerEntities>();

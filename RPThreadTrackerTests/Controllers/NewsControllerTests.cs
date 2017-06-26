@@ -1,6 +1,7 @@
 ﻿namespace RPThreadTrackerTests.Controllers
 {
 	using System.Collections.Generic;
+	using System.Threading.Tasks;
 	using System.Web.Http.Results;
 	using Helpers;
 	using Moq;
@@ -27,7 +28,7 @@
 		}
 
 		[Test]
-		public void Get_ReturnsNewsThreads()
+		public async Task Get_ReturnsNewsThreads()
 		{
 			// Arrange
 			var list = new List<ThreadDto>
@@ -39,10 +40,10 @@
 					.WithUserBlogId(2)
 					.BuildDto()
 			};
-			_threadService.Setup(t => t.GetNewsThreads(_tumblrClient.Object, _configurationService.Object)).Returns(list);
+			_threadService.Setup(t => t.GetNewsThreads(_tumblrClient.Object, _configurationService.Object)).ReturnsAsync(list);
 
 			// Act
-			var result = _newsController.Get();
+			var result = await _newsController.Get();
 
 			// Assert
 			Assert.That(result, Is.TypeOf<OkNegotiatedContentResult<IEnumerable<ThreadDto>>>());

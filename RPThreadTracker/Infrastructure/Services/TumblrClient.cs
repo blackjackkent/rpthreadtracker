@@ -3,6 +3,7 @@
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Net;
+	using System.Threading.Tasks;
 	using System.Web.Configuration;
 	using Filters;
 	using Interfaces;
@@ -30,14 +31,14 @@
 		}
 
 		/// <inheritdoc cref="ITumblrClient"/>
-		public IEnumerable<IPost> GetNewsPosts(int? limit = null)
+		public async Task<IEnumerable<IPost>> GetNewsPosts(int? limit = null)
 		{
 			var serviceObject = RetrieveApiData(null, _newsBlogShortname, "news", limit);
 			return serviceObject?.Response.Posts;
 		}
 
 		/// <inheritdoc cref="ITumblrClient"/>
-		public IPost GetPost(string postId, string blogShortname)
+		public async Task<IPost> GetPost(string postId, string blogShortname)
 		{
 			if (string.IsNullOrWhiteSpace(postId))
 			{
