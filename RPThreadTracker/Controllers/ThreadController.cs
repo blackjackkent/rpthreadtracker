@@ -2,6 +2,7 @@
 {
 	using System.Collections.Generic;
 	using System.Security.Claims;
+	using System.Threading.Tasks;
 	using System.Web.Http;
 	using Infrastructure.Filters;
 	using Interfaces;
@@ -71,14 +72,14 @@
 		/// </summary>
 		/// <param name="id">Unique identifier of thread to be retrieved</param>
 		/// <returns><see cref="ThreadDto"/> object describing requested blog</returns>
-		public IHttpActionResult Get(int id)
+		public async Task<IHttpActionResult> Get(int id)
 		{
 			var thread = _threadService.GetById(id, _threadRepository);
 			if (thread == null)
 			{
 				return NotFound();
 			}
-			var post = _tumblrClient.GetPost(thread.PostId, thread.BlogShortname);
+			var post = await _tumblrClient.GetPost(thread.PostId, thread.BlogShortname);
 			var hydratedThread = _threadService.HydrateThread(thread, post, _threadRepository);
 			return Ok(hydratedThread);
 		}

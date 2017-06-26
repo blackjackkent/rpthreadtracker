@@ -4,6 +4,7 @@
 	using System.Collections.Generic;
 	using System.Linq;
 	using System.Linq.Expressions;
+	using System.Threading.Tasks;
 	using Helpers;
 	using Moq;
 	using NUnit.Framework;
@@ -97,7 +98,7 @@
 		}
 
 		[Test]
-		public void GetNewsThreads_ReturnsDtoWithConfigShortname()
+		public async Task GetNewsThreads_ReturnsDtoWithConfigShortname()
 		{
 			// Arrange
 			int userThreadId = 12345;
@@ -105,7 +106,6 @@
 			var post = new Post
 			{
 				BlogName = "testBlog1",
-				Date = DateTime.Now.ToString(),
 				Id = 12345,
 				PostUrl = "http://tempuri.org",
 				Timestamp = DateTime.Now.Ticks,
@@ -114,17 +114,16 @@
 			var post2 = new Post
 			{
 				BlogName = "testBlog2",
-				Date = DateTime.Now.ToString(),
 				Id = 23456,
 				PostUrl = "http://tempuri2.org",
 				Timestamp = DateTime.Now.Ticks,
 				Title = "Test Title 2"
 			};
-			_tumblrClient.Setup(br => br.GetNewsPosts(It.IsAny<int>())).Returns(new List<IPost> { post, post2 });
+			_tumblrClient.Setup(br => br.GetNewsPosts(It.IsAny<int>())).ReturnsAsync(new List<IPost> { post, post2 });
 			_configurationService.SetupGet(c => c.NewsBlogShortname).Returns(newsBlogShortname);
 
 			// Act
-			var result = _service.GetNewsThreads(_tumblrClient.Object, _configurationService.Object);
+			var result = await _service.GetNewsThreads(_tumblrClient.Object, _configurationService.Object);
 
 			// Assert
 			Assert.That(result, Is.Not.Null);

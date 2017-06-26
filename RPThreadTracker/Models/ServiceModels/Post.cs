@@ -3,6 +3,7 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using DontPanic.TumblrSharp.Client;
 	using Interfaces;
 
 	/// <inheritdoc cref="IPost"/>
@@ -10,9 +11,6 @@
 	{
 		/// <inheritdoc cref="IPost"/>
 		public string BlogName { get; set; }
-
-		/// <inheritdoc cref="IPost"/>
-		public string Date { get; set; }
 
 		/// <inheritdoc cref="IPost"/>
 		public long Id { get; set; }
