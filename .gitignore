@@ -13,7 +13,6 @@ Help/*
 RPThreadTracker/App_Data/RPThreadTracker.mdf
 RPThreadTracker/App_Data/RPThreadTracker_log.ldf
 RPThreadTracker/App_Data/*
-RPThreadTracker/Web.secureAppSettings.config
 packages/*
 RPThreadTracker/application/node_modules/*
 npm-debug.log
@@ -22,3 +21,6 @@ RPThreadTrackerTests/Reports/*
 RPThreadTrackerTests/TestResult.xml
 RPThreadTrackerTests/results.xml
 .vscode/*
+RPThreadTracker/Web.secureAppSettings.config
+RPThreadTracker-v3-FrontEnd/*
+static redesign/*
