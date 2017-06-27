@@ -12,7 +12,6 @@
 	using DontPanic.TumblrSharp.OAuth;
 	using Filters;
 	using Interfaces;
-	using Models.ServiceModels;
 
 	/// <inheritdoc cref="ITumblrClient"/>
 	[ExcludeFromCoverage]
@@ -44,13 +43,17 @@
 				return null;
 			}
 			var posts = await RetrieveApiData(postId, blogShortname);
-			if (posts != null)
+			if (posts != null && posts.Any(p => p != null))
 			{
 				return posts.FirstOrDefault();
 			}
 			RefreshApiCache(postId, blogShortname);
 			var updatedPosts = await RetrieveApiData(postId, blogShortname);
-			return updatedPosts?.FirstOrDefault();
+			if (updatedPosts == null)
+			{
+				return null;
+			}
+			return updatedPosts.FirstOrDefault();
 		}
 
 		private static void RefreshApiCache(string postId, string blogShortname)
@@ -67,33 +70,10 @@
 			}
 		}
 
-		private static long? UnixTimestampFromDateTime(DateTime? date)
-		{
-			var unixTimestamp = date?.Ticks - new DateTime(1970, 1, 1).Ticks;
-			unixTimestamp /= TimeSpan.TicksPerSecond;
-			return unixTimestamp;
-		}
-
-		private static string ParseNoteType(NoteType type)
-		{
-			switch (type)
-			{
-				case NoteType.Like:
-					return "like";
-				case NoteType.Reblog:
-					return "reblog";
-				case NoteType.Reply:
-					return "reply";
-				case NoteType.Posted:
-					return "posted";
-				default:
-					return string.Empty;
-			}
-		}
-
-		private async Task<IEnumerable<Post>> RetrieveApiData(string postId, string blogShortname, string tag = null, int? limit = null)
+		private async Task<IEnumerable<IPost>> RetrieveApiData(string postId, string blogShortname, string tag = null, int? limit = null)
 		{
 			var factory = new TumblrClientFactory();
+			var adapter = new TumblrSharpPostAdapter();
 			var token = new Token(_configurationService.TumblrOauthToken, _configurationService.TumblrOauthSecret);
 			using (var client = factory.Create<DontPanic.TumblrSharp.Client.TumblrClient>(_configurationService.TumblrConsumerKey, _configurationService.TumblrConsumerSecret, token))
 			{
@@ -116,26 +96,7 @@
 					var posts = await client.CallApiMethodAsync<Posts>(
 						new BlogMethod(blogShortname, "posts/text", client.OAuthToken, HttpMethod.Get, parameters),
 						CancellationToken.None);
-					return posts.Result.Select(p =>
-					{
-						var post = p as TextPost;
-						return new Post
-						{
-							BlogName = post?.BlogName,
-							Id = post?.Id ?? 0,
-							PostUrl = post?.Url,
-							Timestamp = UnixTimestampFromDateTime(post?.Timestamp).GetValueOrDefault(),
-							Title = post?.Title,
-							Notes = post.Notes.Select(n => new Note
-							{
-								Timestamp = UnixTimestampFromDateTime(n.Timestamp).GetValueOrDefault(),
-								BlogName = n.BlogName,
-								BlogUrl = n.BlogUrl,
-								PostId = n.PostId,
-								Type = ParseNoteType(n.Type)
-							}).ToList()
-						};
-					});
+					return posts.Result.Select(p => adapter.GetPost(p)).ToList();
 				}
 				catch (Exception e)
 				{
