@@ -356,6 +356,7 @@
     <Compile Include="Infrastructure\Services\ExporterService.cs" />
     <Compile Include="Infrastructure\Services\ThreadService.cs" />
     <Compile Include="Infrastructure\Services\TumblrSharpClient.cs" />
+    <Compile Include="Infrastructure\Services\TumblrSharpPostAdapter.cs" />
     <Compile Include="Infrastructure\Services\UserProfileService.cs" />
     <Compile Include="Infrastructure\Services\WebSecurityService.cs" />
     <Compile Include="Infrastructure\Data\WebpagesMembership.cs">
