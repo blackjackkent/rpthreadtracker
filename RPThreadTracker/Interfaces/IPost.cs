@@ -17,14 +17,6 @@
 		string BlogName { get; set; }
 
 		/// <summary>
-		/// Gets or sets a string value indicating date at which post was created
-		/// </summary>
-		/// <value>
-		/// String representation of post date
-		/// </value>
-		string Date { get; set; }
-
-		/// <summary>
 		/// Gets or sets the post's unique identifier value
 		/// </summary>
 		/// <value>

@@ -1,6 +1,7 @@
 ﻿namespace RPThreadTracker.Controllers
 {
 	using System.Collections.Generic;
+	using System.Threading.Tasks;
 	using System.Web.Http;
 	using Infrastructure.Filters;
 	using Interfaces;
@@ -33,9 +34,9 @@
 		/// Controller endpoint to retrieve recent posts from news blog
 		/// </summary>
 		/// <returns>List of <see cref="ThreadDto"/> objects representing recent posts</returns>
-		public IHttpActionResult Get()
+		public async Task<IHttpActionResult> Get()
 		{
-			var threads = _threadService.GetNewsThreads(_tumblrClient, _configurationService);
+			var threads = await _threadService.GetNewsThreads(_tumblrClient, _configurationService).ConfigureAwait(false);
 			return Ok(threads);
 		}
 	}
