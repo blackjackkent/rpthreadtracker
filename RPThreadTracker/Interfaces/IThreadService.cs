@@ -1,6 +1,7 @@
 ﻿namespace RPThreadTracker.Interfaces
 {
 	using System.Collections.Generic;
+	using System.Threading.Tasks;
 	using Models.DomainModels.Blogs;
 	using Models.DomainModels.Threads;
 	using Models.DomainModels.Users;
@@ -40,7 +41,7 @@
 		/// <param name="tumblrClient">Wrapper class for HTTP client connection to Tumblr API</param>
 		/// <param name="configurationService">Wrapper class for app config information</param>
 		/// <returns>List of five <see cref="ThreadDto"/> objects representing five posts</returns>
-		IEnumerable<ThreadDto> GetNewsThreads(ITumblrClient tumblrClient, IConfigurationService configurationService);
+		Task<IEnumerable<ThreadDto>> GetNewsThreads(ITumblrClient tumblrClient, IConfigurationService configurationService);
 
 	    /// <summary>
 	    /// Gets all IDs for tracked threads belonging to a particular user account

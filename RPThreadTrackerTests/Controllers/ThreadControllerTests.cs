@@ -2,6 +2,7 @@
 {
 	using System.Collections.Generic;
 	using System.Security.Claims;
+	using System.Threading.Tasks;
 	using System.Web.Http.Results;
 	using Helpers;
 	using Moq;
@@ -67,7 +68,7 @@
 		}
 
 		[Test]
-		public void Get_ThreadRequested_ReturnsHydratedThread()
+		public async Task Get_ThreadRequested_ReturnsHydratedThread()
 		{
 			// Arrange
 			var threadId = 1;
@@ -80,11 +81,11 @@
 				.BuildDto();
 			var post = new Mock<IPost>();
 			_threadService.Setup(t => t.GetById(threadId, _userThreadRepository.Object)).Returns(thread);
-			_tumblrClient.Setup(c => c.GetPost(thread.PostId, thread.BlogShortname)).Returns(post.Object);
+			_tumblrClient.Setup(c => c.GetPost(thread.PostId, thread.BlogShortname)).ReturnsAsync(post.Object);
 			_threadService.Setup(s => s.HydrateThread(thread, post.Object, _userThreadRepository.Object)).Returns(hydratedThread);
 
 			// Act
-			var result = _threadController.Get(threadId);
+			var result = await _threadController.Get(threadId);
 
 			// Assert
 			Assert.That(result, Is.TypeOf<OkNegotiatedContentResult<ThreadDto>>());
@@ -94,14 +95,14 @@
 		}
 
 		[Test]
-		public void Get_ThreadNotFound_ReturnsNotFound()
+		public async Task Get_ThreadNotFound_ReturnsNotFound()
 		{
 			// Arrange
 			var threadId = 1;
 			_threadService.Setup(t => t.GetById(threadId, _userThreadRepository.Object)).Returns((ThreadDto)null);
 
 			// Act
-			var result = _threadController.Get(threadId);
+			var result = await _threadController.Get(threadId);
 
 			// Assert
 			Assert.That(result, Is.TypeOf<NotFoundResult>());

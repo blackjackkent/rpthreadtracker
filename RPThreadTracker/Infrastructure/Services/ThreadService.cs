@@ -3,6 +3,7 @@
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;
+	using System.Threading.Tasks;
 	using System.Web.Configuration;
 	using Interfaces;
 	using Models.DomainModels.Blogs;
@@ -33,9 +34,9 @@
 		}
 
 		/// <inheritdoc cref="IThreadService"/>
-		public IEnumerable<ThreadDto> GetNewsThreads(ITumblrClient tumblrClient, IConfigurationService configurationService)
+		public async Task<IEnumerable<ThreadDto>> GetNewsThreads(ITumblrClient tumblrClient, IConfigurationService configurationService)
 		{
-			var posts = tumblrClient.GetNewsPosts(5);
+			var posts = await tumblrClient.GetNewsPosts(5);
 			return posts.Select(post => new ThreadDto
 			{
 				BlogShortname = configurationService.NewsBlogShortname,
