@@ -103,7 +103,7 @@
 				catch (Exception e)
 				{
 					var test = e;
-					Logger.Error($"TumblrSharpClient.RetrieveApiData: Error retrieving post with ID {postId} and blog shortname {blogShortname}: {e.Message}");
+					Logger.Error($"TumblrSharpClient.RetrieveApiData: Error retrieving post with ID {postId} and blog shortname {blogShortname}: {e.Message} ({e.StackTrace}");
 					return null;
 				}
 			}
