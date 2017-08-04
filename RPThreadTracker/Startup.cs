@@ -40,6 +40,7 @@ namespace RPThreadTracker
 			var container = ConfigureInjection(config);
 			ConfigureOAuth(app, container);
 			ConfigureFilters(config, container);
+			ConfigureLogging();
 			WebApiConfig.Register(config);
 			app.UseWebApi(config);
 		}
@@ -80,12 +81,17 @@ namespace RPThreadTracker
 			app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
 		}
 
-		private void ConfigureFilters(HttpConfiguration config, UnityContainer container)
+		private static void ConfigureFilters(HttpConfiguration config, UnityContainer container)
 		{
 			var providers = config.Services.GetFilterProviders().ToList();
 			var defaultprovider = providers.Single(i => i is ActionDescriptorFilterProvider);
 			config.Services.Remove(typeof(IFilterProvider), defaultprovider);
 			config.Services.Add(typeof(IFilterProvider), new UnityFilterProvider(container));
+		}
+
+		private static void ConfigureLogging()
+		{
+			log4net.Config.XmlConfigurator.Configure();
 		}
 	}
 }

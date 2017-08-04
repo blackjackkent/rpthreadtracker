@@ -12,11 +12,13 @@
 	using DontPanic.TumblrSharp.OAuth;
 	using Filters;
 	using Interfaces;
+	using log4net;
 
 	/// <inheritdoc cref="ITumblrClient"/>
 	[ExcludeFromCoverage]
 	public class TumblrSharpClient : ITumblrClient
 	{
+		private static readonly ILog Logger = LogManager.GetLogger(typeof(TumblrSharpClient));
 		private readonly IConfigurationService _configurationService;
 
 		/// <summary>
@@ -101,6 +103,7 @@
 				catch (Exception e)
 				{
 					var test = e;
+					Logger.Error($"TumblrSharpClient.RetrieveApiData: Error retrieving post with ID {postId} and blog shortname {blogShortname}: {e.Message}");
 					return null;
 				}
 			}
