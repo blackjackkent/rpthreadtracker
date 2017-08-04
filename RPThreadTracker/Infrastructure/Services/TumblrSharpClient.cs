@@ -5,6 +5,7 @@
 	using System.Linq;
 	using System.Net;
 	using System.Net.Http;
+	using System.Text;
 	using System.Threading;
 	using System.Threading.Tasks;
 	using DontPanic.TumblrSharp;
@@ -100,10 +101,20 @@
 						CancellationToken.None);
 					return posts.Result.Select(p => adapter.GetPost(p)).ToList();
 				}
-				catch (Exception e)
+				catch (TumblrException e)
 				{
 					var test = e;
-					Logger.Error($"TumblrSharpClient.RetrieveApiData: Error retrieving post with ID {postId} and blog shortname {blogShortname}: {e.Message} ({e.StackTrace}");
+					StringBuilder builder = new StringBuilder();
+					builder.AppendLine(
+						$"TumblrSharpClient.RetrieveApiData: Error retrieving post with ID {postId} and blog shortname {blogShortname}: {e.Message}");
+					builder.AppendLine("\tErrors:");
+					foreach (var er in e.Errors)
+					{
+						builder.AppendLine($"\t{er}");
+					}
+					builder.AppendLine($"\tInner Exception Message: {e.InnerException?.Message}");
+					builder.AppendLine($"\tStack Trace: {e.StackTrace}");
+					Logger.Error(builder.ToString());
 					return null;
 				}
 			}
