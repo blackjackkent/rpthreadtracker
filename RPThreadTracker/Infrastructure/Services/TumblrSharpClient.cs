@@ -100,7 +100,6 @@
 				}
 				catch (Exception e)
 				{
-					var test = e;
 					return null;
 				}
 			}
