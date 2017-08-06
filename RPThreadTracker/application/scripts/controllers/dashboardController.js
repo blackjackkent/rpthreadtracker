@@ -56,6 +56,7 @@
 			vm.setDashboardFilter = setDashboardFilter;
 			vm.toggleAtAGlanceData = toggleAtAGlanceData;
 			vm.generateRandomOwedThread = generateRandomOwedThread;
+			vm.markQueued = markQueued;
 		}
 
 		function initSubscriptions() {
@@ -123,6 +124,20 @@
 			}, function() {
 				vm.loading = false;
 				var type = NOTIFICATION_TYPES.ARCHIVE_THREAD_FAILURE;
+				notificationService.show(type);
+			});
+		}
+
+		function markQueued(threads) {
+			vm.loading = true;
+			threadService.markThreadsQueued(threads).then(function () {
+				vm.loading = false;
+				refreshThreads();
+				var type = NOTIFICATION_TYPES.QUEUE_THREAD_SUCCESS;
+				notificationService.show(type, { 'threads': threads });
+			}, function () {
+				vm.loading = false;
+				var type = NOTIFICATION_TYPES.QUEUE_THREAD_FAILURE;
 				notificationService.show(type);
 			});
 		}
