@@ -1,0 +1,7 @@
+C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Application\bin\Debug\netcoreapp1.1\Application.deps.json
+C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Application\bin\Debug\netcoreapp1.1\Application.dll
+C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Application\bin\Debug\netcoreapp1.1\Application.pdb
+C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Application\obj\Debug\netcoreapp1.1\Application.csprojResolveAssemblyReference.cache
+C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Application\obj\Debug\netcoreapp1.1\Application.AssemblyInfo.cs
+C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Application\obj\Debug\netcoreapp1.1\Application.dll
+C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Application\obj\Debug\netcoreapp1.1\Application.pdb
