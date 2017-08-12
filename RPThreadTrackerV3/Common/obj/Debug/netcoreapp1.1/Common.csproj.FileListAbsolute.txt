@@ -1,6 +1,0 @@
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Common\bin\Debug\netcoreapp1.1\Common.deps.json
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Common\bin\Debug\netcoreapp1.1\Common.dll
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Common\bin\Debug\netcoreapp1.1\Common.pdb
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Common\obj\Debug\netcoreapp1.1\Common.AssemblyInfo.cs
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Common\obj\Debug\netcoreapp1.1\Common.dll
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Common\obj\Debug\netcoreapp1.1\Common.pdb

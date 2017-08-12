@@ -1,7 +1,0 @@
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Infrastructure\bin\Debug\netcoreapp1.1\Infrastructure.deps.json
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Infrastructure\bin\Debug\netcoreapp1.1\Infrastructure.dll
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Infrastructure\bin\Debug\netcoreapp1.1\Infrastructure.pdb
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Infrastructure\obj\Debug\netcoreapp1.1\Infrastructure.csprojResolveAssemblyReference.cache
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Infrastructure\obj\Debug\netcoreapp1.1\Infrastructure.AssemblyInfo.cs
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Infrastructure\obj\Debug\netcoreapp1.1\Infrastructure.dll
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Infrastructure\obj\Debug\netcoreapp1.1\Infrastructure.pdb

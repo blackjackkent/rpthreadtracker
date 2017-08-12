@@ -1,6 +1,0 @@
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Persistence\bin\Debug\netcoreapp1.1\Persistence.deps.json
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Persistence\bin\Debug\netcoreapp1.1\Persistence.dll
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Persistence\bin\Debug\netcoreapp1.1\Persistence.pdb
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Persistence\obj\Debug\netcoreapp1.1\Persistence.AssemblyInfo.cs
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Persistence\obj\Debug\netcoreapp1.1\Persistence.dll
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Persistence\obj\Debug\netcoreapp1.1\Persistence.pdb

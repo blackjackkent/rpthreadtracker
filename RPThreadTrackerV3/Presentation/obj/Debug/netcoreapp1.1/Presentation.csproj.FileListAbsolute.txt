@@ -1,9 +1,0 @@
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Presentation\bin\Debug\netcoreapp1.1\Presentation.deps.json
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Presentation\bin\Debug\netcoreapp1.1\Presentation.runtimeconfig.json
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Presentation\bin\Debug\netcoreapp1.1\Presentation.runtimeconfig.dev.json
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Presentation\bin\Debug\netcoreapp1.1\Presentation.dll
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Presentation\bin\Debug\netcoreapp1.1\Presentation.pdb
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Presentation\obj\Debug\netcoreapp1.1\Presentation.csprojResolveAssemblyReference.cache
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Presentation\obj\Debug\netcoreapp1.1\Presentation.AssemblyInfo.cs
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Presentation\obj\Debug\netcoreapp1.1\Presentation.dll
-C:\Users\rosalindwills\Documents\_Programming\RP Thread Tracker\rpthreadtracker\RPThreadTrackerV3\Presentation\obj\Debug\netcoreapp1.1\Presentation.pdb
