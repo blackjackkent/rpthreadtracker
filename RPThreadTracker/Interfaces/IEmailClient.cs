@@ -16,5 +16,15 @@
 		/// <param name="configurationService">Wrapper service for application config information</param>
 		/// <returns>Task for async processing</returns>
 		Task SendEmail(string recipientAddress, string subject, string body, IConfigurationService configurationService);
+
+		/// <summary>
+		/// Triggers a password reset email to the passed recipient
+		/// </summary>
+		/// <param name="recipientAddress">Address to send the email to</param>
+		/// <param name="username">The username of the affected user</param>
+		/// <param name="newPassword">The new password for the affected user</param>
+		/// <param name="configurationService">Wrapper service for application config information</param>
+		/// <returns>Task for async processing</returns>
+		Task SendPasswordResetEmail(string recipientAddress, string username, string newPassword, IConfigurationService configurationService);
 	}
 }
