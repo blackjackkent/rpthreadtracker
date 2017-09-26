@@ -88,5 +88,13 @@
 		/// String value of the API key
 		/// </value>
 		string SendGridApiKey { get; }
+
+		/// <summary>
+		/// Gets a value representing the template ID referring to the password reset email on SendGrid
+		/// </summary>
+		/// <value>
+		/// String value of the template ID
+		/// </value>
+		string PasswordResetEmailTemplateId { get; }
 	}
 }
