@@ -39,5 +39,8 @@
 
 		/// <inheritdoc cref="IConfigurationService"/>
 		public string SendGridApiKey => ConfigurationManager.AppSettings["SendGridAPIKey"];
+
+		/// <inheritdoc cref="IConfigurationService"/>
+		public string PasswordResetEmailTemplateId => ConfigurationManager.AppSettings["PasswordResetEmailTemplateId"];
 	}
 }
