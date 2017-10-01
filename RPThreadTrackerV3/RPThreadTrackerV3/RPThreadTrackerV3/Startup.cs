@@ -16,6 +16,9 @@
 	using Microsoft.Extensions.DependencyInjection;
 	using Microsoft.Extensions.Logging;
 	using Microsoft.IdentityModel.Tokens;
+	using NLog;
+	using NLog.Extensions.Logging;
+	using NLog.Web;
 
 	public class Startup
 	{
@@ -77,9 +80,9 @@
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
 		public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
 		{
-			loggerFactory.AddConsole(_config.GetSection("Logging"));
-			loggerFactory.AddDebug();
+			loggerFactory.AddNLog();
 
+			app.AddNLogWeb();
 			app.UseIdentity();
 			app.UseJwtBearerAuthentication(new JwtBearerOptions
 			{
@@ -96,6 +99,9 @@
 			});
 			app.UseCors(builder =>
 				builder.WithOrigins("http://localhost:1989").AllowAnyHeader().AllowAnyMethod());
+			app.UseMvc();
+			LogManager.Configuration.Variables["connectionString"] = _config["Data:ConnectionString"];
+
 			app.UseMvc();
 			//roleInitializer.Seed().Wait();
 		}
