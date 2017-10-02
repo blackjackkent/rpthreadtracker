@@ -5,6 +5,8 @@
 	using AutoMapper;
 	using Infrastructure.Entities;
 	using Infrastructure.Identity;
+	using Infrastructure.Services;
+	using Interfaces.Services;
 	using Microsoft.AspNetCore.Authentication.Cookies;
 	using Microsoft.AspNetCore.Builder;
 	using Microsoft.AspNetCore.Hosting;
@@ -45,7 +47,7 @@
 			var connection = _config["Data:ConnectionString"];
 			services.AddDbContext<BudgetContext>(options => options.UseSqlServer(connection));
 			//services.AddScoped<IRepository<Budget>, BudgetRepository>();
-			//services.AddScoped<IBudgetService, BudgetService>();
+			services.AddScoped<IAuthService, AuthService>();
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 			services.AddScoped<IPasswordHasher<IdentityUser>, MigrationPasswordHasher>();
 			services.AddCors();
@@ -74,6 +76,7 @@
 						}
 					};
 				})
+				.AddDefaultTokenProviders()
 				.AddEntityFrameworkStores<BudgetContext>();
 		}
 

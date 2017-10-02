@@ -10,7 +10,7 @@ GO
 
 CREATE TABLE [dbo].[ProfileSettings](
 	[SettingsId] [int] IDENTITY(1,1) NOT NULL,
-	[UserId] [nvarchar](450) NOT NULL,
+	[UserId] [nvarchar](128) NOT NULL,
 	[ShowDashboardThreadDistribution] [bit] NOT NULL,
 	[UseInvertedTheme] [bit] NOT NULL,
 	[AllowMarkQueued] [bit] NOT NULL,

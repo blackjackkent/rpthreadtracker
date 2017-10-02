@@ -10,7 +10,7 @@ GO
 
 CREATE TABLE [dbo].[Characters](
 	[CharacterId] [int] IDENTITY(1,1) NOT NULL,
-	[UserId] [nvarchar](450) NOT NULL,
+	[UserId] [nvarchar](128) NOT NULL,
 	[BlogShortname] [nvarchar](max) NULL,
 	[IsOnHiatus] [bit] NOT NULL,
  CONSTRAINT [PK_dbo.Character] PRIMARY KEY CLUSTERED 

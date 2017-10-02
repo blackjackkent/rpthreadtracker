@@ -2,17 +2,13 @@
 {
 	using System;
 	using System.IdentityModel.Tokens.Jwt;
-	using System.Linq;
-	using System.Security.Claims;
-	using System.Text;
 	using System.Threading.Tasks;
-	using Infrastructure.Entities;
+	using Interfaces.Services;
 	using Microsoft.AspNetCore.Identity;
 	using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 	using Microsoft.AspNetCore.Mvc;
 	using Microsoft.Extensions.Configuration;
 	using Microsoft.Extensions.Logging;
-	using Microsoft.IdentityModel.Tokens;
 	using Models.RequestModels;
 
 	public class AuthController : Controller
@@ -22,15 +18,17 @@
 		private readonly UserManager<IdentityUser> _userManager;
 		private readonly IPasswordHasher<IdentityUser> _passwordHasher;
 		private readonly IConfigurationRoot _config;
+		private readonly IAuthService _authService;
 
 		public AuthController(ILogger<AuthController> logger, SignInManager<IdentityUser> signInManager,
-			UserManager<IdentityUser> userManager, IPasswordHasher<IdentityUser> passwordHasher, IConfigurationRoot config)
+			UserManager<IdentityUser> userManager, IPasswordHasher<IdentityUser> passwordHasher, IConfigurationRoot config, IAuthService authService)
 		{
 			_logger = logger;
 			_signInManager = signInManager;
 			_userManager = userManager;
 			_passwordHasher = passwordHasher;
 			_config = config;
+			_authService = authService;
 		}
 
 		[HttpPost("api/auth/token")]
@@ -38,35 +36,31 @@
 		{
 			try
 			{
-				var user = await _userManager.FindByNameAsync(model.Username);
-				if (user != null)
+				var user = await _authService.GetUserByUsernameOrEmail(model.Username, _userManager);
+				if (user == null)
 				{
-					if (_passwordHasher.VerifyHashedPassword(user, user.PasswordHash, model.Password) ==
-					    PasswordVerificationResult.Success)
-					{
-						var userClaims = await _userManager.GetClaimsAsync(user);
-						var claims = new[]
-						{
-							new Claim(ClaimTypes.Name, user.UserName),
-							new Claim(JwtRegisteredClaimNames.Sub, user.UserName),
-							new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-							new Claim(JwtRegisteredClaimNames.Email, user.Email),
-						}.Union(userClaims);
-						var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
-						var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-						var token = new JwtSecurityToken(
-							_config["Tokens:Issuer"],
-							_config["Tokens:Audience"],
-							claims,
-							expires: DateTime.UtcNow.AddMinutes(15),
-							signingCredentials: creds);
-						return Ok(new
-						{
-							token = new JwtSecurityTokenHandler().WriteToken(token),
-							expiration = token.ValidTo
-						});
-					}
+					_logger.LogWarning($"Login failure for {model.Username}. No user exists with this username or email address.");
+					return BadRequest("Invalid username or password.");
 				}
+				var verificationResult = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, model.Password);
+				if (verificationResult == PasswordVerificationResult.Failed)
+				{
+					_logger.LogWarning($"Login failure for {model.Username}. Invalid non-legacy password.");
+					return BadRequest("Invalid username or password.");
+				}
+				//@TODO add flow for redirecting user to set new password using Core strength requirements
+				//if (verificationResult == PasswordVerificationResult.SuccessRehashNeeded)
+				//{
+				//	_logger.LogInformation($"Rehashing legacy password for {model.Username}.");
+				//	var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+				//	await _userManager.ResetPasswordAsync(user, resetToken, model.Password);
+				//}
+				var jwt = await _authService.GenerateJwt(user, _config["Tokens:Key"], _config["Tokens:Issuer"], _config["Tokens:Audience"], _userManager);
+				return Ok(new
+				{
+					token = new JwtSecurityTokenHandler().WriteToken(jwt),
+					expiration = jwt.ValidTo
+				});
 			}
 			catch (Exception ex)
 			{
