@@ -49,7 +49,7 @@
 			//services.AddScoped<IRepository<Budget>, BudgetRepository>();
 			services.AddScoped<IAuthService, AuthService>();
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-			services.AddScoped<IPasswordHasher<IdentityUser>, MigrationPasswordHasher>();
+			services.AddScoped<IPasswordHasher<IdentityUser>, CustomPasswordHasher>();
 			services.AddCors();
 			services.AddMvc();
 			services.AddAutoMapper();

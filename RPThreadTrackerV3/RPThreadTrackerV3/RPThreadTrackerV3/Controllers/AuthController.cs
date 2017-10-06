@@ -42,19 +42,12 @@
 					_logger.LogWarning($"Login failure for {model.Username}. No user exists with this username or email address.");
 					return BadRequest("Invalid username or password.");
 				}
-				var verificationResult = _passwordHasher.VerifyHashedPassword(user, user.PasswordHash, model.Password);
-				if (verificationResult == PasswordVerificationResult.Failed)
+				var verificationResult = await _userManager.CheckPasswordAsync(user, model.Password);
+				if (!verificationResult)
 				{
-					_logger.LogWarning($"Login failure for {model.Username}. Invalid non-legacy password.");
+					_logger.LogWarning($"Login failure for {model.Username}. Error validating password.");
 					return BadRequest("Invalid username or password.");
 				}
-				//@TODO add flow for redirecting user to set new password using Core strength requirements
-				//if (verificationResult == PasswordVerificationResult.SuccessRehashNeeded)
-				//{
-				//	_logger.LogInformation($"Rehashing legacy password for {model.Username}.");
-				//	var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
-				//	await _userManager.ResetPasswordAsync(user, resetToken, model.Password);
-				//}
 				var jwt = await _authService.GenerateJwt(user, _config["Tokens:Key"], _config["Tokens:Issuer"], _config["Tokens:Audience"], _userManager);
 				return Ok(new
 				{
