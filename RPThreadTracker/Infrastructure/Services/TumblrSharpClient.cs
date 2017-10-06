@@ -12,12 +12,18 @@
 	using DontPanic.TumblrSharp.OAuth;
 	using Filters;
 	using Interfaces;
+	using Polly;
+	using Polly.Fallback;
+	using Polly.Retry;
+	using Polly.Wrap;
 
 	/// <inheritdoc cref="ITumblrClient"/>
 	[ExcludeFromCoverage]
 	public class TumblrSharpClient : ITumblrClient
 	{
 		private readonly IConfigurationService _configurationService;
+		private readonly RetryPolicy _retryPolicy;
+		private FallbackPolicy<IEnumerable<IPost>> _notFoundPolicy;
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="TumblrSharpClient"/> class
@@ -26,6 +32,17 @@
 		public TumblrSharpClient(IConfigurationService configurationService)
 		{
 			_configurationService = configurationService;
+			_retryPolicy = Policy
+				.Handle<TumblrException>(e => e.StatusCode == (HttpStatusCode)429)
+				.WaitAndRetryAsync(new[]
+				{
+					TimeSpan.FromSeconds(1),
+					TimeSpan.FromSeconds(2),
+					TimeSpan.FromSeconds(4)
+				});
+			_notFoundPolicy = Policy<IEnumerable<IPost>>
+				.Handle<TumblrException>(e => e.StatusCode == HttpStatusCode.NotFound)
+				.FallbackAsync((IEnumerable<IPost>)null);
 		}
 
 		/// <inheritdoc cref="ITumblrClient"/>
@@ -91,17 +108,13 @@
 				{
 					parameters.Add("limit", limit.GetValueOrDefault(), 0);
 				}
-				try
+				return await _notFoundPolicy.WrapAsync(_retryPolicy).ExecuteAsync(async () =>
 				{
 					var posts = await client.CallApiMethodAsync<Posts>(
 						new BlogMethod(blogShortname, "posts/text", client.OAuthToken, HttpMethod.Get, parameters),
 						CancellationToken.None);
 					return posts.Result.Select(p => adapter.GetPost(p)).ToList();
-				}
-				catch (Exception e)
-				{
-					return null;
-				}
+				});
 			}
 		}
 	}
