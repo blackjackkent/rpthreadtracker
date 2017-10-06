@@ -3,11 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace RPThreadTrackerV3.Controllers
 {
+	using System;
 	using Microsoft.AspNetCore.Authorization;
 
 	[Authorize]
     [Route("api/[controller]")]
-    public class ValuesController : Controller
+    public class ValuesController : BaseController
     {
         // GET api/values
         [HttpGet]

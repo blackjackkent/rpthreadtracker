@@ -1,14 +1,17 @@
 ﻿namespace RPThreadTrackerV3
 {
+	using System.Net;
 	using System.Text;
 	using System.Threading.Tasks;
 	using AutoMapper;
 	using Infrastructure.Entities;
 	using Infrastructure.Identity;
+	using Infrastructure.Providers;
 	using Infrastructure.Services;
 	using Interfaces.Services;
 	using Microsoft.AspNetCore.Authentication.Cookies;
 	using Microsoft.AspNetCore.Builder;
+	using Microsoft.AspNetCore.Diagnostics;
 	using Microsoft.AspNetCore.Hosting;
 	using Microsoft.AspNetCore.Http;
 	using Microsoft.AspNetCore.Identity;
@@ -49,7 +52,8 @@
 			//services.AddScoped<IRepository<Budget>, BudgetRepository>();
 			services.AddScoped<IAuthService, AuthService>();
 			services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-			services.AddScoped<IPasswordHasher<IdentityUser>, CustomPasswordHasher>();
+			services.AddScoped<IPasswordHasher<IdentityUser>, CustomPasswordHasher>(); 
+			services.AddScoped<GlobalExceptionHandler>();
 			services.AddCors();
 			services.AddMvc();
 			services.AddAutoMapper();
@@ -104,8 +108,6 @@
 				builder.WithOrigins("http://localhost:1989").AllowAnyHeader().AllowAnyMethod());
 			app.UseMvc();
 			LogManager.Configuration.Variables["connectionString"] = _config["Data:ConnectionString"];
-
-			app.UseMvc();
 			//roleInitializer.Seed().Wait();
 		}
 	}

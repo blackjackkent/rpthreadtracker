@@ -14,19 +14,15 @@
 	public class AuthController : Controller
 	{
 		private readonly ILogger<AuthController> _logger;
-		private readonly SignInManager<IdentityUser> _signInManager;
 		private readonly UserManager<IdentityUser> _userManager;
-		private readonly IPasswordHasher<IdentityUser> _passwordHasher;
 		private readonly IConfigurationRoot _config;
 		private readonly IAuthService _authService;
 
-		public AuthController(ILogger<AuthController> logger, SignInManager<IdentityUser> signInManager,
-			UserManager<IdentityUser> userManager, IPasswordHasher<IdentityUser> passwordHasher, IConfigurationRoot config, IAuthService authService)
+		public AuthController(ILogger<AuthController> logger, UserManager<IdentityUser> userManager, 
+		IConfigurationRoot config, IAuthService authService)
 		{
 			_logger = logger;
-			_signInManager = signInManager;
 			_userManager = userManager;
-			_passwordHasher = passwordHasher;
 			_config = config;
 			_authService = authService;
 		}
@@ -57,7 +53,7 @@
 			}
 			catch (Exception ex)
 			{
-				_logger.LogError($"Error while creating JWT: {ex}");
+				_logger.LogError(default(EventId), ex, $"Error creating JWT: {ex.Message}");
 			}
 			return BadRequest("Failed to create JWT.");
 		}
