@@ -275,7 +275,8 @@
 					'/public/yourturn',
 					'/public/theirturn',
 					'/public/allthreads',
-					'/public/archived'
+					'/public/archived',
+					'/public/queued'
 				];
 				var isNotInWhitelist = whitelist.indexOf($location.path()) === -1;
 				if (response.status === 401 && isNotInWhitelist) {
