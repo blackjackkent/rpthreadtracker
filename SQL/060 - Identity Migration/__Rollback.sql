@@ -9,6 +9,8 @@ IF OBJECT_ID('dbo.Threads', 'U') IS NOT NULL
   DROP TABLE dbo.Threads;
 IF OBJECT_ID('dbo.Characters', 'U') IS NOT NULL 
   DROP TABLE dbo.Characters;
+IF OBJECT_ID('dbo.Platforms', 'U') IS NOT NULL 
+  DROP TABLE dbo.Platforms;
 IF OBJECT_ID('dbo.ProfileSettings', 'U') IS NOT NULL 
   DROP TABLE dbo.ProfileSettings; 
 IF OBJECT_ID('dbo.AspNetUserRoles', 'U') IS NOT NULL 

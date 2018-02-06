@@ -16,7 +16,7 @@ CREATE TABLE [dbo].[Threads](
 	[CharacterId] [int] NOT NULL,
 	[PostId] [nvarchar](max) NULL,
 	[UserTitle] [nvarchar](max) NULL,
-	[WatchedShortname] [varchar](50) NULL,
+	[PartnerUrlIdentifier] [varchar](50) NULL,
 	[IsArchived] [bit] NOT NULL,
 	[DateMarkedQueued] [datetime] NULL,
  CONSTRAINT [PK_dbo.Threads] PRIMARY KEY CLUSTERED 

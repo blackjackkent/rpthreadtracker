@@ -5,7 +5,7 @@ ThreadId
 , CharacterId
 , PostId
 , UserTitle
-, WatchedShortname
+, PartnerUrlIdentifier
 , IsArchived
 , DateMarkedQueued)
 SELECT
@@ -13,7 +13,7 @@ SELECT
 	t.UserBlogId as CharacterId,
 	t.PostId,
 	t.UserTitle,
-	t.WatchedShortname,
+	t.WatchedShortname as PartnerUrlIdentifier,
 	t.IsArchived,
 	t.MarkedQueued as DateMarkedQueued
     FROM dbo.userthread t

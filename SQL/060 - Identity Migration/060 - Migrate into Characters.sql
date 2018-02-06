@@ -3,13 +3,15 @@ SET IDENTITY_INSERT dbo.Characters ON;
 INSERT INTO dbo.characters (
 CharacterId
 , UserId
-, BlogShortname
-, IsOnHiatus)
+, UrlIdentifier
+, IsOnHiatus
+, PlatformId)
 SELECT
 	b.UserBlogId as CharacterId,
 	b.UserId,
-	b.BlogShortname,
-	b.OnHiatus as IsOnHiatus
+	b.BlogShortname as UrlIdentifier,
+	b.OnHiatus as IsOnHiatus,
+	1 as PlatformId
     FROM dbo.userblog b
 	WHERE EXISTS (SELECT
         1

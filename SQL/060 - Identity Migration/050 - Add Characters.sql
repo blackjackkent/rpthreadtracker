@@ -11,8 +11,9 @@ GO
 CREATE TABLE [dbo].[Characters](
 	[CharacterId] [int] IDENTITY(1,1) NOT NULL,
 	[UserId] [nvarchar](128) NOT NULL,
-	[BlogShortname] [nvarchar](max) NULL,
+	[UrlIdentifier] [nvarchar](max) NULL,
 	[IsOnHiatus] [bit] NOT NULL,
+	[PlatformId] [int] NOT NULL
  CONSTRAINT [PK_dbo.Character] PRIMARY KEY CLUSTERED 
 (
 	[CharacterId] ASC
@@ -30,7 +31,15 @@ ON UPDATE CASCADE
 ON DELETE CASCADE
 GO
 
+ALTER TABLE [dbo].[Characters]  WITH CHECK ADD  CONSTRAINT [FK_Platforms_Characters] FOREIGN KEY([PlatformId])
+REFERENCES [dbo].[Platforms] ([PlatformId])
+ON UPDATE CASCADE
+ON DELETE CASCADE
+GO
+
 ALTER TABLE [dbo].[Characters] CHECK CONSTRAINT [FK_AspNetUsers_Characters]
 GO
 
+ALTER TABLE [dbo].[Characters] CHECK CONSTRAINT [FK_Platforms_Characters]
+GO
 
