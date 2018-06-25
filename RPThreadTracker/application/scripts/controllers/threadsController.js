@@ -245,6 +245,7 @@
 			_.forEach(vm.threads, function (thread) {
 				thread.SelectedForBulk = false;
 			});
+			vm.isSelectAllSelected = false;
 		}
 
 		function buildPublicLink() {
