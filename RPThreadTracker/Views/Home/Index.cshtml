@@ -21,21 +21,23 @@
 
 
 	<link href="//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,400,300,600,700" rel="stylesheet" type="text/css">
-	<link rel="stylesheet" href="/application/scripts/bower/angular-material/angular-material.min.css"/>
-	<link rel="stylesheet" href="/application/styles/default/bootstrap.css"/>
-	<link rel="stylesheet" href="/application/styles/default/adminflare.css"/>
-	<link rel="stylesheet" href="/application/styles/pages.css"/>
-	<link rel="stylesheet" ng-href="/application/styles/default/custom.css?t={{vm.cacheBuster}}"/>
-	<link ng-if="vm.user && vm.user.UseInvertedTheme" rel="stylesheet" ng-href="/application/styles/dark/custom.css?t={{vm.cacheBuster}}"/>
+	<link rel="stylesheet" href="/application/scripts/bower/angular-material/angular-material.min.css" />
+	<link rel="stylesheet" href="/application/styles/default/bootstrap.css" />
+	<link rel="stylesheet" href="/application/styles/default/adminflare.css" />
+	<link rel="stylesheet" href="/application/styles/pages.css" />
+	<link rel="stylesheet" ng-href="/application/styles/default/custom.css?t={{vm.cacheBuster}}" />
+	<link ng-if="vm.user && vm.user.UseInvertedTheme" rel="stylesheet" ng-href="/application/styles/dark/custom.css?t={{vm.cacheBuster}}" />
 	<script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
 	<script src="/application/scripts/jquery/bootstrap.js"></script>
 
-	<link rel="stylesheet" href="/application/scripts/bower/bootstrap-switch/dist/css/bootstrap2/bootstrap-switch.min.css"/>
-	<link rel="stylesheet" href="/application/scripts/bower/angular-ui-notification/dist/angular-ui-notification.min.css"/>
+	<link rel="stylesheet" href="/application/scripts/bower/bootstrap-switch/dist/css/bootstrap2/bootstrap-switch.min.css" />
+	<link rel="stylesheet" href="/application/scripts/bower/angular-ui-notification/dist/angular-ui-notification.min.css" />
 	<style type="text/css">
 		/* ======================================================================= */
 		/* Server Statistics */
-		.well.widget-pie-charts .box { margin-bottom: -20px; }
+		.well.widget-pie-charts .box {
+			margin-bottom: -20px;
+		}
 
 		/* ======================================================================= */
 
@@ -47,7 +49,9 @@
 			position: relative;
 		}
 
-		#why-adminflare ul:nth-child(2n) { background: rgba(0, 0, 0, 0.02); }
+			#why-adminflare ul:nth-child(2n) {
+				background: rgba(0, 0, 0, 0.02);
+			}
 
 		#why-adminflare li {
 			font-size: 14px;
@@ -56,12 +60,12 @@
 			padding-left: 23px;
 		}
 
-		#why-adminflare li i {
-			color: #666;
-			font-size: 14px;
-			margin: 3px 0 0 -23px;
-			position: absolute;
-		}
+			#why-adminflare li i {
+				color: #666;
+				font-size: 14px;
+				margin: 3px 0 0 -23px;
+				position: absolute;
+			}
 
 
 		/* ======================================================================= */
@@ -74,32 +78,36 @@
 			font-size: 14px;
 		}
 
-		#supported-browsers header strong { font-size: 18px; }
+			#supported-browsers header strong {
+				font-size: 18px;
+			}
 
 		#supported-browsers .span10 {
 			margin-bottom: -15px;
 			text-align: center;
 		}
 
-		#supported-browsers .span10 div {
-			display: inline-block;
-			margin-bottom: 15px;
-			margin-right: 15px;
-			width: 120px;
-		}
+			#supported-browsers .span10 div {
+				display: inline-block;
+				margin-bottom: 15px;
+				margin-right: 15px;
+				width: 120px;
+			}
 
-		#supported-browsers .span10 div:last-child { margin-right: 0; }
+				#supported-browsers .span10 div:last-child {
+					margin-right: 0;
+				}
 
-		#supported-browsers .span10 img {
-			height: 40px;
-			width: 40px;
-		}
+			#supported-browsers .span10 img {
+				height: 40px;
+				width: 40px;
+			}
 
-		#supported-browsers .span10 span {
-			font-size: 14px;
-			font-weight: 600;
-			line-height: 40px;
-		}
+			#supported-browsers .span10 span {
+				font-size: 14px;
+				font-weight: 600;
+				line-height: 40px;
+			}
 
 		@@media (max-width: 767px) {
 			#supported-browsers header {
