@@ -1,19 +1,19 @@
 ﻿'use strict';
-(function() {
+(function () {
 	angular.module('rpthreadtracker')
 		.controller('ThreadsController',
-		[
-			'$scope', '$filter', '$controller', '$window', 'threadService', 'contextService',
-			'blogService', 'newsService', 'sessionService', 'pageId', 'notificationService',
-			'NOTIFICATION_TYPES', 'BodyClass', 'THREAD_BULK_ACTIONS', '$mdDialog',
-			'THREAD_PAGE_IDS', threadsController
-		]);
+			[
+				'$scope', '$filter', '$controller', '$window', 'threadService', 'contextService',
+				'blogService', 'newsService', 'sessionService', 'pageId', 'notificationService',
+				'NOTIFICATION_TYPES', 'BodyClass', 'THREAD_BULK_ACTIONS', '$mdDialog',
+				'THREAD_PAGE_IDS', threadsController
+			]);
 
 	/** @this dashboardController */
 	// eslint-disable-next-line valid-jsdoc, max-params, max-len, max-statements
 	function threadsController($scope, $filter, $controller, $window, threadService, contextService, blogService, newsService, sessionService, pageId, notificationService, NOTIFICATION_TYPES, BodyClass, THREAD_BULK_ACTIONS, $mdDialog, THREAD_PAGE_IDS) {
 		var vm = this;
-		angular.extend(vm, $controller('BaseController as base', {'$scope': $scope}));
+		angular.extend(vm, $controller('BaseController as base', { '$scope': $scope }));
 		sessionService.loadUser(vm);
 		BodyClass.set('');
 
@@ -37,12 +37,12 @@
 			vm.blogs = [];
 			vm.noBlogs = false;
 			vm.noThreads = false;
-			blogService.getBlogs().then(function(blogs) {
+			blogService.getBlogs().then(function (blogs) {
 				if (blogs.length === 0) {
 					vm.noBlogs = true;
 				}
 				vm.blogs = blogs;
-				if (!_.find(vm.blogs, function(blog) {
+				if (!_.find(vm.blogs, function (blog) {
 					return vm.currentBlog && blog.UserBlogId === vm.currentBlog.UserBlogId;
 				})) {
 					vm.currentBlog = null;
@@ -108,30 +108,30 @@
 				.textContent(message)
 				.ok('Yes')
 				.cancel('Cancel');
-			$mdDialog.show(confirm).then(function() {
+			$mdDialog.show(confirm).then(function () {
 				vm.loading = true;
-				threadService.untrackThreads(threads).then(function() {
+				threadService.untrackThreads(threads).then(function () {
 					vm.loading = false;
 					refreshThreads();
 					var type = NOTIFICATION_TYPES.UNTRACK_THREAD_SUCCESS;
-					notificationService.show(type, {'threads': threads});
+					notificationService.show(type, { 'threads': threads });
 				},
-				function() {
-					vm.loading = false;
-					var type = NOTIFICATION_TYPES.UNTRACK_THREAD_FAILURE;
-					notificationService.show(type);
-				});
+					function () {
+						vm.loading = false;
+						var type = NOTIFICATION_TYPES.UNTRACK_THREAD_FAILURE;
+						notificationService.show(type);
+					});
 			});
 		}
 
 		function archiveThreads(threads) {
 			vm.loading = true;
-			threadService.archiveThreads(threads).then(function() {
+			threadService.archiveThreads(threads).then(function () {
 				vm.loading = false;
 				refreshThreads();
 				var type = NOTIFICATION_TYPES.ARCHIVE_THREAD_SUCCESS;
-				notificationService.show(type, {'threads': threads});
-			}, function() {
+				notificationService.show(type, { 'threads': threads });
+			}, function () {
 				vm.loading = false;
 				var type = NOTIFICATION_TYPES.ARCHIVE_THREAD_FAILURE;
 				notificationService.show(type);
@@ -140,12 +140,12 @@
 
 		function unarchiveThreads(threads) {
 			vm.loading = true;
-			threadService.unarchiveThreads(threads).then(function() {
+			threadService.unarchiveThreads(threads).then(function () {
 				vm.loading = false;
 				refreshThreads();
 				var type = NOTIFICATION_TYPES.UNARCHIVE_THREAD_SUCCESS;
-				notificationService.show(type, {'threads': threads});
-			}, function() {
+				notificationService.show(type, { 'threads': threads });
+			}, function () {
 				vm.loading = false;
 				var type = NOTIFICATION_TYPES.UNARCHIVE_THREAD_FAILURE;
 				notificationService.show(type);
@@ -154,12 +154,12 @@
 
 		function markQueued(threads) {
 			vm.loading = true;
-			threadService.markThreadsQueued(threads).then(function() {
+			threadService.markThreadsQueued(threads).then(function () {
 				vm.loading = false;
 				refreshThreads();
 				var type = NOTIFICATION_TYPES.QUEUE_THREAD_SUCCESS;
-				notificationService.show(type, {'threads': threads});
-			}, function() {
+				notificationService.show(type, { 'threads': threads });
+			}, function () {
 				vm.loading = false;
 				var type = NOTIFICATION_TYPES.QUEUE_THREAD_FAILURE;
 				notificationService.show(type);
@@ -168,12 +168,12 @@
 
 		function unmarkQueued(threads) {
 			vm.loading = true;
-			threadService.unmarkThreadsQueued(threads).then(function() {
+			threadService.unmarkThreadsQueued(threads).then(function () {
 				vm.loading = false;
 				refreshThreads();
 				var type = NOTIFICATION_TYPES.UNQUEUE_THREAD_SUCCESS;
-				notificationService.show(type, {'threads': threads});
-			}, function() {
+				notificationService.show(type, { 'threads': threads });
+			}, function () {
 				vm.loading = false;
 				var type = NOTIFICATION_TYPES.UNQUEUE_THREAD_FAILURE;
 				notificationService.show(type);
@@ -182,12 +182,14 @@
 
 		function selectAllForBulk() {
 			var threads = $filter('isCorrectTurn')(vm.threads, vm.pageId);
+			threads = $filter('isCurrentBlog')(threads, vm.currentBlog);
+			threads = $filter('containsFilteredTag')(threads, vm.filteredTag);
 			if (vm.isSelectAllSelected) {
-				_.forEach(threads, function(thread) {
+				_.forEach(threads, function (thread) {
 					thread.SelectedForBulk = true;
 				});
 			} else {
-				_.forEach(threads, function(thread) {
+				_.forEach(threads, function (thread) {
 					thread.SelectedForBulk = false;
 				});
 			}
@@ -196,6 +198,7 @@
 		function setCurrentBlog() {
 			contextService.setCurrentBlog(vm.currentBlog);
 			populateTagFilter();
+			clearSelectedThreads();
 		}
 
 		function setSortDescending() {
@@ -208,10 +211,11 @@
 
 		function setFilteredTag() {
 			contextService.setFilteredTag(vm.filteredTag);
+			clearSelectedThreads();
 		}
 
 		function bulkAction() {
-			var bulkAffected = _.filter(vm.threads, function(thread) {
+			var bulkAffected = _.filter(vm.threads, function (thread) {
 				return thread.SelectedForBulk;
 			});
 			if (vm.bulkItemAction === THREAD_BULK_ACTIONS.UNTRACK) {
@@ -230,11 +234,18 @@
 		function populateTagFilter() {
 			var tagsByThread = _.map(vm.threads, 'ThreadTags');
 			vm.allTags = _.union(_.flatten(tagsByThread));
-			if (!_.find(vm.allTags, function(tag) {
+			if (!_.find(vm.allTags, function (tag) {
 				return tag === vm.filteredTag;
 			})) {
 				vm.filteredTag = '';
 			}
+		}
+
+		function clearSelectedThreads() {
+			_.forEach(vm.threads, function (thread) {
+				thread.SelectedForBulk = false;
+			});
+			vm.isSelectAllSelected = false;
 		}
 
 		function buildPublicLink() {
