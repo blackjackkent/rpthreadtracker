@@ -242,7 +242,7 @@
 		}
 
 		function clearSelectedThreads() {
-			_.forEach(threads, function (thread) {
+			_.forEach(vm.threads, function (thread) {
 				thread.SelectedForBulk = false;
 			});
 		}
